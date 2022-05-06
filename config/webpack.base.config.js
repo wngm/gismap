@@ -48,6 +48,10 @@ list.forEach((item) => {
   entry[item.name] = item.path;
 });
 
+// model
+entry.gisMap = path.resolve(__dirname, "../src/code/gisMap.js")
+
+
 module.exports = {
   mode: "development",
   entry,
