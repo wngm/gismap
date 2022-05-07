@@ -1,11 +1,58 @@
 import GisMap from "../code/gisMap";
 import * as Cesium from "@modules/cesium/Source/Cesium";
-
+import React,{useState,useCallback} from 'react'
+import {createRoot} from 'react-dom/client';
+import "./index.less"
+// window['CESIUM_BASE_URL'] = '/static/Cesium'
 let gisMap = new GisMap('cesium');
 
 window.gisMap = gisMap
 
+const Content =()=>{
 
+    const [latitude,setLatitude]= useState(10)
+    const [longitude,setLongitude]= useState(10)
+    const [altitude,setAltitude]= useState(10000000)
+
+    const setView=useCallback(()=>{
+        gisMap.cSetView({longitude:Number(longitude),latitude:Number(latitude),altitude:Number(altitude)})
+    },[latitude,longitude,altitude])
+
+    const zoomIn=()=>{
+        gisMap.cZoomIn()
+    }
+    const zoomOut=()=>{
+
+        gisMap.cZoomOut()
+    }
+    const drawMpoint=()=>{
+        gisMap.cDrawMpoint({longitude:Number(longitude),latitude:Number(latitude),altitude:Number(altitude)})
+    }
+    return <div className="box">
+        <div>
+          
+            <div>
+                <span>经度</span><input type="number" value={longitude} onChange={(e)=>setLongitude(e.target.value)}/> 
+            </div>
+            <div>
+                <span>纬度</span><input type="number" value={latitude} onChange={(e)=>{setLatitude(e.target.value)}}/> 
+            </div>
+            <div>
+                <span>高度</span><input type="number" value={altitude} onChange={(e)=>setAltitude(e.target.value)}/> 
+            </div>
+            
+        </div>
+        <div className="btn" onClick={setView}>设置显示</div>    
+        <div className="btn" onClick={drawMpoint}>绘点</div>    
+        <div className="btn" onClick={zoomIn}>放大</div>    
+        <div  className="btn" onClick={zoomOut}>缩小</div>    
+    </div>
+
+}
+
+// 3.渲染react元素
+const root = createRoot( document.getElementById('app'))
+root.render(<Content />)
 // gisMap.cSetView({
 //     longitude: 110.00,
 //     latitude: 40.00,

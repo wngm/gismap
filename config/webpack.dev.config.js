@@ -11,6 +11,7 @@ var webppackBuild = {
     new CopyPlugin({
       patterns: [
         { from: path.resolve(__dirname, "../public/static"), to: "static" },
+        { from: path.resolve(__dirname, "../node_modules/cesium/Build/Cesium"), to: "static/Cesium" },
       ],
     }),
     new CleanWebpackPlugin(),

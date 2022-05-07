@@ -31,6 +31,7 @@
   "dependencies": {
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
     "babel-loader": "^8.2.5",
     "cesium": "^1.92.0",
     "cross-env": "^7.0.3",
@@ -38,6 +39,8 @@
     "mammoth": "^1.4.16",
     "mockjs": "^1.1.0",
     "qiankun": "^2.5.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "url-loader": "^4.1.1"
   }
 }

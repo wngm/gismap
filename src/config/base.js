@@ -18,6 +18,7 @@ export default {
   navigationInstructionsInitiallyVisible: false,
   // msaaSamples: 4,
   //加载arcGis 暗色地图
+  url:"/static/resource",
   imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
     url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
   }),

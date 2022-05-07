@@ -108,21 +108,34 @@ class GisMap {
     // 获取当前镜头位置的笛卡尔坐标
     let cameraPos = this.camera.position;
 
-    // 获取当前坐标系标准
+    // // 获取当前坐标系标准
     let ellipsoid = this.scene.globe.ellipsoid;
 
-    // 根据坐标系标准，将笛卡尔坐标转换为地理坐标
+    // // 根据坐标系标准，将笛卡尔坐标转换为地理坐标
     let cartographic = ellipsoid.cartesianToCartographic(cameraPos);
 
-    // 获取镜头的高度
+    // // 获取镜头的高度
     let height = cartographic.height;
+    scale=scale?scale:height/3
     // 优化？
-    this.camera.zoomIn()
+    this.camera.zoomIn(scale)
     return scale
   }
 
-  cZoomout(scale) {
-    this.camera.zoomOut()
+  cZoomOut(scale) {
+    // 获取当前镜头位置的笛卡尔坐标
+    let cameraPos = this.camera.position;
+
+    // // 获取当前坐标系标准
+    let ellipsoid = this.scene.globe.ellipsoid;
+
+    // // 根据坐标系标准，将笛卡尔坐标转换为地理坐标
+    let cartographic = ellipsoid.cartesianToCartographic(cameraPos);
+
+    // // 获取镜头的高度
+    let height = cartographic.height;
+    scale=scale?scale:height*3
+    this.camera.zoomOut(scale)
     return scale
   }
 
@@ -141,7 +154,6 @@ class GisMap {
 }
 
 
-window.GisMap = GisMap
 window.Cesium = Cesium
  
 export default GisMap;
