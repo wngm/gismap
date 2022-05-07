@@ -22,6 +22,7 @@ function getPoint(color = Cesium.Color.RED, heightReference = Cesium.HeightRefer
 }
 
 class GisMap {
+  static version ='1.0.0'
   constructor(options) {
     this.viewer = null;
     this.scene = null;

@@ -8,6 +8,9 @@ const { merge } = require("webpack-merge");
 var webppackBuild = {
   mode: "production",
   devtool: "source-map",
+  output:{
+    libraryTarget:'commonjs2'
+  },
   plugins: [
     new CopyPlugin({
       patterns: [

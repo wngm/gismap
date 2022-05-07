@@ -1,8 +1,8 @@
 {
-  "name": "@zheman/gismap",
-  "version": "1.0.1",
+  "name": "@kdhy/gismap",
+  "version": "1.0.0",
   "description": "",
-  "main": "dist/js/gisMap.db3e23bd.js",
+  "main": "build/gisMap.js",
   "scripts": {
     "build": "webpack --config config/webpack.prod.config.js",
     "dev": "cross-env PORT=3000 node ./config/devServer.js",

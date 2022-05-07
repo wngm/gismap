@@ -2,11 +2,11 @@
 
 ### 安装
 ```
-npm i  @zheman/gismap
+npm i  @kdhy/gismap
 ```
 ### 使用
 ```
-import "@zheman/gismap"
-const GisMap = window.GisMap
-const map = new GisMap('app')
+import GisMap from "@kdhy/gismap"
+
+const gisMap = new GisMap('cesium')
 ```
