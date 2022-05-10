@@ -25,24 +25,30 @@ class GisMap {
     this.viewer = new Cesium.Viewer(container, baseOptions);
     this.scene = this.viewer.scene;
     this.camera = this.viewer.camera
+    // 开启抗锯齿
     // this.scene.fxaa = true;
     // this.scene.postProcessStages.fxaa.enabled = true;
+    //图像渲染像素化处理
     // if (Cesium.FeatureDetection.supportsImageRenderingPixelated()) {
     //   this.viewer.resolutionScale = window.devicePixelRatio;
     // }
     // http://127.0.0.1:8001/geoserver/my_china/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fjpeg&TRANSPARENT=true&STYLES&LAYERS=my_china%3AHYP_HR&exceptions=application%2Fvnd.ogc.se_inimage&SRS=EPSG%3A4326&WIDTH=768&HEIGHT=384&BBOX=73.212890625%2C40.78125%2C106.962890625%2C57.65625
     // viewer.scene.imagerySplitPosition = 0.1;
-    this.viewer.shadows = false;
-
-    // 太阳光线
-    this.viewer.scene.globe.enableLighting = false;
-
-    this.viewer.shadows = false;
-    // viewer.scene.sun.show = true;
-    // scene.sun.glowFactor = 10; //太阳变大
-    // viewer.scene.moon.show = true;
     //去除版权信息
     this.viewer._cesiumWidget._creditContainer.style.display = "none";
+    // 太阳光线
+    this.viewer.scene.globe.enableLighting = false;
+    // 开启阴影效果
+    this.viewer.shadows = false;
+    //展示太阳
+    // this.scene.sun.show = true;
+    //太阳变大
+    // this.scene.sun.glowFactor = 10;
+    //展示月亮
+    // this..scene.moon.show = true;
+    // 取消双击事件
+    // 取消entity点击事件
+  
   }
   loadScene(){
     const tileset = new Cesium.Cesium3DTileset({

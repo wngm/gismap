@@ -1,7 +1,7 @@
 import * as Cesium from "../../node_modules/cesium/Source/Cesium";
 
 export default {
-  //   vrButton: true, //vr工具
+  vrButton: false, //vr工具
   animation: false,
   baseLayerPicker: false,
   CreditsDisplay: false,

@@ -23,7 +23,7 @@ function getLabelOptions(options){
         outlineWidth : 2,                    
         verticalOrigin : Cesium.VerticalOrigin.CENTER,//垂直位置
         horizontalOrigin :Cesium.HorizontalOrigin.CENTER,//水平位置
-        pixelOffset:new Cesium.Cartesian2(0,pixelSize/2) ,          //偏移
+        pixelOffset:new Cesium.Cartesian2(0,-pixelSize/2) ,          //偏移
         eyeOffset:Cesium.Cartesian3.ZERO,           //偏移
         distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 40000000),
         disableDepthTestDistance:10
