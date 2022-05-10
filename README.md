@@ -10,9 +10,11 @@ npm i  @kdhy/gismap
 > 因为使用cesium，需要配置静态资源目录
 
 1.服务配置静态资源目录 
-2.window['CESIUM_BASE_URL'] = '/static/Cesium/**'
+2.window['CESIUM_BASE_URL'] = '/static/Cesium'
 
-参考目录： **node_modules/@kdhy/gismap/build/Cesium**
+Cesium使用目录： **node_modules/@kdhy/gismap/build/Cesium**
+
+
 --------
 
 ## 使用
@@ -27,12 +29,13 @@ const gisMap = new GisMap('cesium')
 
 ### methods
 
-| 方法名      | 说明     | 类型               |
-| :---------- | :------- | :----------------- |
-| cSetView    | 设置视角 | (position) => void |
-| cZoomIn     | 放大     | () => void         |
-| cZoomOut    | 缩小     | () => void         |
-| cDrawMpoint | 绘制点   | (options) => point |
+| 方法名            | 说明      | 类型                    |
+| :---------------- | :-------- | :---------------------- |
+| cSetView          | 设置视角  | (position) => void      |
+| cZoomIn           | 放大      | () => void              |
+| cZoomOut          | 缩小      | () => void              |
+| cSetsceneMode2D3D | 2/3维转换 | （type: 2 \| 3）=> void |
+| cDrawMpoint       | 绘制点    | (options) => point      |
 
 ### position 
 

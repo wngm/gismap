@@ -42,7 +42,7 @@ const Content =()=>{
     }
 
     const snow =()=>{
-        gisMap.setWeather('rain')
+        gisMap.setWeather('snow')
     }
     const snowStop =()=>{
         gisMap.clearWeather('rain')
