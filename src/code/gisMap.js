@@ -3,6 +3,10 @@ import baseOptions from "../config/base";
 import {getPointOptions,getLabelOptions} from "./entity"
 import "@modules/cesium/Source/Widgets/widgets.css";
 
+import Weather from "./scene/index"
+
+console.log('Weather',Weather)
+
 window.CESIUM_BASE_URL = "/static/Cesium";
 Cesium.Ion.defaultAccessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZGE5MmI2Yy1jZmVmLTQyZGUtYjk4Ni02ODBiYWFiZDZkOGYiLCJpZCI6MjU3MDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODY0MjQyMDR9.dx-BAVwhWMWfgJb49x2XZEVP-EjFxMvihn8Lca6EXYU";
@@ -15,6 +19,7 @@ class GisMap {
     this.viewer = null;
     this.scene = null;
     this.camera =null
+    this.weather =null
     this.init(options);
   }
   init(container) {
@@ -162,6 +167,20 @@ class GisMap {
       this.viewer.scene.mode= Cesium.SceneMode.SCENE3D
     }
 
+  }
+
+  setWeather(weather){
+    if(this.weather){
+      this.clearWeather()
+    }
+    this.weather= new Weather[weather](this.viewer)
+    this.weather.init()
+  }
+  clearWeather(){
+    if(this.weather){
+      this.weather.destory()
+      this.weather = null
+    }
   }
 }
 

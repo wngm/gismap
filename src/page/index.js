@@ -23,7 +23,6 @@ const Content =()=>{
         gisMap.cZoomIn()
     }
     const zoomOut=()=>{
-
         gisMap.cZoomOut()
     }
     const drawMpoint=()=>{
@@ -40,6 +39,13 @@ const Content =()=>{
                 lbllfillColor:'rgba(173, 255, 47,1)'
             })
         console.log('new point ',point )
+    }
+
+    const snow =()=>{
+        gisMap.setWeather('rain')
+    }
+    const snowStop =()=>{
+        gisMap.clearWeather('rain')
     }
     return (<div className="box">
         <div>
@@ -61,6 +67,8 @@ const Content =()=>{
         <div className="btn" onClick={drawMpoint}>绘点</div>    
         <div className="btn" onClick={zoomIn}>放大</div>    
         <div  className="btn" onClick={zoomOut}>缩小</div>    
+        <div  className="btn" onClick={snow}>雪</div>    
+        <div  className="btn" onClick={snowStop}>雪停</div>    
     </div>)
 
 }

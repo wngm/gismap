@@ -8,6 +8,7 @@ npm i  @kdhy/gismap
 
 ## 使用前注意事项
 > 因为使用cesium，需要配置静态资源目录
+
 1.服务配置静态资源目录 
 2.window['CESIUM_BASE_URL'] = '/static/Cesium/**'
 
@@ -40,3 +41,10 @@ const gisMap = new GisMap('cesium')
 | longitude | 经度 | number |
 | latitude  | 纬度 | number |
 | altitude  | 高度 | number |
+
+
+### 天气
+| 方法名       | 说明     | 类型                                         |
+| :----------- | :------- | :------------------------------------------- |
+| setWeather   | 设置天气 | (wether:'rain' \| 'snow' \| 'fog'  ) => void |
+| clearWeather | 关闭天气 |                                              |

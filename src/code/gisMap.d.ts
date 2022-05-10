@@ -30,6 +30,8 @@ interface IPoint extends IPosition {
     [key: string]: any
 }
 
+type weather = 'rain ' | 'snow' | 'fog'
+
 
 class GisMap {
     cSetView(data: IPosition): void {
@@ -46,6 +48,8 @@ class GisMap {
 
     }
     cDrawMpoint(data: IPoint)
+    setWeather(weather: weather): void
+    clearWeather(): void
 }
 
 
