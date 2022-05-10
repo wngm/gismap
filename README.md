@@ -8,7 +8,8 @@ npm i  @kdhy/gismap
 
 ## 使用前注意事项
 > 因为使用cesium，需要配置静态资源目录
-静态资源目录 
+1.服务配置静态资源目录 
+2.window['CESIUM_BASE_URL'] = '/static/Cesium/**'
 
 参考目录： **node_modules/@kdhy/gismap/build/Cesium**
 --------

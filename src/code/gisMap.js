@@ -1,5 +1,6 @@
 import * as Cesium from "@modules/cesium/Source/Cesium";
 import baseOptions from "../config/base";
+import {getPointOptions,getLabelOptions} from "./entity"
 import "@modules/cesium/Source/Widgets/widgets.css";
 
 window.CESIUM_BASE_URL = "/static/Cesium";
@@ -7,20 +8,7 @@ Cesium.Ion.defaultAccessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZGE5MmI2Yy1jZmVmLTQyZGUtYjk4Ni02ODBiYWFiZDZkOGYiLCJpZCI6MjU3MDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODY0MjQyMDR9.dx-BAVwhWMWfgJb49x2XZEVP-EjFxMvihn8Lca6EXYU";
 
 
-function getPoint(color = Cesium.Color.RED, heightReference = Cesium.HeightReference.CLAMP_TO_GROUND) {
-  return {
-      show: true,
-      pixelSize: 30,
-      heightReference: heightReference,
-      color: color,
-      outlineColor: Cesium.Color.YELLOW,
-      outlineWidth: 10,
-      scaleByDistance: new Cesium.NearFarScalar(1500, 1, 20000, 0.3),
-      // translucencyByDistance: new Cesium.NearFarScalar(1500, 1, 20000, 0.2),
-      // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 20000)
-  }
-}
-
+let _id =1
 class GisMap {
   static version ='1.0.0'
   constructor(options) {
@@ -78,26 +66,44 @@ class GisMap {
 
   }
   cSetDefaultPosition(data){
-    const {longitude, latitude, altitude} = data
-    if(data){
-      const center = Cesium.Cartesian3.fromDegrees(longitude, latitude,altitude);
-      this.camera.lookAt(center,  new Cesium.HeadingPitchRange(0.01, Cesium.Math.toRadians(-90.0), 0.01))
-    }
+
+    this.cSetView(data)
+    // const {longitude, latitude, altitude} = data
+    // if(data){
+    //   const center = Cesium.Cartesian3.fromDegrees(longitude, latitude,altitude);
+    //   this.camera.lookAt(center,  new Cesium.HeadingPitchRange(0.01, Cesium.Math.toRadians(-90.0), 0.01))
+    // }
   }
 
   cDrawMpoint(data){
-    const {longitude, latitude, altitude} = data
+    const {
+      longitude,
+      latitude,
+      altitude,
+      key, 
+      name,
+      pixelSize,
+      isShowLabel,
+      lbloutlineColor,
+      lbllfillColor
+    } = data
 
-    const pointOption = getPoint()
-
+    const pointOption = getPointOptions(data)
+    const lableOptiopns =getLabelOptions({
+      text:name,
+      show:isShowLabel,
+      fillColor:lbllfillColor,
+      outlineColor:lbloutlineColor,
+      pixelSize
+    })
+    _id++
     var entity = new Cesium.Entity({
-      name: 'test',
+      name,
+      id:key|| Number.prototype.toString.apply(_id),
       show: true,
       position: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
       point: pointOption,
-      description: `
-      <p>这是entity的属性信息，entity的description里面可以写一段html</p>                
-      <p>苹果园dog</p>`
+      label : lableOptiopns
   });
   this.viewer.entities.add(entity);
   console.log(666,pointOption);
@@ -134,7 +140,7 @@ class GisMap {
 
     // // 获取镜头的高度
     let height = cartographic.height;
-    scale=scale?scale:height*3
+    scale=scale?scale:height*1.5
     this.camera.zoomOut(scale)
     return scale
   }

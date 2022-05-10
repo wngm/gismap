@@ -10,9 +10,10 @@ window.gisMap = gisMap
 
 const Content =()=>{
 
+    const [name,setName]= useState('测试')
     const [latitude,setLatitude]= useState(10)
     const [longitude,setLongitude]= useState(10)
-    const [altitude,setAltitude]= useState(10000000)
+    const [altitude,setAltitude]= useState(10)
 
     const setView=useCallback(()=>{
         gisMap.cSetView({longitude:Number(longitude),latitude:Number(latitude),altitude:Number(altitude)})
@@ -26,11 +27,25 @@ const Content =()=>{
         gisMap.cZoomOut()
     }
     const drawMpoint=()=>{
-        gisMap.cDrawMpoint({longitude:Number(longitude),latitude:Number(latitude),altitude:Number(altitude)})
+       let point = gisMap.cDrawMpoint(
+           {
+                name,
+                pixelSize:60,
+                color:'rgba(0,255,255,1)',
+                longitude:Number(longitude),
+                latitude:Number(latitude),
+                altitude:Number(altitude),
+                isShowLabel: true,
+                lbloutlineColor:'#0099cc',
+                lbllfillColor:'rgba(173, 255, 47,1)'
+            })
+        console.log('new point ',point )
     }
-    return <div className="box">
+    return (<div className="box">
         <div>
-          
+            <div>
+                <span>标签</span><input value={name} onChange={(e)=>setName(e.target.value)}/> 
+            </div>
             <div>
                 <span>经度</span><input type="number" value={longitude} onChange={(e)=>setLongitude(e.target.value)}/> 
             </div>
@@ -46,7 +61,7 @@ const Content =()=>{
         <div className="btn" onClick={drawMpoint}>绘点</div>    
         <div className="btn" onClick={zoomIn}>放大</div>    
         <div  className="btn" onClick={zoomOut}>缩小</div>    
-    </div>
+    </div>)
 
 }
 
