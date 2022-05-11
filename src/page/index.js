@@ -11,8 +11,8 @@ window.gisMap = gisMap
 const Content =()=>{
 
     const [name,setName]= useState('测试')
-    const [latitude,setLatitude]= useState(10)
-    const [longitude,setLongitude]= useState(10)
+    const [latitude,setLatitude]= useState(60)
+    const [longitude,setLongitude]= useState(280)
     const [altitude,setAltitude]= useState(10)
 
     const setView=useCallback(()=>{
@@ -47,7 +47,14 @@ const Content =()=>{
     const snowStop =()=>{
         gisMap.clearWeather('rain')
     }
+
+    const test = ()=>{
+        gisMap.test()
+    }
     return (<div className="box">
+        <div className="test">
+            <div>tip 描述文案</div>    
+        </div>
         <div>
             <div>
                 <span>标签</span><input value={name} onChange={(e)=>setName(e.target.value)}/> 
@@ -69,6 +76,7 @@ const Content =()=>{
         <div  className="btn" onClick={zoomOut}>缩小</div>    
         <div  className="btn" onClick={snow}>雪</div>    
         <div  className="btn" onClick={snowStop}>雪停</div>    
+        <div  className="btn" onClick={test}>测试</div>    
     </div>)
 
 }

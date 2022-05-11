@@ -36,7 +36,7 @@ class Fog {
         `
 
     }
-    destory(){
+    destroy(){
         this.viewer.scene.postProcessStages.remove(this._fog)
     }
 }

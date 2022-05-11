@@ -39,7 +39,7 @@ class Rain {
    	 	     gl_FragColor = mix(texture2D(colorTexture, v_textureCoordinates), vec4(c,1), 0.5); 
    	 	}`
     }
-    destory(){
+    destroy(){
         this.viewer.scene.postProcessStages.remove(this._rain)
     }
 }

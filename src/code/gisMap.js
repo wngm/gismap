@@ -2,6 +2,7 @@ import * as Cesium from "@modules/cesium/Source/Cesium";
 import baseOptions from "../config/base";
 import {getPointOptions,getLabelOptions} from "./entity"
 import Weather from "./weather/index"
+import Tip from './common/tip'
 import "@modules/cesium/Source/Widgets/widgets.css";
 
 window.CESIUM_BASE_URL = "/static/Cesium";
@@ -17,6 +18,10 @@ class GisMap {
     this.scene = null;
     this.camera =null
     this.weather =null
+    // 选中元素
+    this.selected = null
+    // tip 对象 
+    this.tip = null
     this.init(options);
   }
   init(container) {
@@ -63,8 +68,16 @@ class GisMap {
 
   _handleEvent(){
     const handler = new Cesium.ScreenSpaceEventHandler(this.scene.canvas)
-    handler.set
-    console.log(3333)
+    handler.setInputAction((movement)=>{
+      let windowPosition = movement.position
+      let pick = this.viewer.scene.pick(windowPosition)
+      if(pick){
+        this.handleTip(pick)
+      }else{
+        this.unHandleTip()
+      }
+
+    },Cesium.ScreenSpaceEventType.LEFT_CLICK)
     this.viewer.selectedEntityChanged.addEventListener(e => {
       console.log(1111,e)
       // this.selectedEntityChanged(e);
@@ -106,7 +119,9 @@ class GisMap {
       pixelSize,
       isShowLabel,
       lbloutlineColor,
-      lbllfillColor
+      lbllfillColor,
+      isShowTip,
+      tip='这是一段测试文本'
     } = data
 
     const pointOption = getPointOptions(data)
@@ -124,11 +139,15 @@ class GisMap {
       show: true,
       position: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
       point: pointOption,
-      label : lableOptiopns
+      label : lableOptiopns,
+      tip
   });
   this.viewer.entities.add(entity);
   console.log(666,pointOption);
   return entity;
+  }
+  zoomTo(){
+    // this.viewer.zoomTo()
   }
 
   cZoomIn(scale) {
@@ -189,9 +208,31 @@ class GisMap {
   }
   clearWeather(){
     if(this.weather){
-      this.weather.destory()
+      this.weather.destroy()
       this.weather = null
     }
+  }
+  unHandleTip(){
+    if(this.tip){
+      this.tip.destroy()
+      this.tip = null
+      this.selected = null
+    }
+  }
+
+  handleTip(entity){
+    if(this.selected && this.selected.id === entity.id){
+      console.log('已选中',entity)
+      
+    }else{
+      this.selected = entity
+      this.tip = new Tip(this.viewer,entity)
+    }
+  }
+
+  test(){
+    
+
   }
 }
 

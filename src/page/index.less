@@ -15,3 +15,29 @@
         background: #0099cccc;
     }
 }
+.kdyh-cesium-tip{
+    width: 200px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #3d3d3d66;
+    color: #f0f0f0;
+    font-size: 14px;
+    position: absolute;
+    border-radius: 4px;    
+    top: 200px; 
+    left: 200px;
+    &::after{
+        position: absolute;
+        top: 10px;
+        left: 0;
+        content: '';
+        width: 0;
+        height: 0;
+        border-width: 10px;
+        border-style: solid;
+        border-color: transparent;
+        border-right-color: #3d3d3d66;
+        transform: translate(-100%,0);
+
+    }
+}

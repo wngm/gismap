@@ -51,7 +51,7 @@ class Snow {
 
     }
 
-    destory(){
+    destroy(){
         this.viewer.scene.postProcessStages.remove(this._snow)
     }
 }
