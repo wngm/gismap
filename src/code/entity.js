@@ -4,12 +4,12 @@ import * as Cesium from "@modules/cesium/Source/Cesium";
 function getLabelOptions(options){
 
     const {
+        show,
         fillColor,
         outlineColor,
         text,
         pixelSize=30
     }= options
-
 
     return {
         text ,

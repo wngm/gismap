@@ -117,19 +117,13 @@ class GisMap {
       key, 
       name,
       pixelSize,
-      isShowLabel,
-      lbloutlineColor,
-      lbllfillColor,
-      isShowTip,
-      tip='这是一段测试文本'
+      label,
+      tip,
     } = data
 
     const pointOption = getPointOptions(data)
     const lableOptiopns =getLabelOptions({
-      text:name,
-      show:isShowLabel,
-      fillColor:lbllfillColor,
-      outlineColor:lbloutlineColor,
+      ...label,
       pixelSize
     })
     _id++
@@ -140,7 +134,7 @@ class GisMap {
       position: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
       point: pointOption,
       label : lableOptiopns,
-      tip
+      tip 
   });
   this.viewer.entities.add(entity);
   console.log(666,pointOption);
@@ -221,9 +215,14 @@ class GisMap {
   }
 
   handleTip(entity){
+    // 单个tip展示
     if(this.selected && this.selected.id === entity.id){
-      console.log('已选中',entity)
-      
+      console.log("已选中该对象")
+      return ;
+    }else if(this.selected && this.selected.id !== entity.id){
+      this.unHandleTip()
+      this.selected = entity
+      this.tip = new Tip(this.viewer,entity)
     }else{
       this.selected = entity
       this.tip = new Tip(this.viewer,entity)

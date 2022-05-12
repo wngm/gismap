@@ -3,12 +3,35 @@ declare interface IPosition {
     latitude: number
     altitude?: number
 }
+
+type CssColor = String
 declare interface IKeyValue {
     [key: string]: any
 }
 interface IMenuItem {
     isShow: boolean
     content: [any, any]
+}
+
+interface Label {
+    show?: boolean
+    text: string
+    fillColor?: CssColor // 标签填充颜色
+    outlineColor?: CssColor // 标签字体轮廓
+
+
+
+}
+
+interface Tip {
+    show?: boolean
+    content: string
+    style?: {}
+    className?: string
+}
+
+interface tMenuItem {
+
 }
 interface IPoint extends IPosition {
     //类型
@@ -19,14 +42,11 @@ interface IPoint extends IPosition {
     // 点大小
     pixelSize?: number
     color?: string
-    // 标签字体轮廓
-    lbloutlineColor?: string
-    // 标签字体
-    lbllfillColor?: string
+    // 标签
+    label?: Label
     // 提示信息
-    tip?: Array<IKeyValue>
+    tip?: Tip
     contextMenuItem: IMenuItem
-    isShowLabel?: boolean
     [key: string]: any
 }
 

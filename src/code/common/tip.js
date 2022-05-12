@@ -1,5 +1,5 @@
 import * as Cesium from "@modules/cesium/Source/Cesium";
-
+import "./tip.css"
 class Tip {
     constructor(viewer,entity){
         this.container =viewer.container
@@ -17,7 +17,7 @@ class Tip {
         console.log(this.bindEntity)
         this.dom= document.createElement('div')
         this.dom.className="kdyh-cesium-tip"
-        this.dom.innerHTML=this.bindEntity.id.tip || '该节点缺少 tip 字段'
+        this.dom.innerHTML=this.bindEntity.id.tip.content || '该节点缺少 tip 字段'
         this.container.appendChild( this.dom)
         let position= Cesium.SceneTransforms.wgs84ToWindowCoordinates(this.viewer.scene, this.bindEntity.primitive.position)
         this.setAt(position)
@@ -40,10 +40,10 @@ class Tip {
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
     }
     show(){
-
+        this.dom.style.display= 'block'
     }
     hide(){
-
+        this.dom.style.display= 'none'
     }
     setAt(position){
         this.dom.style.left = `${position.x + 24}px`

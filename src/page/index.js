@@ -14,6 +14,8 @@ const Content =()=>{
     const [latitude,setLatitude]= useState(60)
     const [longitude,setLongitude]= useState(280)
     const [altitude,setAltitude]= useState(10)
+    const [labelName,setLabelName]= useState('测试点')
+    const [tip,setTip]= useState('')
 
     const setView=useCallback(()=>{
         gisMap.cSetView({longitude:Number(longitude),latitude:Number(latitude),altitude:Number(altitude)})
@@ -34,9 +36,16 @@ const Content =()=>{
                 longitude:Number(longitude),
                 latitude:Number(latitude),
                 altitude:Number(altitude),
-                isShowLabel: true,
-                lbloutlineColor:'#0099cc',
-                lbllfillColor:'rgba(173, 255, 47,1)'
+                label:{
+                    show:true,
+                    text:labelName,
+                    outlineColor:"#ff0000",
+                    fillColor:'rgba(173, 255, 47,1)'
+                },
+                tip:{
+                    show:true,
+                    content:tip ||`<div><div>标题</div><div>这是内容</div></div>`
+                }
             })
         console.log('new point ',point )
     }
@@ -67,6 +76,12 @@ const Content =()=>{
             </div>
             <div>
                 <span>高度</span><input type="number" value={altitude} onChange={(e)=>setAltitude(e.target.value)}/> 
+            </div>
+            <div>
+                <span>labelName</span><input value={labelName} onChange={(e)=>setLabelName(e.target.value)}/> 
+            </div>
+            <div>
+                <span>tip</span><input value={tip} onChange={(e)=>setTip(e.target.value)}/> 
             </div>
             
         </div>
