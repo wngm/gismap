@@ -1,6 +1,6 @@
 import * as Cesium from "@modules/cesium/Source/Cesium";
-import "./tip.css"
-class Tip {
+import "./menu.css"
+class Menu {
     constructor(viewer,entity){
         this.container =viewer.container
         this.viewer = viewer
@@ -10,31 +10,59 @@ class Tip {
         this.dom = null
         this.handleEvent =null
         this.init()
+
     }
 
     init(){
-        const tip = this.bindEntity.id.tip ||{}
-        const {content,show, className ='',style} = tip
-        if(!content) return;
+        const menu = this.bindEntity.id.menu ||{}
+        const {menuItems,show,className = ''} =menu
+        if(!menuItems || menuItems.length ===0){
+            return 
+        }
         this.dom= document.createElement('div')
-        this.dom.className=`kdyh-cesium-tip ${className}`
-        this.dom.innerHTML=content || '该节点缺少 tip 字段'
+        this.dom.className=`kdyh-cesium-menu ${className}`
+        const content = this.createChildrenDom(menuItems)
+        this.dom.appendChild(content)
         this.container.appendChild( this.dom)
         let position= Cesium.SceneTransforms.wgs84ToWindowCoordinates(this.viewer.scene, this.bindEntity.primitive.position)
         this.setAt(position)
         this.handle()
+        this.onEvent()
+        console.log('created menu')
 
     }
+    createChildrenDom(menuItems){
+        let ul = document.createElement('div')
+        ul.className="kdyh-cesium-menu-ul"
+        let list =menuItems.map((i)=>{
+            let item =  document.createElement('div')
+            item.className="kdyh-cesium-menu-item"
+            item.innerText = i.text
+            item.setAttribute("type",i.type)
+            return item
+        })
+        list.forEach(item => {
+            ul.appendChild(item)
+        })
+        return ul
+    }
     destroy(){  
-        if( this.dom){
+        if(this.dom){
             this.handleEvent.destroy()
             this.container.removeChild(this.dom)
         }
     }
-
+    onEvent(){
+        this.dom.onclick=(e)=>{
+          let type = e.target.getAttribute('type')
+          if(type){
+            this.bindEntity.id.menu.onSelect(type,this.bindEntity.id)
+            this.hide()
+          }
+        };
+    }
     handle(){
         this.handleEvent = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas)
-
         this.handleEvent.setInputAction(()=> {
             let position= Cesium.SceneTransforms.wgs84ToWindowCoordinates(this.viewer.scene, this.bindEntity.primitive.position)
             this.setAt(position)
@@ -58,4 +86,4 @@ class Tip {
 
 }
 
-export default Tip
+export default Menu

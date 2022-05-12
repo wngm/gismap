@@ -3,6 +3,7 @@ import baseOptions from "../config/base";
 import {getPointOptions,getLabelOptions} from "./entity"
 import Weather from "./weather/index"
 import Tip from './common/tip'
+import Menu from './common/menu'
 import "@modules/cesium/Source/Widgets/widgets.css";
 
 window.CESIUM_BASE_URL = "/static/Cesium";
@@ -22,6 +23,8 @@ class GisMap {
     this.selected = null
     // tip 对象 
     this.tip = null
+    // 右键菜单
+    this.contextMenu =null
     this.init(options);
   }
   init(container) {
@@ -75,13 +78,22 @@ class GisMap {
         this.handleTip(pick)
       }else{
         this.unHandleTip()
+        this.unHandleMenu()
       }
 
     },Cesium.ScreenSpaceEventType.LEFT_CLICK)
-    this.viewer.selectedEntityChanged.addEventListener(e => {
-      console.log(1111,e)
-      // this.selectedEntityChanged(e);
-  });
+
+    handler.setInputAction((movement)=>{
+      let windowPosition = movement.position
+      let pick = this.viewer.scene.pick(windowPosition)
+      if(pick){
+        this.handleMenu(pick)
+      }else{
+        this.unHandleTip()
+        this.unHandleMenu()
+      }
+
+    },Cesium.ScreenSpaceEventType.RIGHT_CLICK)
   }
   cSetView(data){
     const {longitude, latitude, altitude} = data
@@ -119,6 +131,7 @@ class GisMap {
       pixelSize,
       label,
       tip,
+      menu
     } = data
 
     const pointOption = getPointOptions(data)
@@ -134,7 +147,8 @@ class GisMap {
       position: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
       point: pointOption,
       label : lableOptiopns,
-      tip 
+      tip,
+      menu
   });
   this.viewer.entities.add(entity);
   console.log(666,pointOption);
@@ -215,8 +229,12 @@ class GisMap {
   }
 
   handleTip(entity){
+    if(this.contextMenu){
+      this.contextMenu.hide()
+    }
     // 单个tip展示
-    if(this.selected && this.selected.id === entity.id){
+    if(this.tip && this.selected && this.selected.id === entity.id){
+      this.tip.show()
       console.log("已选中该对象")
       return ;
     }else if(this.selected && this.selected.id !== entity.id){
@@ -226,6 +244,43 @@ class GisMap {
     }else{
       this.selected = entity
       this.tip = new Tip(this.viewer,entity)
+    }
+  }
+  unHandleMenu(){
+    if(this.contextMenu){
+      this.contextMenu.destroy()
+      this.contextMenu = null
+      this.selected = null
+    }
+  }
+
+  handleMenu(entity){
+    if(this.tip){
+      this.tip.hide()
+    }
+    // 单个tip展示
+    if(this.contextMenu && this.selected && this.selected.id === entity.id){
+      this.contextMenu.show()
+      // console.log( this.contextMenu)
+      console.log("已选中该对象")
+      return ;
+    }else if(this.selected && this.selected.id !== entity.id){
+      this.unHandleMenu()
+      this.selected = entity
+      this.contextMenu = new Menu(this.viewer,entity)
+    }else{
+      this.selected = entity
+      this.contextMenu = new Menu(this.viewer,entity)
+    }
+  }
+
+  remove(entity){
+    let _entity = entity
+    if(typeof entity === 'string'){
+     _entity =this.viewer.entities.getById(entity)
+    }
+    if(_entity){
+      this.viewer.entities.remove(_entity)
     }
   }
 

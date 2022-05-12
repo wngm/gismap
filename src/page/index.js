@@ -44,7 +44,22 @@ const Content =()=>{
                 },
                 tip:{
                     show:true,
-                    content:tip ||`<div><div>标题</div><div>这是内容</div></div>`
+                    content:tip
+                },
+                menu:{
+                    className:'test-menu',
+                    show:true,
+                    menuItems:[
+                        {text:'编辑',type:'edit'},
+                        {text:'展示详情',type:'detail'},
+                        {text:'删除',type:'delete'},
+                    ],
+                    onSelect:(type,entity)=>{
+                        console.log(`选择了 ${type}`,name)
+                        if(type === 'delete'){
+                            gisMap.remove(entity)
+                        }
+                    }
                 }
             })
         console.log('new point ',point )
@@ -58,12 +73,9 @@ const Content =()=>{
     }
 
     const test = ()=>{
-        gisMap.test()
+        gisMap.cSetsceneMode2D3D()
     }
     return (<div className="box">
-        <div className="test">
-            <div>tip 描述文案</div>    
-        </div>
         <div>
             <div>
                 <span>标签</span><input value={name} onChange={(e)=>setName(e.target.value)}/> 
