@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://cdn.bootcss.com/vue/2.5.2/vue.min.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/vue/2.5.2/vue.min.js"></script> -->
     <script src="/static/Cesium/Cesium.js"></script>
     <!-- <script src="/static/xt3d.min.js"></script> -->
     <link rel="stylesheet" href="/static/Cesium/Widgets/widgets.css">
@@ -19,7 +19,7 @@
         #app {
             width: 100%;
             height: 100vh;
-            background: #09c;
+            /* background: #09c; */
         }
     </style>
 </head>
@@ -27,9 +27,8 @@
 <body>
     <!-- <div id="cesium" style="width: 100vw;height: 100vh;"></div> -->
     <div id="app">
-        <mycom :list="list"></mycom>
-        <Button @click="pushItem">push</Button>
-        <Button @click="reverseItem">reverse</Button>
+        <a href="/index">point</a>
+        <a href="/line">line</a>
     </div>
 </body>
 

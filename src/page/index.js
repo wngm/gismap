@@ -12,7 +12,7 @@ const Content =()=>{
 
     const [name,setName]= useState('测试')
     const [latitude,setLatitude]= useState(60)
-    const [longitude,setLongitude]= useState(280)
+    const [longitude,setLongitude]= useState(100)
     const [altitude,setAltitude]= useState(10)
     const [labelName,setLabelName]= useState('测试点')
     const [tip,setTip]= useState('')
@@ -28,7 +28,7 @@ const Content =()=>{
         gisMap.cZoomOut()
     }
     const drawMpoint=()=>{
-       let point = gisMap.cDrawMpoint(
+       let point = gisMap.drawPoint(
            {
                 name,
                 pixelSize:60,
@@ -117,7 +117,7 @@ root.render(<Content />)
 //     altitude: 10000000
 // })
 
-// gisMap.cDrawMpoint({
+// gisMap.drawPoint({
 //     longitude: 80.00,
 //     latitude: 40.00,
 //     altitude: 10

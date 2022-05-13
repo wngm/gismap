@@ -4,7 +4,12 @@ import {getPointOptions,getLabelOptions} from "./entity"
 import Weather from "./weather/index"
 import Tip from './common/tip'
 import Menu from './common/menu'
+import material from  './material/line'
 import "@modules/cesium/Source/Widgets/widgets.css";
+
+
+
+material(Cesium)
 
 window.CESIUM_BASE_URL = "/static/Cesium";
 Cesium.Ion.defaultAccessToken =
@@ -18,6 +23,7 @@ class GisMap {
     this.viewer = null;
     this.scene = null;
     this.camera =null
+    // 天气
     this.weather =null
     // 选中元素
     this.selected = null
@@ -57,6 +63,7 @@ class GisMap {
     //展示月亮
     // this..scene.moon.show = true;
     // 取消双击事件
+    this.cSetView({longitude:100, latitude:20, altitude:10000000})
 
     this.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK)
     this.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK)
@@ -101,12 +108,12 @@ class GisMap {
       this.camera.setView({
         // 设置相机位置
         destination:Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
-        // orientation: {
-        //     // 初始视角
-        //     heading: 1.0639406240008213,
-        //     pitch: -0.013688041766217074,
-        //     roll: 0.00002273530734786533
-        // }
+        orientation: {
+            // 初始视角
+            heading: 0.0,
+            pitch: Cesium.Math.toRadians(-90.0),
+            roll: 0.0
+        }
     });
     }
 
@@ -121,7 +128,39 @@ class GisMap {
     // }
   }
 
-  cDrawMpoint(data){
+  drawLine(start,end,options={}){
+    _id++;
+    var entity = new Cesium.Entity({
+      id: Number.prototype.toString.apply(_id),
+      // show: true,
+      // tip:{show:true,content:'这是线段'},
+      ...options,
+      polyline: {
+       
+        positions: Cesium.Cartesian3.fromDegreesArrayHeights([
+          start.longitude,
+          start.latitude,
+          start.altitude,
+          end.longitude,
+          end.latitude,
+          end.altitude,
+        ]),
+        width: 2,
+        material: new Cesium.PolylineTrailLinkMaterialProperty(
+          new Cesium.Color.fromBytes(0, 247, 12, 255),
+          2000
+        ),
+        // arcType: Cesium.ArcType.NONE,
+        // clampToGround: true,
+      },
+    });
+
+    let line = this.viewer.entities.add(entity);
+
+    console.log(line)
+  }
+
+  drawPoint(data){
     const {
       longitude,
       latitude,
@@ -149,10 +188,10 @@ class GisMap {
       label : lableOptiopns,
       tip,
       menu
-  });
-  this.viewer.entities.add(entity);
-  console.log(666,pointOption);
-  return entity;
+    });
+    this.viewer.entities.add(entity);
+    console.log(666,pointOption);
+    return entity;
   }
   zoomTo(){
     // this.viewer.zoomTo()

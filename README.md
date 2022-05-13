@@ -36,7 +36,7 @@ const gisMap = new GisMap('cesium')
 | cZoomIn           | 放大         | () => void                                    |
 | cZoomOut          | 缩小         | () => void                                    |
 | cSetsceneMode2D3D | 2/3维转换    | （type: 2 \| 3）=> void                       |
-| cDrawMpoint       | 绘制点       | ([drawMpointOptions](#pointOptions)) => point |
+| drawPoint         | 绘制点       | ([drawMpointOptions](#pointOptions)) => point |
 | remove            | 移除元素节点 | (id \| Entity)=>void                          |
 
 -----------------------------

@@ -8,11 +8,6 @@ type CssColor = String
 declare interface IKeyValue {
     [key: string]: any
 }
-interface IMenuItem {
-    isShow: boolean
-    content: [any, any]
-}
-
 interface Label {
     show?: boolean
     text: string
@@ -30,8 +25,17 @@ interface Tip {
     className?: string
 }
 
-interface tMenuItem {
+interface MenuItem {
+    text: string
+    type: string
+}
 
+interface Menu {
+    show?: boolean
+    menuItems: MenuItem[]
+    style?: {}
+    className?: string
+    onSelect?: function (key: string): void
 }
 interface IPoint extends IPosition {
     //类型
@@ -46,7 +50,7 @@ interface IPoint extends IPosition {
     label?: Label
     // 提示信息
     tip?: Tip
-    contextMenuItem: IMenuItem
+    menu?: Menu
     [key: string]: any
 }
 
@@ -67,7 +71,9 @@ class GisMap {
     cSetsceneMode2D3D(mode: 2 | 3): void {
 
     }
-    cDrawMpoint(data: IPoint)
+
+    drawPoint(data: IPoint)
+    drawLine(data: IPoint)
     setWeather(weather: weather): void
     clearWeather(): void
 }

@@ -79,7 +79,7 @@ module.exports = {
     ...list.map(
       (i) =>
         new HtmlWebpackPlugin({
-          filename: i.name + ".html",
+          filename: i.name,
           template: path.resolve(__dirname, "../index.html"),
           inject: true,
           chunks: [i.name],

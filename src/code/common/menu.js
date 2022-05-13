@@ -79,7 +79,7 @@ class Menu {
         }
     }
     setAt(position){
-        if(!this.dom) return;
+        if(!this.dom ||!position) return;
         this.dom.style.left = `${position.x + 24}px`
         this.dom.style.top = `${position.y - 20}px`
     }
