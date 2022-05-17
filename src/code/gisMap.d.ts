@@ -54,6 +54,14 @@ interface IPoint extends IPosition {
     [key: string]: any
 }
 
+type lineType = 'normal' | 'animate'
+interface ILineOPtions {
+    lineType?: lineType
+    tip?: Tip
+    menu?: Menu
+}
+
+
 type weather = 'rain ' | 'snow' | 'fog'
 
 
@@ -73,7 +81,9 @@ class GisMap {
     }
 
     drawPoint(data: IPoint)
-    drawLine(data: IPoint)
+    drawLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
+    drawAnimateLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
+
     setWeather(weather: weather): void
     clearWeather(): void
 }

@@ -1,4 +1,4 @@
-import dashImg from "./image/dash2.png";
+import dashImg from "./image/dash3.png";
 
 function run(Cesium){
 
@@ -37,7 +37,6 @@ function run(Cesium){
       this._color,
       time,
       Cesium.Color.WHITE,
-      result.color
     );
     result.image = Cesium.Material.PolylineTrailLinkImage;
     result.time =

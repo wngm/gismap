@@ -15,6 +15,22 @@ window.CESIUM_BASE_URL = "/static/Cesium";
 Cesium.Ion.defaultAccessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZGE5MmI2Yy1jZmVmLTQyZGUtYjk4Ni02ODBiYWFiZDZkOGYiLCJpZCI6MjU3MDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODY0MjQyMDR9.dx-BAVwhWMWfgJb49x2XZEVP-EjFxMvihn8Lca6EXYU";
 
+
+function computeCircle(radius,step=15) {
+  var positions = [];
+  var i = 0;
+  while (i < 360) {
+      var radians = Cesium.Math.toRadians(i);
+      positions.push(
+          new Cesium.Cartesian2(
+              radius * Math.cos(radians),
+              radius * Math.sin(radians)
+          )
+      );
+      i += step;//如果去掉管横截面就是圆，但是影响渲染
+    }
+  return positions;
+}
 // id 累加计数器
 let _id =1
 class GisMap {
@@ -41,6 +57,7 @@ class GisMap {
     this.viewer = new Cesium.Viewer(container, baseOptions);
     this.scene = this.viewer.scene;
     this.camera = this.viewer.camera
+    this.viewer.scene.globe.depthTestAgainstTerrain = true
     // 开启抗锯齿
     // this.scene.fxaa = true;
     // this.scene.postProcessStages.fxaa.enabled = true;
@@ -103,16 +120,24 @@ class GisMap {
     },Cesium.ScreenSpaceEventType.RIGHT_CLICK)
   }
   cSetView(data){
-    const {longitude, latitude, altitude} = data
+    const {
+      longitude, 
+      latitude, 
+      altitude,
+      heading = 0.0,
+      pitch = -90.0,
+      roll = 0.0
+
+    } = data
     if(data){
       this.camera.setView({
         // 设置相机位置
         destination:Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
         orientation: {
             // 初始视角
-            heading: 0.0,
-            pitch: Cesium.Math.toRadians(-90.0),
-            roll: 0.0
+            heading:  Cesium.Math.toRadians(heading),
+            pitch: Cesium.Math.toRadians(pitch),
+            roll:  Cesium.Math.toRadians(roll)
         }
     });
     }
@@ -128,15 +153,15 @@ class GisMap {
     // }
   }
 
-  drawLine(start,end,options={}){
+  drawAnimateLine(start,end,options={}){
     _id++;
     var entity = new Cesium.Entity({
       id: Number.prototype.toString.apply(_id),
       // show: true,
       // tip:{show:true,content:'这是线段'},
+      width: 2,
       ...options,
       polyline: {
-       
         positions: Cesium.Cartesian3.fromDegreesArrayHeights([
           start.longitude,
           start.latitude,
@@ -145,19 +170,47 @@ class GisMap {
           end.latitude,
           end.altitude,
         ]),
-        width: 2,
-        material: new Cesium.PolylineTrailLinkMaterialProperty(
-          new Cesium.Color.fromBytes(0, 247, 12, 255),
+        // material:  Cesium.Material.fromType(Cesium.Material.PolylineTrailLinkType),
+        material:  new Cesium.PolylineTrailLinkMaterialProperty(
+          new Cesium.Color.fromCssColorString(options.color||'#0099cc'),
           2000
         ),
-        // arcType: Cesium.ArcType.NONE,
+        arcType: Cesium.ArcType.GEODESIC,
         // clampToGround: true,
       },
     });
 
     let line = this.viewer.entities.add(entity);
 
-    console.log(line)
+    return entity
+  }
+
+  drawLine(start,end,options={}){
+    _id++;
+    var entity = new Cesium.Entity({
+      id: Number.prototype.toString.apply(_id),
+      // show: true,
+      // tip:{show:true,content:'这是线段'},
+      width: 2,
+      ...options,
+      polyline: {
+        positions: Cesium.Cartesian3.fromDegreesArrayHeights([
+          start.longitude,
+          start.latitude,
+          start.altitude,
+          end.longitude,
+          end.latitude,
+          end.altitude,
+        ]),
+        material:new Cesium.Color.fromCssColorString(options.color||'#0099cc'),
+        arcType: Cesium.ArcType.GEODESIC,
+        // clampToGround: true,
+      },
+    });
+
+    let line = this.viewer.entities.add(entity);
+
+    return entity
   }
 
   drawPoint(data){
@@ -323,7 +376,39 @@ class GisMap {
     }
   }
 
+
+  drawPolyLine(points=[],options={}){
+    const {width=10,color='#ff0000'} = options
+   
+    if(points.length<2){
+
+      return 
+    }
+
+    let pointsArray=points.reduce((a,b)=>a.concat(b),[])
+    var poly = this.viewer.entities.add({
+      polylineVolume: {
+          positions: Cesium.Cartesian3.fromDegreesArrayHeights(
+              pointsArray
+              // 94.0643911540741, 30.644520180014712, 10,
+              
+              // 104.0709632404425, 30.640218289417344, 10,
+              // 104.07189450434191, 30.644299282412025, 10,
+              // 104.07064427253918, 30.64452012128316, 10,
+              // 104.07011034321702, 30.64035622435374, 10,
+              // 104.06936621258502, 30.64035013733864, 10,
+              // 104.069595128153, 30.64431128951718, 10,
+              // 104.06491237588305, 30.63936779475631, 10
+          ),
+          shape: computeCircle(width,15),//参数是管线的半径，管线的横截面形状
+          material: Cesium.Color.fromCssColorString(color),
+      },
+    });
+
+    return poly
+  }
   test(){
+ 
     
 
   }

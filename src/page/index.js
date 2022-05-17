@@ -7,7 +7,7 @@ import "./index.less"
 let gisMap = new GisMap('cesium');
 
 window.gisMap = gisMap
-
+gisMap.viewer.scene.globe.depthTestAgainstTerrain = false
 const Content =()=>{
 
     const [name,setName]= useState('测试')
@@ -15,7 +15,7 @@ const Content =()=>{
     const [longitude,setLongitude]= useState(100)
     const [altitude,setAltitude]= useState(10)
     const [labelName,setLabelName]= useState('测试点')
-    const [tip,setTip]= useState('')
+    const [tip,setTip]= useState('点的描述信息')
 
     const setView=useCallback(()=>{
         gisMap.cSetView({longitude:Number(longitude),latitude:Number(latitude),altitude:Number(altitude)})
@@ -65,13 +65,6 @@ const Content =()=>{
         console.log('new point ',point )
     }
 
-    const snow =()=>{
-        gisMap.setWeather('snow')
-    }
-    const snowStop =()=>{
-        gisMap.clearWeather('rain')
-    }
-
     const test = ()=>{
         gisMap.cSetsceneMode2D3D()
     }
@@ -101,8 +94,6 @@ const Content =()=>{
         <div className="btn" onClick={drawMpoint}>绘点</div>    
         <div className="btn" onClick={zoomIn}>放大</div>    
         <div  className="btn" onClick={zoomOut}>缩小</div>    
-        <div  className="btn" onClick={snow}>雪</div>    
-        <div  className="btn" onClick={snowStop}>雪停</div>    
         <div  className="btn" onClick={test}>测试</div>    
     </div>)
 

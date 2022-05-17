@@ -1,3 +1,11 @@
+<!--
+ * @Author: wengqi wengqi925@163.com
+ * @Date: 2022-04-22 14:04:16
+ * @LastEditors: wengqi wengqi925@163.com
+ * @LastEditTime: 2022-05-16 21:51:24
+ * @FilePath: /GisMap/index.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,12 +30,66 @@
             top: 0;
             left: 0;
         }
+
+        .wrap {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            z-index: 10;
+            width: 100%;
+            top: 0;
+        }
+
+        .wrap div {
+            border: 1px solid #0099cc;
+            background-color: #ffffff;
+        }
+
+        .card1 {
+            width: 640px;
+            height: 180px;
+        }
+
+        .card2 {
+            width: 640px;
+            height: 240px;
+        }
+
+        .card3 {
+            width: 640px;
+            height: 80px;
+        }
+
+        .card4 {
+            width: 640px;
+            height: 332px;
+        }
     </style>
 </head>
 
 <body>
     <div id="cesium" style="width: 100vw;height: 100vh;"></div>
     <div id="app"></div>
+    <!-- <div class="wrap">
+        <div class="card3">
+            <img src="http://iph.href.lu/640x80
+            " alt="">
+        </div>
+        <div class="card1">
+            <img src="http://iph.href.lu/640x180
+            " alt="">
+        </div>
+        <div class="card2">
+            <img src="http://iph.href.lu/640x240
+            " alt="">
+        </div>
+        <div class="card4">
+            <img style="width:100%" src="http://iph.href.lu/750x390
+            " alt="">
+        </div>
+
+    </div> -->
+
 </body>
 
 </html>
