@@ -153,8 +153,14 @@ class GisMap {
     // }
   }
 
-  drawAnimateLine(start,end,options={}){
+  drawAnimateLine(points,options={}){
     _id++;
+    if(points.length<2){
+
+      return 
+    }
+
+    let pointsArray=points.reduce((a,b)=>a.concat(b),[])
     var entity = new Cesium.Entity({
       id: Number.prototype.toString.apply(_id),
       // show: true,
@@ -162,14 +168,7 @@ class GisMap {
       width: 2,
       ...options,
       polyline: {
-        positions: Cesium.Cartesian3.fromDegreesArrayHeights([
-          start.longitude,
-          start.latitude,
-          start.altitude,
-          end.longitude,
-          end.latitude,
-          end.altitude,
-        ]),
+        positions: Cesium.Cartesian3.fromDegreesArrayHeights(pointsArray),
         // material:  Cesium.Material.fromType(Cesium.Material.PolylineTrailLinkType),
         material:  new Cesium.PolylineTrailLinkMaterialProperty(
           new Cesium.Color.fromCssColorString(options.color||'#0099cc'),
@@ -185,7 +184,14 @@ class GisMap {
     return entity
   }
 
-  drawLine(start,end,options={}){
+  drawLine(points=[],options={}){
+
+    if(points.length<2){
+
+      return 
+    }
+
+    let pointsArray=points.reduce((a,b)=>a.concat(b),[])
     _id++;
     var entity = new Cesium.Entity({
       id: Number.prototype.toString.apply(_id),
@@ -194,14 +200,7 @@ class GisMap {
       width: 2,
       ...options,
       polyline: {
-        positions: Cesium.Cartesian3.fromDegreesArrayHeights([
-          start.longitude,
-          start.latitude,
-          start.altitude,
-          end.longitude,
-          end.latitude,
-          end.altitude,
-        ]),
+        positions: Cesium.Cartesian3.fromDegreesArrayHeights(pointsArray),
         material:new Cesium.Color.fromCssColorString(options.color||'#0099cc'),
         arcType: Cesium.ArcType.GEODESIC,
         // clampToGround: true,
@@ -366,16 +365,6 @@ class GisMap {
     }
   }
 
-  remove(entity){
-    let _entity = entity
-    if(typeof entity === 'string'){
-     _entity =this.viewer.entities.getById(entity)
-    }
-    if(_entity){
-      this.viewer.entities.remove(_entity)
-    }
-  }
-
 
   drawPolyLine(points=[],options={}){
     const {width=10,color='#ff0000'} = options
@@ -407,6 +396,17 @@ class GisMap {
 
     return poly
   }
+
+  remove(entity){
+    let _entity = entity
+    if(typeof entity === 'string'){
+     _entity =this.viewer.entities.getById(entity)
+    }
+    if(_entity){
+      this.viewer.entities.remove(_entity)
+    }
+  }
+  
   test(){
  
     

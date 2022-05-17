@@ -21,21 +21,17 @@ const Content =()=>{
         gisMap.cSetView({longitude:Number(longitude),latitude:Number(latitude),altitude:Number(altitude)})
     },[latitude,longitude,altitude])
     const drawAnimateLine = ()=>{
-        const start = {latitude:Number(latitude),longitude:Number(longitude),altitude:Number(altitude)}
-        const ends =[[116.20,39.56,0]]
+        const start = [Number(longitude),Number(latitude),Number(altitude)]
+        const ends = [start,[116.20,39.56,0]]
         // const ends = [[110,20,0],[100,10],[90,0,0],[70,20,0],[50,10,0]]
-        ends.forEach(i=>{
-            gisMap.drawAnimateLine(start,{longitude:i[0],latitude:i[1],altitude:i[2]},{color:'#33FF66'})
-        })
+        gisMap.drawAnimateLine(ends,{color:'#33FF66'})
+        
 
     }
     const drawLine = ()=>{
-        const start = {latitude:Number(latitude),longitude:Number(longitude),altitude:Number(altitude)}
-        const ends = [[116.20,39.56,0]]
-
-        ends.forEach(i=>{
-            gisMap.drawLine(start,{longitude:i[0],latitude:i[1],altitude:i[2]},{color:'#66FFFF'})
-        })
+        const start = [Number(longitude),Number(latitude),Number(altitude)]
+        const ends = [start,[116.20,39.56,0]]
+        gisMap.drawLine(ends,{color:'#66FFFF'})
     }
 
     const test = ()=>{
