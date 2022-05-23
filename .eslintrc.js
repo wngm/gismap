@@ -26,6 +26,7 @@ module.exports = {
     'max-len': ['error', { code: 300 }],
     camelcase: ['error', { properties: 'never' }],
     'no-underscore-dangle': 0,
-    'new-cap': ['error', { newIsCap: 'never' }],
+    'consistent-return': 0,
+    // 'new-cap': ['error', { newIsCap: 'never' }],
   },
 };

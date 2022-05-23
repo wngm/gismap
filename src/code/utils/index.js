@@ -1,3 +1,5 @@
+import * as Cesium from '@modules/cesium/Source/Cesium';
+
 function computeCircle(radius, step = 15) {
   const positions = [];
   let i = 0;
@@ -13,7 +15,7 @@ function computeCircle(radius, step = 15) {
   }
   return positions;
 }
-
+export default {};
 export {
   computeCircle,
 };

@@ -176,7 +176,7 @@ class GisMap {
         positions: Cesium.Cartesian3.fromDegreesArrayHeights(pointsArray),
         // material:  Cesium.Material.fromType(Cesium.Material.PolylineTrailLinkType),
         material: new Cesium.PolylineTrailLinkMaterialProperty(
-          new Cesium.Color.fromCssColorString(options.color || '#0099cc'),
+          Cesium.Color.fromCssColorString(options.color || '#0099cc'),
           2000,
         ),
         arcType: Cesium.ArcType.GEODESIC,
@@ -189,7 +189,7 @@ class GisMap {
     return line;
   }
 
-  drawLine(points = [], options = {}) {
+  drawLine = (points = [], options = {}) => {
     if (points.length < 2) {
       return;
     }
@@ -211,9 +211,9 @@ class GisMap {
       },
     });
 
-    const line = this.viewer.entities.add(entity);
+    this.viewer.entities.add(entity);
     return entity;
-  }
+  };
 
   drawPoint(data) {
     const {
@@ -265,9 +265,9 @@ class GisMap {
 
     // // 获取镜头的高度
     const { height } = cartographic;
-    scale = scale || height / 3;
+    const _scale = scale || height / 3;
     // 优化？
-    this.camera.zoomIn(scale);
+    this.camera.zoomIn(_scale);
     return scale;
   }
 
@@ -385,7 +385,7 @@ class GisMap {
         shape: computeCircle(width, 15), // 参数是管线的半径，管线的横截面形状
         // material: Cesium.Color.fromCssColorString(color),
         material: new Cesium.PolylineMp(
-          new Cesium.Color.fromCssColorString(color || '#0099cc'),
+          Cesium.Color.fromCssColorString(color || '#0099cc'),
           2000,
         ),
         // material: new Cesium.PolylineGlowMaterialProperty({
@@ -407,9 +407,9 @@ class GisMap {
     }
   }
 
-  // test() {
-
-  // }
+  test() {
+    return this;
+  }
 }
 
 window.Cesium = Cesium;

@@ -5,7 +5,6 @@
  * @property {number} altitude 高度
  */
 
-
 /**
  * @typedef {Object} gisMap 实例
  * @property {Object} viewer cesiumviewer
