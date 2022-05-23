@@ -76,7 +76,7 @@ class GisMap {
     }
     cZoomout(scale: number): scale {
     }
-    cSetsceneMode2D3D(mode: 2 | 3): void {
+    setSceneMode2D3D(mode: 2 | 3): void {
 
     }
 

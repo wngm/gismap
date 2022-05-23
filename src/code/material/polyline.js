@@ -1,8 +1,11 @@
 import dashImg from "./image/dash3.png";
+import line from "./image/line.png";
+import line2 from "./image/line2.png";
+import line3 from "./image/line3.png";
 
 function run(Cesium){
 
-  function PolylineTrailLinkMaterialProperty(color, duration) {
+  function PolylineMp(color, duration) {
     this._definitionChanged = new Cesium.Event();
     this._color = undefined;
     this._colorSubscription = undefined;
@@ -11,7 +14,7 @@ function run(Cesium){
     this._time = new Date().getTime();
   }
   
-  Object.defineProperties(PolylineTrailLinkMaterialProperty.prototype, {
+  Object.defineProperties(PolylineMp.prototype, {
     isConstant: {
       get: function () {
         return false;
@@ -25,11 +28,11 @@ function run(Cesium){
     color: Cesium.createPropertyDescriptor("color"),
   });
   
-  PolylineTrailLinkMaterialProperty.prototype.getType = function (time) {
+  PolylineMp.prototype.getType = function (time) {
     return "PolylineTrailLink";
   };
   
-  PolylineTrailLinkMaterialProperty.prototype.getValue = function (time, result) {
+  PolylineMp.prototype.getValue = function (time, result) {
     if (!Cesium.defined(result)) {
       result = {};
     }
@@ -44,22 +47,22 @@ function run(Cesium){
     return result;
   };
   
-  PolylineTrailLinkMaterialProperty.prototype.equals = function (other) {
+  PolylineMp.prototype.equals = function (other) {
     return (
       this === other ||
-      (other instanceof PolylineTrailLinkMaterialProperty &&
+      (other instanceof PolylineMp &&
         Cesium.Property.equals(this._color, other._color))
     );
   };
   
-  Cesium.PolylineTrailLinkMaterialProperty = PolylineTrailLinkMaterialProperty;
+  Cesium.PolylineMp = PolylineMp;
   Cesium.Material.PolylineTrailLinkType = "PolylineTrailLink";
   Cesium.Material.PolylineTrailLinkImage = dashImg;
   Cesium.Material.PolylineTrailLinkSource = ` czm_material czm_getMaterial(czm_materialInput materialInput){
       czm_material material = czm_getDefaultMaterial(materialInput);
       vec2 st = repeat * materialInput.st;
       vec4 colorImage = texture2D(image, vec2(fract(st.s - time), st.t));
-      material.alpha = colorImage.a * color.a;
+      material.alpha = colorImage.a;
       material.diffuse = color.rgb;
       return material;
   }`;

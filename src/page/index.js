@@ -65,8 +65,8 @@ const Content =()=>{
         console.log('new point ',point )
     }
 
-    const test = ()=>{
-        gisMap.cSetsceneMode2D3D()
+    const switchType = ()=>{
+        gisMap.setSceneMode2D3D()
     }
     return (<div className="box">
         <div>
@@ -94,7 +94,7 @@ const Content =()=>{
         <div className="btn" onClick={drawMpoint}>绘点</div>    
         <div className="btn" onClick={zoomIn}>放大</div>    
         <div  className="btn" onClick={zoomOut}>缩小</div>    
-        <div  className="btn" onClick={test}>测试</div>    
+        <div  className="btn" onClick={switchType}>2D/3D</div>    
     </div>)
 
 }
@@ -130,7 +130,7 @@ root.render(<Content />)
 // // },1000)
 // setInterval(()=>{
 
-//   gisMap.cSetsceneMode2D3D()
+//   gisMap.setSceneMode2D3D()
 // },10000)
 // // setTimeout(()=>{
 // //   // gisMap.cSetDefaultPosition(

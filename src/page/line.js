@@ -35,7 +35,10 @@ const Content =()=>{
     }
 
     const test = ()=>{
-        gisMap.test()
+        gisMap.viewer.clock.shouldAnimate =false
+    }
+    const test2 = ()=>{
+        gisMap.viewer.clock.shouldAnimate =true
     }
     return (<div className="box">
         <div>
@@ -62,7 +65,8 @@ const Content =()=>{
         <div className="btn" onClick={setView}>设置显示</div>    
         <div  className="btn" onClick={drawLine}>线段绘制</div>
         <div className="btn" onClick={drawAnimateLine}>动态线绘制</div>      
-        {/* <div className="btn" onClick={test}>管道</div>       */}
+        {/* <div className="btn" onClick={test}>暂停</div>       */}
+        {/* <div className="btn" onClick={test2}>运动</div>       */}
     
     </div>)
 

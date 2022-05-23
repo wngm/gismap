@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --config config/webpack.prod.config.js",
     "dev": "cross-env PORT=3000 node ./config/devServer.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "jsdoc -c ./conf.json"
   },
   "keywords": [
     "gis",
@@ -36,7 +37,9 @@
     "cesium": "^1.92.0",
     "cross-env": "^7.0.3",
     "file-loader": "^6.2.0",
+    "jsdoc": "^3.6.10",
     "mammoth": "^1.4.16",
+    "minami": "^1.2.3",
     "mockjs": "^1.1.0",
     "qiankun": "^2.5.1",
     "react": "^18.1.0",

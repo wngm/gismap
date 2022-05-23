@@ -5,17 +5,25 @@ import Weather from "./weather/index"
 import Tip from './common/tip'
 import Menu from './common/menu'
 import material from  './material/line'
+import material2 from  './material/polyline'
 import "@modules/cesium/Source/Widgets/widgets.css";
 
 
 
 material(Cesium)
+material2(Cesium)
 
 window.CESIUM_BASE_URL = "/static/Cesium";
 Cesium.Ion.defaultAccessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZGE5MmI2Yy1jZmVmLTQyZGUtYjk4Ni02ODBiYWFiZDZkOGYiLCJpZCI6MjU3MDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODY0MjQyMDR9.dx-BAVwhWMWfgJb49x2XZEVP-EjFxMvihn8Lca6EXYU";
 
-
+/**
+ *
+ *
+ * @param {*} radius
+ * @param {number} [step=15]
+ * @returns
+ */
 function computeCircle(radius,step=15) {
   var positions = [];
   var i = 0;
@@ -33,9 +41,16 @@ function computeCircle(radius,step=15) {
 }
 // id 累加计数器
 let _id =1
+
+
 class GisMap {
   static version ='1.0.0'
-  constructor(options) {
+  /**
+   * 
+   * @param {*} container 
+   * @param {*} options 
+   */
+  constructor(container,options) {
     this.viewer = null;
     this.scene = null;
     this.camera =null
@@ -47,12 +62,16 @@ class GisMap {
     this.tip = null
     // 右键菜单
     this.contextMenu =null
-    this.init(options);
+    this.init(container);
   }
   init(container) {
     this.initViewer(container)
    
   }
+  /**
+   * 
+   * @param {*} container 
+   */
   initViewer(container){
     this.viewer = new Cesium.Viewer(container, baseOptions);
     this.scene = this.viewer.scene;
@@ -119,6 +138,13 @@ class GisMap {
 
     },Cesium.ScreenSpaceEventType.RIGHT_CLICK)
   }
+  /**
+   *
+   *
+   * @param {GisMap} data
+   * @memberof GisMap
+   * @return {GisMap} gismap
+   */
   cSetView(data){
     const {
       longitude, 
@@ -141,6 +167,7 @@ class GisMap {
         }
     });
     }
+    return this
 
   }
   cSetDefaultPosition(data){
@@ -152,7 +179,14 @@ class GisMap {
     //   this.camera.lookAt(center,  new Cesium.HeadingPitchRange(0.01, Cesium.Math.toRadians(-90.0), 0.01))
     // }
   }
-
+  /**
+   *
+   *
+   * @param {*} points
+   * @param {*} [options={}]
+   * @returns
+   * @memberof GisMap
+   */
   drawAnimateLine(points,options={}){
     _id++;
     if(points.length<2){
@@ -284,7 +318,7 @@ class GisMap {
     return scale
   }
 
-  cSetsceneMode2D3D(mode){
+  setSceneMode2D3D(mode){
     if(mode === 3){
       this.viewer.scene.mode= Cesium.SceneMode.SCENE3D
     }else if(mode ===2){
@@ -379,18 +413,16 @@ class GisMap {
       polylineVolume: {
           positions: Cesium.Cartesian3.fromDegreesArrayHeights(
               pointsArray
-              // 94.0643911540741, 30.644520180014712, 10,
-              
-              // 104.0709632404425, 30.640218289417344, 10,
-              // 104.07189450434191, 30.644299282412025, 10,
-              // 104.07064427253918, 30.64452012128316, 10,
-              // 104.07011034321702, 30.64035622435374, 10,
-              // 104.06936621258502, 30.64035013733864, 10,
-              // 104.069595128153, 30.64431128951718, 10,
-              // 104.06491237588305, 30.63936779475631, 10
           ),
           shape: computeCircle(width,15),//参数是管线的半径，管线的横截面形状
-          material: Cesium.Color.fromCssColorString(color),
+          // material: Cesium.Color.fromCssColorString(color),
+          material: new Cesium.PolylineMp(
+            new Cesium.Color.fromCssColorString(color||'#0099cc'),
+            2000
+          ),
+          // material: new Cesium.PolylineGlowMaterialProperty({
+          //   color :new Cesium.Color.fromCssColorString(color||'#0099cc'),
+          // }),
       },
     });
 

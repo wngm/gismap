@@ -37,9 +37,9 @@ const Content =()=>{
     const test = ()=>{
 
         let points =[
-            [104.06834473029204, 30.644507622074453, 10],
-            [104.06835473784035, 30.641167540489427, 10],
-            [104.0649213449914, 30.641261363072736, 10],
+            // [104.06834473029204, 30.644507622074453, 10],
+            // [104.06835473784035, 30.641167540489427, 10],
+            // [104.0649213449914, 30.641261363072736, 10],
             [104.0652037488406, 30.640307797224754, 10],
             [104.06842086951482, 30.600165370177698, 10],
         ]
@@ -65,6 +65,50 @@ const Content =()=>{
         gisMap.viewer.scene.globe.depthTestAgainstTerrain = true
 
     }
+
+    const test5=  ()=>{
+        const globe = gisMap.viewer.scene.globe;
+        const viewer = gisMap.viewer
+        const position = new Cesium.Cartesian3.fromDegrees(Number(longitude),Number(latitude),10)
+        const entity = gisMap.viewer.entities.add({
+            position: position,
+            box: {
+              dimensions: new Cesium.Cartesian3(1400.0, 1400.0, 2800.0),
+              material: Cesium.Color.WHITE.withAlpha(0.3),
+              outline: true,
+              outlineColor: Cesium.Color.WHITE,
+            },
+          });
+        
+          globe.clippingPlanes = new Cesium.ClippingPlaneCollection({
+            modelMatrix: entity.computeModelMatrix(Cesium.JulianDate.now()),
+            planes: [
+              new Cesium.ClippingPlane(
+                new Cesium.Cartesian3(1.0, 0.0, 0.0),
+                -700.0
+              ),
+              new Cesium.ClippingPlane(
+                new Cesium.Cartesian3(-1.0, 0.0, 0.0),
+                -700.0
+              ),
+              new Cesium.ClippingPlane(
+                new Cesium.Cartesian3(0.0, 1.0, 0.0),
+                -700.0
+              ),
+              new Cesium.ClippingPlane(
+                new Cesium.Cartesian3(0.0, -1.0, 0.0),
+                -700.0
+              ),
+            ],
+            edgeWidth: edgeStylingEnabled ? 1.0 : 0.0,
+            edgeColor: Cesium.Color.WHITE,
+            enabled: clippingPlanesEnabled,
+          });
+          globe.backFaceCulling = true;
+          globe.showSkirts = true;
+        
+          viewer.trackedEntity = entity;
+    }
     return (<div className="box">
         <div>
             <div>
@@ -82,6 +126,7 @@ const Content =()=>{
         <div className="btn" onClick={test2}>地下管道</div>      
         <div className="btn" onClick={test3}>地下可视</div>      
         <div className="btn" onClick={test4}>地下隐藏</div>      
+        <div className="btn" onClick={test5}>k</div>      
     
     </div>)
 
