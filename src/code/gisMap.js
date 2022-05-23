@@ -21,6 +21,8 @@ let _id = 1;
 class GisMap {
   static version = '1.0.0';
 
+  static Cesium = Cesium;
+
   /**
    *
    * @param {Element | String} container
@@ -73,7 +75,7 @@ class GisMap {
     // 展示月亮
     // this..scene.moon.show = true;
     // 取消双击事件
-    this.cSetView({ longitude: 100, latitude: 20, altitude: 10000000 });
+    // this.cSetView({ longitude: 100, latitude: 20, altitude: 10000000 });
     this.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
     this.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
     this._handleEvent();
@@ -156,8 +158,8 @@ class GisMap {
    *
    * @param {Point[]} points
    * @param {*} [options={}]
-   * @returns
    * @memberof GisMap
+   * @returns {*}
    */
   drawAnimateLine(points, options = {}) {
     _id += 1;
@@ -249,9 +251,9 @@ class GisMap {
     return entity;
   }
 
-  // zoomTo() {
-  //   // this.viewer.zoomTo()
-  // }
+  zoomTo() {
+    this.viewer.zoomTo();
+  }
 
   cZoomIn(scale) {
     // 获取当前镜头位置的笛卡尔坐标
@@ -415,4 +417,3 @@ class GisMap {
 window.Cesium = Cesium;
 
 export default GisMap;
-export { Cesium };
