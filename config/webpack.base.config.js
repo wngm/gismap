@@ -1,18 +1,18 @@
-const path = require("path");
-const fs = require("fs");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
+const path = require('path');
+const fs = require('fs');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const CopyPlugin = require('copy-webpack-plugin');
 
-const dist = path.resolve(__dirname, "../dist/");
+const dist = path.resolve(__dirname, '../dist/');
 
 // 获取路径下所有文件 地址
 function getFiles(jsonPath) {
-  let jsonFiles = [];
+  const jsonFiles = [];
   function findJsonFile(ppath) {
-    let files = fs.readdirSync(ppath);
-    files.forEach(function (item, index) {
-      let fPath = path.join(ppath, item);
-      let stat = fs.statSync(fPath);
+    const files = fs.readdirSync(ppath);
+    files.forEach((item) => {
+      const fPath = path.join(ppath, item);
+      const stat = fs.statSync(fPath);
       if (stat.isDirectory() === true) {
         findJsonFile(fPath);
       }
@@ -28,39 +28,38 @@ function getFiles(jsonPath) {
 
 // 路径数据 格式化
 function FilesFormat(files, rootPath) {
-  let filesJsonList = files.map((item) => {
-    let file_name = item
+  const filesJsonList = files.map((item) => {
+    const fileName = item
       .slice(rootPath.length + 1)
-      .replace(/(.*\/)*([^.]+).js/gi, "$1$2");
-    return { name: file_name, path: item };
+      .replace(/(.*\/)*([^.]+).js/gi, '$1$2');
+    return { name: fileName, path: item };
   });
 
   return filesJsonList;
 }
 
 // 获取所有page 文件路径
-let pageFiles = getFiles(path.resolve(__dirname, "../src/page"));
+const pageFiles = getFiles(path.resolve(__dirname, '../src/page'));
 
-let list = FilesFormat(pageFiles, path.resolve(__dirname, "../src/page"));
+const list = FilesFormat(pageFiles, path.resolve(__dirname, '../src/page'));
 
-let entry = {};
+const entry = {};
 list.forEach((item) => {
   entry[item.name] = item.path;
 });
 
 // model
-entry.gisMap = path.resolve(__dirname, "../src/code/gisMap.js")
-
+entry.gisMap = path.resolve(__dirname, '../src/code/gisMap.js');
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   entry,
   output: {
     path: dist,
-    //直接输出完整路径
-    filename: "js/[name].[hash:8].js",
-    //动态输出文件名，以chunk名命名
-    sourcePrefix: "",
+    // 直接输出完整路径
+    filename: 'js/[name].[hash:8].js',
+    // 动态输出文件名，以chunk名命名
+    sourcePrefix: '',
   },
   // amd: {
   //   toUrlUndefined: true,
@@ -70,20 +69,20 @@ module.exports = {
   // },
   resolve: {
     alias: {
-      "@src": path.resolve("src"),
-      "@modules": path.resolve("node_modules"),
-      "@pages": path.resolve("src/page"),
+      '@src': path.resolve('src'),
+      '@modules': path.resolve('node_modules'),
+      '@pages': path.resolve('src/page'),
     },
   },
+  devtool: 'inline-source-map',
   plugins: [
     ...list.map(
-      (i) =>
-        new HtmlWebpackPlugin({
-          filename: i.name,
-          template: path.resolve(__dirname, "../index.html"),
-          inject: true,
-          chunks: [i.name],
-        })
+      (i) => new HtmlWebpackPlugin({
+        filename: i.name,
+        template: path.resolve(__dirname, '../index.html'),
+        inject: true,
+        chunks: [i.name],
+      }),
     ),
   ],
   module: {
@@ -92,7 +91,7 @@ module.exports = {
         test: /\.(png|jpg|gif|gltf)$/i,
         use: [
           {
-            loader: "url-loader",
+            loader: 'url-loader',
             options: {
               limit: false,
             },
@@ -101,13 +100,13 @@ module.exports = {
       },
       {
         test: /\.(css|less)$/,
-        use: ["style-loader", "css-loader", "less-loader"],
+        use: ['style-loader', 'css-loader', 'less-loader'],
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
         },
       },
     ],
