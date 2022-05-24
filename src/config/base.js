@@ -1,7 +1,7 @@
-import * as Cesium from "../../node_modules/cesium/Source/Cesium";
+import * as Cesium from '@modules/cesium/Source/Cesium';
 
 export default {
-  vrButton: false, //vr工具
+  vrButton: false, // vr工具
   animation: false,
   baseLayerPicker: false,
   CreditsDisplay: false,
@@ -17,24 +17,24 @@ export default {
   // skyBox: false,
   navigationInstructionsInitiallyVisible: false,
   // msaaSamples: 4,
-  //加载arcGis 暗色地图
-  url:"/static/resource",
-  // imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
-  //   url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-  // }),
-  //高德矢量
+  // 加载arcGis 暗色地图
+  url: '/static/resource',
+  imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
+    url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer',
+  }),
+  // 高德矢量
   // imageryProvider: new Cesium.UrlTemplateImageryProvider({
   //   url: "http://webrd02.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
   //   minimumLevel: 3,
   //   maximumLevel: 18,
   // }),
-  //高德影像
+  // 高德影像
   // imageryProvider: new Cesium.UrlTemplateImageryProvider({
   //   url: "https://webst02.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
   //   minimumLevel: 3,
   //   maximumLevel: 18,
   // }),
-  //高德标记
+  // 高德标记
   // imageryProvider: new Cesium.UrlTemplateImageryProvider({
   //   url: "http://webst02.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scale=1&style=8",
   //   minimumLevel: 3,

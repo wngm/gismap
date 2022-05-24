@@ -66,10 +66,10 @@ type weather = 'rain ' | 'snow' | 'fog'
 
 
 class GisMap {
-    cSetView(data: IPosition): void {
+    setView(data: IPosition): void {
 
     }
-    cSetDefaultPosition(data: IPosition): void {
+    setDefaultPosition(data: IPosition): void {
 
     }
     cZoomIn(scale: number): scale {

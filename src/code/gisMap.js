@@ -7,6 +7,8 @@ import Menu from './common/menu';
 import material from './material/line';
 import material2 from './material/polyline';
 import { computeCircle } from './utils';
+import camera from './methods/camera';
+import mouse from './methods/mouse';
 import '@modules/cesium/Source/Widgets/widgets.css';
 
 material(Cesium);
@@ -21,7 +23,7 @@ let _id = 1;
 class GisMap {
   static version = '1.0.0';
 
-  static Cesium = Cesium;
+  Cesium = Cesium;
 
   /**
    *
@@ -41,6 +43,8 @@ class GisMap {
     this.tip = null;
     // 右键菜单
     this.contextMenu = null;
+    //  事件中心
+    this.eventCenter = {};
     this.init(container, options);
   }
 
@@ -75,7 +79,7 @@ class GisMap {
     // 展示月亮
     // this..scene.moon.show = true;
     // 取消双击事件
-    // this.cSetView({ longitude: 100, latitude: 20, altitude: 10000000 });
+    // this.setView({ longitude: 100, latitude: 20, altitude: 10000000 });
     this.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
     this.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
     this._handleEvent();
@@ -119,7 +123,7 @@ class GisMap {
    * @memberof GisMap
    * @return {GisMap} gismap
    */
-  cSetView(data) {
+  setView(data) {
     const {
       longitude,
       latitude,
@@ -144,8 +148,8 @@ class GisMap {
     return this;
   }
 
-  cSetDefaultPosition(data) {
-    this.cSetView(data);
+  setDefaultPosition(data) {
+    this.setView(data);
     // const {longitude, latitude, altitude} = data
     // if(data){
     //   const center = Cesium.Cartesian3.fromDegrees(longitude, latitude,altitude);
@@ -413,6 +417,15 @@ class GisMap {
     return this;
   }
 }
+
+GisMap.prototype.addCameraEvent = camera.addCameraEvent;
+GisMap.prototype.removeCameraEvent = camera.removeCameraEvent;
+GisMap.prototype.getCameraPosition = camera.getCameraPosition;
+GisMap.prototype.getCameraHeight = camera.getCameraHeight;
+// 鼠标事件
+
+GisMap.prototype.addMouseEvent = mouse.addMouseEvent;
+GisMap.prototype.removeMouseEvent = mouse.removeMouseEvent;
 
 window.Cesium = Cesium;
 

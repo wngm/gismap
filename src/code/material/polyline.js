@@ -1,10 +1,9 @@
-import dashImg from "./image/dash3.png";
-import line from "./image/line.png";
-import line2 from "./image/line2.png";
-import line3 from "./image/line3.png";
+import dashImg from './image/dash3.png';
+// import line from './image/line.png';
+// import line2 from './image/line2.png';
+// import line3 from './image/line3.png';
 
-function run(Cesium){
-
+function run(Cesium) {
   function PolylineMp(color, duration) {
     this._definitionChanged = new Cesium.Event();
     this._color = undefined;
@@ -13,25 +12,25 @@ function run(Cesium){
     this.duration = duration;
     this._time = new Date().getTime();
   }
-  
+
   Object.defineProperties(PolylineMp.prototype, {
     isConstant: {
-      get: function () {
+      get() {
         return false;
       },
     },
     definitionChanged: {
-      get: function () {
+      get() {
         return this._definitionChanged;
       },
     },
-    color: Cesium.createPropertyDescriptor("color"),
+    color: Cesium.createPropertyDescriptor('color'),
   });
-  
+
   PolylineMp.prototype.getType = function (time) {
-    return "PolylineTrailLink";
+    return 'PolylineTrailLink';
   };
-  
+
   PolylineMp.prototype.getValue = function (time, result) {
     if (!Cesium.defined(result)) {
       result = {};
@@ -42,21 +41,20 @@ function run(Cesium){
       Cesium.Color.WHITE,
     );
     result.image = Cesium.Material.PolylineTrailLinkImage;
-    result.time =
-      ((new Date().getTime() - this._time) % this.duration) / this.duration;
+    result.time = ((new Date().getTime() - this._time) % this.duration) / this.duration;
     return result;
   };
-  
+
   PolylineMp.prototype.equals = function (other) {
     return (
-      this === other ||
-      (other instanceof PolylineMp &&
-        Cesium.Property.equals(this._color, other._color))
+      this === other
+      || (other instanceof PolylineMp
+        && Cesium.Property.equals(this._color, other._color))
     );
   };
-  
+
   Cesium.PolylineMp = PolylineMp;
-  Cesium.Material.PolylineTrailLinkType = "PolylineTrailLink";
+  Cesium.Material.PolylineTrailLinkType = 'PolylineTrailLink';
   Cesium.Material.PolylineTrailLinkImage = dashImg;
   Cesium.Material.PolylineTrailLinkSource = ` czm_material czm_getMaterial(czm_materialInput materialInput){
       czm_material material = czm_getDefaultMaterial(materialInput);
@@ -82,11 +80,11 @@ function run(Cesium){
         },
         source: Cesium.Material.PolylineTrailLinkSource,
       },
-      translucent: function (material) {
+      translucent(material) {
         return true;
       },
-    }
+    },
   );
 }
 
-export default run
+export default run;

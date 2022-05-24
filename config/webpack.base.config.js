@@ -31,7 +31,7 @@ function FilesFormat(files, rootPath) {
   const filesJsonList = files.map((item) => {
     const fileName = item
       .slice(rootPath.length + 1)
-      .replace(/(.*\/)*([^.]+).js/gi, '$1$2');
+      .replace(/(.*\/)*([^.]+).(jsx|js)/gi, '$1$2');
     return { name: fileName, path: item };
   });
 
@@ -42,7 +42,6 @@ function FilesFormat(files, rootPath) {
 const pageFiles = getFiles(path.resolve(__dirname, '../src/page'));
 
 const list = FilesFormat(pageFiles, path.resolve(__dirname, '../src/page'));
-
 const entry = {};
 list.forEach((item) => {
   entry[item.name] = item.path;
@@ -103,7 +102,7 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'less-loader'],
       },
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',

@@ -1,7 +1,7 @@
 /**
- *
+ * 获取摄像头位置
  * @memberof GisMap
- * @returns {Point} 摄像头位置
+ * @returns {Point} 坐标点
  */
 function getCameraPosition() {
   const { viewer, Cesium } = this;
@@ -12,14 +12,14 @@ function getCameraPosition() {
   const lat = (curPosition.latitude * 180) / Math.PI;
   const height = this.getCameraHeight();
   return {
-    lon,
-    lat,
-    height,
+    longitude: lon,
+    latitude: lat,
+    altitude: height,
   };
 }
 
 /**
- *
+ * 获取摄像头高度
  * @memberof GisMap
  * @returns {Number} height
  */
@@ -33,7 +33,29 @@ function getCameraHeight() {
   }
 }
 
-export {
+/**
+ * 添加摄像头事件监听
+ * @memberof GisMap
+ * @param {function} listener 监听执行函数
+ */
+function addCameraEvent(listener) {
+  const { camera } = this;
+  camera.changed.addEventListener(listener);
+}
+
+/**
+ * 移除摄像头事件监听
+ * @memberof GisMap
+ * @param {function} listener 监听执行函数
+ */
+function removeCameraEvent(listener) {
+  const { camera } = this;
+  camera.changed.removeEventListener(listener);
+}
+
+export default {
+  addCameraEvent,
+  removeCameraEvent,
   getCameraPosition,
   getCameraHeight,
 };

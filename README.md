@@ -32,7 +32,7 @@ const gisMap = new GisMap('cesium')
 
 | 方法名           | 说明         | 类型                                                                           |
 | :--------------- | :----------- | :----------------------------------------------------------------------------- |
-| cSetView         | 设置视角     | ([position](#position)) => void                                                |
+| setView          | 设置视角     | ([position](#position)) => void                                                |
 | cZoomIn          | 放大         | () => void                                                                     |
 | cZoomOut         | 缩小         | () => void                                                                     |
 | setSceneMode2D3D | 2/3维转换    | （type: 2 \| 3）=> void                                                        |
