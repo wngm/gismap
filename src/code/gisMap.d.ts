@@ -1,7 +1,7 @@
 declare interface IPosition {
     longitude: number
     latitude: number
-    altitude?: number
+    height?: number
 }
 
 type CssColor = String

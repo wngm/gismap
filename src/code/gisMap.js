@@ -79,7 +79,7 @@ class GisMap {
     // 展示月亮
     // this..scene.moon.show = true;
     // 取消双击事件
-    // this.setView({ longitude: 100, latitude: 20, altitude: 10000000 });
+    // this.setView({ longitude: 100, latitude: 20, height: 10000000 });
     this.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
     this.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
     this._handleEvent();
@@ -127,7 +127,7 @@ class GisMap {
     const {
       longitude,
       latitude,
-      altitude,
+      height,
       heading = 0.0,
       pitch = -90.0,
       roll = 0.0,
@@ -136,7 +136,7 @@ class GisMap {
     if (data) {
       this.camera.setView({
         // 设置相机位置
-        destination: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
+        destination: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
         orientation: {
           // 初始视角
           heading: Cesium.Math.toRadians(heading),
@@ -150,9 +150,9 @@ class GisMap {
 
   setDefaultPosition(data) {
     this.setView(data);
-    // const {longitude, latitude, altitude} = data
+    // const {longitude, latitude, height} = data
     // if(data){
-    //   const center = Cesium.Cartesian3.fromDegrees(longitude, latitude,altitude);
+    //   const center = Cesium.Cartesian3.fromDegrees(longitude, latitude,height);
     //   this.camera.lookAt(center,  new Cesium.HeadingPitchRange(0.01, Cesium.Math.toRadians(-90.0), 0.01))
     // }
   }
@@ -225,7 +225,7 @@ class GisMap {
     const {
       longitude,
       latitude,
-      altitude,
+      height,
       key,
       name,
       pixelSize,
@@ -244,7 +244,7 @@ class GisMap {
       name,
       id: key || Number.prototype.toString.apply(_id),
       show: true,
-      position: Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude),
+      position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
       point: pointOption,
       label: lableOptiopns,
       tip,

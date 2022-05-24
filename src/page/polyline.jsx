@@ -10,7 +10,7 @@ window.gisMap = gisMap;
 gisMap.setView({
   longitude: 104.06836,
   latitude: 30.60,
-  altitude: 800,
+  height: 800,
   pitch: -45.0,
 
 });
@@ -19,7 +19,7 @@ function Content() {
   const [name, setName] = useState('测试');
   const [latitude, setLatitude] = useState(30.60);
   const [longitude, setLongitude] = useState(104.06836);
-  const [altitude, setAltitude] = useState(800);
+  const [height, setheight] = useState(800);
   const [labelName, setLabelName] = useState('测试点');
   const [tip, setTip] = useState('');
 
@@ -27,11 +27,11 @@ function Content() {
     gisMap.setView({
       longitude: Number(longitude),
       latitude: Number(latitude),
-      altitude: Number(altitude),
+      height: Number(height),
       pitch: -45.0,
 
     });
-  }, [latitude, longitude, altitude]);
+  }, [latitude, longitude, height]);
 
   const test = () => {
     const points = [
@@ -117,7 +117,7 @@ function Content() {
         </div>
         <div>
           <span>高度</span>
-          <input type="number" value={altitude} onChange={(e) => setAltitude(e.target.value)} />
+          <input type="number" value={height} onChange={(e) => setheight(e.target.value)} />
         </div>
       </div>
       <div className="btn" onClick={setView}>设置显示</div>

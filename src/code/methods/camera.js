@@ -14,7 +14,7 @@ function getCameraPosition() {
   return {
     longitude: lon,
     latitude: lat,
-    altitude: height,
+    height,
   };
 }
 

@@ -7,7 +7,7 @@ const mouseEvent2CesiumEvent = {
    * 添加鼠标事件监听
    * @memberof GisMap
    * @param {MouseEvent} mouseEvent
-   * @param {function} listener 监听执行函数
+   * @param {function(point:Point)} listener 监听执行函数
    */
 function addMouseEvent(mouseEvent, listener) {
   const { Cesium, eventCenter, viewer } = this;
@@ -17,16 +17,20 @@ function addMouseEvent(mouseEvent, listener) {
     eventCenter[listener] = handler;
   }
   eventCenter[listener].setInputAction((movement) => {
-    let position = {};
+    const position = {};
+    let cartesian = null;
     if (mouseEvent === 'mousemove') {
-      position = viewer.scene.camera.pickEllipsoid(movement.endPosition, viewer.scene.globe.ellipsoid);
+      cartesian = viewer.scene.globe.pick(viewer.camera.getPickRay(movement.endPosition), viewer.scene);
     } else {
-      position = viewer.scene.camera.pickEllipsoid(movement.position, viewer.scene.globe.ellipsoid);
+      cartesian = viewer.scene.globe.pick(viewer.camera.getPickRay(movement.position), viewer.scene);
     }
-    // const windowPosition = movement.position;
-    listener(Cesium.Cartographic.fromCartesian(position), movement);
+    if (cartesian) {
+      const curPosition = Cesium.Ellipsoid.WGS84.cartesianToCartographic(cartesian);
+      position.longitude = (curPosition.longitude * 180) / Math.PI;
+      position.latitude = (curPosition.latitude * 180) / Math.PI;
+    }
+    listener(position, movement);
   }, Cesium.ScreenSpaceEventType[mouseEvent2CesiumEvent[mouseEvent]]);
-  console.log(eventCenter);
 }
 
 /**
@@ -41,7 +45,6 @@ function removeMouseEvent(mouseEvent, listener) {
     eventCenter[listener].destroy();
     delete eventCenter[listener];
   }
-  console.log(eventCenter);
 }
 
 export default {

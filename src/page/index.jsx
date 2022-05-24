@@ -12,13 +12,13 @@ function Content() {
   const [name, setName] = useState('测试');
   const [latitude, setLatitude] = useState(60);
   const [longitude, setLongitude] = useState(100);
-  const [altitude, setAltitude] = useState(10);
+  const [height, setheight] = useState(10);
   const [labelName, setLabelName] = useState('测试点');
   const [tip, setTip] = useState('点的描述信息');
 
   const setView = useCallback(() => {
-    gisMap.setView({ longitude: Number(longitude), latitude: Number(latitude), altitude: Number(altitude) });
-  }, [latitude, longitude, altitude]);
+    gisMap.setView({ longitude: Number(longitude), latitude: Number(latitude), height: Number(height) });
+  }, [latitude, longitude, height]);
 
   const zoomIn = () => {
     gisMap.cZoomIn();
@@ -34,7 +34,7 @@ function Content() {
         color: 'rgba(0,255,255,1)',
         longitude: Number(longitude),
         latitude: Number(latitude),
-        altitude: Number(altitude),
+        height: Number(height),
         label: {
           show: true,
           text: labelName,
@@ -85,7 +85,7 @@ function Content() {
         </div>
         <div>
           <span>高度</span>
-          <input type="number" value={altitude} onChange={(e) => setAltitude(e.target.value)} />
+          <input type="number" value={height} onChange={(e) => setheight(e.target.value)} />
         </div>
         <div>
           <span>labelName</span>
@@ -112,13 +112,13 @@ root.render(<Content />);
 // gisMap.setView({
 //     longitude: 110.00,
 //     latitude: 40.00,
-//     altitude: 10000000
+//     height: 10000000
 // })
 
 // gisMap.drawPoint({
 //     longitude: 80.00,
 //     latitude: 40.00,
-//     altitude: 10
+//     height: 10
 // })
 
 // console.log(Cesium.Math.toRadians(0.0))
@@ -142,7 +142,7 @@ root.render(<Content />);
 // //   //     {
 // //   //         longitude: 120.00,
 // //   //         latitude: 40.00,
-// //   //         altitude: 1000000
+// //   //         height: 1000000
 // //   //     } )
 // //   console.log(Cesium.Math.toRadians(0.0),Cesium.Math.toRadians(-90))
 // //   gisMap.camera.setView({

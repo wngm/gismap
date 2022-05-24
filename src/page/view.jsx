@@ -10,12 +10,12 @@ function Content() {
   const [position, setPosition] = useState({
     longitude: '',
     latitude: '',
-    altitude: '',
+    height: '',
   });
   const [mousePosition, setMousePosition] = useState({
     longitude: '',
     latitude: '',
-    altitude: '',
+    height: '',
   });
   // 监听摄像机位置
   const cameraHandle = () => {
@@ -24,17 +24,16 @@ function Content() {
   };
   // 鼠标位置监听
   const mouseHandle = (moment) => {
-    console.log(moment);
+    setMousePosition(moment);
   };
-
   useEffect(
     () => {
       cameraHandle();
       gisMap.addCameraEvent(cameraHandle);
-      gisMap.addMouseEvent('mousemove', mouseHandle);
+      gisMap.addMouseEvent('click', mouseHandle);
       return () => {
         gisMap.removeCameraEvent(cameraHandle);
-        gisMap.removeMouseEvent('mousemove', mouseHandle);
+        gisMap.removeMouseEvent('click', mouseHandle);
       };
     },
     [],
@@ -53,7 +52,7 @@ function Content() {
           </div>
           <div className="line-item">
             高度:
-            {position.altitude}
+            {position.height}
           </div>
         </div>
         <div className="line">

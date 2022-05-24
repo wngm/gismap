@@ -12,21 +12,21 @@ function Content() {
   const [name, setName] = useState('测试');
   const [latitude, setLatitude] = useState(30.644);
   const [longitude, setLongitude] = useState(104);
-  const [altitude, setAltitude] = useState(100);
+  const [height, setheight] = useState(100);
   const [labelName, setLabelName] = useState('测试点');
   const [tip, setTip] = useState('');
 
   const setView = useCallback(() => {
-    gisMap.setView({ longitude: Number(longitude), latitude: Number(latitude), altitude: Number(altitude) });
-  }, [latitude, longitude, altitude]);
+    gisMap.setView({ longitude: Number(longitude), latitude: Number(latitude), height: Number(height) });
+  }, [latitude, longitude, height]);
   const drawAnimateLine = () => {
-    const start = [Number(longitude), Number(latitude), Number(altitude)];
+    const start = [Number(longitude), Number(latitude), Number(height)];
     const ends = [start, [116.20, 39.56, 0]];
     // const ends = [[110,20,0],[100,10],[90,0,0],[70,20,0],[50,10,0]]
     gisMap.drawAnimateLine(ends, { color: '#33FF66' });
   };
   const drawLine = () => {
-    const start = [Number(longitude), Number(latitude), Number(altitude)];
+    const start = [Number(longitude), Number(latitude), Number(height)];
     const ends = [start, [116.20, 39.56, 0]];
     gisMap.drawLine(ends, { color: '#66FFFF' });
   };
@@ -54,7 +54,7 @@ function Content() {
         </div>
         <div>
           <span>高度</span>
-          <input type="number" value={altitude} onChange={(e) => setAltitude(e.target.value)} />
+          <input type="number" value={height} onChange={(e) => setheight(e.target.value)} />
         </div>
         <div>
           <span>labelName</span>

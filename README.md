@@ -30,17 +30,17 @@ const gisMap = new GisMap('cesium')
 
 ### methods
 
-| 方法名           | 说明         | 类型                                                                           |
-| :--------------- | :----------- | :----------------------------------------------------------------------------- |
-| setView          | 设置视角     | ([position](#position)) => void                                                |
-| cZoomIn          | 放大         | () => void                                                                     |
-| cZoomOut         | 缩小         | () => void                                                                     |
-| setSceneMode2D3D | 2/3维转换    | （type: 2 \| 3）=> void                                                        |
-| drawPoint        | 绘制点       | ([drawMpointOptions](#pointOptions)) => point                                  |
-| drawLine         | 绘制线       | (Array<[longitude,latitude,altitude]>,[lineOptions](#lineOptions)) => polyLine |
-| drawAnimateLine  | 绘制动态线   | (Array<[longitude,latitude,altitude]>,[lineOptions](#lineOptions)) => polyLine |
-| drawPolyLine     | 绘制管线     | (Array<[longitude,latitude,altitude]>,[lineOptions](#lineOptions)) => polyLine |
-| remove           | 移除元素节点 | (id \| Entity)=>void                                                           |
+| 方法名           | 说明         | 类型                                                                         |
+| :--------------- | :----------- | :--------------------------------------------------------------------------- |
+| setView          | 设置视角     | ([position](#position)) => void                                              |
+| cZoomIn          | 放大         | () => void                                                                   |
+| cZoomOut         | 缩小         | () => void                                                                   |
+| setSceneMode2D3D | 2/3维转换    | （type: 2 \| 3）=> void                                                      |
+| drawPoint        | 绘制点       | ([drawMpointOptions](#pointOptions)) => point                                |
+| drawLine         | 绘制线       | (Array<[longitude,latitude,height]>,[lineOptions](#lineOptions)) => polyLine |
+| drawAnimateLine  | 绘制动态线   | (Array<[longitude,latitude,height]>,[lineOptions](#lineOptions)) => polyLine |
+| drawPolyLine     | 绘制管线     | (Array<[longitude,latitude,height]>,[lineOptions](#lineOptions)) => polyLine |
+| remove           | 移除元素节点 | (id \| Entity)=>void                                                         |
 
 -----------------------------
 
@@ -50,7 +50,7 @@ const gisMap = new GisMap('cesium')
 | :-------- | :--- | :----- |
 | longitude | 经度 | number |
 | latitude  | 纬度 | number |
-| altitude  | 高度 | number |
+| height    | 高度 | number |
 
 -----------------------------
 
@@ -60,7 +60,7 @@ const gisMap = new GisMap('cesium')
 | :-------- | :-------- | :-------------- |
 | longitude | 经度      | number          |
 | latitude  | 纬度      | number          |
-| altitude  | 高度      | number          |
+| height    | 高度      | number          |
 | label     | label展示 | [Label](#label) |
 | tip       | 单击展示  | [Tip](#tip)     |
 | menu      | 右键展示  | [Menu](#menu)   |
