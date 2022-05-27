@@ -3,12 +3,19 @@ const mouseEvent2CesiumEvent = {
   click: 'LEFT_CLICK',
   mousemove: 'MOUSE_MOVE',
 };
+
+/**
+ * listener 事件回调函数
+ * @callback listener 位置监听回调
+ * @param {Point} position
+ */
+
 /**
    * 添加鼠标事件监听
    * @memberof GisMap
    * @param {MouseEvent} mouseEvent
-   * @param {function(point:Point)} listener 监听执行函数
-   */
+   * @param {listener} listener 监听执行函数
+ */
 function addMouseEvent(mouseEvent, listener) {
   const { Cesium, eventCenter, viewer } = this;
   const handler = new Cesium.ScreenSpaceEventHandler(this.scene.canvas);
@@ -37,7 +44,7 @@ function addMouseEvent(mouseEvent, listener) {
    * 移除鼠标事件监听
    * @memberof GisMap
    * @param {MouseEvent} mouseEvent
-   * @param {function} listener 监听执行函数
+   * @param {listener} listener 监听执行函数
    */
 function removeMouseEvent(mouseEvent, listener) {
   const { eventCenter } = this;

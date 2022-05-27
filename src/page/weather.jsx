@@ -1,6 +1,4 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import * as Cesium from '@modules/cesium/Source/Cesium';
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import GisMap from '../code/gisMap';
 import './index.less';

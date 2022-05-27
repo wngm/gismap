@@ -20,20 +20,22 @@ function Content() {
   // 监听摄像机位置
   const cameraHandle = () => {
     const _position = gisMap.getCameraPosition();
-    setPosition(_position);
+    if (_position.longitude) {
+      setPosition(_position);
+    }
   };
   // 鼠标位置监听
   const mouseHandle = (moment) => {
-    setMousePosition(moment);
+    if (moment.longitude)setMousePosition(moment);
   };
   useEffect(
     () => {
       cameraHandle();
       gisMap.addCameraEvent(cameraHandle);
-      gisMap.addMouseEvent('click', mouseHandle);
+      gisMap.addMouseEvent('mousemove', mouseHandle);
       return () => {
         gisMap.removeCameraEvent(cameraHandle);
-        gisMap.removeMouseEvent('click', mouseHandle);
+        gisMap.removeMouseEvent('mousemove', mouseHandle);
       };
     },
     [],

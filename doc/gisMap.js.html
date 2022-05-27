@@ -1,4 +1,45 @@
-import * as Cesium from '@modules/cesium/Source/Cesium';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>gisMap.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="GisMap.html">GisMap</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.addCameraEvent">addCameraEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.addMouseEvent">addMouseEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.getCameraHeight">getCameraHeight</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.getCameraPosition">getCameraPosition</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.removeCameraEvent">removeCameraEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.removeMouseEvent">removeMouseEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#clearWeather">clearWeather</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#drawAnimateLine">drawAnimateLine</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#drawPoint">drawPoint</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#remove">remove</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#setSceneMode2D3D">setSceneMode2D3D</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#setView">setView</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#setWeather">setWeather</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#zoomIn">zoomIn</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#zoomOut">zoomOut</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">gisMap.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as Cesium from '@modules/cesium/Source/Cesium';
 import baseOptions from '../config/base';
 import { getPointOptions, getLabelOptions } from './entity';
 import Weather from './weather/index';
@@ -64,7 +105,7 @@ class GisMap {
     // if (Cesium.FeatureDetection.supportsImageRenderingPixelated()) {
     //   this.viewer.resolutionScale = window.devicePixelRatio;
     // }
-    // http://127.0.0.1:8001/geoserver/my_china/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&FORMAT=image%2Fjpeg&TRANSPARENT=true&STYLES&LAYERS=my_china%3AHYP_HR&exceptions=application%2Fvnd.ogc.se_inimage&SRS=EPSG%3A4326&WIDTH=768&HEIGHT=384&BBOX=73.212890625%2C40.78125%2C106.962890625%2C57.65625
+    // http://127.0.0.1:8001/geoserver/my_china/wms?SERVICE=WMS&amp;VERSION=1.1.1&amp;REQUEST=GetMap&amp;FORMAT=image%2Fjpeg&amp;TRANSPARENT=true&amp;STYLES&amp;LAYERS=my_china%3AHYP_HR&amp;exceptions=application%2Fvnd.ogc.se_inimage&amp;SRS=EPSG%3A4326&amp;WIDTH=768&amp;HEIGHT=384&amp;BBOX=73.212890625%2C40.78125%2C106.962890625%2C57.65625
     // viewer.scene.imagerySplitPosition = 0.1;
     // 去除版权信息
     this.viewer.cesiumWidget.creditContainer.style.display = 'none';
@@ -167,7 +208,7 @@ class GisMap {
    */
   drawAnimateLine(points, options = {}) {
     _id += 1;
-    if (points.length < 2) {
+    if (points.length &lt; 2) {
       return;
     }
 
@@ -204,7 +245,7 @@ class GisMap {
    * @returns {*}
    */
   drawLine = (points = [], options = {}) => {
-    if (points.length < 2) {
+    if (points.length &lt; 2) {
       return;
     }
 
@@ -378,10 +419,10 @@ class GisMap {
       this.contextMenu.hide();
     }
     // 单个tip展示
-    if (this.tip && this.selected && this.selected.id === entity.id) {
+    if (this.tip &amp;&amp; this.selected &amp;&amp; this.selected.id === entity.id) {
       this.tip.show();
       console.log('已选中该对象');
-    } else if (this.selected && this.selected.id !== entity.id) {
+    } else if (this.selected &amp;&amp; this.selected.id !== entity.id) {
       this.unHandleTip();
       this.selected = entity;
       this.tip = new Tip(this.viewer, entity);
@@ -404,11 +445,11 @@ class GisMap {
       this.tip.hide();
     }
     // 单个tip展示
-    if (this.contextMenu && this.selected && this.selected.id === entity.id) {
+    if (this.contextMenu &amp;&amp; this.selected &amp;&amp; this.selected.id === entity.id) {
       this.contextMenu.show();
       // console.log( this.contextMenu)
       console.log('已选中该对象');
-    } else if (this.selected && this.selected.id !== entity.id) {
+    } else if (this.selected &amp;&amp; this.selected.id !== entity.id) {
       this.unHandleMenu();
       this.selected = entity;
       this.contextMenu = new Menu(this.viewer, entity);
@@ -421,7 +462,7 @@ class GisMap {
   drawPolyLine(points = [], options = {}) {
     const { width = 10, color = '#ff0000' } = options;
 
-    if (points.length < 2) {
+    if (points.length &lt; 2) {
       return;
     }
 
@@ -479,3 +520,22 @@ GisMap.prototype.removeMouseEvent = mouse.removeMouseEvent;
 window.Cesium = Cesium;
 
 export default GisMap;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Fri May 27 2022 14:19:55 GMT+0800 (中国标准时间) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

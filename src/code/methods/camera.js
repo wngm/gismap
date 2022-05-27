@@ -7,6 +7,9 @@ function getCameraPosition() {
   const { viewer, Cesium } = this;
   const result = viewer.camera.pickEllipsoid(new Cesium.Cartesian2(viewer.canvas.clientWidth / 2, viewer.canvas
     .clientHeight / 2));
+  if (!result) {
+    return {};
+  }
   const curPosition = Cesium.Ellipsoid.WGS84.cartesianToCartographic(result);
   const lon = (curPosition.longitude * 180) / Math.PI;
   const lat = (curPosition.latitude * 180) / Math.PI;

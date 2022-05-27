@@ -25,6 +25,9 @@ import GisMap from "@kdhy/gismap"
 const gisMap = new GisMap('cesium')
 ```
 
+## 使用文档目录
+[./doc](./doc)
+
 
 ## 基础方法
 

@@ -4,7 +4,7 @@ declare interface IPosition {
     height?: number
 }
 
-type CssColor = String
+declare type CssColor = String
 declare interface IKeyValue {
     [key: string]: any
 }
@@ -13,9 +13,6 @@ interface Label {
     text: string
     fillColor?: CssColor // 标签填充颜色
     outlineColor?: CssColor // 标签字体轮廓
-
-
-
 }
 
 interface Tip {
@@ -35,7 +32,7 @@ interface Menu {
     menuItems: MenuItem[]
     style?: {}
     className?: string
-    onSelect?: function (key: string): void
+    onSelect?: function (key): void
 }
 interface IPoint extends IPosition {
     //类型
@@ -66,24 +63,22 @@ type weather = 'rain ' | 'snow' | 'fog'
 
 
 class GisMap {
+    constructor(dom: any) {
+
+    }
     setView(data: IPosition): void {
 
     }
     setDefaultPosition(data: IPosition): void {
-
     }
-    cZoomIn(scale: number): scale {
+    zoomIn(scale: number): scale {
     }
-    cZoomout(scale: number): scale {
+    zoomoOut(scale: number): scale {
     }
-    setSceneMode2D3D(mode: 2 | 3): void {
-
-    }
-
+    setSceneMode2D3D(mode: 2 | 3): void { }
     drawPoint(data: IPoint)
     drawLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
     drawAnimateLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
-
     setWeather(weather: weather): void
     clearWeather(): void
 }

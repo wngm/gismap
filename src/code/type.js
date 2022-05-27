@@ -8,6 +8,7 @@
 /**
  * @typedef {Object} gisMap 实例
  * @property {Object} viewer cesiumviewer
+ * @property {Cesium} Cesium Cesium 对象
  */
 
 /**

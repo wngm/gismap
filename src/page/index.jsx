@@ -21,10 +21,10 @@ function Content() {
   }, [latitude, longitude, height]);
 
   const zoomIn = () => {
-    gisMap.cZoomIn();
+    gisMap.zoomIn();
   };
   const zoomOut = () => {
-    gisMap.cZoomOut();
+    gisMap.zoomOut();
   };
   const drawMpoint = () => {
     const point = gisMap.drawPoint(
