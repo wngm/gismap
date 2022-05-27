@@ -26,7 +26,7 @@ const gisMap = new GisMap('cesium')
 ```
 
 ## 使用文档目录
-[./doc](./doc)
+[./docs](./docs)
 
 
 ## 基础方法
