@@ -81,6 +81,7 @@ class GisMap {
     drawAnimateLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
     setWeather(weather: weather): void
     clearWeather(): void
+    remove(id: string): void { }
 }
 
 
