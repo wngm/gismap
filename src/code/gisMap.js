@@ -411,6 +411,11 @@ GisMap.prototype.zoomIn = base.zoomIn;
 GisMap.prototype.zoomOut = base.zoomOut;
 GisMap.prototype.setSceneMode2D3D = base.setSceneMode2D3D;
 
+// 星空背景
+GisMap.prototype.setSky = base.setSky;
+GisMap.prototype.clearSky = base.clearSky;
+GisMap.prototype.resetSky = base.resetSky;
+
 window.Cesium = Cesium;
 
 export default GisMap;

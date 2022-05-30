@@ -18,6 +18,7 @@ class Fog {
     this.viewer.scene.fog.minimumBrightness = 0.8;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getFog() {
     return `uniform sampler2D colorTexture;
         uniform sampler2D depthTexture;

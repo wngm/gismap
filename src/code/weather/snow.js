@@ -18,6 +18,7 @@ class Snow {
     this.viewer.scene.fog.minimumBrightness = 0.8;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getSnow() {
     return `uniform sampler2D colorTexture;
         varying vec2 v_textureCoordinates;

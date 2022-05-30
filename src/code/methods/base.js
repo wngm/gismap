@@ -3,6 +3,7 @@
 //   this.viewer.zoomTo();
 // }
 
+
 /**
    *
    * 缩进视图
@@ -70,9 +71,59 @@ function setSceneMode2D3D(mode) {
     this.viewer.scene.mode = Cesium.SceneMode.SCENE3D;
   }
 }
+/**
+ * 自定义星空背景图
+ * @memberof GisMap
+ * @param {[url,url,url,url,url,url]} sources 参考视角[右,左,下,上,前,后]
+ */
+function setSky(sources) {
+  const { viewer, Cesium } = this;
+  viewer.scene.skyBox = new Cesium.SkyBox({
+    sources: {
+      positiveX: sources[0],
+      negativeX: sources[1],
+      positiveY: sources[2],
+      negativeY: sources[3],
+      positiveZ: sources[4],
+      negativeZ: sources[5],
+    },
+  });
+}
+/**
+ *
+ * 恢复默认星空背景图
+ * @memberof GisMap
+ */
+function resetSky(){
+  const { viewer, Cesium } = this;
+  const base_url = globalThis.CESIUM_BASE_URL
+  viewer.scene.skyBox = new Cesium.SkyBox({
+    sources : {
+    positiveX : base_url+'/Assets/Textures/SkyBox/tycho2t3_80_px.jpg',
+      negativeX : base_url+'/Assets/Textures/SkyBox//tycho2t3_80_mx.jpg',
+      positiveY : base_url+'/Assets/Textures/SkyBox//tycho2t3_80_py.jpg',
+      negativeY : base_url+'/Assets/Textures/SkyBox//tycho2t3_80_my.jpg',
+      positiveZ : base_url+'/Assets/Textures/SkyBox//tycho2t3_80_pz.jpg',
+      negativeZ : base_url+'/Assets/Textures/SkyBox//tycho2t3_80_mz.jpg'
+    }})
+}
+
+
+/**
+ *
+ * 隐藏星空背景
+ * @memberof GisMap
+ */
+function clearSky() {
+  const { viewer } = this;
+  viewer.scene.skyBox.show = false;
+}
 
 export default {
   zoomOut,
   zoomIn,
   setSceneMode2D3D,
+  setSky,
+  resetSky,
+  clearSky,
 };

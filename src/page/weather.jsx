@@ -16,10 +16,10 @@ function Content() {
   };
   return (
     <div className="box">
-      <div className="btn" onClick={() => setWeather('snow')}>雪</div>
-      <div className="btn" onClick={() => setWeather('rain')}>雨</div>
-      <div className="btn" onClick={() => setWeather('fog')}>雾</div>
-      <div className="btn" onClick={clearWeather}>清除</div>
+      <div className="btn" onClick={() => setWeather('snow')} role="none">雪</div>
+      <div className="btn" onClick={() => setWeather('rain')} role="none">雨</div>
+      <div className="btn" onClick={() => setWeather('fog')} role="none">雾</div>
+      <div className="btn" onClick={clearWeather} role="none">清除</div>
     </div>
   );
 }
