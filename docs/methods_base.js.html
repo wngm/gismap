@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>methods/camera.js - Documentation</title>
+    <title>methods/base.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">methods/camera.js</h1>
+    <h1 class="page-title">methods/base.js</h1>
     
 
     
@@ -39,69 +39,83 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * 获取摄像头位置
- * @memberof GisMap
- * @returns {Point} 坐标点
- */
-function getCameraPosition() {
-  const { viewer, Cesium } = this;
-  const result = viewer.camera.pickEllipsoid(new Cesium.Cartesian2(viewer.canvas.clientWidth / 2, viewer.canvas
-    .clientHeight / 2));
-  if (!result) {
-    return {};
+            <pre class="prettyprint source linenums"><code>// view zoomTo
+// function zoomTo() {
+//   this.viewer.zoomTo();
+// }
+
+/**
+   *
+   * 缩进视图
+   * @memberof GisMap
+   * @param {number} [scale = 0.5] 缩进视视图系数1为，缩进已有距离一半,默认0.5
+   * @return {number} scale
+   */
+function zoomIn(scale = 0.5) {
+  // 获取当前镜头位置的笛卡尔坐标
+  const cameraPos = this.camera.position;
+
+  // // 获取当前坐标系标准
+  const { ellipsoid } = this.scene.globe;
+
+  // // 根据坐标系标准，将笛卡尔坐标转换为地理坐标
+  const cartographic = ellipsoid.cartesianToCartographic(cameraPos);
+
+  // // 获取镜头的高度
+  const { height } = cartographic;
+  const _scale = (1 - (1 / (scale + 1))) * height;
+  // 优化？
+  this.camera.zoomIn(_scale);
+  return scale;
+}
+
+/**
+   *
+   * 放大视图
+   * @memberof GisMap
+   * @param {number} [scale = 0.5] 放大视系数1为一倍视距,默认0.5
+   * @return {number} scale
+   */
+function zoomOut(scale = 0.5) {
+  // 获取当前镜头位置的笛卡尔坐标
+  const cameraPos = this.camera.position;
+
+  // // 获取当前坐标系标准
+  const { ellipsoid } = this.scene.globe;
+
+  // // 根据坐标系标准，将笛卡尔坐标转换为地理坐标
+  const cartographic = ellipsoid.cartesianToCartographic(cameraPos);
+
+  // // 获取镜头的高度
+  const { height } = cartographic;
+  const _scale = height * (1 + scale);
+  this.camera.zoomOut(_scale);
+  return _scale;
+}
+
+/**
+   *
+   * 切换2D/3D模式
+   * @memberof GisMap
+   * @param {"2｜3"} [mode] 2或3，不传参数默认切换
+   */
+function setSceneMode2D3D(mode) {
+  const { Cesium } = this;
+  if (mode === 3) {
+    this.viewer.scene.mode = Cesium.SceneMode.SCENE3D;
+  } else if (mode === 2) {
+    this.viewer.scene.mode = Cesium.SceneMode.SCENE2D;
+  } else if (this.viewer.scene.mode === Cesium.SceneMode.SCENE3D) {
+    this.viewer.scene.mode = Cesium.SceneMode.SCENE2D;
+  } else {
+    this.viewer.scene.mode = Cesium.SceneMode.SCENE3D;
   }
-  const curPosition = Cesium.Ellipsoid.WGS84.cartesianToCartographic(result);
-  const lon = (curPosition.longitude * 180) / Math.PI;
-  const lat = (curPosition.latitude * 180) / Math.PI;
-  const height = this.getCameraHeight();
-  return {
-    longitude: lon,
-    latitude: lat,
-    height,
-  };
-}
-
-/**
- * 获取摄像头高度
- * @memberof GisMap
- * @returns {Number} height
- */
-function getCameraHeight() {
-  const { viewer } = this;
-  if (viewer) {
-    const { scene } = viewer;
-    const { ellipsoid } = scene.globe;
-    const { height } = ellipsoid.cartesianToCartographic(viewer.camera.position);
-    return height;
-  }
-}
-
-/**
- * 添加摄像头事件监听
- * @memberof GisMap
- * @param {function} listener 监听执行函数
- */
-function addCameraEvent(listener) {
-  const { camera } = this;
-  camera.changed.addEventListener(listener);
-}
-
-/**
- * 移除摄像头事件监听
- * @memberof GisMap
- * @param {function} listener 监听执行函数
- */
-function removeCameraEvent(listener) {
-  const { camera } = this;
-  camera.changed.removeEventListener(listener);
 }
 
 export default {
-  addCameraEvent,
-  removeCameraEvent,
-  getCameraPosition,
-  getCameraHeight,
+  zoomOut,
+  zoomIn,
+  setSceneMode2D3D,
 };
 </code></pre>
         </article>

@@ -225,16 +225,15 @@ class GisMap {
         // clampToGround: true,
       },
     });
-
     this.viewer.entities.add(entity);
     return entity;
   };
 
   /**
  *
- *
+ * 点绘制
  * @param {object} data
- * @returns
+ * @returns {entity} entity
  * @memberof GisMap
  */
   drawPoint(data) {
