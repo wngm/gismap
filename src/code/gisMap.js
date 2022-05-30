@@ -9,6 +9,7 @@ import material2 from './material/polyline';
 import { computeCircle } from './utils';
 import camera from './methods/camera';
 import mouse from './methods/mouse';
+import base from './methods/base';
 import '@modules/cesium/Source/Widgets/widgets.css';
 
 material(Cesium);
@@ -269,75 +270,6 @@ class GisMap {
     return entity;
   }
 
-  zoomTo() {
-    this.viewer.zoomTo();
-  }
-
-  /**
-   *
-   * 缩进视图
-   * @param {number} [scale]
-   * @return {number} scale
-   */
-  zoomIn(scale) {
-    // 获取当前镜头位置的笛卡尔坐标
-    const cameraPos = this.camera.position;
-
-    // // 获取当前坐标系标准
-    const { ellipsoid } = this.scene.globe;
-
-    // // 根据坐标系标准，将笛卡尔坐标转换为地理坐标
-    const cartographic = ellipsoid.cartesianToCartographic(cameraPos);
-
-    // // 获取镜头的高度
-    const { height } = cartographic;
-    const _scale = scale || height / 3;
-    // 优化？
-    this.camera.zoomIn(_scale);
-    return scale;
-  }
-
-  /**
-   *
-   * 放大视图
-   * @param {number} [scale]
-   * @return {number} scale
-   */
-  zoomOut(scale) {
-    // 获取当前镜头位置的笛卡尔坐标
-    const cameraPos = this.camera.position;
-
-    // // 获取当前坐标系标准
-    const { ellipsoid } = this.scene.globe;
-
-    // // 根据坐标系标准，将笛卡尔坐标转换为地理坐标
-    const cartographic = ellipsoid.cartesianToCartographic(cameraPos);
-
-    // // 获取镜头的高度
-    const { height } = cartographic;
-    const _scale = scale || height * 1.5;
-    this.camera.zoomOut(_scale);
-    return _scale;
-  }
-
-  /**
-   *
-   * 切换2D/3D模式
-   * @param {"2｜3"} [mode] 2或3，不传参数默认切换
-   * @memberof GisMap
-   */
-  setSceneMode2D3D(mode) {
-    if (mode === 3) {
-      this.viewer.scene.mode = Cesium.SceneMode.SCENE3D;
-    } else if (mode === 2) {
-      this.viewer.scene.mode = Cesium.SceneMode.SCENE2D;
-    } else if (this.viewer.scene.mode === Cesium.SceneMode.SCENE3D) {
-      this.viewer.scene.mode = Cesium.SceneMode.SCENE2D;
-    } else {
-      this.viewer.scene.mode = Cesium.SceneMode.SCENE3D;
-    }
-  }
-
   /**
    *
    * 设置天气
@@ -475,6 +407,10 @@ GisMap.prototype.getCameraHeight = camera.getCameraHeight;
 
 GisMap.prototype.addMouseEvent = mouse.addMouseEvent;
 GisMap.prototype.removeMouseEvent = mouse.removeMouseEvent;
+// 缩放
+GisMap.prototype.zoomIn = base.zoomIn;
+GisMap.prototype.zoomOut = base.zoomOut;
+GisMap.prototype.setSceneMode2D3D = base.setSceneMode2D3D;
 
 window.Cesium = Cesium;
 
