@@ -1,4 +1,4 @@
-import * as Cesium from '@modules/cesium/Source/Cesium';
+import * as Cesium from 'cesium';
 import './tip.css';
 
 class Tip {

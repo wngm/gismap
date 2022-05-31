@@ -3,7 +3,6 @@
 //   this.viewer.zoomTo();
 // }
 
-
 /**
    *
    * 缩进视图
@@ -94,20 +93,20 @@ function setSky(sources) {
  * 恢复默认星空背景图
  * @memberof GisMap
  */
-function resetSky(){
+function resetSky() {
   const { viewer, Cesium } = this;
-  const base_url = globalThis.CESIUM_BASE_URL
+  const baseUrl = globalThis.CESIUM_BASE_URL;
   viewer.scene.skyBox = new Cesium.SkyBox({
-    sources : {
-    positiveX : base_url+'/Assets/Textures/SkyBox/tycho2t3_80_px.jpg',
-      negativeX : base_url+'/Assets/Textures/SkyBox//tycho2t3_80_mx.jpg',
-      positiveY : base_url+'/Assets/Textures/SkyBox//tycho2t3_80_py.jpg',
-      negativeY : base_url+'/Assets/Textures/SkyBox//tycho2t3_80_my.jpg',
-      positiveZ : base_url+'/Assets/Textures/SkyBox//tycho2t3_80_pz.jpg',
-      negativeZ : base_url+'/Assets/Textures/SkyBox//tycho2t3_80_mz.jpg'
-    }})
+    sources: {
+      positiveX: `${baseUrl}/Assets/Textures/SkyBox/tycho2t3_80_px.jpg`,
+      negativeX: `${baseUrl}/Assets/Textures/SkyBox//tycho2t3_80_mx.jpg`,
+      positiveY: `${baseUrl}/Assets/Textures/SkyBox//tycho2t3_80_py.jpg`,
+      negativeY: `${baseUrl}/Assets/Textures/SkyBox//tycho2t3_80_my.jpg`,
+      positiveZ: `${baseUrl}/Assets/Textures/SkyBox//tycho2t3_80_pz.jpg`,
+      negativeZ: `${baseUrl}/Assets/Textures/SkyBox//tycho2t3_80_mz.jpg`,
+    },
+  });
 }
-
 
 /**
  *
@@ -117,6 +116,12 @@ function resetSky(){
 function clearSky() {
   const { viewer } = this;
   viewer.scene.skyBox.show = false;
+}
+
+function canvas2image() {
+  const { viewer } = this;
+  const { canvas } = viewer.scene;
+  const genimg = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height, 'png');
 }
 
 export default {
