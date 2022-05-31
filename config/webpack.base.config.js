@@ -47,9 +47,6 @@ list.forEach((item) => {
   entry[item.name] = item.path;
 });
 
-// model
-entry.gisMap = path.resolve(__dirname, '../src/code/gisMap.js');
-
 module.exports = {
   mode: 'development',
   entry,
@@ -127,4 +124,16 @@ module.exports = {
     // ],
   },
   devServer: {},
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          name: 'commons',
+          chunks: 'initial',
+          minChunks: 2,
+        },
+      },
+    },
+
+  },
 };

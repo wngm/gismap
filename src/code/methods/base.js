@@ -121,7 +121,7 @@ function clearSky() {
 function canvas2image() {
   const { viewer } = this;
   const { canvas } = viewer.scene;
-  const genimg = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height, 'png');
+  // const genimg = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height, 'png');
 }
 
 export default {
