@@ -1,4 +1,14 @@
-declare interface IPosition {
+/*
+ * @Author: R10
+ * @Date: 2022-05-30 16:10:16
+ * @LastEditTime: 2022-05-31 17:29:00
+ * @LastEditors: R10
+ * @Description: 
+ * @FilePath: /gismap/src/code/gisMap.d.ts
+ */
+import { BillboardGraphics } from 'cesium'
+
+interface IPosition {
     longitude: number
     latitude: number
     height?: number
@@ -51,6 +61,10 @@ interface IPoint extends IPosition {
     [key: string]: any
 }
 
+interface ImgPoint extends IPoint {
+  billboard: BillboardGraphics.ConstructorOptions
+}
+
 type lineType = 'normal' | 'animate'
 interface ILineOPtions {
     lineType?: lineType
@@ -77,6 +91,7 @@ class GisMap {
     }
     setSceneMode2D3D(mode: 2 | 3): void { }
     drawPoint(data: IPoint)
+    drawImgPoint(data: ImgPoint)
     drawLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
     drawAnimateLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
     setWeather(weather: weather): void

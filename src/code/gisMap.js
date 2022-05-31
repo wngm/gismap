@@ -19,7 +19,6 @@ window.CESIUM_BASE_URL = '/static/Cesium';
 // Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZGE5MmI2Yy1jZmVmLTQyZGUtYjk4Ni02ODBiYWFiZDZkOGYiLCJpZCI6MjU3MDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODY0MjQyMDR9.dx-BAVwhWMWfgJb49x2XZEVP-EjFxMvihn8Lca6EXYU';
 
 // id 累加计数器
-let _id = 1;
 
 class GisMap {
   static version = '1.0.0';
@@ -157,117 +156,6 @@ class GisMap {
     //   this.camera.lookAt(center,  new Cesium.HeadingPitchRange(0.01, Cesium.Math.toRadians(-90.0), 0.01))
     // }
   }
-
-  /**
-   *
-   * 绘制动态线段
-   * @param {Point[]} points
-   * @param {Object} [options={}]
-   * @memberof GisMap
-   * @returns {*}
-   */
-  drawAnimateLine(points, options = {}) {
-    _id += 1;
-    if (points.length < 2) {
-      return;
-    }
-
-    const pointsArray = points.reduce((a, b) => a.concat(b), []);
-    const entity = new Cesium.Entity({
-      id: Number.prototype.toString.apply(_id),
-      // show: true,
-      // tip:{show:true,content:'这是线段'},
-      width: 2,
-      ...options,
-      polyline: {
-        positions: Cesium.Cartesian3.fromDegreesArrayHeights(pointsArray),
-        // material:  Cesium.Material.fromType(Cesium.Material.PolylineTrailLinkType),
-        material: new Cesium.PolylineTrailLinkMaterialProperty(
-          Cesium.Color.fromCssColorString(options.color || '#0099cc'),
-          2000,
-        ),
-        arcType: Cesium.ArcType.GEODESIC,
-        // clampToGround: true,
-      },
-    });
-
-    const line = this.viewer.entities.add(entity);
-
-    return line;
-  }
-
-  /**
-   *
-   * 绘制线段
-   * @param {Point[]} points
-   * @param {Object} [options={}]
-   * @memberof GisMap
-   * @returns {*}
-   */
-  drawLine = (points = [], options = {}) => {
-    if (points.length < 2) {
-      return;
-    }
-
-    const pointsArray = points.reduce((a, b) => a.concat(b), []);
-    _id += 1;
-    const entity = new Cesium.Entity({
-      id: Number.prototype.toString.apply(_id),
-      // show: true,
-      // tip:{show:true,content:'这是线段'},
-      width: 2,
-      ...options,
-      polyline: {
-        positions: Cesium.Cartesian3.fromDegreesArrayHeights(pointsArray),
-        // eslint-disable-next-line new-cap
-        material: new Cesium.Color.fromCssColorString(options.color || '#0099cc'),
-        arcType: Cesium.ArcType.GEODESIC,
-        // clampToGround: true,
-      },
-    });
-    this.viewer.entities.add(entity);
-    return entity;
-  };
-
-  /**
- *
- * 点绘制
- * @param {object} data
- * @returns {entity} entity
- * @memberof GisMap
- */
-  // drawPoint(data) {
-  //   const {
-  //     longitude,
-  //     latitude,
-  //     height,
-  //     key,
-  //     name,
-  //     pixelSize,
-  //     label,
-  //     tip,
-  //     menu,
-  //   } = data;
-
-  //   const pointOption = getPointOptions(data);
-  //   const lableOptiopns = getLabelOptions({
-  //     ...label,
-  //     pixelSize,
-  //   });
-  //   _id += 1;
-  //   const entity = new Cesium.Entity({
-  //     name,
-  //     id: key || Number.prototype.toString.apply(_id),
-  //     show: true,
-  //     position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
-  //     point: pointOption,
-  //     label: lableOptiopns,
-  //     tip,
-  //     menu,
-  //   });
-  //   this.viewer.entities.add(entity);
-  //   return entity;
-  // }
 
   /**
    *
