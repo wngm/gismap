@@ -1,3 +1,11 @@
+/*
+ * @Author: R10
+ * @Date: 2022-05-30 10:56:28
+ * @LastEditTime: 2022-05-31 10:11:24
+ * @LastEditors: R10
+ * @Description:
+ * @FilePath: /gismap/.eslintrc.js
+ */
 module.exports = {
   env: {
     browser: true,
@@ -5,8 +13,15 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
-      alias: [['/@', './src'], ['@modules', './node_modules']],
+      alias: {
+        map: [
+          ['@src', './src'], // 别名路径
+          ['@page', './src'], // 别名路径
+          ['@modules', './node_modules'], // 别名路径
+        ],
+      },
     },
+
   },
   extends: [
     'plugin:react/recommended',

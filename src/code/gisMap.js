@@ -1,6 +1,5 @@
-import * as Cesium from '@modules/cesium/Source/Cesium';
+import * as Cesium from 'cesium';
 import baseOptions from '../config/base';
-import { getPointOptions, getLabelOptions } from './entity';
 import Weather from './weather/index';
 import Tip from './common/tip';
 import Menu from './common/menu';
@@ -11,6 +10,7 @@ import camera from './methods/camera';
 import mouse from './methods/mouse';
 import base from './methods/base';
 import '@modules/cesium/Source/Widgets/widgets.css';
+import drawFns from './draw';
 
 material(Cesium);
 material2(Cesium);
@@ -236,38 +236,38 @@ class GisMap {
  * @returns {entity} entity
  * @memberof GisMap
  */
-  drawPoint(data) {
-    const {
-      longitude,
-      latitude,
-      height,
-      key,
-      name,
-      pixelSize,
-      label,
-      tip,
-      menu,
-    } = data;
+  // drawPoint(data) {
+  //   const {
+  //     longitude,
+  //     latitude,
+  //     height,
+  //     key,
+  //     name,
+  //     pixelSize,
+  //     label,
+  //     tip,
+  //     menu,
+  //   } = data;
 
-    const pointOption = getPointOptions(data);
-    const lableOptiopns = getLabelOptions({
-      ...label,
-      pixelSize,
-    });
-    _id += 1;
-    const entity = new Cesium.Entity({
-      name,
-      id: key || Number.prototype.toString.apply(_id),
-      show: true,
-      position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
-      point: pointOption,
-      label: lableOptiopns,
-      tip,
-      menu,
-    });
-    this.viewer.entities.add(entity);
-    return entity;
-  }
+  //   const pointOption = getPointOptions(data);
+  //   const lableOptiopns = getLabelOptions({
+  //     ...label,
+  //     pixelSize,
+  //   });
+  //   _id += 1;
+  //   const entity = new Cesium.Entity({
+  //     name,
+  //     id: key || Number.prototype.toString.apply(_id),
+  //     show: true,
+  //     position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
+  //     point: pointOption,
+  //     label: lableOptiopns,
+  //     tip,
+  //     menu,
+  //   });
+  //   this.viewer.entities.add(entity);
+  //   return entity;
+  // }
 
   /**
    *
@@ -416,6 +416,10 @@ GisMap.prototype.setSky = base.setSky;
 GisMap.prototype.clearSky = base.clearSky;
 GisMap.prototype.resetSky = base.resetSky;
 
+// 画图方法
+Object.keys(drawFns).forEach((key) => {
+  GisMap.prototype[key] = drawFns[key];
+});
 window.Cesium = Cesium;
 
 export default GisMap;
