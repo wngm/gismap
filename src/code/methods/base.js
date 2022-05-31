@@ -1,3 +1,4 @@
+import Canvas2Image from './canvas2image';
 // view zoomTo
 // function zoomTo() {
 //   this.viewer.zoomTo();
@@ -73,7 +74,7 @@ function setSceneMode2D3D(mode) {
 /**
  * 自定义星空背景图
  * @memberof GisMap
- * @param {[url,url,url,url,url,url]} sources 参考视角[右,左,下,上,前,后]
+ * @param {string[]} sources 参考视角[右,左,下,上,前,后]
  */
 function setSky(sources) {
   const { viewer, Cesium } = this;
@@ -117,11 +118,35 @@ function clearSky() {
   const { viewer } = this;
   viewer.scene.skyBox.show = false;
 }
-
-function canvas2image() {
+/**
+ *
+ * 截图功能
+ * @memberof GisMap
+ * @param {('file'|'base64'|'img')} [type = 'file']  返回图片类型 【file】返回下载文件；【base64】返回base64格式数据 【img】返回DOM
+ * @param {number} [width]  返回图片宽度 默认为画布宽度
+ * @param {number} [height] 返回图片高度 默认为画布高度
+ * @return {img} img 图片
+ */
+// eslint-disable-next-line default-param-last
+function canvas2image(type = 'file', width, height) {
   const { viewer } = this;
   const { canvas } = viewer.scene;
-  // const genimg = Canvas2Image.convertToImage(canvas, canvas.width, canvas.height, 'png');
+  const _width = width || canvas.width;
+  const _height = height || canvas.height;
+  let img = null;
+  switch (type) {
+    case 'base64':
+      img = Canvas2Image.saveAsData(canvas, _width, _height, 'png');
+      break;
+    case 'img':
+      img = Canvas2Image.convertToImage(canvas, _width, _height, 'png');
+      break;
+    default:
+      img = Canvas2Image.saveAsImage(canvas, _width, _height, 'png');
+      break;
+  }
+
+  return img;
 }
 
 export default {
@@ -131,4 +156,5 @@ export default {
   setSky,
   resetSky,
   clearSky,
+  canvas2image,
 };

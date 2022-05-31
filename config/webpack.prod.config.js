@@ -7,6 +7,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { merge } = require('webpack-merge');
 const webpackBase = require('./webpack.base.config.js');
 
+const entry = {};
+entry.gisMap = path.resolve(__dirname, '../src/code/gisMap.js');
+
 const webppackBuild = {
   mode: 'production',
   devtool: 'source-map',
@@ -28,11 +31,11 @@ const webppackBuild = {
 const cfg = merge(webpackBase, webppackBuild);
 
 // entry
-Object.getOwnPropertyNames(webpackBase.entry || {}).map((name) => {
-  cfg.entry[name] = []
-    // 添加webpack-dev-server客户端
-    .concat('webpack-dev-server/client?http://localhost:9091')
-    .concat(webpackBase.entry[name]);
-});
-
+// Object.getOwnPropertyNames(webpackBase.entry || {}).map((name) => {
+//   cfg.entry[name] = []
+//     // 添加webpack-dev-server客户端
+//     .concat('webpack-dev-server/client?http://localhost:9091')
+//     .concat(webpackBase.entry[name]);
+// });
+cfg.entry = entry;
 module.exports = cfg;

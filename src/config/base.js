@@ -16,6 +16,18 @@ export default {
   fullscreenButton: false,
   // skyBox: false,
   navigationInstructionsInitiallyVisible: false,
+  contextOptions: {
+    webgl: {
+      alpha: true,
+      depth: false,
+      stencil: true,
+      antialias: true,
+      premultipliedAlpha: true,
+      preserveDrawingBuffer: true,
+      failIfMajorPerformanceCaveat: true,
+    },
+    allowTextureFilterAnisotropic: true,
+  },
   // msaaSamples: 4,
   // 加载arcGis 暗色地图
   url: '/static/resource',
