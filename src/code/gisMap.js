@@ -413,6 +413,7 @@ GisMap.prototype.setSceneMode2D3D = base.setSceneMode2D3D;
 GisMap.prototype.setSky = base.setSky;
 GisMap.prototype.clearSky = base.clearSky;
 GisMap.prototype.resetSky = base.resetSky;
+GisMap.prototype.canvas2image = base.canvas2image;
 
 // 画图方法
 Object.keys(drawFns).forEach((key) => {
