@@ -1,4 +1,4 @@
-import * as Cesium from '@modules/cesium/Source/Cesium';
+import * as Cesium from 'cesium';
 
 function getLabelOptions(options) {
   const {

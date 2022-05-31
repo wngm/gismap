@@ -1,4 +1,4 @@
-import * as Cesium from '@modules/cesium/Source/Cesium';
+import * as Cesium from 'cesium';
 import baseOptions from '../config/base';
 import { getPointOptions, getLabelOptions } from './entity';
 import Weather from './weather/index';
@@ -16,7 +16,7 @@ material(Cesium);
 material2(Cesium);
 
 window.CESIUM_BASE_URL = '/static/Cesium';
-Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZGE5MmI2Yy1jZmVmLTQyZGUtYjk4Ni02ODBiYWFiZDZkOGYiLCJpZCI6MjU3MDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODY0MjQyMDR9.dx-BAVwhWMWfgJb49x2XZEVP-EjFxMvihn8Lca6EXYU';
+// Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZGE5MmI2Yy1jZmVmLTQyZGUtYjk4Ni02ODBiYWFiZDZkOGYiLCJpZCI6MjU3MDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODY0MjQyMDR9.dx-BAVwhWMWfgJb49x2XZEVP-EjFxMvihn8Lca6EXYU';
 
 // id 累加计数器
 let _id = 1;
@@ -397,20 +397,18 @@ class GisMap {
     return this;
   }
 }
-
+// 摄像机事件
 GisMap.prototype.addCameraEvent = camera.addCameraEvent;
 GisMap.prototype.removeCameraEvent = camera.removeCameraEvent;
 GisMap.prototype.getCameraPosition = camera.getCameraPosition;
 GisMap.prototype.getCameraHeight = camera.getCameraHeight;
 // 鼠标事件
-
 GisMap.prototype.addMouseEvent = mouse.addMouseEvent;
 GisMap.prototype.removeMouseEvent = mouse.removeMouseEvent;
 // 缩放
 GisMap.prototype.zoomIn = base.zoomIn;
 GisMap.prototype.zoomOut = base.zoomOut;
 GisMap.prototype.setSceneMode2D3D = base.setSceneMode2D3D;
-
 // 星空背景
 GisMap.prototype.setSky = base.setSky;
 GisMap.prototype.clearSky = base.clearSky;
