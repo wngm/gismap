@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-05-30 10:56:28
- * @LastEditTime: 2022-05-31 10:11:24
+ * @LastEditTime: 2022-06-01 13:49:53
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/.eslintrc.js
@@ -44,6 +44,7 @@ module.exports = {
     'consistent-return': 0,
     'jsx-a11y/interactive-supports-focus': 0,
     'jsx-a11y/no-static-element-interactions': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
     // 'new-cap': ['error', { newIsCap: 'never' }],
   },
 };

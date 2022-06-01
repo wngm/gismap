@@ -2,7 +2,7 @@
 /*
  * @Author: R10
  * @Date: 2022-05-31 09:31:52
- * @LastEditTime: 2022-05-31 17:40:01
+ * @LastEditTime: 2022-06-01 10:54:42
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/code/draw/point.js
@@ -65,15 +65,14 @@ function drawImgPoint(data) {
     height,
     key,
     name,
-    pixelSize,
     label,
     tip,
     menu,
+    imgOptions,
   } = data;
 
   const labelOptions = getLabelOptions({
     ...label,
-    pixelSize,
   });
   _id += 1;
   const entity = new Entity({
@@ -83,7 +82,7 @@ function drawImgPoint(data) {
     billboard: {
       width: 40,
       height: 40,
-      ...data.billboard,
+      ...imgOptions,
     },
     position: Cartesian3.fromDegrees(longitude, latitude, height),
     label: labelOptions,

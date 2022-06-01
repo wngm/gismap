@@ -1,12 +1,12 @@
 /*
  * @Author: R10
  * @Date: 2022-05-30 16:10:16
- * @LastEditTime: 2022-05-31 17:29:00
+ * @LastEditTime: 2022-06-01 16:56:03
  * @LastEditors: R10
  * @Description: 
  * @FilePath: /gismap/src/code/gisMap.d.ts
  */
-import { BillboardGraphics } from 'cesium'
+import { BillboardGraphics, LabelGraphics } from 'cesium'
 
 interface IPosition {
     longitude: number
@@ -18,18 +18,29 @@ declare type CssColor = String
 declare interface IKeyValue {
     [key: string]: any
 }
-interface Label {
-    show?: boolean
-    text: string
-    fillColor?: CssColor // 标签填充颜色
-    outlineColor?: CssColor // 标签字体轮廓
-}
 
 interface Tip {
     show?: boolean
     content: string
     style?: {}
     className?: string
+}
+
+interface CircleProps extends IPoint {
+  radius: number // meter
+}
+interface EllipseProps extends IPoint {
+  semiMinorAxis: number // meter
+  semiMajorAxis: number // meter
+}
+interface RectProps extends IPoint {
+  coordinates: [
+    [number, number],
+    [number, number]
+  ]
+}
+interface PolygonProps extends IPoint {
+  coordinates: [number,number, number][]
 }
 
 interface MenuItem {
@@ -54,15 +65,17 @@ interface IPoint extends IPosition {
     pixelSize?: number
     color?: string
     // 标签
-    label?: Label
+    label?: LabelGraphics.ConstructorOptions
     // 提示信息
     tip?: Tip
     menu?: Menu
+    highlight?: boolean
+    highlightColor?: string
     [key: string]: any
 }
 
 interface ImgPoint extends IPoint {
-  billboard: BillboardGraphics.ConstructorOptions
+  imgOptions: BillboardGraphics.ConstructorOptions
 }
 
 type lineType = 'normal' | 'animate'
@@ -92,6 +105,10 @@ class GisMap {
     setSceneMode2D3D(mode: 2 | 3): void { }
     drawPoint(data: IPoint)
     drawImgPoint(data: ImgPoint)
+    drawCircle(data: CircleProps)
+    drawEllipse(data: EllipseProps)
+    drawRect(data: RectProps)
+    drawPolygon(data: PolygonProps)
     drawLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
     drawAnimateLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
     setWeather(weather: weather): void

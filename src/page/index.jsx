@@ -16,7 +16,6 @@ function Content() {
   const [height, setheight] = useState(10);
   const [labelName, setLabelName] = useState('测试点');
   const [tip, setTip] = useState('点的描述信息');
-
   const setView = useCallback(() => {
     gisMap.setView({ longitude: Number(longitude), latitude: Number(latitude), height: Number(height) });
   }, [latitude, longitude, height]);
@@ -81,7 +80,7 @@ function Content() {
           outlineColor: '#ff0000',
           fillColor: 'rgba(173, 255, 47,1)',
         },
-        billboard: {
+        imgOptions: {
           width: 50,
           height: 50,
           image: pointImg,
@@ -106,6 +105,19 @@ function Content() {
             }
           },
         },
+      },
+    );
+    console.log('new point ', point);
+  };
+  const drawCircle = () => {
+    const point = gisMap.drawCircle(
+      {
+        name,
+        color: 'rgba(212,225,127,0.5)',
+        radius: 1000000,
+        longitude: Number(123),
+        latitude: Number(70),
+        height: Number(height),
       },
     );
     console.log('new point ', point);
@@ -146,6 +158,7 @@ function Content() {
       <div className="btn" onClick={setView}>设置显示</div>
       <div className="btn" onClick={drawMpoint}>绘点</div>
       <div className="btn" onClick={drawImgPoint}>绘图片点</div>
+      <div className="btn" onClick={drawCircle}>绘圆</div>
       <div className="btn" onClick={zoomIn}>放大</div>
       <div className="btn" onClick={zoomOut}>缩小</div>
       <div className="btn" onClick={switchType}>2D/3D</div>

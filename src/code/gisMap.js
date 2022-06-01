@@ -114,6 +114,15 @@ class GisMap {
         this.unHandleMenu();
       }
     }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+    // 高亮id设置
+    handler.setInputAction((movement) => {
+      const moveFeature = this.viewer.scene.pick(movement.endPosition);
+      if (!Cesium.defined(moveFeature)) {
+        this.moveActiveId = undefined;
+      } else if (moveFeature.id.highlight) {
+        this.moveActiveId = moveFeature.id.id;
+      }
+    }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
 
   /**
