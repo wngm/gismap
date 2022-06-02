@@ -9,6 +9,7 @@ import { computeCircle } from './utils';
 import camera from './methods/camera';
 import mouse from './methods/mouse';
 import base from './methods/base';
+import { MeasureLine, MeasurePolygn } from './tools';
 import '@modules/cesium/Source/Widgets/widgets.css';
 import drawFns from './draw';
 
@@ -290,6 +291,15 @@ class GisMap {
     }
   }
 
+  /**
+   *
+   * 销毁GisMap实例
+   * @memberof GisMap
+   */
+  destroy() {
+    this.viewer.destroy();
+  }
+
   test() {
     return this;
   }
@@ -311,6 +321,9 @@ GisMap.prototype.setSky = base.setSky;
 GisMap.prototype.clearSky = base.clearSky;
 GisMap.prototype.resetSky = base.resetSky;
 GisMap.prototype.canvas2image = base.canvas2image;
+// 测量工具
+GisMap.prototype.measureLine = function measureLine() { return new MeasureLine(this.viewer); };
+GisMap.prototype.measurePolygn = function measurePolygn() { return new MeasurePolygn(this.viewer); };
 
 // 画图方法
 Object.keys(drawFns).forEach((key) => {

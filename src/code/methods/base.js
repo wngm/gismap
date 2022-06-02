@@ -120,7 +120,7 @@ function clearSky() {
 }
 /**
  *
- * 截图功能
+ *  截屏截图功能
  * @memberof GisMap
  * @param {('file'|'base64'|'img')} [type = 'file']  返回图片类型 【file】返回下载文件；【base64】返回base64格式数据 【img】返回DOM
  * @param {number} [width]  返回图片宽度 默认为画布宽度
