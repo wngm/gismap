@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-05-30 16:10:16
- * @LastEditTime: 2022-06-01 16:56:03
+ * @LastEditTime: 2022-06-02 11:20:46
  * @LastEditors: R10
  * @Description: 
  * @FilePath: /gismap/src/code/gisMap.d.ts
@@ -38,6 +38,13 @@ interface RectProps extends IPoint {
     [number, number],
     [number, number]
   ]
+}
+interface RadarProps {
+  longitude: number
+  latitude: number
+  r: number
+  scanColor: any
+  interval: number
 }
 interface PolygonProps extends IPoint {
   coordinates: [number,number, number][]
@@ -108,7 +115,9 @@ class GisMap {
     drawCircle(data: CircleProps)
     drawEllipse(data: EllipseProps)
     drawRect(data: RectProps)
-    drawPolygon(data: PolygonProps)
+    drawPolygon(data: RadarProps)
+    addCircleScan(data: RadarProps)
+    addRadarScan(data: PolygonProps)
     drawLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
     drawAnimateLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
     setWeather(weather: weather): void

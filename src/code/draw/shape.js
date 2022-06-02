@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-06-01 09:12:17
- * @LastEditTime: 2022-06-01 17:34:49
+ * @LastEditTime: 2022-06-02 09:31:19
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/code/draw/shape.js
@@ -29,16 +29,24 @@ function drawCircle(data) {
     name,
     radius,
     color,
+    highlight,
+    highlightColor,
   } = data;
-
+  const id = key || _id;
   const entity = new Entity({
     name,
-    id: key || _id,
+    id,
     show: true,
+    highlight,
     ellipse: {
       semiMinorAxis: radius,
       semiMajorAxis: radius,
-      material: Color.fromCssColorString(color),
+      material: new ColorMaterialProperty(new CallbackProperty(() => {
+        if (id === this.moveActiveId) {
+          return Color.fromCssColorString(highlightColor);
+        }
+        return Color.fromCssColorString(color);
+      }, false)),
       outline: false,
     },
     position: Cartesian3.fromDegrees(longitude, latitude, height),
@@ -65,16 +73,24 @@ function drawEllipse(data) {
     semiMajorAxis,
     semiMinorAxis,
     color,
+    highlight,
+    highlightColor,
   } = data;
-
+  const id = key || _id;
   const entity = new Entity({
     name,
-    id: key || _id,
+    id,
     show: true,
+    highlight,
     ellipse: {
       semiMinorAxis,
       semiMajorAxis,
-      material: Color.fromCssColorString(color),
+      material: new ColorMaterialProperty(new CallbackProperty(() => {
+        if (id === this.moveActiveId) {
+          return Color.fromCssColorString(highlightColor);
+        }
+        return Color.fromCssColorString(color);
+      }, false)),
       outline: false,
     },
     position: Cartesian3.fromDegrees(longitude, latitude, height),
@@ -95,15 +111,24 @@ function drawRect(data) {
     key,
     name,
     coordinates,
+    highlightColor,
+    highlight,
     color,
   } = data;
+  const id = _id || key;
   const entity = new Entity({
     name,
-    id: key || _id,
+    id,
     show: true,
+    highlight,
     rectangle: {
       coordinates: Rectangle.fromDegrees(...coordinates.flat(Infinity)),
-      material: Color.fromCssColorString(color),
+      material: new ColorMaterialProperty(new CallbackProperty(() => {
+        if (id === this.moveActiveId) {
+          return Color.fromCssColorString(highlightColor);
+        }
+        return Color.fromCssColorString(color);
+      }, false)),
     },
   });
   this.viewer.entities.add(entity);
@@ -123,6 +148,8 @@ function drawPolygon(data) {
     key,
     name,
     coordinates,
+    highlightColor,
+    highlight,
     color,
   } = data;
   const id = key || _id;
@@ -135,13 +162,13 @@ function drawPolygon(data) {
       },
       material: new ColorMaterialProperty(new CallbackProperty(() => {
         if (id === this.moveActiveId) {
-          return Color.YELLOW;
+          return Color.fromCssColorString(highlightColor);
         }
         return Color.fromCssColorString(color);
       }, false)),
       outline: false,
     },
-    highlight: true,
+    highlight,
   });
   return polygon;
 }

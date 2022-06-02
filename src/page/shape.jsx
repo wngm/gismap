@@ -1,13 +1,14 @@
 /*
  * @Author: R10
  * @Date: 2022-06-01 13:47:55
- * @LastEditTime: 2022-06-01 16:56:34
+ * @LastEditTime: 2022-06-02 11:54:43
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/page/shape.jsx
  */
 import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
+import { Color } from 'cesium';
 import GisMap from '../code/gisMap';
 import './index.less';
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
@@ -43,6 +44,8 @@ function Content() {
   const drawRect = () => {
     gisMap.drawRect({
       color: 'orange',
+      highlight: true,
+      highlightColor: 'red',
       coordinates: [
         [106, 27],
         [110, 30],
@@ -64,7 +67,16 @@ function Content() {
       ],
     });
   };
-
+  const addCircleScan = () => {
+    gisMap.addCircleScan({
+      longitude: 113.665412, latitude: 34.757975, r: 50000, scanColor: new Color(1.0, 0.0, 0.0, 1), interval: 1000,
+    });
+  };
+  const addRadarScan = () => {
+    gisMap.addRadarScan({
+      longitude: 113.665412, latitude: 34.757975, r: 50000, scanColor: new Color(1.0, 0.0, 0.0, 1), interval: 1000,
+    });
+  };
   return (
     <div className="box">
       <div />
@@ -72,6 +84,8 @@ function Content() {
       <div className="btn" onClick={drawEllipse}>画椭圆</div>
       <div className="btn" onClick={drawRect}>画矩形</div>
       <div className="btn" onClick={drawPolygon}>多边形</div>
+      <div className="btn" onClick={addCircleScan}>圆扫描</div>
+      <div className="btn" onClick={addRadarScan}>扇形扫描</div>
       {/* <div className="btn" onClick={test}>暂停</div>       */}
       {/* <div className="btn" onClick={test2}>运动</div>       */}
 
