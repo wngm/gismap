@@ -322,8 +322,8 @@ GisMap.prototype.clearSky = base.clearSky;
 GisMap.prototype.resetSky = base.resetSky;
 GisMap.prototype.canvas2image = base.canvas2image;
 // 测量工具
-GisMap.prototype.measureLine = function measureLine() { return new MeasureLine(this.viewer); };
-GisMap.prototype.measurePolygn = function measurePolygn() { return new MeasurePolygn(this.viewer); };
+GisMap.prototype.measureLine = function measureLine(options) { return new MeasureLine(this.viewer, options); };
+GisMap.prototype.measurePolygn = function measurePolygn(options) { return new MeasurePolygn(this.viewer, options); };
 
 // 画图方法
 Object.keys(drawFns).forEach((key) => {

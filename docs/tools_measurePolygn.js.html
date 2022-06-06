@@ -1,4 +1,45 @@
-/* eslint-disable no-param-reassign */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>tools/measurePolygn.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="GisMap.html">GisMap</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.addCameraEvent">addCameraEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.addMouseEvent">addMouseEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.canvas2image">canvas2image</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.clearSky">clearSky</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.getCameraHeight">getCameraHeight</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.getCameraPosition">getCameraPosition</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.removeCameraEvent">removeCameraEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.removeMouseEvent">removeMouseEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.resetSky">resetSky</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.setSceneMode2D3D">setSceneMode2D3D</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.setSky">setSky</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.zoomIn">zoomIn</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.zoomOut">zoomOut</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#clearWeather">clearWeather</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#remove">remove</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#setView">setView</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#setWeather">setWeather</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MeasureLine.html">MeasureLine</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeasureLine.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeasureLine.html#finish">finish</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MeasurePolygn.html">MeasurePolygn</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeasurePolygn.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeasurePolygn.html#finish">finish</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">tools/measurePolygn.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-param-reassign */
 /* eslint-disable no-plusplus */
 /* eslint-disable func-names */
 import * as Cesium from 'cesium';
@@ -12,7 +53,7 @@ function Bearing(from, to) {
   const lat2 = to.lat * radiansPerDegree;
   const lon2 = to.lon * radiansPerDegree;
   let angle = -Math.atan2(Math.sin(lon1 - lon2) * Math.cos(lat2), Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2));
-  if (angle < 0) {
+  if (angle &lt; 0) {
     angle += Math.PI * 2.0;
   }
   angle *= degreesPerRadian;// 角度
@@ -23,7 +64,7 @@ function Angle(p1, p2, p3) {
   const bearing21 = Bearing(p2, p1);
   const bearing23 = Bearing(p2, p3);
   let angle = bearing21 - bearing23;
-  if (angle < 0) {
+  if (angle &lt; 0) {
     angle += 360;
   }
   return angle;
@@ -82,7 +123,7 @@ class MeasurePolygn {
     geodesic.setEndPoints(point1cartographic, point2cartographic);
     const s = geodesic.surfaceDistance;
     const cartoPts = [point1cartographic];
-    for (let jj = 1000; jj < s; jj += 1000) {
+    for (let jj = 1000; jj &lt; s; jj += 1000) {
       // 分段采样计算距离
       const cartoPt = geodesic.interpolateUsingSurfaceDistance(jj);
       cartoPts.push(cartoPt);
@@ -91,7 +132,7 @@ class MeasurePolygn {
     // 返回两点之间的距离
     const promise = Cesium.sampleTerrain(viewer.terrainProvider, 8, cartoPts);
     Cesium.when(promise, (updatedPositions) => {
-      for (let jj = 0; jj < updatedPositions.length - 1; jj++) {
+      for (let jj = 0; jj &lt; updatedPositions.length - 1; jj++) {
         const geoD = new Cesium.EllipsoidGeodesic();
         geoD.setEndPoints(updatedPositions[jj], updatedPositions[jj + 1]);
         let innerS = geoD.surfaceDistance;
@@ -204,7 +245,7 @@ class MeasurePolygn {
   getArea(points) {
     let res = 0;
     // 拆分三角曲面
-    for (let i = 0; i < points.length - 2; i++) {
+    for (let i = 0; i &lt; points.length - 2; i++) {
       const j = (i + 1) % points.length;
       const k = (i + 2) % points.length;
       const totalAngle = Angle(points[i], points[j], points[k]);
@@ -250,7 +291,7 @@ class MeasurePolygn {
     });
     const data = { points: this.positions, value: area };
     // eslint-disable-next-line no-unused-expressions
-    this.onFinish && this.onFinish(data);
+    this.onFinish &amp;&amp; this.onFinish(data);
     return data;
   }
 
@@ -265,3 +306,22 @@ class MeasurePolygn {
 }
 
 export default MeasurePolygn;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Mon Jun 06 2022 17:19:26 GMT+0800 (中国标准时间) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import GisMap from '../code/gisMap';
 import './index.less';
@@ -7,24 +7,37 @@ const gisMap = new GisMap('cesium');
 
 window.gisMap = gisMap;
 function Content() {
+  const [measure, setMeasure] = useState(null);
   const getImage = () => {
     const img = gisMap.canvas2image('file');
     console.log('image', img);
   };
 
   const getDistance = () => {
-    const measure = gisMap.measureLine();
-    console.log(measure);
+    const _measure = gisMap.measureLine();
+    setMeasure(_measure);
+    console.log(_measure);
+  };
+  const removeDistance = () => {
+    const result = measure && measure.finish();
+    console.log(result, 33);
   };
   const getSize = () => {
-    gisMap.measurePolygn(gisMap.viewer);
+    const _measure = gisMap.measurePolygn(gisMap.viewer);
+    setMeasure(_measure);
+  };
+  const removeSize = () => {
+    const result = measure && measure.finish();
+    console.log(result, 22223);
   };
 
   return (
     <div className="box">
       <div className="btn" role="none" onClick={() => getImage()}>截图</div>
       <div className="btn" role="none" onClick={() => getDistance()}>测量距离</div>
+      <div className="btn" role="none" onClick={() => removeDistance()}>完成测量距离</div>
       <div className="btn" role="none" onClick={() => getSize()}>测量面积</div>
+      <div className="btn" role="none" onClick={() => removeSize()}>完成测量面积</div>
     </div>
   );
 }
