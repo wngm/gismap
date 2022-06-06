@@ -2,12 +2,12 @@
 /*
  * @Author: R10
  * @Date: 2022-05-31 09:31:52
- * @LastEditTime: 2022-06-01 10:54:42
+ * @LastEditTime: 2022-06-06 16:01:19
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/code/draw/point.js
  */
-import { Entity, Cartesian3 } from 'cesium';
+import { Entity, Cartesian3, HeightReference } from 'cesium';
 import { getPointOptions, getLabelOptions } from '../entity';
 
 let _id = 1;
@@ -42,6 +42,7 @@ function drawPoint(data) {
     id: key || Number.prototype.toString.apply(_id),
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
+    heightReference: HeightReference.CLAMP_TO_GROUND,
     point: pointOption,
     label: labelOptions,
     tip,
@@ -85,6 +86,7 @@ function drawImgPoint(data) {
       ...imgOptions,
     },
     position: Cartesian3.fromDegrees(longitude, latitude, height),
+    heightReference: HeightReference.CLAMP_TO_GROUND,
     label: labelOptions,
     tip,
     menu,

@@ -12,6 +12,7 @@ import base from './methods/base';
 import { MeasureLine, MeasurePolygn } from './tools';
 import '@modules/cesium/Source/Widgets/widgets.css';
 import drawFns from './draw';
+import paintFns from './paint';
 
 material(Cesium);
 material2(Cesium);
@@ -46,6 +47,8 @@ class GisMap {
     this.contextMenu = null;
     //  事件中心
     this.eventCenter = {};
+    // 绘图事件集合
+    this.paintHandler = [];
     this.init(container, options);
   }
 
@@ -57,7 +60,7 @@ class GisMap {
     this.viewer = new Cesium.Viewer(container, { ...baseOptions, ...options });
     this.scene = this.viewer.scene;
     this.camera = this.viewer.camera;
-    this.viewer.scene.globe.depthTestAgainstTerrain = true;
+    this.viewer.scene.globe.depthTestAgainstTerrain = false;
     // 开启抗锯齿
     // this.scene.fxaa = true;
     // this.scene.postProcessStages.fxaa.enabled = true;
@@ -326,8 +329,11 @@ GisMap.prototype.measureLine = function measureLine() { return new MeasureLine(t
 GisMap.prototype.measurePolygn = function measurePolygn() { return new MeasurePolygn(this.viewer); };
 
 // 画图方法
-Object.keys(drawFns).forEach((key) => {
-  GisMap.prototype[key] = drawFns[key];
+const fns = {
+  ...drawFns, ...paintFns,
+};
+Object.keys(fns).forEach((key) => {
+  GisMap.prototype[key] = fns[key];
 });
 window.Cesium = Cesium;
 
