@@ -123,6 +123,8 @@ class GisMap {
   remove(id: string): void { }
   paintPoint(data: IPoint, callback: () => {})
   paintImgPoint(data: ImgPoint, callback: () => {})
+  paintLine(data: IPoint, callback: () => {})
+  paintRect(data: IPoint, callback: () => {})
 }
 
 

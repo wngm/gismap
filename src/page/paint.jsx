@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-06-01 13:47:55
- * @LastEditTime: 2022-06-06 16:48:20
+ * @LastEditTime: 2022-06-07 16:18:05
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/page/paint.jsx
@@ -62,6 +62,12 @@ function Content() {
                 image: pointImg,
               },
             });
+            break;
+          case '3':
+            gisMap.paintLine();
+            break;
+          case '4':
+            gisMap.paintRect();
             break;
           default: console.log(e);
         }
