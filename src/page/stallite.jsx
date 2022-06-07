@@ -5,6 +5,11 @@ import './index.less';
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap('cesium');
 
+gisMap.setView({
+  longitude: 106.038795,
+  latitude: 31.042339,
+  height: 9853204,
+});
 window.gisMap = gisMap;
 function Content() {
   const [measure, setMeasure] = useState(null);

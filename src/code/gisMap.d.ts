@@ -52,7 +52,7 @@ interface Menu {
   menuItems: MenuItem[]
   style?: {}
   className?: string
-  onSelect?: function (key): void
+  onSelect?(key: string): void
 }
 interface IPoint extends IPosition {
   //类型
@@ -88,20 +88,13 @@ interface ILineOPtions {
 type weather = 'rain ' | 'snow' | 'fog'
 
 
-class GisMap {
-  constructor(dom: any) {
-
-  }
-  setView(data: IPosition): void {
-
-  }
-  setDefaultPosition(data: IPosition): void {
-  }
-  zoomIn(scale: number): scale {
-  }
-  zoomoOut(scale: number): scale {
-  }
-  setSceneMode2D3D(mode: 2 | 3): void { }
+declare class GisMap {
+  constructor(dom: any)
+  setView(data: IPosition): void
+  setDefaultPosition(data: IPosition): void
+  zoomIn(scale: number): number
+  zoomoOut(scale: number): number
+  setSceneMode2D3D(mode: 2 | 3): void
   drawPoint(data: IPoint)
   drawImgPoint(data: ImgPoint)
   drawCircle(data: CircleProps)
@@ -110,8 +103,8 @@ class GisMap {
   drawPolygon(data: RadarProps)
   addCircleScan(data: RadarProps)
   addRadarScan(data: PolygonProps)
-  drawLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
-  drawAnimateLine(start: IPoint, end: IPoint, options: ILineOPtions): void { }
+  drawLine(start: IPoint, end: IPoint, options: ILineOPtions): void
+  drawAnimateLine(start: IPoint, end: IPoint, options: ILineOPtions): void
   setWeather(weather: weather): void
   clearWeather(): void
   setSky(urls: Array<string>): void
