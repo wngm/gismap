@@ -4,7 +4,7 @@
         "dictionaries": ["jsdoc","closure"]
     },
     "source": {
-        "include": [ "./src/code","./src/code/methods" ],
+        "include": [ "./src/code","./src/code/methods", "./src/code/draw"],
         "includePattern": ".+\\.js(doc)?$",
         "excludePattern": "(^|\\/|\\\\)_"
     },
@@ -15,6 +15,6 @@
     },
     "opts": {
         "template": "node_modules/minami",
-        "destination": "./doc/"
+        "destination": "./docs/"
     }
 }

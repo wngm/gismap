@@ -1,4 +1,4 @@
-import * as Cesium from '@modules/cesium/Source/Cesium';
+import * as Cesium from 'cesium';
 import React, { useState, useCallback } from 'react';
 import { createRoot } from 'react-dom/client';
 import GisMap from '../code/gisMap';

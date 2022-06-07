@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const CopyPlugin = require('copy-webpack-plugin');
 
 const dist = path.resolve(__dirname, '../dist/');
-
+const pathDir = (pathname) => path.resolve(__dirname, pathname);
 // 获取路径下所有文件 地址
 function getFiles(jsonPath) {
   const jsonFiles = [];
@@ -47,9 +47,6 @@ list.forEach((item) => {
   entry[item.name] = item.path;
 });
 
-// model
-entry.gisMap = path.resolve(__dirname, '../src/code/gisMap.js');
-
 module.exports = {
   mode: 'development',
   entry,
@@ -68,9 +65,9 @@ module.exports = {
   // },
   resolve: {
     alias: {
-      '@src': path.resolve('src'),
-      '@modules': path.resolve('node_modules'),
-      '@pages': path.resolve('src/page'),
+      '@src': pathDir('../src'),
+      '@modules': pathDir('../node_modules'),
+      '@pages': pathDir('../src/page'),
     },
   },
   devtool: 'inline-source-map',
@@ -127,4 +124,16 @@ module.exports = {
     // ],
   },
   devServer: {},
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          name: 'commons',
+          chunks: 'initial',
+          minChunks: 2,
+        },
+      },
+    },
+
+  },
 };

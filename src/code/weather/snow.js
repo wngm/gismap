@@ -1,26 +1,26 @@
-
-import * as Cesium from "@modules/cesium/Source/Cesium";
+import * as Cesium from 'cesium';
 
 class Snow {
-    constructor(viewer){
-        this.viewer = viewer
-        // this.viewer = new Cesium.viewer()
+  constructor(viewer) {
+    this.viewer = viewer;
+    // this.viewer = new Cesium.viewer()
+  }
 
-    }
-    init(){
-        this.collecttion = this.viewer.scene.postProcessStages;
-        this._snow= new Cesium.PostProcessStage({
-            name:'snow',
-            fragmentShader:this.getSnow()
-        })
-        this.collecttion.add(this._snow)
+  init() {
+    this.collecttion = this.viewer.scene.postProcessStages;
+    this._snow = new Cesium.PostProcessStage({
+      name: 'snow',
+      fragmentShader: this.getSnow(),
+    });
+    this.collecttion.add(this._snow);
 
-        this.viewer.scene.fog.density = 0.001;
-        this.viewer.scene.fog.minimumBrightness = 0.8;
-    }
-    getSnow(){
+    this.viewer.scene.fog.density = 0.001;
+    this.viewer.scene.fog.minimumBrightness = 0.8;
+  }
 
-        return `uniform sampler2D colorTexture;
+  // eslint-disable-next-line class-methods-use-this
+  getSnow() {
+    return `uniform sampler2D colorTexture;
         varying vec2 v_textureCoordinates;
         float snow(vec2 uv,float scale)
         {
@@ -47,13 +47,12 @@ class Snow {
             finalColor=(vec3(c));
             gl_FragColor = mix(texture2D(colorTexture, v_textureCoordinates), vec4(finalColor,1), 0.5);
         }
-        `
+        `;
+  }
 
-    }
-
-    destroy(){
-        this.viewer.scene.postProcessStages.remove(this._snow)
-    }
+  destroy() {
+    this.viewer.scene.postProcessStages.remove(this._snow);
+  }
 }
 
-export default Snow
+export default Snow;

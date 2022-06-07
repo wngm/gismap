@@ -1,26 +1,26 @@
-
-import * as Cesium from "@modules/cesium/Source/Cesium";
+import * as Cesium from 'cesium';
 
 class Fog {
-    constructor(viewer){
-        this.viewer = viewer
-        // this.viewer = new Cesium.viewer()
+  constructor(viewer) {
+    this.viewer = viewer;
+    // this.viewer = new Cesium.viewer()
+  }
 
-    }
-    init(){
-        this.collecttion = this.viewer.scene.postProcessStages;
-        this._fog= new Cesium.PostProcessStage({
-            name:'fog',
-            fragmentShader:this.getFog()
-        })
-        this.collecttion.add(this._fog)
+  init() {
+    this.collecttion = this.viewer.scene.postProcessStages;
+    this._fog = new Cesium.PostProcessStage({
+      name: 'fog',
+      fragmentShader: this.getFog(),
+    });
+    this.collecttion.add(this._fog);
 
-        this.viewer.scene.fog.density = 0.001;
-        this.viewer.scene.fog.minimumBrightness = 0.8;
-    }
-    getFog(){
+    this.viewer.scene.fog.density = 0.001;
+    this.viewer.scene.fog.minimumBrightness = 0.8;
+  }
 
-        return `uniform sampler2D colorTexture;
+  // eslint-disable-next-line class-methods-use-this
+  getFog() {
+    return `uniform sampler2D colorTexture;
         uniform sampler2D depthTexture;
         varying vec2 v_textureCoordinates;
         void main(void){
@@ -33,12 +33,12 @@ class Fog {
             else if(f>1.0) f=1.0;
             gl_FragColor = mix(origcolor,fogcolor,f);
         }
-        `
+        `;
+  }
 
-    }
-    destroy(){
-        this.viewer.scene.postProcessStages.remove(this._fog)
-    }
+  destroy() {
+    this.viewer.scene.postProcessStages.remove(this._fog);
+  }
 }
 
-export default Fog
+export default Fog;

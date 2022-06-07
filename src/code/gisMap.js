@@ -1,6 +1,5 @@
-import * as Cesium from '@modules/cesium/Source/Cesium';
+import * as Cesium from 'cesium';
 import baseOptions from '../config/base';
-import { getPointOptions, getLabelOptions } from './entity';
 import Weather from './weather/index';
 import Tip from './common/tip';
 import Menu from './common/menu';
@@ -9,16 +8,19 @@ import material2 from './material/polyline';
 import { computeCircle } from './utils';
 import camera from './methods/camera';
 import mouse from './methods/mouse';
+import base from './methods/base';
+import { MeasureLine, MeasurePolygn } from './tools';
 import '@modules/cesium/Source/Widgets/widgets.css';
+import drawFns from './draw';
+import paintFns from './paint';
 
 material(Cesium);
 material2(Cesium);
 
 window.CESIUM_BASE_URL = '/static/Cesium';
-Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZGE5MmI2Yy1jZmVmLTQyZGUtYjk4Ni02ODBiYWFiZDZkOGYiLCJpZCI6MjU3MDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODY0MjQyMDR9.dx-BAVwhWMWfgJb49x2XZEVP-EjFxMvihn8Lca6EXYU';
+// Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZGE5MmI2Yy1jZmVmLTQyZGUtYjk4Ni02ODBiYWFiZDZkOGYiLCJpZCI6MjU3MDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODY0MjQyMDR9.dx-BAVwhWMWfgJb49x2XZEVP-EjFxMvihn8Lca6EXYU';
 
 // id 累加计数器
-let _id = 1;
 
 class GisMap {
   static version = '1.0.0';
@@ -45,6 +47,8 @@ class GisMap {
     this.contextMenu = null;
     //  事件中心
     this.eventCenter = {};
+    // 绘图事件集合
+    this.paintHandler = [];
     this.init(container, options);
   }
 
@@ -56,7 +60,7 @@ class GisMap {
     this.viewer = new Cesium.Viewer(container, { ...baseOptions, ...options });
     this.scene = this.viewer.scene;
     this.camera = this.viewer.camera;
-    this.viewer.scene.globe.depthTestAgainstTerrain = true;
+    this.viewer.scene.globe.depthTestAgainstTerrain = false;
     // 开启抗锯齿
     // this.scene.fxaa = true;
     // this.scene.postProcessStages.fxaa.enabled = true;
@@ -114,6 +118,15 @@ class GisMap {
         this.unHandleMenu();
       }
     }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+    // 高亮id设置
+    handler.setInputAction((movement) => {
+      const moveFeature = this.viewer.scene.pick(movement.endPosition);
+      if (!Cesium.defined(moveFeature)) {
+        this.moveActiveId = undefined;
+      } else if (moveFeature.id.highlight) {
+        this.moveActiveId = moveFeature.id.id;
+      }
+    }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
 
   /**
@@ -155,187 +168,6 @@ class GisMap {
     //   const center = Cesium.Cartesian3.fromDegrees(longitude, latitude,height);
     //   this.camera.lookAt(center,  new Cesium.HeadingPitchRange(0.01, Cesium.Math.toRadians(-90.0), 0.01))
     // }
-  }
-
-  /**
-   *
-   * 绘制动态线段
-   * @param {Point[]} points
-   * @param {Object} [options={}]
-   * @memberof GisMap
-   * @returns {*}
-   */
-  drawAnimateLine(points, options = {}) {
-    _id += 1;
-    if (points.length < 2) {
-      return;
-    }
-
-    const pointsArray = points.reduce((a, b) => a.concat(b), []);
-    const entity = new Cesium.Entity({
-      id: Number.prototype.toString.apply(_id),
-      // show: true,
-      // tip:{show:true,content:'这是线段'},
-      width: 2,
-      ...options,
-      polyline: {
-        positions: Cesium.Cartesian3.fromDegreesArrayHeights(pointsArray),
-        // material:  Cesium.Material.fromType(Cesium.Material.PolylineTrailLinkType),
-        material: new Cesium.PolylineTrailLinkMaterialProperty(
-          Cesium.Color.fromCssColorString(options.color || '#0099cc'),
-          2000,
-        ),
-        arcType: Cesium.ArcType.GEODESIC,
-        // clampToGround: true,
-      },
-    });
-
-    const line = this.viewer.entities.add(entity);
-
-    return line;
-  }
-
-  /**
-   *
-   * 绘制线段
-   * @param {Point[]} points
-   * @param {Object} [options={}]
-   * @memberof GisMap
-   * @returns {*}
-   */
-  drawLine = (points = [], options = {}) => {
-    if (points.length < 2) {
-      return;
-    }
-
-    const pointsArray = points.reduce((a, b) => a.concat(b), []);
-    _id += 1;
-    const entity = new Cesium.Entity({
-      id: Number.prototype.toString.apply(_id),
-      // show: true,
-      // tip:{show:true,content:'这是线段'},
-      width: 2,
-      ...options,
-      polyline: {
-        positions: Cesium.Cartesian3.fromDegreesArrayHeights(pointsArray),
-        // eslint-disable-next-line new-cap
-        material: new Cesium.Color.fromCssColorString(options.color || '#0099cc'),
-        arcType: Cesium.ArcType.GEODESIC,
-        // clampToGround: true,
-      },
-    });
-
-    this.viewer.entities.add(entity);
-    return entity;
-  };
-
-  /**
- *
- *
- * @param {object} data
- * @returns
- * @memberof GisMap
- */
-  drawPoint(data) {
-    const {
-      longitude,
-      latitude,
-      height,
-      key,
-      name,
-      pixelSize,
-      label,
-      tip,
-      menu,
-    } = data;
-
-    const pointOption = getPointOptions(data);
-    const lableOptiopns = getLabelOptions({
-      ...label,
-      pixelSize,
-    });
-    _id += 1;
-    const entity = new Cesium.Entity({
-      name,
-      id: key || Number.prototype.toString.apply(_id),
-      show: true,
-      position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
-      point: pointOption,
-      label: lableOptiopns,
-      tip,
-      menu,
-    });
-    this.viewer.entities.add(entity);
-    return entity;
-  }
-
-  zoomTo() {
-    this.viewer.zoomTo();
-  }
-
-  /**
-   *
-   * 缩进视图
-   * @param {number} [scale]
-   * @return {number} scale
-   */
-  zoomIn(scale) {
-    // 获取当前镜头位置的笛卡尔坐标
-    const cameraPos = this.camera.position;
-
-    // // 获取当前坐标系标准
-    const { ellipsoid } = this.scene.globe;
-
-    // // 根据坐标系标准，将笛卡尔坐标转换为地理坐标
-    const cartographic = ellipsoid.cartesianToCartographic(cameraPos);
-
-    // // 获取镜头的高度
-    const { height } = cartographic;
-    const _scale = scale || height / 3;
-    // 优化？
-    this.camera.zoomIn(_scale);
-    return scale;
-  }
-
-  /**
-   *
-   * 放大视图
-   * @param {number} [scale]
-   * @return {number} scale
-   */
-  zoomOut(scale) {
-    // 获取当前镜头位置的笛卡尔坐标
-    const cameraPos = this.camera.position;
-
-    // // 获取当前坐标系标准
-    const { ellipsoid } = this.scene.globe;
-
-    // // 根据坐标系标准，将笛卡尔坐标转换为地理坐标
-    const cartographic = ellipsoid.cartesianToCartographic(cameraPos);
-
-    // // 获取镜头的高度
-    const { height } = cartographic;
-    const _scale = scale || height * 1.5;
-    this.camera.zoomOut(_scale);
-    return _scale;
-  }
-
-  /**
-   *
-   * 切换2D/3D模式
-   * @param {"2｜3"} [mode] 2或3，不传参数默认切换
-   * @memberof GisMap
-   */
-  setSceneMode2D3D(mode) {
-    if (mode === 3) {
-      this.viewer.scene.mode = Cesium.SceneMode.SCENE3D;
-    } else if (mode === 2) {
-      this.viewer.scene.mode = Cesium.SceneMode.SCENE2D;
-    } else if (this.viewer.scene.mode === Cesium.SceneMode.SCENE3D) {
-      this.viewer.scene.mode = Cesium.SceneMode.SCENE2D;
-    } else {
-      this.viewer.scene.mode = Cesium.SceneMode.SCENE3D;
-    }
   }
 
   /**
@@ -462,20 +294,47 @@ class GisMap {
     }
   }
 
+  /**
+   *
+   * 销毁GisMap实例
+   * @memberof GisMap
+   */
+  destroy() {
+    this.viewer.destroy();
+  }
+
   test() {
     return this;
   }
 }
-
+// 摄像机事件
 GisMap.prototype.addCameraEvent = camera.addCameraEvent;
 GisMap.prototype.removeCameraEvent = camera.removeCameraEvent;
 GisMap.prototype.getCameraPosition = camera.getCameraPosition;
 GisMap.prototype.getCameraHeight = camera.getCameraHeight;
 // 鼠标事件
-
 GisMap.prototype.addMouseEvent = mouse.addMouseEvent;
 GisMap.prototype.removeMouseEvent = mouse.removeMouseEvent;
+// 缩放
+GisMap.prototype.zoomIn = base.zoomIn;
+GisMap.prototype.zoomOut = base.zoomOut;
+GisMap.prototype.setSceneMode2D3D = base.setSceneMode2D3D;
+// 星空背景
+GisMap.prototype.setSky = base.setSky;
+GisMap.prototype.clearSky = base.clearSky;
+GisMap.prototype.resetSky = base.resetSky;
+GisMap.prototype.canvas2image = base.canvas2image;
+// 测量工具
+GisMap.prototype.measureLine = function measureLine(options) { return new MeasureLine(this.viewer, options); };
+GisMap.prototype.measurePolygn = function measurePolygn(options) { return new MeasurePolygn(this.viewer, options); };
 
+// 画图方法
+const fns = {
+  ...drawFns, ...paintFns,
+};
+Object.keys(fns).forEach((key) => {
+  GisMap.prototype[key] = fns[key];
+});
 window.Cesium = Cesium;
 
 export default GisMap;

@@ -1,8 +1,9 @@
-import * as Cesium from '@modules/cesium/Source/Cesium';
 import React, { useState, useCallback } from 'react';
 import { createRoot } from 'react-dom/client';
+import pointImg from '@src/assets/images/point.png';
 import GisMap from '../code/gisMap';
 import './index.less';
+
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap('cesium');
 
@@ -15,7 +16,6 @@ function Content() {
   const [height, setheight] = useState(10);
   const [labelName, setLabelName] = useState('测试点');
   const [tip, setTip] = useState('点的描述信息');
-
   const setView = useCallback(() => {
     gisMap.setView({ longitude: Number(longitude), latitude: Number(latitude), height: Number(height) });
   }, [latitude, longitude, height]);
@@ -53,13 +53,71 @@ function Content() {
             { text: '展示详情', type: 'detail' },
             { text: '删除', type: 'delete' },
           ],
+
           onSelect: (type, entity) => {
-            console.log(`选择了 ${type}`, name);
+            console.log(`选择了-- ${type}`, name);
             if (type === 'delete') {
               gisMap.remove(entity);
             }
           },
         },
+      },
+    );
+    console.log('new point ', point);
+  };
+  const drawImgPoint = () => {
+    const point = gisMap.drawImgPoint(
+      {
+        name,
+        pixelSize: 60,
+        color: 'rgba(0,255,255,1)',
+        longitude: Number(123),
+        latitude: Number(70),
+        height: Number(height),
+        label: {
+          show: true,
+          text: labelName,
+          outlineColor: '#ff0000',
+          fillColor: 'rgba(173, 255, 47,1)',
+        },
+        imgOptions: {
+          width: 50,
+          height: 50,
+          image: pointImg,
+        },
+        tip: {
+          show: true,
+          content: tip,
+        },
+        menu: {
+          className: 'test-menu',
+          show: true,
+          menuItems: [
+            { text: '编辑', type: 'edit' },
+            { text: '展示详情', type: 'detail' },
+            { text: '删除', type: 'delete' },
+          ],
+
+          onSelect: (type, entity) => {
+            console.log(`选择了-- ${type}`, name);
+            if (type === 'delete') {
+              gisMap.remove(entity);
+            }
+          },
+        },
+      },
+    );
+    console.log('new point ', point);
+  };
+  const drawCircle = () => {
+    const point = gisMap.drawCircle(
+      {
+        name,
+        color: 'rgba(212,225,127,0.5)',
+        radius: 1000000,
+        longitude: Number(123),
+        latitude: Number(70),
+        height: Number(height),
       },
     );
     console.log('new point ', point);
@@ -99,6 +157,8 @@ function Content() {
       </div>
       <div className="btn" onClick={setView}>设置显示</div>
       <div className="btn" onClick={drawMpoint}>绘点</div>
+      <div className="btn" onClick={drawImgPoint}>绘图片点</div>
+      <div className="btn" onClick={drawCircle}>绘圆</div>
       <div className="btn" onClick={zoomIn}>放大</div>
       <div className="btn" onClick={zoomOut}>缩小</div>
       <div className="btn" onClick={switchType}>2D/3D</div>
