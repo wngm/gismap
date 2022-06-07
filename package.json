@@ -1,6 +1,6 @@
 {
   "name": "@kdhy/gismap",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "",
   "main": "build/gisMap.js",
   "scripts": {
@@ -38,6 +38,7 @@
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "@turf/turf": "^6.5.0",
     "babel-loader": "^8.2.5",
     "cesium": "^1.92.0",
     "copy-webpack-plugin": "^7.0.0",
