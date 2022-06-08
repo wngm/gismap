@@ -118,6 +118,8 @@ declare class GisMap {
   paintImgPoint(data: ImgPoint, callback: () => {})
   paintLine(data: IPoint, callback: () => {})
   paintRect(data: IPoint, callback: () => {})
+  paintCircle(data: IPoint, callback: () => {})
+  paintPolygon(data: IPoint, callback: () => {})
 }
 
 
