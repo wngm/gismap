@@ -113,7 +113,7 @@ declare class GisMap {
   canvas2image(type?: 'file' | 'base64' | 'img', width?: number, height?: number): any
   measureLine(): void
   measurePolygn(): void
-  remove(id: string): void { }
+  remove(id: string): void
   paintPoint(data: IPoint, callback: () => {})
   paintImgPoint(data: ImgPoint, callback: () => {})
   paintLine(data: IPoint, callback: () => {})
