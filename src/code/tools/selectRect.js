@@ -4,21 +4,14 @@ import * as Cesium from 'cesium';
 
 /**
  * 测量工具可选配配置项
- * @typedef {Object} MeasureOptions
- * @property {finishCallback} [onFinish] - 测量结束的的回调函数
+ * @typedef {Object} SelectRectOptions
+ * @property {selectRectCallback} [onFinish] - 测量结束的的回调函数
  */
 
 /**
  * 测量工具完成回调函数.
- * @callback finishCallback
- * @param {FinishData} finishData
- */
-
-/**
- * FinishData 回调函数返回数据
- * @typedef {Object} FinishData
- * @property { string[]}} ids - 返回元素的id列表
- * @property {Object[]} points -绘制坐标点【起点，终点】
+ * @callback selectRectCallback
+ * @param {selectInfo} finishData
  */
 
 /**
@@ -27,6 +20,11 @@ import * as Cesium from 'cesium';
  * @class SelectRect
  */
 class SelectRect {
+  /**
+   * 实例测量工具
+   * @param {SelectRectOptions} [options={}]
+   * @memberof SelectRect
+   */
   constructor(viewer, options = {}) {
     this.handler = new Cesium.ScreenSpaceEventHandler(viewer.scene._imageryLayerCollection);
     this.positions = [];
@@ -46,7 +44,7 @@ class SelectRect {
         name: 'Blue translucent, rotated, and extruded ellipse with outline',
         rectangle: {
           coordinates: new Cesium.CallbackProperty(() => Cesium.Rectangle.fromCartesianArray(positions), false),
-          material: Cesium.Color.RED.withAlpha(0.5),
+          material: Cesium.Color.CHARTREUSE.withAlpha(0.5),
         },
       });
     };
@@ -140,7 +138,7 @@ class SelectRect {
             // if(obj.south==obj.north){obj.north+=0.000001};
             return obj;
           }), false),
-          material: Cesium.Color.RED.withAlpha(0.5),
+          material: Cesium.Color.RED.withAlpha(0.3),
         },
       });
     }
@@ -148,10 +146,26 @@ class SelectRect {
   }
 
   /**
+ * 框选完成后返回 区域内的数据格式
+ * @typedef {Object} selectElement
+ * @property {number} longitude - 维度
+ * @property {number} latitude - 维度
+ * @property {number} height - 高度 默认为 0
+ * @property {string} id - 维度
+ */
+
+  /**
+ * 框选完成后返回数据
+ * @typedef {Object} selectInfo
+ * @property {Array<selectElement>} list - 包含在内的元素信息
+ * @property {Object} data - 框选矩形信息
+ */
+
+  /**
    *
    * 完成测量
-   * @returns {'{points:any[],value:Number}'} data 返回数据 【value】为距离单位米，【points】坐标点
-   * @memberof MeasureLine
+   * @returns {selectInfo} info 返回数据 【value】为距离单位米，【points】坐标点
+   * @memberof SelectRect
    */
   finish() {
     const { viewer } = this.viewer;
@@ -160,14 +174,44 @@ class SelectRect {
     this.handler = undefined;
     this.positions.pop(); // 最后一个点无效
     if (this.positions.length === 1) { viewer.entities.remove(this.floatingPoint); }
-    const data = { points: this.positions, value: this.distance };
     // eslint-disable-next-line no-unused-expressions
-    this.onFinish && this.onFinish(data);
 
-    setTimeout(() => {
-      // this.poly.
-    }, 5000);
+    const list = this.getData();
+    const data = { list, datat:{points: this.positions}};
+    this.onFinish && this.onFinish(data);
     return data;
+  }
+
+  getData() {
+    console.log(9527);
+    const { viewer } = this;
+    const { ellipsoid } = viewer.scene.globe;
+    const datas = [];
+    const rectangle = Cesium.Rectangle.fromCartesianArray(this.positions.slice(0, 2));
+    this.viewer.entities.values.forEach((entity) => {
+      const { id } = entity;
+      if (entity.position?._value) {
+        const cartographic = ellipsoid.cartesianToCartographic(entity.position._value);
+        console.log(cartographic, entity);
+        const latitude = Cesium.Math.toDegrees(cartographic.latitude);
+        const longitude = Cesium.Math.toDegrees(cartographic.longitude);
+        const { height } = cartographic;
+        // 判断元素点是否在矩形内
+        const status = Cesium.Rectangle.contains(rectangle, cartographic);
+
+        if (status) {
+          datas.push({
+            latitude,
+            longitude,
+            height,
+            id,
+          });
+        }
+      }
+    });
+    // const a = turf;
+
+    return datas;
   }
 
   destroy() {

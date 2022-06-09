@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import * as turf from '@turf/turf';
 import GisMap from '../code/gisMap';
@@ -6,12 +6,39 @@ import './index.less';
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap('cesium');
 
-// const { Point } = turf;
-// console.log(turf, turf.point([120, 30]));
+const pt = turf.point([120, 41, 0]);
+const converted = turf.toMercator(pt);
+console.log(pt, converted);
+
+
+// 随机测试点
 gisMap.setView({
   longitude: 106.038795,
   latitude: 31.042339,
   height: 9853204,
+});
+
+gisMap.drawPoint({
+
+  longitude: 120,
+  latitude: 41,
+  height: 0,
+});
+
+gisMap.drawPoint({
+  longitude: 120,
+  latitude: 42,
+  height: 0,
+});
+gisMap.drawPoint({
+  longitude: 119,
+  latitude: 42,
+  height: 0,
+});
+gisMap.drawPoint({
+  longitude: 89,
+  latitude: 42,
+  height: 0,
 });
 window.gisMap = gisMap;
 function Content() {
@@ -36,15 +63,18 @@ function Content() {
   };
   const removeSize = () => {
     const result = measure && measure.finish();
-    console.log(result, 22223);
   };
 
   const selectRectCallBack = (data) => {
-    console.log(data);
+    console.log('selectRectCallBack', data);
+    // 删除选中点
+    data.list.forEach(i=>{
+      gisMap.remove(i.id)
+    })
   };
 
   const selectRect = () => {
-    const _measure = gisMap.selectRect({ onFinsh: selectRectCallBack });
+    const _measure = gisMap.selectRect({ onFinish: selectRectCallBack });
     setMeasure(_measure);
   };
 

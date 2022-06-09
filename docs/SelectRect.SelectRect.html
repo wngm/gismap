@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>MeasureLine - Documentation</title>
+    <title>SelectRect - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">MeasureLine</h1>
+    <h1 class="page-title">SelectRect</h1>
     
 
     
@@ -42,7 +42,9 @@
 <header>
     
         <h2>
-        MeasureLine
+            <span class="ancestors"><a href="SelectRect.html">SelectRect</a>.</span>
+        
+        SelectRect
         </h2>
         
     
@@ -56,14 +58,14 @@
 
     
 
-    <h4 class="name" id="MeasureLine"><span class="type-signature"></span>new MeasureLine<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id="SelectRect"><span class="type-signature"></span>new SelectRect<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    线段距离测量工具 【单击鼠标左键绘制点，点击鼠标右键结束】
+    实例测量工具
 </div>
 
 
@@ -99,7 +101,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tools_measureLine.js.html">tools/measureLine.js</a>, <a href="tools_measureLine.js.html#line25">line 25</a>
+        <a href="tools_selectRect.js.html">tools/selectRect.js</a>, <a href="tools_selectRect.js.html#line28">line 28</a>
     </li></ul></dd>
     
 
@@ -118,42 +120,89 @@
 
 
 
+    <h5>Parameters:</h5>
+    
 
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
         
 
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
+        <th>Type</th>
+
         
-<span class="param-type"><code>Object</code></span>
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code><a href="global.html#SelectRectOptions">SelectRectOptions</a></code></span>
 
 
-    </dd>
-</dl>
+            
+            </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
 
-<div class="param-desc">
-    measureInstance 测量工具实例
-</div>
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    {}
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
 
     
-</div>
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -166,13 +215,6 @@
     
 
     
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="MeasureLine.MeasureLine.html">MeasureLine</a></dt>
-            <dd></dd>
-        </dl>
-    
 
      
 
@@ -180,201 +222,6 @@
 
     
 
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="destroy"><span class="type-signature"></span>destroy<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    销毁测量工具
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tools_measureLine.js.html">tools/measureLine.js</a>, <a href="tools_measureLine.js.html#line221">line 221</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="finish"><span class="type-signature"></span>finish<span class="signature">()</span><span class="type-signature"> &rarr; {'{points:any[],value:Number}'}</span></h4>
-
-    
-
-
-
-<div class="description">
-    完成测量
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tools_measureLine.js.html">tools/measureLine.js</a>, <a href="tools_measureLine.js.html#line203">line 203</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>'{points:any[],value:Number}'</code></span>
-
-
-    </dd>
-</dl>
-
-
-<div class="param-desc">
-    data 返回数据 【value】为距离单位米，【points】坐标点
-</div>
-
-    
-</div>
-
-
-
-</div>
-        
     
 
     

@@ -274,7 +274,6 @@ class MeasurePolygn {
       },
     });
     const data = { points: this.positions, value: area };
-    // eslint-disable-next-line no-unused-expressions
     this.onFinish && this.onFinish(data);
     return data;
   }
