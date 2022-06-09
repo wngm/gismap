@@ -280,7 +280,7 @@ class GisMap {
 
   /**
    *
-   * 移除元素
+   * 移除元素 单个元素
    * @param {string} id
    * @memberof GisMap
    */
