@@ -181,9 +181,8 @@ class SelectRect {
     this.onFinish && this.onFinish(data);
     return data;
   }
-
+ // 获取矩形框内数据
   getData() {
-    console.log(9527);
     const { viewer } = this;
     const { ellipsoid } = viewer.scene.globe;
     const datas = [];
@@ -192,7 +191,6 @@ class SelectRect {
       const { id } = entity;
       if (entity.position?._value) {
         const cartographic = ellipsoid.cartesianToCartographic(entity.position._value);
-        console.log(cartographic, entity);
         const latitude = Cesium.Math.toDegrees(cartographic.latitude);
         const longitude = Cesium.Math.toDegrees(cartographic.longitude);
         const { height } = cartographic;

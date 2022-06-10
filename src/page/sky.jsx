@@ -10,7 +10,14 @@ import front from '../assets/images/skybox/front.jpg';
 import back from '../assets/images/skybox/back.jpg';
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap('cesium');
-
+gisMap.setView({
+  latitude:40,
+  longitude:120,
+  height:200000000,
+  heading:0.0,
+  pitc: -90.0,
+  roll:70.0
+})
 window.gisMap = gisMap;
 function Content() {
   const setSky = () => {
