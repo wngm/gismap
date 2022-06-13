@@ -97,6 +97,7 @@ declare class GisMap {
   setSceneMode2D3D(mode: 2 | 3): void
   drawPoint(data: IPoint)
   drawImgPoint(data: ImgPoint)
+  drawFlashPoint(data: IPoint)
   drawCircle(data: CircleProps)
   drawEllipse(data: EllipseProps)
   drawRect(data: RectProps)
@@ -115,6 +116,7 @@ declare class GisMap {
   measurePolygn(): void
   remove(id: string): void
   paintPoint(data: IPoint, callback: () => {})
+  paintFlashPoint(data: IPoint, callback: () => {})
   paintImgPoint(data: ImgPoint, callback: () => {})
   paintLine(data: IPoint, callback: () => {})
   paintRect(data: IPoint, callback: () => {})

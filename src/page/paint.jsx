@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-06-01 13:47:55
- * @LastEditTime: 2022-06-08 14:52:16
+ * @LastEditTime: 2022-06-09 11:01:42
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/page/paint.jsx
@@ -76,6 +76,12 @@ function Content() {
             case '6':
               gisMap.paintPolygon();
               break;
+            case '7':
+              gisMap.paintFlashPoint({
+                pixelSize: 50,
+                color: '#e4393c',
+              });
+              break;
             default: console.log(e);
           }
         }}
@@ -87,6 +93,7 @@ function Content() {
         <option value="4">画矩形</option>
         <option value="5">画圆</option>
         <option value="6">画多边形</option>
+        <option value="7">画闪烁点</option>
       </select>
     </div>
   );
