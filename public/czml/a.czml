@@ -1,0 +1,33 @@
+[{
+    "id": "document",
+    "name": "CZML Point",
+    "version": "1.0",
+    "clock": {
+      "interval": "2022-01-01T10:10:10+0800/2022-01-05T10:10:10+0800",
+      "currentTime": "2022-01-02T02:10:10Z",
+      "step": "SYSTEM_CLOCK_MULTIPLIER",
+      "multiplier": 5}},{
+    "id": "point 1",
+    "name": "point",
+    "position": {
+      "interpolationAlgorithm":"LAGRANGE",
+      "epoch":"2022-01-02T02:10:10Z",
+      "interpolationDegree":5,
+      "cartographicDegrees":[
+        0,70,20,150000,
+        100, -80, 44, 150000,
+        200, -90, 18, 150000,
+        3200, 0, 18, 150000,
+        3800, -98, 52, 150000]
+    },
+    "point": {
+        "color": {
+            "rgba": [255, 255, 255, 255]
+        },
+        "outlineColor": {
+            "rgba": [255, 0, 0, 255]
+        },
+        "outlineWidth": 4,
+        "pixelSize": 20
+    }
+}]

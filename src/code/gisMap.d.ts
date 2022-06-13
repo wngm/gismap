@@ -105,7 +105,7 @@ declare class GisMap {
   addCircleScan(data: RadarProps)
   addRadarScan(data: PolygonProps)
   drawLine(start: IPoint, end: IPoint, options: ILineOPtions): void
-  drawAnimateLine(start: IPoint, end: IPoint, options: ILineOPtions): void
+  drawAnimateLine(point: IPoint[], options: ILineOPtions): void
   setWeather(weather: weather): void
   clearWeather(): void
   setSky(urls: Array<string>): void

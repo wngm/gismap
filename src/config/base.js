@@ -2,11 +2,11 @@ import * as Cesium from 'cesium';
 
 export default {
   vrButton: false, // vr工具
-  animation: false,
+  animation: true,
   baseLayerPicker: false,
   CreditsDisplay: false,
   geocoder: false, // 编码搜索工具
-  timeline: false,
+  timeline: true,
   navigationHelpButton: false,
   infoBox: false,
   selectionIndicator: false,
