@@ -1,5 +1,5 @@
 import {
-    Entity, ArcType, Cartesian3, Color,
+    Entity, ArcType, Cartesian3, Color,PolylineTrailLinkMaterialProperty
   } from 'cesium';
   
   let _id = 10000;
@@ -76,9 +76,9 @@ import {
   }
 
   /**
-   *
-   *
-   * @typedef {Object} CylinderOptions 坐标点
+   *    
+   * 雷达放射波 cylinderWave 参数
+   * @typedef {Object} CylinderOptions 雷达放射波参数 
    * @property {number} longitude 经度
    * @property {number} latitude 维度
    * @property {number} height 高度
@@ -100,6 +100,20 @@ import {
         height,
         color = "#0099cc"
     } = data
+
+    const dashImg = window.CESIUM_BASE_URL +'/image/dash3.png'
+    let material = new Cesium.Material({
+        fabric : {
+          type : 'DiffuseMap',
+          uniforms : {
+            image : dashImg,
+            repeat : {
+              x : 10,
+              y : 2
+            }
+          }
+        }
+      });
     const entity = new Entity({
         position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height/2),
         cylinder: {
@@ -108,7 +122,11 @@ import {
           bottomSurface:true,
           length:height,
           slices:128,
-          material:Cesium.Color.fromCssColorString(color),
+        //   material:Cesium.Color.fromCssColorString(color),
+          material:new PolylineTrailLinkMaterialProperty(
+            Color.fromCssColorString('#ff0000'),
+            2000,
+          ),
           disableDepthTestDistance: 0
         },
       });
