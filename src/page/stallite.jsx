@@ -8,7 +8,7 @@ const gisMap = new GisMap('cesium');
 
 const pt = turf.point([120, 41, 0]);
 const converted = turf.toMercator(pt);
-console.log(pt, converted);
+console.log(pt, converted,gisMap);
 
 
 // 随机测试点
@@ -35,14 +35,47 @@ gisMap.drawPoint({
   latitude: 42,
   height: 0,
 });
-gisMap.drawPoint({
+// gisMap.drawPoint({
+//   longitude: 89,
+//   latitude: 42,
+//   height: 0,
+// });
+
+
+
+
+gisMap.drawCylinder({
+  longitude: 149,
+  latitude: 42,
+  height: 53204,
+});
+
+// gisMap.drawFlashPoint({
+//   pixelSize:100,
+//   longitude: 89,
+//   latitude: 42,
+//   height: 53210,
+//   color:"#0099cc"
+// });
+gisMap.drawLine([[89,42,2003204],[120,40,80000]], { color: '#66FFFF99' });
+
+gisMap.cylinderWave({
   longitude: 89,
   latitude: 42,
-  height: 0,
+  height: 2003204,
+  color: '#00ff0066'
 });
 window.gisMap = gisMap;
 function Content() {
   const [measure, setMeasure] = useState(null);
+
+  const home=()=>{
+    gisMap.setView({
+      longitude: 106.038795,
+      latitude: 31.042339,
+      height: 9853204,
+    });
+  }
   const getImage = () => {
     const img = gisMap.canvas2image('file');
     console.log('image', img);
@@ -92,8 +125,9 @@ function Content() {
 
   const addStallite =() =>{
     const {viewer,Cesium} = gisMap
+    const { ellipsoid } = viewer.scene.globe;
     // viewer.scene.skyBox.show = false;
-    // viewer.scene.globe.depthTestAgainstTerrain = false;
+    viewer.scene.globe.depthTestAgainstTerrain = true;
     // viewer.scene.globe.enableLighting = false;
     // viewer.shadows = false
 
@@ -103,39 +137,73 @@ function Content() {
       position: Cesium.Cartesian3.fromDegrees(120, 40, 2000000),
       cylinder: {
         topRadius:0,
-        bottomRadius:2000000,
-        length:6000000,
+        bottomRadius:200000,
+        bottomSurface:true,
+        length:800000,
         slices:128,
         material:Cesium.Color.CHARTREUSE.withAlpha(0.5),
         disableDepthTestDistance: 0
       },
     });
-    const entity2 = new Cesium.Entity({
-      name:'卫星波束dian',
-      show: true,
-      position: Cesium.Cartesian3.fromDegrees(120, 40, 2000000),
-      point: {
-        pixelSize:10,
-        material:Cesium.Color.CRIMSON,
-        color:Cesium.Color.CRIMSON,
-        disableDepthTestDistance: 0
-      },
-    });
+    // const entity2 = new Cesium.Entity({
+    //   name:'卫星波束dian',
+    //   show: true,
+    //   position: Cesium.Cartesian3.fromDegrees(120, 40, 2000000),
+    //   point: {
+    //     pixelSize:10,
+    //     material:Cesium.Color.CRIMSON,
+    //     color:Cesium.Color.CRIMSON,
+    //     disableDepthTestDistance: 0
+    //   },
+    // });
     gisMap.viewer.entities.add(entity);
-    gisMap.viewer.entities.add(entity2);
-
-
-    const czmlFile = '/czml/a.czml' 
+    // gisMap.viewer.entities.add(entity2);
+    const czmlFile = '/czml/data.czml' 
       
 
       const dataSource = new Cesium.CzmlDataSource(czmlFile);
 
       dataSource.load(czmlFile);
-
-      viewer.dataSources.add(dataSource);
+      let property
+      viewer.dataSources.add(dataSource).then(function(dataSource){
+        setTimeout(()=>{
+          let satellite = dataSource.entities.getById("wq");
+          property = new Cesium.SampledPositionProperty();
+          for (var ind = 0; ind < 292; ind++) {
+            var time = Cesium.JulianDate.addSeconds(viewer.clock.currentTime, 300*ind, new Cesium.JulianDate());
+            var position = satellite.position.getValue(time);
+            var cartographic = ellipsoid.cartesianToCartographic(position);
+            var lat = Cesium.Math.toDegrees(cartographic.latitude),
+              lng = Cesium.Math.toDegrees(cartographic.longitude),
+              hei = cartographic.height / 2;
+            property.addSample(time, Cesium.Cartesian3.fromDegrees(lng, lat, hei));
+          }
+          entity.position = property;
+          entity.position.setInterpolationOptions({ //设定位置的插值算法
+            interpolationDegree: 5,
+            interpolationAlgorithm: Cesium.LagrangePolynomialApproximation
+          });
+        })
+     
+			// for (var ind = 0; ind < 292; ind++) {
+       
+			// 	property.addSample(time, Cesium.Cartesian3.fromDegrees(lng, lat, hei));
+			// }
+			
+		
+			
+			// viewer.clock.onTick.addEventListener(function(clock) {
+      //   if (property) {
+			// 		var time = clock.currentTime;
+			// 		var val = property.getValue(clock.currentTime);
+			// 		console.log(val);
+			// 	} 
+			// });
+      })
   }
   return (
     <div className="box">
+      <div className="btn" role="none" onClick={() => home()}>home</div>
       <div className="btn" role="none" onClick={() => getImage()}>截图</div>
       <div className="btn" role="none" onClick={() => getDistance()}>测量距离</div>
       <div className="btn" role="none" onClick={() => removeDistance()}>完成测量距离</div>

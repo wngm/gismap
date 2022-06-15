@@ -11,10 +11,12 @@ import pointFn from './point';
 import lineFn from './line';
 import shapeFn from './shape';
 import radarFn from './radar';
+import cylinderFn from './cylinder';
 
 export default {
   ...pointFn,
   ...lineFn,
   ...shapeFn,
   ...radarFn,
+  ...cylinderFn,
 };

@@ -83,7 +83,23 @@ interface ILineOPtions {
   tip?: Tip
   menu?: Menu
 }
+// 圆柱形
+interface CylinderProps {
+  longitude: number
+  latitude: number
+  height: number
+  color: string
+  [key: string]: any
+}
 
+// 圆锥形
+interface CylinderWaveProps {
+  longitude: number
+  latitude: number
+  height: number
+  color: string
+  [key: string]: any
+}
 
 type weather = 'rain ' | 'snow' | 'fog'
 
@@ -103,6 +119,8 @@ declare class GisMap {
   drawRect(data: RectProps)
   drawPolygon(data: RadarProps)
   addCircleScan(data: RadarProps)
+  drawCylinder(data: CylinderProps)
+  cylinderWave(data: CylinderWaveProps)
   addRadarScan(data: PolygonProps)
   drawLine(start: IPoint, end: IPoint, options: ILineOPtions): void
   drawAnimateLine(point: IPoint[], options: ILineOPtions): void
@@ -115,6 +133,7 @@ declare class GisMap {
   measureLine(): void
   measurePolygn(): void
   remove(id: string): void
+  removeAll(): void
   paintPoint(data: IPoint, callback: () => {})
   paintFlashPoint(data: IPoint, callback: () => {})
   paintImgPoint(data: ImgPoint, callback: () => {})
