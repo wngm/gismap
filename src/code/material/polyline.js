@@ -3,7 +3,7 @@
 // import line2 from './image/line2.png';
 // import line3 from './image/line3.png';
 
-function run(Cesium) {
+function load(Cesium) {
   const dashImg = '/image/dash3.png'
   function PolylineMp(color, duration) {
     this._definitionChanged = new Cesium.Event();
@@ -88,4 +88,4 @@ function run(Cesium) {
   );
 }
 
-export default run;
+export default load;

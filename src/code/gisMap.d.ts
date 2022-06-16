@@ -98,6 +98,7 @@ interface CylinderWaveProps {
   latitude: number
   height: number
   color: string
+  count: number
   [key: string]: any
 }
 
@@ -133,7 +134,7 @@ declare class GisMap {
   measureLine(): void
   measurePolygn(): void
   remove(id: string): void
-  removeAll(): void
+  removeAll(id: string): void
   paintPoint(data: IPoint, callback: () => {})
   paintFlashPoint(data: IPoint, callback: () => {})
   paintImgPoint(data: ImgPoint, callback: () => {})

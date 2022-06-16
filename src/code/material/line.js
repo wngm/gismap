@@ -1,9 +1,7 @@
 
 
-function run(Cesium) {
+function load(Cesium) {
   const dashImg = '/image/dash3.png'
-
-  console.log(222,window.CESIUM_BASE_URL+dashImg)
 
   function PolylineTrailLinkMaterialProperty(color, duration) {
     this._definitionChanged = new Cesium.Event();
@@ -88,4 +86,4 @@ function run(Cesium) {
   );
 }
 
-export default run;
+export default load;

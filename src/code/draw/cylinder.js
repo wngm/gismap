@@ -5,46 +5,8 @@ import {
   let _id = 10000;
   /**
      *
-     * 绘制动态圆柱体
-     * @param {Point[]} points
-     * @param {Object} [options={}]
-     * @memberof GisMap
-     * @returns {*}
-     */
-  function drawAnimateCylinder(points, options = {}) {
-    _id += 1;
-    if (points.length < 2) {
-      return;
-    }
-  
-    const pointsArray = points.reduce((a, b) => a.concat(b), []);
-    const entity = new Entity({
-      id: _id,
-      // show: true,
-      // tip:{show:true,content:'这是圆柱体'},
-      width: 2,
-      ...options,
-      polyCylinder: {
-        positions: Cartesian3.fromDegreesArrayHeights(pointsArray),
-        // material:  Cesium.Material.fromType(Cesium.Material.PolyCylinderTrailLinkType),
-        material: new PolyCylinderTrailLinkMaterialProperty(
-          Color.fromCssColorString(options.color || '#0099cc'),
-          2000,
-        ),
-        arcType: ArcType.GEODESIC,
-        // clampToGround: true,
-      },
-    });
-  
-    const Cylinder = this.viewer.entities.add(entity);
-  
-    return Cylinder;
-  }
-  
-  /**
-     *
      * 绘制圆柱体
-     * @param {Object} data
+     * @param {CylinderOptions} data
      * @param {Object} [options={}]
      * @memberof GisMap
      * @returns {*} Entity
@@ -54,22 +16,24 @@ import {
     const {
         longitude,
         latitude,
-        height
+        height,
+        color = "#0099cc",
+        count = 4
     } = data
     const entity = new Entity({
       // show: true,
       // tip:{show:true,content:'这是圆柱体'},
-      position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
+      position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height/2),
       ...options,
       cylinder: {
         topRadius:0,
-        bottomRadius:200000,
-        bottomSurface:true,
-        length:800000,
+        bottomRadius: height * 0.3, //半径
+        bottomSurface:false,
+        length:height,
         slices:128,
-        material:Cesium.Color.CHARTREUSE.withAlpha(0.5),
-        disableDepthTestDistance: 0
+        material:Color.fromCssColorString(color||'#00cc99')
       },
+      
     });
     this.viewer.entities.add(entity);
     return entity;
@@ -83,6 +47,7 @@ import {
    * @property {number} latitude 维度
    * @property {number} height 高度
    * @property {string} [color] 颜色 默认值#0099cc
+   * @property {number} [count = 4] 波形数量
    */
 
 
@@ -98,35 +63,42 @@ import {
         longitude,
         latitude,
         height,
-        color = "#0099cc"
+        color = "#0099cc",
+        count = 4
     } = data
 
-    const dashImg = window.CESIUM_BASE_URL +'/image/dash3.png'
-    let material = new Cesium.Material({
-        fabric : {
-          type : 'DiffuseMap',
-          uniforms : {
-            image : dashImg,
-            repeat : {
-              x : 10,
-              y : 2
-            }
-          }
-        }
-      });
+    // const dashImg = window.CESIUM_BASE_URL +'/image/dash3.png'
+    // let material = new Cesium.Material({
+    //     fabric : {
+    //       type : 'DiffuseMap',
+    //       uniforms : {
+    //         image : dashImg,
+    //         repeat : {
+    //           x : 10,
+    //           y : 2
+    //         }
+    //       }
+    //     }
+    //   });
     const entity = new Entity({
         position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height/2),
         cylinder: {
           topRadius:0,
           bottomRadius: height * 0.3, //半径
-          bottomSurface:true,
+          bottomSurface:false,
           length:height,
           slices:128,
         //   material:Cesium.Color.fromCssColorString(color),
-          material:new PolylineTrailLinkMaterialProperty(
-            Color.fromCssColorString('#ff0000'),
-            2000,
-          ),
+          material: new Cesium.CircleWaveMaterialProperty({
+            duration:2000,
+            count,
+            gradient:1,
+            color: Color.fromCssColorString(color||'#00cc99')
+          }),
+        //   material:new PolylineTrailLinkMaterialProperty(
+        //     Color.fromCssColorString('#ff0000'),
+        //     2000,
+        //   ),
           disableDepthTestDistance: 0
         },
       });
@@ -135,7 +107,6 @@ import {
   }
   
   export default {
-    drawAnimateCylinder,
     drawCylinder,
     cylinderWave,
   };

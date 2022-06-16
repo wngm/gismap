@@ -5,6 +5,7 @@ import Tip from './common/tip';
 import Menu from './common/menu';
 import material from './material/line';
 import material2 from './material/polyline';
+import material3 from './material/circleWave';
 import { computeCircle } from './utils';
 import camera from './methods/camera';
 import mouse from './methods/mouse';
@@ -14,11 +15,10 @@ import '@modules/cesium/Source/Widgets/widgets.css';
 import drawFns from './draw';
 import paintFns from './paint';
 
-
-
 window.CESIUM_BASE_URL = '/static/Cesium';
 material(Cesium);
 material2(Cesium);
+material3(Cesium)
 // id 累加计数器
 
 class GisMap {

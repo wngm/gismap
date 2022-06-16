@@ -1,70 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import * as turf from '@turf/turf';
 import GisMap from '../code/gisMap';
 import './index.less';
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap('cesium');
 
-const pt = turf.point([120, 41, 0]);
-const converted = turf.toMercator(pt);
-console.log(pt, converted,gisMap);
-
-
-// 随机测试点
-gisMap.setView({
-  longitude: 106.038795,
-  latitude: 31.042339,
-  height: 9853204,
-});
-
-gisMap.drawPoint({
-
-  longitude: 120,
-  latitude: 41,
-  height: 0,
-});
-
-gisMap.drawPoint({
-  longitude: 120,
-  latitude: 42,
-  height: 0,
-});
-gisMap.drawPoint({
-  longitude: 119,
-  latitude: 42,
-  height: 0,
-});
-// gisMap.drawPoint({
-//   longitude: 89,
-//   latitude: 42,
-//   height: 0,
-// });
-
-
-
-
-gisMap.drawCylinder({
-  longitude: 149,
-  latitude: 42,
-  height: 53204,
-});
-
-// gisMap.drawFlashPoint({
-//   pixelSize:100,
-//   longitude: 89,
-//   latitude: 42,
-//   height: 53210,
-//   color:"#0099cc"
-// });
-gisMap.drawLine([[89,42,2003204],[120,40,80000]], { color: '#66FFFF99' });
-
+// 波形
 gisMap.cylinderWave({
   longitude: 89,
   latitude: 42,
   height: 2003204,
-  color: '#00ff0066'
+  color: '#00ff00'
 });
+// 圆锥
+gisMap.drawCylinder({
+  longitude: 120,
+  latitude: 42,
+  height: 2003204,
+  color: '#ff0000'
+});
+
 window.gisMap = gisMap;
 function Content() {
   const home=()=>{
@@ -74,27 +29,6 @@ function Content() {
       height: 9853204,
     });
   }
-
-  const selectRectCallBack = (data) => {
-    console.log('selectRectCallBack', data);
-    // 删除选中点
-    // data.list.forEach(i=>{
-    //   gisMap.remove(i.id)
-    // })
-    // 高亮标记
-
-    const colorRed = new gisMap.Cesium.Color.fromCssColorString('#ff0000');
-    data.list.forEach(i=>{
-      let entity = gisMap.viewer.entities.getById(i.id);
-      entity.point.color= colorRed
-        // gisMap.remove(i.id)
-      })
-  };
-
-  const selectRect = () => {
-    const _measure = gisMap.selectRect({ onFinish: selectRectCallBack });
-    setMeasure(_measure);
-  };
 
   const removeAll = () => {
     gisMap.removeAll();
@@ -128,7 +62,6 @@ function Content() {
       height: 1000000,
       color:"#9900cc"
     });
-    console.log(3333, entity2)
     // const entity2 = new Cesium.Entity({
     //   name:'卫星波束dian',
     //   show: true,
