@@ -5,21 +5,20 @@ import Tip from './common/tip';
 import Menu from './common/menu';
 import material from './material/line';
 import material2 from './material/polyline';
+import material3 from './material/circleWave';
 import { computeCircle } from './utils';
 import camera from './methods/camera';
 import mouse from './methods/mouse';
 import base from './methods/base';
-import { MeasureLine, MeasurePolygn } from './tools';
+import { MeasureLine, MeasurePolygn, SelectRect } from './tools';
 import '@modules/cesium/Source/Widgets/widgets.css';
 import drawFns from './draw';
 import paintFns from './paint';
 
+window.CESIUM_BASE_URL = '/static/Cesium';
 material(Cesium);
 material2(Cesium);
-
-window.CESIUM_BASE_URL = '/static/Cesium';
-// Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZGE5MmI2Yy1jZmVmLTQyZGUtYjk4Ni02ODBiYWFiZDZkOGYiLCJpZCI6MjU3MDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODY0MjQyMDR9.dx-BAVwhWMWfgJb49x2XZEVP-EjFxMvihn8Lca6EXYU';
-
+material3(Cesium)
 // id 累加计数器
 
 class GisMap {
@@ -280,7 +279,7 @@ class GisMap {
 
   /**
    *
-   * 移除元素
+   * 移除元素 单个元素
    * @param {string} id
    * @memberof GisMap
    */
@@ -292,6 +291,16 @@ class GisMap {
     if (_entity) {
       this.viewer.entities.remove(_entity);
     }
+  }
+
+  /**
+   *
+   *  移除元素所有元素
+   * @memberof GisMap
+   */
+  removeAll() {
+    this.viewer.entities.removeAll();
+    this.viewer.scene.primitiveremoveAll();
   }
 
   /**
@@ -327,6 +336,7 @@ GisMap.prototype.canvas2image = base.canvas2image;
 // 测量工具
 GisMap.prototype.measureLine = function measureLine(options) { return new MeasureLine(this.viewer, options); };
 GisMap.prototype.measurePolygn = function measurePolygn(options) { return new MeasurePolygn(this.viewer, options); };
+GisMap.prototype.selectRect = function selectRect(options) { return new SelectRect(this.viewer, options); };
 
 // 画图方法
 const fns = {

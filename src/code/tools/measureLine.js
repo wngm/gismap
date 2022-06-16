@@ -2,6 +2,25 @@
 /* eslint-disable func-names */
 import * as Cesium from 'cesium';
 
+/**
+ * 测量工具可选配配置项
+ * @typedef {Object} MeasureOptions
+ * @property {finishCallback} [onFinish] - 测量结束的的回调函数
+ */
+
+/**
+ * 测量工具完成回调函数.
+ * @callback finishCallback
+ * @param {FinishData} finishData
+ */
+
+/**
+ * FinishData 回调函数返回数据
+ * @typedef {Object} FinishData
+ * @property {numver} value - 测量距离长度 单位【米】
+ * @property {Object[]} points -测量绘制的坐标点
+ */
+
 // 测量线段
 /**
  *
@@ -10,6 +29,11 @@ import * as Cesium from 'cesium';
  * @return {Object} measureInstance 测量工具实例
  */
 class MeasureLine {
+  /**
+   * 实例测量工具
+   * @param {MeasureOptions} [options={}]
+   * @memberof MeasureLine
+   */
   constructor(viewer, options = {}) {
     this.handler = new Cesium.ScreenSpaceEventHandler(viewer.scene._imageryLayerCollection);
     this.positions = [];
@@ -72,7 +96,7 @@ class MeasureLine {
     cartoPts.push(point2cartographic);
     // 返回两点之间的距离
     const promise = Cesium.sampleTerrain(viewer.terrainProvider, 8, cartoPts);
-    Cesium.when(promise, (updatedPositions) => {
+    Promise.resolve(promise).then((updatedPositions) => {
       for (let jj = 0; jj < updatedPositions.length - 1; jj++) {
         const geoD = new Cesium.EllipsoidGeodesic();
         geoD.setEndPoints(updatedPositions[jj], updatedPositions[jj + 1]);

@@ -83,7 +83,24 @@ interface ILineOPtions {
   tip?: Tip
   menu?: Menu
 }
+// 圆柱形
+interface CylinderProps {
+  longitude: number
+  latitude: number
+  height: number
+  color: string
+  [key: string]: any
+}
 
+// 圆锥形
+interface CylinderWaveProps {
+  longitude: number
+  latitude: number
+  height: number
+  color: string
+  count: number
+  [key: string]: any
+}
 
 type weather = 'rain ' | 'snow' | 'fog'
 
@@ -97,14 +114,17 @@ declare class GisMap {
   setSceneMode2D3D(mode: 2 | 3): void
   drawPoint(data: IPoint)
   drawImgPoint(data: ImgPoint)
+  drawFlashPoint(data: IPoint)
   drawCircle(data: CircleProps)
   drawEllipse(data: EllipseProps)
   drawRect(data: RectProps)
   drawPolygon(data: RadarProps)
   addCircleScan(data: RadarProps)
+  drawCylinder(data: CylinderProps)
+  cylinderWave(data: CylinderWaveProps)
   addRadarScan(data: PolygonProps)
   drawLine(start: IPoint, end: IPoint, options: ILineOPtions): void
-  drawAnimateLine(start: IPoint, end: IPoint, options: ILineOPtions): void
+  drawAnimateLine(point: IPoint[], options: ILineOPtions): void
   setWeather(weather: weather): void
   clearWeather(): void
   setSky(urls: Array<string>): void
@@ -113,9 +133,15 @@ declare class GisMap {
   canvas2image(type?: 'file' | 'base64' | 'img', width?: number, height?: number): any
   measureLine(): void
   measurePolygn(): void
-  remove(id: string): void { }
+  remove(id: string): void
+  removeAll(id: string): void
   paintPoint(data: IPoint, callback: () => {})
+  paintFlashPoint(data: IPoint, callback: () => {})
   paintImgPoint(data: ImgPoint, callback: () => {})
+  paintLine(data: IPoint, callback: () => {})
+  paintRect(data: IPoint, callback: () => {})
+  paintCircle(data: IPoint, callback: () => {})
+  paintPolygon(data: IPoint, callback: () => {})
 }
 
 

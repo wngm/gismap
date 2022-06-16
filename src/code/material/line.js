@@ -1,6 +1,8 @@
-import dashImg from './image/dash3.png';
 
-function run(Cesium) {
+
+function load(Cesium) {
+  const dashImg = '/image/dash3.png'
+
   function PolylineTrailLinkMaterialProperty(color, duration) {
     this._definitionChanged = new Cesium.Event();
     this._color = undefined;
@@ -52,7 +54,7 @@ function run(Cesium) {
 
   Cesium.PolylineTrailLinkMaterialProperty = PolylineTrailLinkMaterialProperty;
   Cesium.Material.PolylineTrailLinkType = 'PolylineTrailLink';
-  Cesium.Material.PolylineTrailLinkImage = dashImg;
+  Cesium.Material.PolylineTrailLinkImage = window.CESIUM_BASE_URL + dashImg;
   Cesium.Material.PolylineTrailLinkSource = ` czm_material czm_getMaterial(czm_materialInput materialInput){
       czm_material material = czm_getDefaultMaterial(materialInput);
       vec2 st = repeat * materialInput.st;
@@ -84,4 +86,4 @@ function run(Cesium) {
   );
 }
 
-export default run;
+export default load;

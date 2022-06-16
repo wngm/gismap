@@ -3,6 +3,25 @@
 /* eslint-disable func-names */
 import * as Cesium from 'cesium';
 
+/**
+ * 测量工具可选配配置项
+ * @typedef {Object} MeasureOptions
+ * @property {finishCallback} [onFinish] - 测量结束的的回调函数
+ */
+
+/**
+ * 测量工具完成回调函数.
+ * @callback finishCallback
+ * @param {FinishData} finishData
+ */
+
+/**
+ * FinishData 回调函数返回数据
+ * @typedef {Object} FinishData
+ * @property {numver} value - 测量距离长度 单位平方公里
+ * @property {Object[]} points -测量绘制的坐标点
+ */
+
 const radiansPerDegree = Math.PI / 180.0;// 角度转化为弧度(rad)
 const degreesPerRadian = 180.0 / Math.PI;// 弧度转化为角度
 /* 方向 */
@@ -48,6 +67,11 @@ function distance(point1, point2) {
  * @return {Object} measureInstance 测量工具实例
  */
 class MeasurePolygn {
+  /**
+   * 实例测量工具
+   * @param {MeasureOptions} [options={}]
+   * @memberof MeasurePolygn
+   */
   constructor(viewer, options = {}) {
     this.viewer = viewer;
     this.handler = new Cesium.ScreenSpaceEventHandler(viewer.scene._imageryLayerCollection);
@@ -90,29 +114,30 @@ class MeasurePolygn {
     cartoPts.push(point2cartographic);
     // 返回两点之间的距离
     const promise = Cesium.sampleTerrain(viewer.terrainProvider, 8, cartoPts);
-    Cesium.when(promise, (updatedPositions) => {
-      for (let jj = 0; jj < updatedPositions.length - 1; jj++) {
-        const geoD = new Cesium.EllipsoidGeodesic();
-        geoD.setEndPoints(updatedPositions[jj], updatedPositions[jj + 1]);
-        let innerS = geoD.surfaceDistance;
-        innerS = Math.sqrt(innerS ** 2 + (updatedPositions[jj + 1].height - updatedPositions[jj].height) ** 2);
-        this.distance += innerS;
-      }
-      // 在三维场景中添加Label
-      // const lon1 = viewer.scene.globe.ellipsoid.cartesianToCartographic(this.labelPt).longitude;
-      // const lat1 = viewer.scene.globe.ellipsoid.cartesianToCartographic(this.labelPt).latitude;
-      // const lonLat = `(${Cesium.Math.toDegrees(lon1).toFixed(2)},${Cesium.Math.toDegrees(lat1).toFixed(2)})`;
-      // let textDisance = `${this.distance.toFixed(2)}米`;
-      // if (this.distance > 10000) { textDisance = `${(this.distance / 1000.0).toFixed(2)}千米`; }
-      this.floatingPoint = viewer.entities.add({
-        name: '贴地距离',
-        position: this.labelPt,
-        point: {
-          pixelSize: 5,
-          color: Cesium.Color.RED,
-          outlineColor: Cesium.Color.WHITE,
-          outlineWidth: 2,
-        },
+    Promise.resolve(promise)
+      .then((updatedPositions) => {
+        for (let jj = 0; jj < updatedPositions.length - 1; jj++) {
+          const geoD = new Cesium.EllipsoidGeodesic();
+          geoD.setEndPoints(updatedPositions[jj], updatedPositions[jj + 1]);
+          let innerS = geoD.surfaceDistance;
+          innerS = Math.sqrt(innerS ** 2 + (updatedPositions[jj + 1].height - updatedPositions[jj].height) ** 2);
+          this.distance += innerS;
+        }
+        // 在三维场景中添加Label
+        // const lon1 = viewer.scene.globe.ellipsoid.cartesianToCartographic(this.labelPt).longitude;
+        // const lat1 = viewer.scene.globe.ellipsoid.cartesianToCartographic(this.labelPt).latitude;
+        // const lonLat = `(${Cesium.Math.toDegrees(lon1).toFixed(2)},${Cesium.Math.toDegrees(lat1).toFixed(2)})`;
+        // let textDisance = `${this.distance.toFixed(2)}米`;
+        // if (this.distance > 10000) { textDisance = `${(this.distance / 1000.0).toFixed(2)}千米`; }
+        this.floatingPoint = viewer.entities.add({
+          name: '贴地距离',
+          position: this.labelPt,
+          point: {
+            pixelSize: 5,
+            color: Cesium.Color.RED,
+            outlineColor: Cesium.Color.WHITE,
+            outlineWidth: 2,
+          },
         // label: {
         //   text: lonLat,
         //   font: '18px sans-serif',
@@ -122,8 +147,8 @@ class MeasurePolygn {
         //   verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
         //   pixelOffset: new Cesium.Cartesian2(20, -20),
         // },
+        });
       });
-    });
   }
 
   // 空间两点距离计算函数
@@ -249,7 +274,6 @@ class MeasurePolygn {
       },
     });
     const data = { points: this.positions, value: area };
-    // eslint-disable-next-line no-unused-expressions
     this.onFinish && this.onFinish(data);
     return data;
   }

@@ -65,6 +65,45 @@ function Content() {
     );
     console.log('new point ', point);
   };
+  const drawFlashPoint = () => {
+    const point = gisMap.drawFlashPoint(
+      {
+        name,
+        pixelSize: 40,
+        color: 'rgba(0,255,255)',
+        longitude: Number(longitude),
+        latitude: Number(latitude),
+        height: Number(height),
+        label: {
+          show: true,
+          text: labelName,
+          outlineColor: '#ff0000',
+          fillColor: 'rgba(173, 255, 47,1)',
+        },
+        tip: {
+          show: true,
+          content: tip,
+        },
+        menu: {
+          className: 'test-menu',
+          show: true,
+          menuItems: [
+            { text: '编辑', type: 'edit' },
+            { text: '展示详情', type: 'detail' },
+            { text: '删除', type: 'delete' },
+          ],
+
+          onSelect: (type, entity) => {
+            console.log(`选择了-- ${type}`, name);
+            if (type === 'delete') {
+              gisMap.remove(entity);
+            }
+          },
+        },
+      },
+    );
+    console.log('new point ', point);
+  };
   const drawImgPoint = () => {
     const point = gisMap.drawImgPoint(
       {
@@ -157,6 +196,7 @@ function Content() {
       </div>
       <div className="btn" onClick={setView}>设置显示</div>
       <div className="btn" onClick={drawMpoint}>绘点</div>
+      <div className="btn" onClick={drawFlashPoint}>闪烁点</div>
       <div className="btn" onClick={drawImgPoint}>绘图片点</div>
       <div className="btn" onClick={drawCircle}>绘圆</div>
       <div className="btn" onClick={zoomIn}>放大</div>

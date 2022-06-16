@@ -18,7 +18,8 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "build/gisMap.d.ts"
   ],
   "exclude": [
     "node_modules"
