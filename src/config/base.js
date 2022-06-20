@@ -2,11 +2,11 @@ import * as Cesium from 'cesium';
 
 export default {
   vrButton: false, // vr工具
-  animation: true,
+  animation: false,
   baseLayerPicker: false,
   CreditsDisplay: false,
   geocoder: false, // 编码搜索工具
-  timeline: true,
+  timeline: false,
   navigationHelpButton: false,
   infoBox: false,
   selectionIndicator: false,
@@ -18,7 +18,7 @@ export default {
   navigationInstructionsInitiallyVisible: false,
   contextOptions: {
     webgl: {
-      alpha: true,
+      alpha: false,
       depth: false,
       stencil: true,
       antialias: true,
@@ -31,9 +31,9 @@ export default {
   // msaaSamples: 4,
   // 加载arcGis 暗色地图
   url: '/static/resource',
-  imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
-    url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer',
-  }),
+  // imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
+  //   url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer',
+  // }),
   // 高德矢量
   // imageryProvider: new Cesium.UrlTemplateImageryProvider({
   //   url: "http://webrd02.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",

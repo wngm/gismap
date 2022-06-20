@@ -10,6 +10,7 @@ class Tip {
     this.bindEntity = entity;
     this.dom = null;
     this.handleEvent = null;
+    console.log(entity)
     this.init();
   }
 
@@ -23,7 +24,8 @@ class Tip {
     this.dom.className = `kdyh-cesium-tip ${className}`;
     this.dom.innerHTML = content || '该节点缺少 tip 字段';
     this.container.appendChild(this.dom);
-    const position = Cesium.SceneTransforms.wgs84ToWindowCoordinates(this.viewer.scene, this.bindEntity.primitive.position);
+    let _positon= this.bindEntity.primitive.position || this.bindEntity.id.position._value
+    const position = Cesium.SceneTransforms.wgs84ToWindowCoordinates(this.viewer.scene, _positon);
     this.setAt(position);
     this.handle();
   }
@@ -39,7 +41,8 @@ class Tip {
     this.handleEvent = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
 
     this.handleEvent.setInputAction(() => {
-      const position = Cesium.SceneTransforms.wgs84ToWindowCoordinates(this.viewer.scene, this.bindEntity.primitive.position);
+      let _positon= this.bindEntity.primitive.position || this.bindEntity.id.position._value
+      const position = Cesium.SceneTransforms.wgs84ToWindowCoordinates(this.viewer.scene, _positon);
       this.setAt(position);
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }

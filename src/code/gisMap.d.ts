@@ -115,6 +115,7 @@ declare class GisMap {
   drawPoint(data: IPoint)
   drawImgPoint(data: ImgPoint)
   drawFlashPoint(data: IPoint)
+  drawFlashPointClock(data: IPoint)
   drawCircle(data: CircleProps)
   drawEllipse(data: EllipseProps)
   drawRect(data: RectProps)

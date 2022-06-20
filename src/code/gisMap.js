@@ -6,11 +6,12 @@ import Menu from './common/menu';
 import material from './material/line';
 import material2 from './material/polyline';
 import material3 from './material/circleWave';
+import material4 from './material/pointFlash';
 import { computeCircle } from './utils';
 import camera from './methods/camera';
 import mouse from './methods/mouse';
 import base from './methods/base';
-import { MeasureLine, MeasurePolygn, SelectRect } from './tools';
+import { MeasureLine, MeasurePolygn, SelectRect,LoadCzml} from './tools';
 import '@modules/cesium/Source/Widgets/widgets.css';
 import drawFns from './draw';
 import paintFns from './paint';
@@ -19,11 +20,12 @@ window.CESIUM_BASE_URL = '/static/Cesium';
 material(Cesium);
 material2(Cesium);
 material3(Cesium)
+material4(Cesium)
 // id 累加计数器
 
 class GisMap {
   static version = '1.0.0';
-
+  static Cesium = Cesium;
   Cesium = Cesium;
 
   /**
@@ -80,7 +82,7 @@ class GisMap {
     // 太阳变大
     // this.scene.sun.glowFactor = 10;
     // 展示月亮
-    // this..scene.moon.show = true;
+    // this.scene.moon.show = true;
     // 取消双击事件
     // this.setView({ longitude: 100, latitude: 20, height: 10000000 });
     this.viewer.cesiumWidget.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
@@ -99,6 +101,7 @@ class GisMap {
     handler.setInputAction((movement) => {
       const windowPosition = movement.position;
       const pick = this.viewer.scene.pick(windowPosition);
+      console.log(movement,9989,pick )
       if (pick) {
         this.handleTip(pick);
       } else {
@@ -337,6 +340,7 @@ GisMap.prototype.canvas2image = base.canvas2image;
 GisMap.prototype.measureLine = function measureLine(options) { return new MeasureLine(this.viewer, options); };
 GisMap.prototype.measurePolygn = function measurePolygn(options) { return new MeasurePolygn(this.viewer, options); };
 GisMap.prototype.selectRect = function selectRect(options) { return new SelectRect(this.viewer, options); };
+GisMap.prototype.loadCzml = function loadCzml(options) { return new LoadCzml(this.viewer, options); };
 
 // 画图方法
 const fns = {
