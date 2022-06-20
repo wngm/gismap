@@ -78,6 +78,8 @@ function load (Cesium){
             }
           }
         }
+        material.shininess = 0.0;
+        material.specular = 0.0;
         return material;
       }`;
     

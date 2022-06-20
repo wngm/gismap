@@ -3,9 +3,14 @@ import { createRoot } from 'react-dom/client';
 import pointImg from '@src/assets/images/point.png';
 import GisMap from '../code/gisMap';
 import './index.less';
+const {Cesium} = GisMap
 
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
-const gisMap = new GisMap('cesium');
+const gisMap = new GisMap('cesium',{
+  imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
+      url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer',
+    }),
+});
 
 window.gisMap = gisMap;
 gisMap.viewer.scene.globe.depthTestAgainstTerrain = false;
@@ -71,6 +76,48 @@ function Content() {
         name,
         pixelSize: 40,
         color: 'rgba(0,255,255)',
+        longitude: Number(longitude),
+        latitude: Number(latitude),
+        height: Number(height),
+        label: {
+          show: true,
+          text: labelName,
+          outlineColor: '#ff0000',
+          fillColor: 'rgba(173, 255, 47,1)',
+        },
+        tip: {
+          show: true,
+          content: tip,
+        },
+        menu: {
+          className: 'test-menu',
+          show: true,
+          menuItems: [
+            { text: '编辑', type: 'edit' },
+            { text: '展示详情', type: 'detail' },
+            { text: '删除', type: 'delete' },
+          ],
+
+          onSelect: (type, entity) => {
+            console.log(`选择了-- ${type}`, name);
+            if (type === 'delete') {
+              gisMap.remove(entity);
+            }
+          },
+        },
+      },
+    );
+    console.log('new point ', point);
+  };
+
+  const drawFlashPointClock= () => {
+    const point = gisMap.drawFlashPointClock(
+      {
+        name,
+        flashTime:5000,
+        duration:1000,
+        pixelSize: 100000,
+        color: '#ff0000',
         longitude: Number(longitude),
         latitude: Number(latitude),
         height: Number(height),
@@ -197,6 +244,7 @@ function Content() {
       <div className="btn" onClick={setView}>设置显示</div>
       <div className="btn" onClick={drawMpoint}>绘点</div>
       <div className="btn" onClick={drawFlashPoint}>闪烁点</div>
+      <div className="btn" onClick={drawFlashPointClock}>闪烁点+定时</div>
       <div className="btn" onClick={drawImgPoint}>绘图片点</div>
       <div className="btn" onClick={drawCircle}>绘圆</div>
       <div className="btn" onClick={zoomIn}>放大</div>

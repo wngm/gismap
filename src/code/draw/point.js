@@ -149,8 +149,66 @@ function drawFlashPoint(data) {
   return entity;
 }
 
+/**
+ *
+ * 定时闪烁点
+ * @param {object} data
+ * @returns {entity} entity
+ * @memberof GisMap
+ */
+function drawFlashPointClock(data) {
+  const {Cesium} = this
+  const pointOption = getPointOptions(data);
+  const {
+    longitude,
+    latitude,
+    height,
+    key,
+    name,
+    label,
+    tip,
+    menu,
+    color,
+    flashTime = 5000,
+    duration=1000,
+    pixelSize= 1000
+  } = data;
+  let size = pixelSize;
+  const labelOptions = getLabelOptions({
+    ...label,
+  });
+  _id += 1;
+  const entity = new Entity({
+    name,
+    id: key || Number.prototype.toString.apply(_id),
+    show: true,
+    position: Cartesian3.fromDegrees(longitude, latitude, height),
+    // heightReference: HeightReference.CLAMP_TO_GROUND,
+    ellipse: {
+      ...pointOption,
+      semiMinorAxis: size,
+      semiMajorAxis:  size,
+      heightReference: Cesium.HeightReference.NONE,
+      height,
+      material :new Cesium.PointFlashMaterialProperty({
+        duration,
+        count:5,
+        gradient:1,
+        flashTime,
+        color: Color.fromCssColorString(color||'#ff0000')
+      })
+    },
+    label: labelOptions,
+    tip,
+    menu,
+  });
+  this.viewer.entities.add(entity);
+  return entity;
+}
+
 export default {
   drawPoint,
   drawImgPoint,
   drawFlashPoint,
+  drawFlashPointClock,
 };
