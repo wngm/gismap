@@ -38,7 +38,7 @@ function load (Cesium){
       }
       result.color = Cesium.Property.getValueOrClonedDefault(this._color, time, Cesium.Color.WHITE, result.color);
       let nDate = new Date()
-      if(nDate.getTime()-this._time > this.flashTime){
+      if(flashTime > 0 && nDate.getTime()-this._time > this.flashTime){
         result.time =0.999
       }else{
         result.time = ((nDate.getTime() - this._time) % this.duration) / this.duration;

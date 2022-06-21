@@ -5,7 +5,7 @@
 
 function load(Cesium) {
   const dashImg = '/image/dash3.png'
-  function PolylineMp(color, duration) {
+  function PolylineProperty(color, duration) {
     this._definitionChanged = new Cesium.Event();
     this._color = undefined;
     this._colorSubscription = undefined;
@@ -14,7 +14,7 @@ function load(Cesium) {
     this._time = new Date().getTime();
   }
 
-  Object.defineProperties(PolylineMp.prototype, {
+  Object.defineProperties(PolylineProperty.prototype, {
     isConstant: {
       get() {
         return false;
@@ -28,11 +28,11 @@ function load(Cesium) {
     color: Cesium.createPropertyDescriptor('color'),
   });
 
-  PolylineMp.prototype.getType = function (time) {
+  PolylineProperty.prototype.getType = function (time) {
     return 'PolylineTrailLink';
   };
 
-  PolylineMp.prototype.getValue = function (time, result) {
+  PolylineProperty.prototype.getValue = function (time, result) {
     if (!Cesium.defined(result)) {
       result = {};
     }
@@ -46,15 +46,15 @@ function load(Cesium) {
     return result;
   };
 
-  PolylineMp.prototype.equals = function (other) {
+  PolylineProperty.prototype.equals = function (other) {
     return (
       this === other
-      || (other instanceof PolylineMp
+      || (other instanceof PolylineProperty
         && Cesium.Property.equals(this._color, other._color))
     );
   };
 
-  Cesium.PolylineMp = PolylineMp;
+  Cesium.PolylineProperty = PolylineProperty;
   Cesium.Material.PolylineTrailLinkType = 'PolylineTrailLink';
   Cesium.Material.PolylineTrailLinkImage = window.CESIUM_BASE_URL + dashImg;
   Cesium.Material.PolylineTrailLinkSource = ` czm_material czm_getMaterial(czm_materialInput materialInput){

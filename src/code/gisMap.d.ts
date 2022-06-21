@@ -4,6 +4,9 @@ interface IPosition {
   longitude: number
   latitude: number
   height?: number
+  heading?: number
+  pitch?: number
+  roll?: number
 }
 
 declare type CssColor = String
@@ -106,7 +109,7 @@ type weather = 'rain ' | 'snow' | 'fog'
 
 
 declare class GisMap {
-  constructor(dom: any, options?:any)
+  constructor(dom: any, options?: any)
   setView(data: IPosition): void
   setDefaultPosition(data: IPosition): void
   zoomIn(scale: number): number

@@ -17,8 +17,6 @@ import drawFns from './draw';
 import paintFns from './paint';
 
 window.CESIUM_BASE_URL = '/static/Cesium';
-// Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZGE5MmI2Yy1jZmVmLTQyZGUtYjk4Ni02ODBiYWFiZDZkOGYiLCJpZCI6MjU3MDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODY0MjQyMDR9.dx-BAVwhWMWfgJb49x2XZEVP-EjFxMvihn8Lca6EXYU';
-
 
 function loadMaterial(){
   material(Cesium);
@@ -110,7 +108,6 @@ class GisMap {
     handler.setInputAction((movement) => {
       const windowPosition = movement.position;
       const pick = this.viewer.scene.pick(windowPosition);
-      console.log(movement,9989,pick )
       if (pick) {
         this.handleTip(pick);
       } else {
@@ -260,12 +257,28 @@ class GisMap {
       this.contextMenu = new Menu(this.viewer, entity);
     }
   }
-
+  /**
+   *
+   * 绘制管线
+   * @param {*} [points=[]]
+   * @param {*} [options={}]
+   * @returns
+   * @memberof GisMap
+   */
   drawPolyLine(points = [], options = {}) {
     const { width = 10, color = '#ff0000' } = options;
 
     if (points.length < 2) {
       return;
+    }
+
+    const type = options.type || 0
+    let material = Cesium.Color.fromCssColorString(color)
+    if(type){
+      material = new Cesium.PolylineProperty(
+          Cesium.Color.fromCssColorString(color || '#0099cc'),
+          2000,
+        )
     }
 
     const pointsArray = points.reduce((a, b) => a.concat(b), []);
@@ -275,11 +288,8 @@ class GisMap {
           pointsArray,
         ),
         shape: computeCircle(width, 15), // 参数是管线的半径，管线的横截面形状
-        // material: Cesium.Color.fromCssColorString(color),
-        material: new Cesium.PolylineMp(
-          Cesium.Color.fromCssColorString(color || '#0099cc'),
-          2000,
-        ),
+        material,
+        // material: ,
         // material: new Cesium.PolylineGlowMaterialProperty({
         //   color :new Cesium.Color.fromCssColorString(color||'#0099cc'),
         // }),

@@ -1,6 +1,6 @@
 {
   "name": "@kdhy/gismap",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "",
   "main": "build/gisMap.js",
   "scripts": {

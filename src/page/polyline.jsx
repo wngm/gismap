@@ -53,6 +53,13 @@ function Content() {
     ];
     gisMap.drawPolyLine(points, { width: 6, color: '#990000' });
   };
+  const test21 = () => {
+    const points = [
+      [104.0662037488406, 30.640307797224754, 10],
+      [104.06942086951482, 30.600165370177698, 10],
+    ];
+    gisMap.drawPolyLine(points, { width: 6, color: '#990000',type:1 });
+  };
 
   const test3 = () => {
     gisMap.viewer.scene.globe.depthTestAgainstTerrain = false;
@@ -122,6 +129,7 @@ function Content() {
       </div>
       <div className="btn" onClick={setView}>设置显示</div>
       <div className="btn" onClick={test}>管道</div>
+      <div className="btn" onClick={test21}>管道流动</div>
       <div className="btn" onClick={test2}>地下管道</div>
       <div className="btn" onClick={test3}>地下可视</div>
       <div className="btn" onClick={test4}>地下隐藏</div>
