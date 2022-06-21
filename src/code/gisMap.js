@@ -17,10 +17,13 @@ import drawFns from './draw';
 import paintFns from './paint';
 
 window.CESIUM_BASE_URL = '/static/Cesium';
-material(Cesium);
-material2(Cesium);
-material3(Cesium)
-material4(Cesium)
+
+function loadMaterial(){
+  material(Cesium);
+  material2(Cesium);
+  material3(Cesium);
+  material4(Cesium);
+}
 // id 累加计数器
 
 class GisMap {
@@ -54,6 +57,10 @@ class GisMap {
   }
 
   init(container, options) {
+    if(!Cesium.PointFlashMaterialProperty){
+      loadMaterial()
+    }
+    
     this.initViewer(container, options);
   }
 
