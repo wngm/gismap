@@ -106,7 +106,7 @@ type weather = 'rain ' | 'snow' | 'fog'
 
 
 declare class GisMap {
-  constructor(dom: any)
+  constructor(dom: any, options?:any)
   setView(data: IPosition): void
   setDefaultPosition(data: IPosition): void
   zoomIn(scale: number): number

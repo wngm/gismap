@@ -17,6 +17,8 @@ import drawFns from './draw';
 import paintFns from './paint';
 
 window.CESIUM_BASE_URL = '/static/Cesium';
+// Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzZGE5MmI2Yy1jZmVmLTQyZGUtYjk4Ni02ODBiYWFiZDZkOGYiLCJpZCI6MjU3MDQsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJpYXQiOjE1ODY0MjQyMDR9.dx-BAVwhWMWfgJb49x2XZEVP-EjFxMvihn8Lca6EXYU';
+
 
 function loadMaterial(){
   material(Cesium);
@@ -65,7 +67,7 @@ class GisMap {
   }
 
   initViewer(container, options = {}) {
-    this.viewer = new Cesium.Viewer(container, { ...baseOptions, ...options });
+    this.viewer = new Cesium.Viewer(container, { ...baseOptions(), ...options });
     this.scene = this.viewer.scene;
     this.camera = this.viewer.camera;
     this.viewer.scene.globe.depthTestAgainstTerrain = false;

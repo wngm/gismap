@@ -6,11 +6,7 @@ import './index.less';
 const {Cesium} = GisMap
 
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
-const gisMap = new GisMap('cesium',{
-  imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
-      url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer',
-    }),
-});
+const gisMap = new GisMap('cesium');
 
 window.gisMap = gisMap;
 gisMap.viewer.scene.globe.depthTestAgainstTerrain = false;
