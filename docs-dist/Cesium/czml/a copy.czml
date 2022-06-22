@@ -1,0 +1,52 @@
+[{
+    "id": "document",
+    "name": "CZML Point",
+    "version": "1.0",
+    "clock": {
+      "interval": "2022-01-01T10:00:00+0800/2022-01-02T10:00:00+0800",
+      "currentTime": "2022-01-01T10:00:00+0800",
+      "step": "SYSTEM_CLOCK_MULTIPLIER",
+      "multiplier": 5}},{
+    "id": "point 1",
+    "name": "point",
+    "position": {
+      "interpolationAlgorithm":"LAGRANGE",
+      "epoch":"2022-01-02T02:10:10Z",
+      "interpolationDegree":5,
+      "cartographicDegrees":[
+        "2022-01-01T10:00:00+0800",70,20,150000,
+        "2022-01-01T10:30:00+0800", -80, 44, 150000,
+        "2022-01-01T17:00:00+0800", 70, 18, 150000,
+        "2022-01-01T24:00:00+0800", 0, 18, 150000,
+        "2022-01-02T10:00:00+0800", 70,20,150000]
+    },
+    "point": {
+        "color": {
+            "rgba": [255, 255, 255, 255]
+        },
+        "outlineColor": {
+            "rgba": [255, 0, 0, 255]
+        },
+        "outlineWidth": 4,
+        "pixelSize": 20
+},{"id":"test",
+    "name":"sin",
+    "cylinder":{
+        "topRadius":0,
+        "bottomRadius":200000,
+        "length":2000000,
+        "slices":128,
+        "disableDepthTestDistance":0
+    },
+    "position": {
+      "interpolationAlgorithm":"LAGRANGE",
+      "epoch":"2022-01-02T02:10:10Z",
+      "interpolationDegree":5,
+      "cartographicDegrees":[
+        "2022-01-01T10:00:00+0800",70,20,150000,
+        "2022-01-01T10:30:00+0800", -80, 44, 150000,
+        "2022-01-01T17:00:00+0800", 70, 18, 150000,
+        "2022-01-01T24:00:00+0800", 0, 18, 150000,
+        "2022-01-02T10:00:00+0800", 70,20,150000]
+    },
+}]
