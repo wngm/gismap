@@ -35,7 +35,7 @@ class MeasureLine {
    * @memberof MeasureLine
    */
   constructor(viewer, options = {}) {
-    this.handler = new Cesium.ScreenSpaceEventHandler(viewer.scene._imageryLayerCollection);
+    this.handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
     this.positions = [];
     this.poly = null;
     this.distance = 0;
@@ -168,6 +168,7 @@ class MeasureLine {
       if (this.positions.length === 0) {
         this.positions.push(this.cartesian.clone());
       }
+      console.log(movement.position,ray,this.cartesian)
       this.positions.push(this.cartesian);
       // 记录鼠标单击时的节点位置，异步计算贴地距离
       this.labelPt = this.positions[this.positions.length - 1];

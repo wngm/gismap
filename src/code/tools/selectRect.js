@@ -26,7 +26,7 @@ class SelectRect {
    * @memberof SelectRect
    */
   constructor(viewer, options = {}) {
-    this.handler = new Cesium.ScreenSpaceEventHandler(viewer.scene._imageryLayerCollection);
+    this.handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
     this.positions = [];
     this.poly = null;
     this.distance = 0;

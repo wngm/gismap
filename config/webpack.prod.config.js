@@ -30,7 +30,17 @@ const webppackBuild = {
 };
 
 const cfg = merge(webpackBase, webppackBuild);
+const dist = path.resolve(__dirname, '../build/');
 
+cfg.entry = entry
+cfg.output = {
+    path: dist,
+    // 直接输出完整路径
+    filename: '[name].js',
+    // 动态输出文件名，以chunk名命名
+    sourcePrefix: '',
+  }
+cfg.plugins =[]
 // entry
 // Object.getOwnPropertyNames(webpackBase.entry || {}).map((name) => {
 //   cfg.entry[name] = []

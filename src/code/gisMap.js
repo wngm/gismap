@@ -262,7 +262,6 @@ class GisMap {
    * 绘制管线
    * @param {*} [points=[]]
    * @param {*} [options={}]
-   * @returns
    * @memberof GisMap
    */
   drawPolyLine(points = [], options = {}) {
