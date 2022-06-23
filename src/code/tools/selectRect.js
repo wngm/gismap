@@ -169,15 +169,13 @@ class SelectRect {
    */
   finish() {
     const { viewer } = this.viewer;
-    console.log(this.positions);
     this.handler.destroy();
     this.handler = undefined;
     this.positions.pop(); // 最后一个点无效
     if (this.positions.length === 1) { viewer.entities.remove(this.floatingPoint); }
     // eslint-disable-next-line no-unused-expressions
-
     const list = this.getData();
-    const data = { list, datat:{points: this.positions}};
+    const data = { list, data:{points: this.positions}};
     this.onFinish && this.onFinish(data);
     return data;
   }
