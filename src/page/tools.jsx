@@ -6,10 +6,11 @@ import './index.less';
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap('cesium');
 
-const pt = turf.point([120, 41, 0]);
-const converted = turf.toMercator(pt);
-console.log(pt, converted,gisMap);
-
+const pt = turf.circle([120, 41],100);
+const p = turf.point([115,46]);
+const p2 = turf.point([120,46]);
+console.log(turf.booleanWithin(p,pt),888 ,pt,p);
+console.log(turf.distance(p,p2))
 
 // 随机测试点
 gisMap.setView({
@@ -98,6 +99,11 @@ function Content() {
     setMeasure(_measure);
   };
 
+  const selectCircle = () => {
+    const _measure = gisMap.selectCircle({ onFinish: selectRectCallBack });
+    setMeasure(_measure);
+  };
+
   const removeAll = () => {
     gisMap.removeAll();
   };
@@ -110,6 +116,7 @@ function Content() {
       <div className="btn" role="none" onClick={() => getSize()}>测量面积</div>
       <div className="btn" role="none" onClick={() => removeSize()}>完成测量面积</div>
       <div className="btn" role="none" onClick={() => selectRect()}>框选</div>
+      <div className="btn" role="none" onClick={() => selectCircle()}>圆选</div>
       <div className="btn" role="none" onClick={() => removeAll()}>清空所有</div>
     </div>
   );
