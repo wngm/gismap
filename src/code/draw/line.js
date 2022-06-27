@@ -31,6 +31,7 @@ function drawAnimateLine(points, options = {}) {
     // show: true,
     // tip:{show:true,content:'这是线段'},
     width: 2,
+    layer: 'default',
     ...options,
     polyline: {
       positions: Cartesian3.fromDegreesArrayHeights(pointsArray),
@@ -66,9 +67,9 @@ function drawLine(points = [], options = {}) {
   _id += 1;
   const entity = new Entity({
     id: _id,
-    // show: true,
     // tip:{show:true,content:'这是线段'},
     width: 2,
+    layer: 'default',
     ...options,
     polyline: {
       positions: Cartesian3.fromDegreesArrayHeights(pointsArray),

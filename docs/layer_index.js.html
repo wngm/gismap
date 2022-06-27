@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>MeasurePolygn - Documentation</title>
+    <title>layer/index.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,360 +29,144 @@
 
 <div id="main">
     
-    <h1 class="page-title">MeasurePolygn</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        MeasurePolygn
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="MeasurePolygn"><span class="type-signature"></span>new MeasurePolygn<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    面积测量工具 【单击鼠标左键绘制点，点击鼠标右键结束】
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tools_measurePolygn.js.html">tools/measurePolygn.js</a>, <a href="tools_measurePolygn.js.html#line63">line 63</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>Object</code></span>
-
-
-    </dd>
-</dl>
-
-
-<div class="param-desc">
-    measureInstance 测量工具实例
-</div>
-
-    
-</div>
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="MeasurePolygn.MeasurePolygn.html">MeasurePolygn</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="destroy"><span class="type-signature"></span>destroy<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    销毁测量工具
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tools_measurePolygn.js.html">tools/measurePolygn.js</a>, <a href="tools_measurePolygn.js.html#line286">line 286</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="finish"><span class="type-signature"></span>finish<span class="signature">()</span><span class="type-signature"> &rarr; {'{points:any[],value:Number}'}</span></h4>
-
-    
-
-
-
-<div class="description">
-    完成测量
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tools_measurePolygn.js.html">tools/measurePolygn.js</a>, <a href="tools_measurePolygn.js.html#line249">line 249</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>'{points:any[],value:Number}'</code></span>
-
-
-    </dd>
-</dl>
-
-
-<div class="param-desc">
-    data 返回数据 【value】为距离平方公里，【points】坐标点
-</div>
-
-    
-</div>
-
-
-
-</div>
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">layer/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// 图层管理
+
+
+/**
+ *
+ * @typedef {Object} LayerProps 图层数据
+ * @property {string} layer 图层名
+ * @property { Array&lt;{id:string}>} children 图层下的元素集
+ * @property {number} length 图层下元素数量
+ */
+
+
+/**
+ *
+ * 获取图层数据
+ * @returns {LayerProps[]} 所有的图层
+ * @memberof GisMap
+ */
+function getLayer() {
+    const {viewer} = this
+    const layersMap = {}
+    let layers =[]
+    viewer.entities.values.forEach(e => {
+        if(e.layer){
+            if(layersMap[e.layer]){
+                layers[layersMap[e.layer]].children.push({id:e.id,entity:e})
+                layers[layersMap[e.layer]].length +=1
+            }else{
+                layersMap[e.layer] = layers.length
+                layers.push({
+                    layer:e.layer,
+                    children:[{id:e.id,entity:e}],
+                    length:1
+                })
+            }
+        }
+    });
+    return layers
+
+ }
+ /**
+  *
+  * 获取图层下元素
+  * @param {string} [layer='default'] 图层名 
+  * @returns {Array&lt;{id:string}>}  图层下元素数组
+  * @memberof GisMap
+  */
+ function getLayerValues(layer='default'){
+    const {viewer} = this
+    let children =[]
+    viewer.entities.values.forEach(e => {
+        if(e.layer === layer){
+            children.push({id:e.id,entity:e})
+        }
+
+    })
+    return children
+ }
+
+  /**
+  *
+  * 隐藏图层
+  * @param {string} [layer='default'] 图层名 
+  * @returns {Array&lt;{id:string}>}  图层下元素数组
+  * @memberof GisMap
+  */
+ function layerHide(layer='default'){
+    const {viewer} = this
+    let children =[]
+    viewer.entities.values.forEach(e => {
+        if(e.layer === layer){
+            children.push({id:e.id,entity:e})
+            e.show = false
+        }
+
+    })
+    return children
+ }
+
+ /**
+  *
+  * 显示图层
+  * @param {string} [layer='default'] 图层名 
+  * @returns {Array&lt;{id:string}>}  图层下元素数组
+  * @memberof GisMap
+  */
+function layerShow(layer='default'){
+    const {viewer} = this
+    let children =[]
+    viewer.entities.values.forEach(e => {
+        if(e.layer === layer){
+            children.push({id:e.id,entity:e})
+            e.show = true
+        }
+
+    })
+    return children
+}
+
+ /**
+  *
+  * 删除图层
+  * @param {string} [layer='default'] 图层名 
+  * @returns {Array&lt;{id:string}>}  图层下元素数组
+  * @memberof GisMap
+  */
+  function layerRemove(layer='default'){
+    const {viewer} = this
+    let children =[]
+    viewer.entities.values.forEach(e => {
+        if(e.layer === layer){
+            children.push({id:e.id})
+            viewer.entities.remove(e)
+        }
+
+    })
+    return children
+ }
+
+export default {
+    getLayer,
+    getLayerValues,
+    layerHide,
+    layerShow,
+    layerRemove
+ }</code></pre>
+        </article>
+    </section>
 
 
 
