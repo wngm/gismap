@@ -74,7 +74,7 @@ class MeasurePolygn {
    */
   constructor(viewer, options = {}) {
     this.viewer = viewer;
-    this.handler = new Cesium.ScreenSpaceEventHandler(viewer.scene._imageryLayerCollection);
+    this.handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
     this.positions = [];
     this.tempPoints = [];
     this.poly = null;

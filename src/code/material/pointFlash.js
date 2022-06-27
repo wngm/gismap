@@ -8,7 +8,7 @@ function load (Cesium){
           this.color = options.color;
           this.duration = Cesium.defaultValue(options.duration, 1e3);
           this.count = Cesium.defaultValue(options.count, 2);
-          this.flashTime =Cesium.defaultValue(options.flashTime, 5000) 
+          this.flashTime =Cesium.defaultValue(options.flashTime, 5000);
           if (this.count <= 0) this.count = 1;
           this.gradient = Cesium.defaultValue(options.gradient, 0.1);
           if (this.gradient < 0) this.gradient = 0;
@@ -38,7 +38,7 @@ function load (Cesium){
       }
       result.color = Cesium.Property.getValueOrClonedDefault(this._color, time, Cesium.Color.WHITE, result.color);
       let nDate = new Date()
-      if(nDate.getTime()-this._time > this.flashTime){
+      if(this.flashTime > 0 && nDate.getTime()-this._time > this.flashTime){
         result.time =0.999
       }else{
         result.time = ((nDate.getTime() - this._time) % this.duration) / this.duration;

@@ -4,26 +4,26 @@ import * as Cesium from 'cesium';
 
 /**
  * 测量工具可选配配置项
- * @typedef {Object} SelectRectOptions
- * @property {selectRectCallback} [onFinish] - 测量结束的的回调函数
+ * @typedef {Object} SelectCircleOptions
+ * @property {selectCircleCallback} [onFinish] - 测量结束的的回调函数
  */
 
 /**
  * 测量工具完成回调函数.
- * @callback selectRectCallback
+ * @callback selectCircleCallback
  * @param {selectInfo} finishData
  */
 
 /**
  *
  * 地图框选工具 返回元素和框选矩形的起点和终点坐标
- * @class SelectRect
+ * @class SelectCircle
  */
-class SelectRect {
+class SelectCircle {
   /**
    * 实例测量工具
-   * @param {SelectRectOptions} [options={}]
-   * @memberof SelectRect
+   * @param {SelectCircleOptions} [options={}]
+   * @memberof SelectCircle
    */
   constructor(viewer, options = {}) {
     this.handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
@@ -39,14 +39,19 @@ class SelectRect {
     // eslint-disable-next-line no-param-reassign
     viewer.scene.globe.depthTestAgainstTerrain = false;
 
-    this.Rectangle = function Rectangle(positions) {
-      return viewer.entities.add({
-        name: 'Blue translucent, rotated, and extruded ellipse with outline',
-        rectangle: {
-          coordinates: new Cesium.CallbackProperty(() => Cesium.Rectangle.fromCartesianArray(positions), false),
-          material: Cesium.Color.CHARTREUSE.withAlpha(0.5),
-        },
-      });
+    this.Circle = function Circle(positions) {
+        let size = new Cesium.CallbackProperty(()=>Cesium.Cartesian3.distance(positions[0],positions[1]), false)
+        size.getValue()
+        return viewer.entities.add({
+            position: positions[0],
+            ellipse: {
+                semiMinorAxis : size,
+                semiMajorAxis : size,
+                // heightReference: GisMap.Cesium.HeightReference.NONE,
+                // height:1000,
+                material: Cesium.Color.fromCssColorString('#0099cc77')
+            }
+        });
     };
     this.init(viewer);
   }
@@ -62,14 +67,15 @@ class SelectRect {
       this.cartesian = viewer.scene.globe.pick(ray, viewer.scene);
       // 跳出地球时异常
       if (!Cesium.defined(this.cartesian)) { return; }
-      if (this.positions.length >= 2) {
+      if (this.positions.length === 1) {
+        this.positions.push(this.cartesian);
         if (!Cesium.defined(this.poly)) {
-          this.poly = new this.Rectangle(this.positions);
-        } else {
+          this.poly = new this.Circle(this.positions);
+        } 
+      }else if(this.positions.length >= 2) {
           this.positions.pop();
           this.positions.push(this.cartesian);
         }
-      }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
     this.handler.setInputAction((movement) => {
@@ -79,20 +85,20 @@ class SelectRect {
       if (!Cesium.defined(this.cartesian)) { return; }
       if (this.positions.length === 0) {
         this.positions.push(this.cartesian.clone());
+        // this.positions.push(this.cartesian);
       }
-      this.positions.push(this.cartesian);
       // 在三维场景中添加点
       const cartographic = Cesium.Cartographic.fromCartesian(this.positions[this.positions.length - 1]);
       const longitudeString = Cesium.Math.toDegrees(cartographic.longitude);
       const latitudeString = Cesium.Math.toDegrees(cartographic.latitude);
       const heightString = cartographic.height;
-      this.tempPoints.push({ lon: longitudeString, lat: latitudeString, hei: heightString });
+    //   this.tempPoints.push({ lon: longitudeString, lat: latitudeString, hei: heightString });
       // const labelText = `(${longitudeString.toFixed(2)},${latitudeString.toFixed(2)})`;
-      this.labelPt = this.positions[this.positions.length - 1];
-      if (this.positions.length === 2) {
-        this.poly = new this.Rectangle(this.positions);
+      this.labelPt = this.positions[0];
+      if (this.positions.length === 1) {
+        this.poly = new this.Circle(this.positions);
       }
-      if (this.positions.length > 2) {
+      if (this.positions.length === 2) {
         // 在三维场景中添加Label
         // this.floatingPoint = viewer.entities.add({
         //   name: '多边形面积',
@@ -117,9 +123,9 @@ class SelectRect {
       }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
-    this.handler.setInputAction(() => {
-      this.finish();
-    }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+    // this.handler.setInputAction(() => {
+    //   this.finish();
+    // }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
   }
 
   drawShape(positionData) {
@@ -133,7 +139,7 @@ class SelectRect {
         name: 'Blue translucent, rotated, and extruded ellipse with outline',
         rectangle: {
           coordinates: new Cesium.CallbackProperty((() => {
-            const obj = Cesium.Rectangle.fromCartesianArray(arr);
+            const obj = Cesium.Circle.fromCartesianArray(arr);
             // if(obj.west==obj.east){ obj.east+=0.000001};
             // if(obj.south==obj.north){obj.north+=0.000001};
             return obj;
@@ -165,35 +171,35 @@ class SelectRect {
    *
    * 完成测量
    * @returns {selectInfo} info 返回数据 【value】为距离单位米，【points】坐标点
-   * @memberof SelectRect
+   * @memberof SelectCircle
    */
   finish() {
     const { viewer } = this.viewer;
     this.handler.destroy();
     this.handler = undefined;
-    this.positions.pop(); // 最后一个点无效
-    if (this.positions.length === 1) { viewer.entities.remove(this.floatingPoint); }
     // eslint-disable-next-line no-unused-expressions
     const list = this.getData();
-    const data = { list, data:{points: this.positions}};
+    const data = { list, data:{ points: this.positions}};
     this.onFinish && this.onFinish(data);
     return data;
   }
  // 获取矩形框内数据
   getData() {
-    const { viewer } = this;
+    const { viewer,positions } = this;
     const { ellipsoid } = viewer.scene.globe;
     const datas = [];
-    const rectangle = Cesium.Rectangle.fromCartesianArray(this.positions.slice(0, 2));
+    const r = Cesium.Cartesian3.distance(positions[0],positions[1])
+    // const rectangle = Cesium.Circle.fromCartesianArray(this.positions.slice(0, 2));
     this.viewer.entities.values.forEach((entity) => {
       const { id } = entity;
-      if (entity.position?._value) {
+      if (id !== this.poly.id && entity.position?._value) {
         const cartographic = ellipsoid.cartesianToCartographic(entity.position._value);
         const latitude = Cesium.Math.toDegrees(cartographic.latitude);
         const longitude = Cesium.Math.toDegrees(cartographic.longitude);
         const { height } = cartographic;
+        let _r = Cesium.Cartesian3.distance(positions[0],entity.position._value)
         // 判断元素点是否在矩形内
-        const status = Cesium.Rectangle.contains(rectangle, cartographic);
+        const status = _r < r
 
         if (status) {
           datas.push({
@@ -210,9 +216,11 @@ class SelectRect {
     return datas;
   }
 
+
+
   destroy() {
     this.handler.destroy();
   }
 }
 
-export default SelectRect;
+export default SelectCircle;

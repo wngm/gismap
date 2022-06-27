@@ -4,6 +4,9 @@ interface IPosition {
   longitude: number
   latitude: number
   height?: number
+  heading?: number
+  pitch?: number
+  roll?: number
 }
 
 declare type CssColor = String
@@ -106,7 +109,7 @@ type weather = 'rain ' | 'snow' | 'fog'
 
 
 declare class GisMap {
-  constructor(dom: any)
+  constructor(dom: any, options?: any)
   setView(data: IPosition): void
   setDefaultPosition(data: IPosition): void
   zoomIn(scale: number): number
@@ -134,6 +137,9 @@ declare class GisMap {
   canvas2image(type?: 'file' | 'base64' | 'img', width?: number, height?: number): any
   measureLine(): void
   measurePolygn(): void
+  selectRect(): object
+  selectCircle(): object
+  loadCzml(): object
   remove(id: string): void
   removeAll(id: string): void
   paintPoint(data: IPoint, callback: () => {})

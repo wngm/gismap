@@ -2,4 +2,5 @@
 export { default as MeasureLine } from './measureLine';
 export { default as MeasurePolygn } from './measurePolygn';
 export { default as SelectRect } from './selectRect';
+export { default as SelectCircle} from './selectCircle';
 export { default as LoadCzml } from './loadCzml';

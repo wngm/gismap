@@ -1,6 +1,6 @@
 import * as Cesium from 'cesium';
 
-export default {
+export default () => ({
   vrButton: false, // vr工具
   animation: false,
   baseLayerPicker: false,
@@ -29,8 +29,13 @@ export default {
     allowTextureFilterAnisotropic: true,
   },
   // msaaSamples: 4,
+  imageryProvider: new Cesium.TileMapServiceImageryProvider({
+    url : Cesium.buildModuleUrl('Assets/Textures/NaturalEarthII/'),
+    maximumLevel : 2
+  }),
+
   // 加载arcGis 暗色地图
-  url: '/static/resource',
+  // url: '/static/resource',
   // imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
   //   url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer',
   // }),
@@ -56,4 +61,4 @@ export default {
   //   url: "/geoserver/my_china/wms",
   //   layers: "my_china:HYP_HR",
   // }),;
-};
+})

@@ -20,8 +20,8 @@ const webppackBuild = {
     new CopyPlugin({
       patterns: [
         { from: path.resolve(__dirname, '../public/static'), to: 'static' },
-        { from: path.resolve(__dirname, '../node_modules/cesium/Build/Cesium'), to: 'static/Cesium' },
-        { from: path.resolve(__dirname, '../node_modules/cesium/Build/Cesium'), to: '../build/Cesium' },
+        { from: path.resolve(__dirname, '../public/static/Cesium'), to: '../build/Cesium' },
+        { from: path.resolve(__dirname, '../src/code/gisMap.d.ts'), to: '../build/gisMap.d.ts' },
       ],
     }),
     new CleanWebpackPlugin(),
