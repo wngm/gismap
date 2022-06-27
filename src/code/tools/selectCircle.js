@@ -40,12 +40,7 @@ class SelectCircle {
     viewer.scene.globe.depthTestAgainstTerrain = false;
 
     this.Circle = function Circle(positions) {
-
-        function getDistance (){
-            let distance = Cesium.Cartesian3.distance(positions[0],positions[1])//求地表距离,单位为米            
-            return distance
-          }
-        let size = new Cesium.CallbackProperty(getDistance, false)
+        let size = new Cesium.CallbackProperty(()=>Cesium.Cartesian3.distance(positions[0],positions[1]), false)
         size.getValue()
         return viewer.entities.add({
             position: positions[0],
