@@ -62,7 +62,6 @@ class Menu {
   onEvent() {
     this.dom.onclick = (e) => {
       const type = e.target.getAttribute('type');
-      console.log(type)
       if (type) {
         this.bindEntity.id.menu.onSelect(type, this.bindEntity.id);
         this.hide();

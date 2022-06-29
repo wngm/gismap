@@ -76,8 +76,7 @@ interface IPoint extends IPosition {
   menu?: Menu
   highlight?: boolean
   isHighlight?: boolean
-  showMenu?: boolean
-  showTip?: boolean
+  showDefaultMenu?: boolean
   highlightColor?: string
   [key: string]: any
 }
@@ -122,6 +121,7 @@ declare class GisMap {
   zoomoOut(scale: number): number
   setSceneMode2D3D(mode: 2 | 3): void
   drawPoint(data: IPoint)
+  drawMarkerPoint(data: IPoint)
   drawImgPoint(data: ImgPoint)
   drawFlashPoint(data: IPoint)
   drawFlashPointClock(data: IPoint)

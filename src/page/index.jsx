@@ -28,7 +28,7 @@ function Content() {
     gisMap.zoomOut();
   };
   const drawMpoint = () => {
-    const point = gisMap.drawPoint(
+    const point = gisMap.drawMarkerPoint(
       {
         name,
         pixelSize: 60,
@@ -38,8 +38,6 @@ function Content() {
         label: {
           text: labelName,
         },
-        showLabel: true,
-        showTip: true,
         tip: {
           show: true,
           content: {
@@ -67,7 +65,7 @@ function Content() {
         onMenuSelect(type, entity) {
           console.log(type, entity)
         },
-        showMenu: true,
+        showDefaultMenu: true
         // menu: {
         //   className: 'test-menu',
         //   show: true,
@@ -87,42 +85,135 @@ function Content() {
       },
     );
     console.log('new point ', point);
+  }
+  const drawPoint = () => {
+    const point = gisMap.drawPoint(
+      {
+        name,
+        pixelSize: 30,
+        longitude: Number(longitude),
+        latitude: Number(latitude),
+        height: Number(height),
+        label: {
+          text: labelName,
+        },
+        tip: {
+          show: true,
+          content: {
+            title: 'tips',
+            items: [
+              {
+                key: 'test1',
+                value: '苏打水'
+              },
+              {
+                key: 'test2',
+                value: '苏打水'
+              },
+              {
+                key: 'test3',
+                value: '苏打水'
+              },
+              {
+                key: 'test4',
+                value: '苏打水'
+              },
+            ]
+          }
+        },
+        onMenuSelect(type, entity) {
+          console.log(type, entity)
+        },
+        showDefaultMenu: true
+      },
+    );
+    console.log('new point ', point);
+  }
+  const drawHighlightPoint = () => {
+    const point = gisMap.drawPoint(
+      {
+        name,
+        pixelSize: 30,
+        longitude: Number(longitude),
+        latitude: Number(latitude),
+        height: Number(height),
+        isHighlight: true,
+        label: {
+          text: labelName,
+        },
+        tip: {
+          show: true,
+          content: {
+            title: 'tips',
+            items: [
+              {
+                key: 'test1',
+                value: '苏打水'
+              },
+              {
+                key: 'test2',
+                value: '苏打水'
+              },
+              {
+                key: 'test3',
+                value: '苏打水'
+              },
+              {
+                key: 'test4',
+                value: '苏打水'
+              },
+            ]
+          }
+        },
+        onMenuSelect(type, entity) {
+          console.log(type, entity)
+        },
+        showDefaultMenu: true
+      },
+    );
+    console.log('new point ', point);
   };
   const drawFlashPoint = () => {
     const point = gisMap.drawFlashPoint(
       {
         name,
         pixelSize: 40,
-        color: 'rgba(0,255,255)',
         longitude: Number(longitude),
         latitude: Number(latitude),
         height: Number(height),
         label: {
-          show: true,
           text: labelName,
-          outlineColor: '#ff0000',
-          fillColor: 'rgba(173, 255, 47,1)',
         },
         tip: {
           show: true,
-          content: tip,
+          content: {
+            title: 'tips',
+            items: [
+              {
+                key: 'test1',
+                value: '苏打水'
+              },
+              {
+                key: 'test2',
+                value: '苏打水'
+              },
+              {
+                key: 'test3',
+                value: '苏打水'
+              },
+              {
+                key: 'test4',
+                value: '苏打水'
+              },
+            ]
+          }
         },
-        menu: {
-          className: 'test-menu',
-          show: true,
-          menuItems: [
-            { text: '编辑', type: 'edit' },
-            { text: '展示详情', type: 'detail' },
-            { text: '删除', type: 'delete' },
-          ],
-
-          onSelect: (type, entity) => {
-            console.log(`选择了-- ${type}`, name);
-            if (type === 'delete') {
-              gisMap.remove(entity);
-            }
-          },
-        },
+        isHighlight: true,
+        showDefaultMenu: true,
+        onMenuSelect(type, entity) {
+          console.log(type)
+          console.log(entity)
+        }
       },
     );
     console.log('new point ', point);
@@ -135,36 +226,16 @@ function Content() {
         flashTime:5000,
         duration:1000,
         pixelSize: 100000,
-        color: '#ff0000',
         longitude: Number(longitude),
         latitude: Number(latitude),
         height: Number(height),
         label: {
-          show: true,
-          text: labelName,
-          outlineColor: '#ff0000',
-          fillColor: 'rgba(173, 255, 47,1)',
+          text: '点啊',
         },
-        tip: {
-          show: true,
-          content: tip,
-        },
-        menu: {
-          className: 'test-menu',
-          show: true,
-          menuItems: [
-            { text: '编辑', type: 'edit' },
-            { text: '展示详情', type: 'detail' },
-            { text: '删除', type: 'delete' },
-          ],
+        showDefaultMenu: true,
+        onMenuSelect() {
 
-          onSelect: (type, entity) => {
-            console.log(`选择了-- ${type}`, name);
-            if (type === 'delete') {
-              gisMap.remove(entity);
-            }
-          },
-        },
+        }
       },
     );
     console.log('new point ', point);
@@ -174,41 +245,13 @@ function Content() {
       {
         name,
         pixelSize: 60,
-        color: 'rgba(0,255,255,1)',
         longitude: Number(123),
         latitude: Number(70),
-          show: true,
         height: Number(height),
         label: {
           text: labelName,
-          outlineColor: '#ff0000',
-          fillColor: 'rgba(173, 255, 47,1)',
         },
-        imgOptions: {
-          width: 50,
-          height: 50,
-          image: pointImg,
-        },
-        tip: {
-          show: true,
-          content: tip,
-        },
-        menu: {
-          className: 'test-menu',
-          show: true,
-          menuItems: [
-            { text: '编辑', type: 'edit' },
-            { text: '展示详情', type: 'detail' },
-            { text: '删除', type: 'delete' },
-          ],
-
-          onSelect: (type, entity) => {
-            console.log(`选择了-- ${type}`, name);
-            if (type === 'delete') {
-              gisMap.remove(entity);
-            }
-          },
-        },
+        showDefaultMenu: true,
       },
     );
     console.log('new point ', point);
@@ -217,11 +260,17 @@ function Content() {
     const point = gisMap.drawCircle(
       {
         name,
-        color: 'rgba(212,225,127,0.5)',
         radius: 1000000,
         longitude: Number(123),
         latitude: Number(70),
-        height: Number(height),
+        height: 0,
+        highlight: true,
+        highlightColor: 'red',
+        isHighlight: true,
+        showDefaultMenu: true,
+        onMenuSelect() {
+          
+        }
       },
     );
     console.log('new point ', point);
@@ -260,7 +309,9 @@ function Content() {
 
       </div>
       <div className="btn" onClick={setView}>设置显示</div>
-      <div className="btn" onClick={drawMpoint}>绘点</div>
+      <div className="btn" onClick={drawPoint}>绘点</div>
+      <div className="btn" onClick={drawHighlightPoint}>绘高亮点</div>
+      <div className="btn" onClick={drawMpoint}>绘标记点</div>
       <div className="btn" onClick={drawFlashPoint}>闪烁点</div>
       <div className="btn" onClick={drawFlashPointClock}>闪烁点+定时</div>
       <div className="btn" onClick={drawImgPoint}>绘图片点</div>

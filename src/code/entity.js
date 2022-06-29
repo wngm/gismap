@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-05-31 15:41:36
- * @LastEditTime: 2022-06-28 15:44:27
+ * @LastEditTime: 2022-06-29 11:33:09
  * @LastEditors: R10
  * @Description: 
  * @FilePath: /gismap/src/code/entity.js
@@ -42,14 +42,16 @@ function getPointOptions(options) {
   let {
     color,
     pixelSize = 30,
+    isHighlight,
     heightReference = Cesium.HeightReference.CLAMP_TO_GROUND,
   } = options;
-  color = color ? Cesium.Color.fromCssColorString(color) : Cesium.Color.fromCssColorString(window.Cesium.themeColor);
+  color = color ? Cesium.Color.fromCssColorString(color) : Cesium.Color.fromCssColorString(isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor);
   return {
+    ...options,
     // show: true,
     pixelSize,
     heightReference,
-    color: color || Cesium.Color.LIME,
+    color,
     // outlineWidth: 10,,
     // outlineColor: Cesium.Color.LIME,
     // outlineWidth: 10,
