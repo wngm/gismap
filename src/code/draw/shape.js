@@ -35,6 +35,7 @@ function drawCircle(data) {
   const id = key || _id;
   const entity = new Entity({
     name,
+    layer: data.layer || 'default',
     id,
     show: true,
     highlight,
@@ -80,6 +81,7 @@ function drawEllipse(data) {
   const entity = new Entity({
     name,
     id,
+    layer: data.layer || 'default',
     show: true,
     highlight,
     ellipse: {
@@ -119,6 +121,7 @@ function drawRect(data) {
   const entity = new Entity({
     name,
     id,
+    layer: data.layer || 'default',
     show: true,
     highlight,
     rectangle: {
@@ -156,6 +159,7 @@ function drawPolygon(data) {
   const polygon = this.viewer.entities.add({
     name,
     id,
+    layer: data.layer || 'default',
     polygon: {
       hierarchy: {
         positions: Cartesian3.fromDegreesArray([...coordinates.flat(Infinity)]),

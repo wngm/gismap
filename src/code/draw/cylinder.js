@@ -21,6 +21,7 @@ import {
         count = 4
     } = data
     const entity = new Entity({
+      layer: data.layer || 'default',
       // show: true,
       // tip:{show:true,content:'这是圆柱体'},
       position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height/2),
@@ -81,6 +82,7 @@ import {
     //     }
     //   });
     const entity = new Entity({
+        layer: data.layer || 'default',
         position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height/2),
         cylinder: {
           topRadius:0,

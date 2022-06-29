@@ -2,7 +2,7 @@
 /*
  * @Author: R10
  * @Date: 2022-05-31 09:31:52
- * @LastEditTime: 2022-06-29 09:07:52
+ * @LastEditTime: 2022-06-29 09:32:20
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/code/draw/point.js
@@ -15,7 +15,7 @@ import normalPoint from '@src/assets/images/point.png'
 import normalPointHighlight from '@src/assets/images/point-highlight.png'
 import imgPoint from '@src/assets/images/img-point.png'
 import imgPointHighlight from '@src/assets/images/img-point-highlight.png'
-console.log(imgPoint)
+
 let _id = 1;
 // /**
 //  *
@@ -57,15 +57,32 @@ let _id = 1;
 //   this.viewer.entities.add(entity);
 //   return entity;
 // }
+
+/**
+ *
+ * 点的参数
+ * @typedef {Object} PointProps 点的相关参数
+ * @property {number} longitude 经度
+ * @property {number} latitude 维度
+ * @property {number} height 高度
+ * @property {number} pixelSize 点大小
+ * @property {Object} [label] label 展示
+ * @property {Object} [tip] 提示信息
+ * @property {Object} [menu] 右键菜单
+ * @property {string} [key] 指定唯一 id 
+ * @property {string} [layer] 图层 默认图层名为【default】
+ */
+
 /**
  *
  * 点绘制
- * @param {object} data
+ * @param {PointProps} data
  * @returns {entity} entity
  * @memberof GisMap
  */
 function drawPoint(data) {
   const {
+    name,
     key,
     longitude,
     latitude,
@@ -90,6 +107,8 @@ function drawPoint(data) {
   });
   _id += 1;
   const entity = new Entity({
+    name,
+    layer: data.layer || 'default',
     id: key || Number.prototype.toString.apply(_id),
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
@@ -153,6 +172,7 @@ function drawImgPoint(data) {
   _id += 1;
   const entity = new Entity({
     name,
+    layer: data.layer || 'default',
     id: key || Number.prototype.toString.apply(_id),
     show: true,
     billboard: {
@@ -197,6 +217,7 @@ function drawFlashPoint(data) {
   _id += 1;
   const entity = new Entity({
     name,
+    layer: data.layer || 'default',
     id: key || Number.prototype.toString.apply(_id),
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
@@ -253,6 +274,7 @@ function drawFlashPointClock(data) {
   _id += 1;
   const entity = new Entity({
     name,
+    layer: data.layer || 'default',
     id: key || Number.prototype.toString.apply(_id),
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),

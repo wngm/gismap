@@ -15,6 +15,7 @@ import { MeasureLine, MeasurePolygn, SelectRect,SelectCircle,LoadCzml} from './t
 import '@modules/cesium/Source/Widgets/widgets.css';
 import drawFns from './draw';
 import paintFns from './paint';
+import layer from './layer';
 
 window.CESIUM_BASE_URL = '/static/Cesium';
 
@@ -363,11 +364,13 @@ GisMap.prototype.loadCzml = function loadCzml(options) { return new LoadCzml(thi
 
 // 画图方法
 const fns = {
-  ...drawFns, ...paintFns,
+  ...drawFns, ...paintFns,...layer
 };
 Object.keys(fns).forEach((key) => {
   GisMap.prototype[key] = fns[key];
 });
+
+
 window.Cesium = Cesium;
 window.Cesium.highlightColor = '#0dfcff';
 window.Cesium.themeColor = '#4291da';
