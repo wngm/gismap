@@ -18,9 +18,10 @@ import {
         latitude,
         height,
         color = "#0099cc",
-        count = 4
+        key
     } = data
     const entity = new Entity({
+      id:key,
       layer: data.layer || 'default',
       // show: true,
       // tip:{show:true,content:'这是圆柱体'},
@@ -65,7 +66,8 @@ import {
         latitude,
         height,
         color = "#0099cc",
-        count = 4
+        count = 4,
+        key
     } = data
 
     // const dashImg = window.CESIUM_BASE_URL +'/image/dash3.png'
@@ -82,6 +84,7 @@ import {
     //     }
     //   });
     const entity = new Entity({
+        id:key,
         layer: data.layer || 'default',
         position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height/2),
         cylinder: {

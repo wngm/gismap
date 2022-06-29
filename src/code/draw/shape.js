@@ -143,7 +143,7 @@ function drawRect(data) {
     highlight,
     color,
   } = data;
-  const id = _id || key;
+  const id = key || _id;
   const entity = new Entity({
     name,
     id,
