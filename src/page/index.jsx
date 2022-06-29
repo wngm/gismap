@@ -32,36 +32,58 @@ function Content() {
       {
         name,
         pixelSize: 60,
-        color: 'rgba(0,255,255,1)',
         longitude: Number(longitude),
         latitude: Number(latitude),
         height: Number(height),
         label: {
-          show: true,
           text: labelName,
-          outlineColor: '#ff0000',
-          fillColor: 'rgba(173, 255, 47,1)',
         },
+        showLabel: true,
+        showTip: true,
         tip: {
           show: true,
-          content: tip,
+          content: {
+            title: 'tips',
+            items: [
+              {
+                key: 'test1',
+                value: '苏打水'
+              },
+              {
+                key: 'test2',
+                value: '苏打水'
+              },
+              {
+                key: 'test3',
+                value: '苏打水'
+              },
+              {
+                key: 'test4',
+                value: '苏打水'
+              },
+            ]
+          }
         },
-        menu: {
-          className: 'test-menu',
-          show: true,
-          menuItems: [
-            { text: '编辑', type: 'edit' },
-            { text: '展示详情', type: 'detail' },
-            { text: '删除', type: 'delete' },
-          ],
+        onMenuSelect(type, entity) {
+          console.log(type, entity)
+        },
+        showMenu: true,
+        // menu: {
+        //   className: 'test-menu',
+        //   show: true,
+        //   menuItems: [
+        //     { text: '编辑', type: 'edit' },
+        //     { text: '展示详情', type: 'detail' },
+        //     { text: '删除', type: 'delete' },
+        //   ],
 
-          onSelect: (type, entity) => {
-            console.log(`选择了-- ${type}`, name);
-            if (type === 'delete') {
-              gisMap.remove(entity);
-            }
-          },
-        },
+        //   onSelect: (type, entity) => {
+        //     console.log(`选择了-- ${type}`, name);
+        //     if (type === 'delete') {
+        //       gisMap.remove(entity);
+        //     }
+        //   },
+        // },
       },
     );
     console.log('new point ', point);
@@ -155,9 +177,9 @@ function Content() {
         color: 'rgba(0,255,255,1)',
         longitude: Number(123),
         latitude: Number(70),
+          show: true,
         height: Number(height),
         label: {
-          show: true,
           text: labelName,
           outlineColor: '#ff0000',
           fillColor: 'rgba(173, 255, 47,1)',

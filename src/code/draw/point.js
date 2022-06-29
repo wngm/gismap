@@ -2,7 +2,7 @@
 /*
  * @Author: R10
  * @Date: 2022-05-31 09:31:52
- * @LastEditTime: 2022-06-09 10:44:45
+ * @LastEditTime: 2022-06-29 09:07:52
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/code/draw/point.js
@@ -11,8 +11,52 @@ import {
   Entity, Cartesian3, HeightReference, CallbackProperty, Color,
 } from 'cesium';
 import { getPointOptions, getLabelOptions } from '../entity';
-
+import normalPoint from '@src/assets/images/point.png'
+import normalPointHighlight from '@src/assets/images/point-highlight.png'
+import imgPoint from '@src/assets/images/img-point.png'
+import imgPointHighlight from '@src/assets/images/img-point-highlight.png'
+console.log(imgPoint)
 let _id = 1;
+// /**
+//  *
+//  * 点绘制
+//  * @param {object} data
+//  * @returns {entity} entity
+//  * @memberof GisMap
+//  */
+// function drawPoint(data) {
+//   const {
+//     longitude,
+//     latitude,
+//     height,
+//     key,
+//     menu,
+//   } = data;
+
+//   const pointOption = getPointOptions(data);
+//   const labelOptions = getLabelOptions({
+//     ...label,
+//     pixelSize,
+//   });
+//   _id += 1;
+//   const entity = new Entity({
+//     name,
+//     name,
+//     pixelSize,
+//     label,
+//     tip,
+//     id: key || Number.prototype.toString.apply(_id),
+//     show: true,
+//     position: Cartesian3.fromDegrees(longitude, latitude, height),
+//     heightReference: HeightReference.CLAMP_TO_GROUND,
+//     point: pointOption,
+//     label: labelOptions,
+//     tip,
+//     menu,
+//   });
+//   this.viewer.entities.add(entity);
+//   return entity;
+// }
 /**
  *
  * 点绘制
@@ -22,33 +66,62 @@ let _id = 1;
  */
 function drawPoint(data) {
   const {
+    key,
     longitude,
     latitude,
+    isHighlight = false,
+    pixelSize = 14,
     height,
-    key,
-    name,
-    pixelSize,
-    label,
+    showLabel = true,
+    label = {},
+    imgOptions,
+    showTip = false,
+    showMenu = false,
+    onMenuSelect,
     tip,
-    menu,
+    menu
   } = data;
 
-  const pointOption = getPointOptions(data);
+  // const pointOption = getPointOptions(data);
   const labelOptions = getLabelOptions({
     ...label,
     pixelSize,
+    isHighlight
   });
   _id += 1;
   const entity = new Entity({
-    name,
     id: key || Number.prototype.toString.apply(_id),
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
     heightReference: HeightReference.CLAMP_TO_GROUND,
-    point: pointOption,
-    label: labelOptions,
-    tip,
-    menu,
+    billboard: {
+      width: 24,
+      height: 27,
+      image: isHighlight ? normalPointHighlight : normalPoint,
+      ...imgOptions,
+    },
+    label: showLabel ? labelOptions : null,
+    tip: showTip ? (tip || {
+      show: true
+    }) : null,
+    menu: showMenu ? (menu || {
+      className: 'test-menu',
+      show: true,
+      menuItems: [
+        { text: '编辑', icon: 'fa-edit', type: 'edit' },
+        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
+        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
+      ],
+
+      onSelect: (type, entity) => {
+        if (type === 'delete') {
+          console.log(entity)
+          gisMap.remove(entity);
+        }
+        onMenuSelect && onMenuSelect(type, entity)
+      },
+    }) : null,
+    // menu,
   });
   this.viewer.entities.add(entity);
   return entity;
@@ -68,7 +141,7 @@ function drawImgPoint(data) {
     height,
     key,
     name,
-    label,
+    label = {},
     tip,
     menu,
     imgOptions,

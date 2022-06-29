@@ -369,5 +369,8 @@ Object.keys(fns).forEach((key) => {
   GisMap.prototype[key] = fns[key];
 });
 window.Cesium = Cesium;
+window.Cesium.highlightColor = '#0dfcff';
+window.Cesium.themeColor = '#4291da';
+window.Cesium.fontColor = '#dbfaff';
 
 export default GisMap;

@@ -16,7 +16,10 @@ declare interface IKeyValue {
 
 interface Tip {
   show?: boolean
-  content: string
+  content: {
+    title: string
+    items: {key: string, value:string}[]
+  }
   style?: {}
   className?: string
 }
@@ -72,6 +75,9 @@ interface IPoint extends IPosition {
   tip?: Tip
   menu?: Menu
   highlight?: boolean
+  isHighlight?: boolean
+  showMenu?: boolean
+  showTip?: boolean
   highlightColor?: string
   [key: string]: any
 }

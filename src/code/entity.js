@@ -1,3 +1,11 @@
+/*
+ * @Author: R10
+ * @Date: 2022-05-31 15:41:36
+ * @LastEditTime: 2022-06-28 15:44:27
+ * @LastEditors: R10
+ * @Description: 
+ * @FilePath: /gismap/src/code/entity.js
+ */
 import * as Cesium from 'cesium';
 
 function getLabelOptions(options) {
@@ -7,21 +15,22 @@ function getLabelOptions(options) {
     outlineColor,
     text,
     pixelSize = 30,
+    isHighlight = false
   } = options;
 
   return {
     text,
-    font: '14pt Source Han Sans CN', // 字体样式
-    fillColor: fillColor ? Cesium.Color.fromCssColorString(fillColor) : Cesium.Color.BLACK, // 字体颜色
-    outlineColor: outlineColor ? Cesium.Color.fromCssColorString(outlineColor) : Cesium.Color.TRANSPARENT,
-    backgroundColor: Cesium.Color.AQUA, // 背景颜色
+    font: '14px Source Han Sans CN', // 字体样式
+    fillColor: fillColor ? Cesium.Color.fromCssColorString(fillColor) : Cesium.Color.fromCssColorString(isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor), // 字体颜色
+    // outlineColor: outlineColor ? Cesium.Color.fromCssColorString(outlineColor) : Cesium.Color.TRANSPARENT,
+    // backgroundColor: Cesium.Color.AQUA, // 背景颜色
     showBackground: false, // 是否显示背景颜色
     heightReference: Cesium.HeightReference.NONE,
     style: Cesium.LabelStyle.FILL_AND_OUTLINE, // label样式
-    outlineWidth: 2,
+    // outlineWidth: 2,
     verticalOrigin: Cesium.VerticalOrigin.CENTER, // 垂直位置
     horizontalOrigin: Cesium.HorizontalOrigin.CENTER, // 水平位置
-    pixelOffset: new Cesium.Cartesian2(0, -pixelSize / 2), // 偏移
+    pixelOffset: new Cesium.Cartesian2(0, pixelSize / 3), // 偏移
     eyeOffset: Cesium.Cartesian3.ZERO, // 偏移
     distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 40000000),
     disableDepthTestDistance: 10,
@@ -35,7 +44,7 @@ function getPointOptions(options) {
     pixelSize = 30,
     heightReference = Cesium.HeightReference.CLAMP_TO_GROUND,
   } = options;
-  color = color ? Cesium.Color.fromCssColorString(color) : '';
+  color = color ? Cesium.Color.fromCssColorString(color) : Cesium.Color.fromCssColorString(window.Cesium.themeColor);
   return {
     // show: true,
     pixelSize,

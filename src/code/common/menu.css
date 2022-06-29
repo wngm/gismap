@@ -1,25 +1,28 @@
-.kdyh-cesium-menu{
-    min-width: 80px;
-    max-width: 300px;
-    padding: 10px 0;
-    box-sizing: border-box;
-    background-color: #f9f9f9;
-    color: #333333;
-    font-size: 14px;
-    position: absolute;
-    border-radius: 4px;    
-    top: 200px; 
-    left: 200px;
+.kdyh-cesium-menu {
+  min-width: 80px;
+  max-width: 300px;
+  padding: 10px 0;
+  box-sizing: border-box;
+  background: #2f446f;
+  border: 1px solid #0dfcff;
+  color: #dbfaff;
+  font-size: 11px;
+  position: absolute;
+  border-top-right-radius: 6px;
+  top: 200px;
+  left: 100px;
 }
-.kdyh-cesium-menu-item{
-    min-width: 120px;
-    font-size: 14px;
-    color: #333333;
-    cursor: pointer;
-    line-height: 20px;
-    padding:4px 10px;
+
+.kdyh-cesium-menu-item {
+  min-width: 120px;
+  font-size: 14px;
+  color: #dbfaff;
+  cursor: pointer;
+  line-height: 32px;
+  padding: 4px 10px;
 }
-.kdyh-cesium-menu-item:hover{
-    background: #d1e8f3;
+
+.kdyh-cesium-menu-item:hover {
+  background: #2d4d76;
 
 }

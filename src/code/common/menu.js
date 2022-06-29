@@ -38,7 +38,11 @@ class Menu {
     const list = menuItems.map((i) => {
       const item = document.createElement('div');
       item.className = 'kdyh-cesium-menu-item';
-      item.innerText = i.text;
+      item.innerHTML = `
+        <div type=${i.type}>
+          <span type=${i.type}>${i.text}</span>
+        </div>
+      `;
       item.setAttribute('type', i.type);
       return item;
     });
@@ -58,6 +62,7 @@ class Menu {
   onEvent() {
     this.dom.onclick = (e) => {
       const type = e.target.getAttribute('type');
+      console.log(type)
       if (type) {
         this.bindEntity.id.menu.onSelect(type, this.bindEntity.id);
         this.hide();
