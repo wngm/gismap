@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-05-31 15:41:36
- * @LastEditTime: 2022-06-29 11:33:09
+ * @LastEditTime: 2022-06-30 13:45:06
  * @LastEditors: R10
  * @Description: 
  * @FilePath: /gismap/src/code/entity.js
@@ -17,7 +17,10 @@ function getLabelOptions(options) {
     pixelSize = 30,
     isHighlight = false
   } = options;
-
+  const offset = {}
+  if (options.pixelOffset) {
+    offset.pixelOffset = options.pixelOffset
+  }
   return {
     text,
     font: '14px Source Han Sans CN', // 字体样式
@@ -34,7 +37,7 @@ function getLabelOptions(options) {
     eyeOffset: Cesium.Cartesian3.ZERO, // 偏移
     distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 40000000),
     disableDepthTestDistance: 10,
-
+    ...offset,
   };
 }
 

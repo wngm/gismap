@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-06-01 13:47:55
- * @LastEditTime: 2022-06-02 11:54:43
+ * @LastEditTime: 2022-06-30 16:28:52
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/page/shape.jsx
@@ -10,6 +10,7 @@ import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Color } from 'cesium';
 import GisMap from '../code/gisMap';
+import * as Cesium from 'cesium'
 import './index.less';
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap('cesium');
@@ -24,40 +25,56 @@ function Content() {
   }, []);
   const drawCircle = () => {
     gisMap.drawCircle({
-      color: 'rgba(212,225,127,0.5)',
       radius: 1000000,
       longitude: Number(106),
       latitude: Number(27),
       height: 0,
+      showDefaultMenu: true,
+      label: {
+        text: '圆'
+      }
     });
   };
   const drawEllipse = () => {
     gisMap.drawEllipse({
-      color: 'red',
       semiMajorAxis: 400000,
       semiMinorAxis: 200000,
       longitude: Number(136),
       latitude: Number(37),
+      label: {
+        text: '椭圆',
+        pixelOffset: new Cesium.Cartesian2(0, 30)
+      },
       height: 0,
+      showDefaultMenu: true,
+      onMenuSelect() {
+      }
+
     });
   };
   const drawRect = () => {
     gisMap.drawRect({
-      color: 'orange',
-      highlight: true,
-      highlightColor: 'red',
+      showDefaultMenu: true,
+      label: {
+        text: '矩形',
+        pixelOffset: new Cesium.Cartesian2(0, 30)
+      },
+      isHighlight: true,
       coordinates: [
         [106, 27],
         [110, 30],
       ],
+      onMenuSelect() {
+        
+      }
     });
   };
   const drawPolygon = () => {
     gisMap.drawPolygon({
       name: 'polygon',
-      color: 'red',
       highlight: true,
       highlightColor: 'lightblue',
+      showDefaultMenu: true,
       coordinates: [
         [120, 33],
         [125, 27],
@@ -65,6 +82,14 @@ function Content() {
         [118, 26],
         // [102, 30],
       ],
+      label: {
+        text: '多边形',
+        pixelOffset: new Cesium.Cartesian2(0, 100)
+      },
+      isHighlight: true,
+      onMenuSelect() {
+        
+      }
     });
   };
   const addCircleScan = () => {
