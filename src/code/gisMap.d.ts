@@ -146,6 +146,7 @@ declare class GisMap {
   selectRect(): object
   selectCircle(): object
   loadCzml(): object
+  areaEvent(): object
   remove(id: string): void
   removeAll(id: string): void
   paintPoint(data: IPoint, callback: () => {})

@@ -11,7 +11,7 @@ import { computeCircle } from './utils';
 import camera from './methods/camera';
 import mouse from './methods/mouse';
 import base from './methods/base';
-import { MeasureLine, MeasurePolygn, SelectRect,SelectCircle,LoadCzml} from './tools';
+import { MeasureLine, MeasurePolygn, SelectRect,SelectCircle,LoadCzml,AreaEvent} from './tools';
 import '@modules/cesium/Source/Widgets/widgets.css';
 import drawFns from './draw';
 import paintFns from './paint';
@@ -361,6 +361,7 @@ GisMap.prototype.measurePolygn = function measurePolygn(options) { return new Me
 GisMap.prototype.selectRect = function selectRect(options) { return new SelectRect(this.viewer, options); };
 GisMap.prototype.selectCircle = function selectCircle(options) { return new SelectCircle(this.viewer, options); };
 GisMap.prototype.loadCzml = function loadCzml(options) { return new LoadCzml(this.viewer, options); };
+GisMap.prototype.areaEvent = function areaEvent(options) { return new AreaEvent(this.viewer, options); };
 
 // 画图方法
 const fns = {
