@@ -42,7 +42,7 @@ class AreaEvent {
     }
 
     add(id){
-        if(!this.animateEntities.find(i => i===id)){ß
+        if(!this.animateEntities.find(i => i===id)){
             this.animateEntities.push(id)
         }
     }
