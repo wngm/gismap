@@ -362,6 +362,14 @@ GisMap.prototype.selectRect = function selectRect(options) { return new SelectRe
 GisMap.prototype.selectCircle = function selectCircle(options) { return new SelectCircle(this.viewer, options); };
 GisMap.prototype.loadCzml = function loadCzml(options) { return new LoadCzml(this.viewer, options); };
 GisMap.prototype.areaEvent = function areaEvent(options) { return new AreaEvent(this.viewer, options); };
+GisMap.prototype.clearLayer = function (str) {
+  const entities = this.viewer.entities.values
+  entities.forEach(({ id, layer }) => {
+    if (layer === str) {
+      this.viewer.entities.removeById(id)
+    }
+  })
+}
 
 // 画图方法
 const fns = {

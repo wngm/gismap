@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-06-01 13:47:55
- * @LastEditTime: 2022-06-09 11:01:42
+ * @LastEditTime: 2022-07-01 15:41:57
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/page/paint.jsx
@@ -33,7 +33,11 @@ function Content() {
               gisMap.paintPoint(
                 {
                   pixelSize: 30,
-                  color: 'red',
+                  showDefaultMenu: true,
+                  label: {
+                    text: '绘点'
+                  },
+                  isHighlight: true,
                   menu: {
                     className: 'test-menu',
                     show: true,
@@ -57,29 +61,63 @@ function Content() {
               break;
             case '2':
               gisMap.paintImgPoint({
-                imgOptions: {
-                  width: 30,
-                  height: 30,
-                  image: pointImg,
+                label: {
+                  text: '图片点'
                 },
+                showDefaultMenu: true
               });
               break;
             case '3':
-              gisMap.paintLine();
+              gisMap.paintLine({
+                label: {
+                  text: '线'
+                },
+                width: 8,
+                showDefaultMenu: true,
+              });
               break;
             case '4':
-              gisMap.paintRect();
+              gisMap.paintRect({
+                label: {
+                  text: '矩形',
+                },
+                showDefaultMenu: true,
+                isHighlight: true,
+              });
               break;
             case '5':
-              gisMap.paintCircle();
+              gisMap.paintCircle({
+                showDefaultMenu: true,
+                label: {
+                  text: '圆'
+                }
+              });
               break;
             case '6':
-              gisMap.paintPolygon();
+              gisMap.paintPolygon({
+                label: {
+                  text: '多边形'
+                },
+                showDefaultMenu: true,
+                isHighlight: true
+              });
               break;
             case '7':
               gisMap.paintFlashPoint({
                 pixelSize: 50,
-                color: '#e4393c',
+                showDefaultMenu: true,
+                label: {
+                  text: '闪烁点'
+                }
+              });
+              break
+            case '8':
+              gisMap.paintLineWithPoints({
+                pixelSize: 50,
+                showDefaultMenu: true,
+                label: {
+                  text: '带点线'
+                }
               });
               break;
             default: console.log(e);
@@ -94,6 +132,7 @@ function Content() {
         <option value="5">画圆</option>
         <option value="6">画多边形</option>
         <option value="7">画闪烁点</option>
+        <option value="8">画带点线</option>
       </select>
     </div>
   );

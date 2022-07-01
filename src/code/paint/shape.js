@@ -2,7 +2,7 @@
 /*
  * @Author: R10
  * @Date: 2022-06-06 17:25:07
- * @LastEditTime: 2022-06-08 17:02:59
+ * @LastEditTime: 2022-07-01 15:56:48
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/code/paint/shape.js
@@ -16,6 +16,9 @@ import {
   ArcType,
 } from 'cesium';
 import { getWGS84FromDKR } from '../common/utils';
+import { getLabelOptions } from '../entity';
+
+let id = 'shape'
 
 function getPointFromWindowPoint(point, viewer) {
   if (viewer.scene.terrainProvider.constructor.name === 'EllipsoidTerrainProvider') {
@@ -31,7 +34,28 @@ function getPointFromWindowPoint(point, viewer) {
  * @returns {entity} entity
  * @memberof GisMap
  */
-function paintRect(data, callback) {
+function paintRect(data = {}, callback) {
+  id += 1;
+  const {
+    key,
+    name,
+    highlightColor,
+    highlight,
+    color,
+    isHighlight = false,
+    label = {},
+    onMenuSelect,
+    showDefaultMenu = false,
+    pixelSize,
+    menu,
+    tip
+  } = data;
+  const labelOptions = getLabelOptions({
+    ...label,
+    pixelSize,
+    isHighlight
+  });
+  let _id = key || id
   const pointsArr = [];
   const shape = {
     points: [],
@@ -45,6 +69,9 @@ function paintRect(data, callback) {
   // 鼠标点击
   handler.setInputAction((movement) => {
     tempPosition = getPointFromWindowPoint(movement.position, this.viewer);
+    let catp = Ellipsoid.WGS84.cartesianToCartographic(tempPosition);
+    const tempLon = Cesium.Math.toDegrees(catp.longitude);
+    const tempLat = Cesium.Math.toDegrees(catp.latitude);
     // 选择的点在球面上
     if (tempPosition) {
       if (shape.points.length === 0) {
@@ -55,11 +82,40 @@ function paintRect(data, callback) {
         shape.rect.east += 0.000001;
         shape.rect.north += 0.000001;
         shape.entity = this.viewer.entities.add({
+          id: _id,
+          layer: 'default' || data.layer,
           rectangle: {
             coordinates: shape.rect,
-            outline: false,
-            material: Color.RED.withAlpha(0.5),
+            material: new ColorMaterialProperty(new CallbackProperty(() => {
+              if (_id === this.moveActiveId) {
+                return Color.fromCssColorString(highlightColor);
+              }
+              return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
+            }, false)),
+            height: 0,
+            outline: true,
+            width: 10,
+            outlineColor: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
           },
+          label: labelOptions,
+          position: Cartesian3.fromDegrees(tempLon, tempLat),
+          tip,
+          menu: showDefaultMenu ? (menu || {
+            className: 'test-menu',
+            show: true,
+            menuItems: [
+              { text: '编辑', icon: 'fa-edit', type: 'edit' },
+              { text: '展示详情', icon: 'fa-eye', type: 'detail' },
+              { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
+            ],
+            onSelect: (type, entity) => {
+              if (type === 'delete') {
+                console.log(entity)
+                this.remove(entity);
+              }
+              onMenuSelect && onMenuSelect(type, entity)
+            },
+          }) : null,
         });
         shape.bufferEntity = shape.entity;
       } else if (shape.points.length >= 2) {
@@ -121,7 +177,27 @@ function paintRect(data, callback) {
  * @returns {entity} entity
  * @memberof GisMap
  */
-function paintCircle(data, callback) {
+function paintCircle(data = {}, callback) {
+  id += 1;
+  const {
+    key,
+    name,
+    highlightColor,
+    highlight,
+    color,
+    isHighlight = false,
+    label = {},
+    onMenuSelect,
+    showDefaultMenu = false,
+    pixelSize,
+    menu,
+    tip
+  } = data;
+  const labelOptions = getLabelOptions({
+    ...label,
+    pixelSize,
+    isHighlight
+  });
   const circle = {
     points: [],
     entity: null,
@@ -134,6 +210,7 @@ function paintCircle(data, callback) {
   let tempLat;
   let p = null;
   let text = '';
+  let _id = key || id
   const handle = new ScreenSpaceEventHandler(this.viewer.scene.canvas);
   handle.setInputAction((click) => {
     tempPosition = getPointFromWindowPoint(click.position, this.viewer);
@@ -160,14 +237,59 @@ function paintCircle(data, callback) {
         tempLon = Cesium.Math.toDegrees(cartographic1.longitude);
         tempLat = Cesium.Math.toDegrees(cartographic1.latitude);
         circle.entity = this.viewer.entities.add({
+          id: _id,
+          layer: 'default' || data.layer,
           position: Cartesian3.fromDegrees(tempLon, tempLat),
+          label: labelOptions,
           ellipse: {
             semiMinorAxis: new CallbackProperty(callBackPos, false),
             semiMajorAxis: new CallbackProperty(callBackPos, false),
             outline: false,
-            material: data?.color ? Color.fromCssColorString(data.color) : Color.AQUA.withAlpha(0.5),
-            height: 1,
+            material: new ColorMaterialProperty(new CallbackProperty(() => {
+              if (id === this.moveActiveId) {
+                return Color.fromCssColorString(highlightColor);
+              }
+              return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
+            }, false)),
+            height: 0,
+            outline: true,
+            width: 10,
+            outlineColor: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
           },
+          label: labelOptions,
+          tip,
+          menu: showDefaultMenu ? (menu || {
+            className: 'test-menu',
+            show: true,
+            menuItems: [
+              { text: '编辑', icon: 'fa-edit', type: 'edit' },
+              { text: '展示详情', icon: 'fa-eye', type: 'detail' },
+              { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
+            ],
+            onSelect: (type, entity) => {
+              if (type === 'delete') {
+                console.log(entity)
+                this.remove(entity);
+              }
+              onMenuSelect && onMenuSelect(type, entity)
+            },
+          }) : null,          tip,
+          menu: showDefaultMenu ? (menu || {
+            className: 'test-menu',
+            show: true,
+            menuItems: [
+              { text: '编辑', icon: 'fa-edit', type: 'edit' },
+              { text: '展示详情', icon: 'fa-eye', type: 'detail' },
+              { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
+            ],
+            onSelect: (type, entity) => {
+              if (type === 'delete') {
+                console.log(entity)
+                this.remove(entity);
+              }
+              onMenuSelect && onMenuSelect(type, entity)
+            },
+          }) : null,
         });
       } else {
         // const tempCircle = new CircleOutlineGeometry({
@@ -230,25 +352,83 @@ function paintCircle(data, callback) {
  * @returns {entity} entity
  * @memberof GisMap
  */
-function paintPolygon(data, callback) {
+function paintPolygon(data = {}, callback) {
+  id += 1;
+  const {
+    key,
+    name,
+    highlightColor,
+    highlight,
+    color,
+    isHighlight = false,
+    label = {},
+    onMenuSelect,
+    showDefaultMenu = false,
+    pixelSize,
+    menu,
+    tip
+  } = data;
+  const labelOptions = getLabelOptions({
+    ...label,
+    pixelSize,
+    isHighlight
+  });
+  let _id = key || id
   let labelEntity = null;
   let text = '';
+  let tempLon = '';
+  let tempLat = '';
   let poly;
   const positions = [];
   const drawPolygon = () => {
+    console.log(positions)
     poly = this.viewer.entities.add({
+      id: _id,
+      layer: 'default' || data.layer,
       name: '多边形',
       polygon: {
         hierarchy: new CallbackProperty(() => new PolygonHierarchy(positions), false),
         outline: false,
-        material: data?.color ? Color.fromCssColorString(data.color) : Color.RED.withAlpha(0.5),
+        material: new ColorMaterialProperty(new CallbackProperty(() => {
+        if (_id === this.moveActiveId) {
+          return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
+        }
+          return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.5);
+        }, false)),
+        height: 0,
+        outline: true,
+        width: 10,
+        outlineColor: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
       },
+      position: Cartesian3.fromDegrees(tempLon, tempLat),
+      label: labelOptions,
       arcType: ArcType.GEODESIC,
+      tip,
+      menu: showDefaultMenu ? (menu || {
+        className: 'test-menu',
+        show: true,
+        menuItems: [
+          { text: '编辑', icon: 'fa-edit', type: 'edit' },
+          { text: '展示详情', icon: 'fa-eye', type: 'detail' },
+          { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
+        ],
+        onSelect: (type, entity) => {
+          if (type === 'delete') {
+            console.log(entity)
+            this.remove(entity);
+          }
+          onMenuSelect && onMenuSelect(type, entity)
+        },
+      }) : null,
     });
   };
   const handler = new ScreenSpaceEventHandler(this.viewer.scene.canvas);
   // 单击画点
   handler.setInputAction((movement) => {
+    const tempPosition = getPointFromWindowPoint(movement.position, this.viewer);
+    let catp = Ellipsoid.WGS84.cartesianToCartographic(tempPosition);
+    tempLon = Cesium.Math.toDegrees(catp.longitude);
+    tempLat = Cesium.Math.toDegrees(catp.latitude);
     const cartesian = this.viewer.scene.camera.pickEllipsoid(movement.position, this.viewer.scene.globe.ellipsoid);
     // if (positions.length === 0) {
     //   positions.push(cartesian.clone());

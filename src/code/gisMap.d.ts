@@ -133,7 +133,8 @@ declare class GisMap {
   drawCylinder(data: CylinderProps)
   cylinderWave(data: CylinderWaveProps)
   addRadarScan(data: PolygonProps)
-  drawLine(start: IPoint, end: IPoint, options: ILineOPtions): void
+  drawLine(points: number[][], options: IPoint): void
+  drawLineWithPoints(points: number[][], options: IPoint): void
   drawAnimateLine(point: IPoint[], options: ILineOPtions): void
   setWeather(weather: weather): void
   clearWeather(): void
@@ -153,9 +154,11 @@ declare class GisMap {
   paintFlashPoint(data: IPoint, callback: () => {})
   paintImgPoint(data: ImgPoint, callback: () => {})
   paintLine(data: IPoint, callback: () => {})
+  paintLineWithPoints(data: IPoint, callback: () => {})
   paintRect(data: IPoint, callback: () => {})
   paintCircle(data: IPoint, callback: () => {})
   paintPolygon(data: IPoint, callback: () => {})
+  clearLayer(layer: string): void
 }
 
 

@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-06-01 13:47:55
- * @LastEditTime: 2022-06-30 16:28:52
+ * @LastEditTime: 2022-07-01 16:09:08
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/page/shape.jsx
@@ -34,6 +34,9 @@ function Content() {
         text: '圆'
       }
     });
+  }
+  const clearLayer = () => {
+    gisMap.clearLayer('default');
   };
   const drawEllipse = () => {
     gisMap.drawEllipse({
@@ -109,6 +112,7 @@ function Content() {
       <div className="btn" onClick={drawEllipse}>画椭圆</div>
       <div className="btn" onClick={drawRect}>画矩形</div>
       <div className="btn" onClick={drawPolygon}>多边形</div>
+      <div className="btn" onClick={clearLayer}>清除图形组</div>
       <div className="btn" onClick={addCircleScan}>圆扫描</div>
       <div className="btn" onClick={addRadarScan}>扇形扫描</div>
       {/* <div className="btn" onClick={test}>暂停</div>       */}

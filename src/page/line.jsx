@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-05-31 15:41:36
- * @LastEditTime: 2022-06-30 17:47:05
+ * @LastEditTime: 2022-07-01 15:31:04
  * @LastEditors: R10
  * @Description: 
  * @FilePath: /gismap/src/page/line.jsx
@@ -42,6 +42,17 @@ function Content() {
         text: '线'
       }
     });
+  }
+  const drawLineWithPoints = () => {
+    const start = [Number(longitude), Number(latitude), Number(height)];
+    const ends = [start, [116.20, 39.56, 0]];
+    gisMap.drawLineWithPoints(ends, {
+      showDefaultMenu: true, width: 2,
+      label: {
+        text: '点线'
+      },
+      pixelSize: 60,
+    });
   };
 
   const test = () => {
@@ -81,6 +92,7 @@ function Content() {
       </div>
       <div className="btn" onClick={setView}>设置显示</div>
       <div className="btn" onClick={drawLine}>线段绘制</div>
+      <div className="btn" onClick={drawLineWithPoints}>带点线绘制</div>
       <div className="btn" onClick={drawAnimateLine}>动态线绘制</div>
       {/* <div className="btn" onClick={test}>暂停</div>       */}
       {/* <div className="btn" onClick={test2}>运动</div>       */}

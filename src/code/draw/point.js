@@ -2,7 +2,7 @@
 /*
  * @Author: R10
  * @Date: 2022-05-31 09:31:52
- * @LastEditTime: 2022-06-29 17:02:11
+ * @LastEditTime: 2022-07-01 09:20:03
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/code/draw/point.js
@@ -72,7 +72,7 @@ function drawPoint(data) {
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)
-          gisMap.remove(entity);
+          this.remove(entity);
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
@@ -155,7 +155,7 @@ function drawMarkerPoint(data) {
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)
-          gisMap.remove(entity);
+          this.remove(entity);
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
@@ -222,7 +222,7 @@ function drawImgPoint(data) {
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)
-          gisMap.remove(entity);
+          this.remove(entity);
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
@@ -298,7 +298,7 @@ function drawFlashPoint(data) {
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)
-          gisMap.remove(entity);
+          this.remove(entity);
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
@@ -378,7 +378,7 @@ function drawFlashPointClock(data) {
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)
-          gisMap.remove(entity);
+          this.remove(entity);
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
