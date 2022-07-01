@@ -18,6 +18,7 @@ import {
         latitude,
         height,
         color = "#0099cc",
+        bottomRadius,
         key
     } = data
     const entity = new Entity({
@@ -29,7 +30,7 @@ import {
       ...options,
       cylinder: {
         topRadius:0,
-        bottomRadius: height * 0.3, //半径
+        bottomRadius:bottomRadius || height * 0.3, //半径
         bottomSurface:false,
         length:height,
         slices:128,
@@ -65,8 +66,9 @@ import {
         longitude,
         latitude,
         height,
-        color = "#0099cc",
+        color = "#0dfcff",
         count = 4,
+        bottomRadius,
         key
     } = data
 
@@ -89,7 +91,7 @@ import {
         position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height/2),
         cylinder: {
           topRadius:0,
-          bottomRadius: height * 0.3, //半径
+          bottomRadius: bottomRadius || height * 0.3, //半径
           bottomSurface:false,
           length:height,
           slices:128,
@@ -110,9 +112,77 @@ import {
     this.viewer.entities.add(entity);
     return entity;
   }
+
+
+  function drawCircleTest(data = {}, options = {}) {
+
+    const {
+        longitude,
+        latitude,
+        height,
+        color = "#0dfcff",
+        radius,
+        key
+    } = data
+    const entity = new Entity({
+      id:key,
+      layer: data.layer || 'default',
+      // show: true,
+      position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
+      ...options,
+      ellipse: {
+        semiMinorAxis:radius,
+        semiMajorAxis:radius,
+        material:new Cesium.RadarMaterialProperty({
+            duration:2000,
+            count:2,
+            gradient:1,
+            color: Color.fromCssColorString(color||'#990000')
+        }),
+        outline: false,
+      },
+      
+    });
+    this.viewer.entities.add(entity);
+    return entity;
+  }
+  function drawCircleTest2(data = {}, options = {}) {
+
+    const {
+        longitude,
+        latitude,
+        height,
+        color = "#0dfcff",
+        radius,
+        key
+    } = data
+    const entity = new Entity({
+      id:key,
+      layer: data.layer || 'default',
+      // show: true,
+      position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
+      ...options,
+      ellipse: {
+        semiMinorAxis:radius,
+        semiMajorAxis:radius,
+        material:new Cesium.RadarAngleMaterialProperty({
+            duration:2000,
+            count:2,
+            gradient:1,
+            color: Color.fromCssColorString(color||'#990000')
+        }),
+        outline: false,
+      },
+      
+    });
+    this.viewer.entities.add(entity);
+    return entity;
+  }
   
   export default {
     drawCylinder,
     cylinderWave,
+    drawCircleTest,
+    drawCircleTest2
   };
   

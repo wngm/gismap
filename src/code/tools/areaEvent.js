@@ -1,8 +1,13 @@
 import * as Cesium from 'cesium';
 import Eventemitter from 'eventemitter3'
 
-//  区域监控识别
+//  区域监控
 class AreaEvent {
+    /**
+     * 创建区域识别实例 AreaEvent.
+     * @param {*} [options={}]
+     * @memberof AreaEvent
+     */
     constructor(viewer,options={}){
         this.viewer = viewer
         this.timer = null
@@ -11,7 +16,7 @@ class AreaEvent {
             // 监听区域 
         this.plotes= []
         // 被监听对象
-        this.animateEntities= [],
+        this.animateEntities= []
         // 监听区域状态记录
         this.record= {
             //  1 里 0 外
@@ -27,13 +32,24 @@ class AreaEvent {
     init(){
         this.start()
     }
-
+    /**
+     *
+     * 添加监听区域
+     * @param {string} id 监听区域ID
+     * @memberof AreaEvent
+     */
     addArea(id){
         if(!this.plotes.find(i => i===id)){
             this.plotes.push(id)
         }
     }
 
+     /**
+     *
+     * 移除监听区域
+     * @param {string} id 监听区域ID
+     * @memberof AreaEvent
+     */
     removeArea(id){
         let index = this.plotes.findIndex(i=> i === id)
         if(index >-1){
@@ -41,12 +57,24 @@ class AreaEvent {
         }
     }
 
+    /**
+     *
+     * 添加监听物体
+     * @param {string} id 监听物体ID
+     * @memberof AreaEvent
+     */
     add(id){
         if(!this.animateEntities.find(i => i===id)){
             this.animateEntities.push(id)
         }
     }
 
+    /**
+     *
+     * 移除监听物体
+     * @param {string} id 监听物体ID
+     * @memberof AreaEvent
+     */
     remove(id){
         let index = this.animateEntities.findIndex(i=> i === id)
         if(index >-1){
@@ -54,15 +82,21 @@ class AreaEvent {
         }
     }
 
+    /**
+     *
+     * 开始监听
+     * @memberof AreaEvent
+     */
     start(){
-        console.log('start',this)
         this.timer= setInterval(()=>{this.check()},1000)
     }
-
+    /**
+     *
+     * 停止监听
+     * @memberof AreaEvent
+     */
     stop(){
-
         clearInterval(this.timer)
-
     }
      // 状态检测 当前只支持 矩形和正圆形
     check() {
@@ -103,14 +137,12 @@ class AreaEvent {
                   status
                 } 
               }
-              // console.log('isInRect', status)
             }
           })
         })
       }
 
     isInArea(position, entity) {
-        console.log(entity)
         // 圆形区域
         if(entity.ellipse){
           const radius = entity.ellipse.semiMinorAxis.getValue()
@@ -133,8 +165,16 @@ class AreaEvent {
         }
         return false;
     }
+    /**
+     *
+     * 销毁区域监控工具
+     * @memberof AreaEvent
+     */
     destroy(){
         this.stop()
+        this.event.removeAllListeners()
+        this.plotes= []
+        this.animateEntities= []
     }
 }
 

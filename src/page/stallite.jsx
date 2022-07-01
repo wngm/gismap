@@ -8,12 +8,14 @@ const gisMap = new GisMap('cesium', { animation: true, timeline: true });
 const { Cesium } = gisMap
 
 // 波形
-// gisMap.cylinderWave({
-//   longitude: 89,
-//   latitude: 42,
-//   height: 2003204,
-//   color: '#00ff00'
-// });
+gisMap.cylinderWave({
+  longitude: 89,
+  latitude: 42,
+  height: 2003204,
+  //可选参数
+  bottomRadius:2003204,
+  color: '#00ff00'
+});
 // // 圆锥
 // gisMap.drawCylinder({
 //   longitude: 120,
@@ -57,36 +59,6 @@ function bindStallite(dataSource, id) {
     interpolationAlgorithm: Cesium.LagrangePolynomialApproximation
   });
 
-}
-
-
-// 判断是否在矩形内
-function isInArea(position, entrty) {
-  console.log(entrty)
-  // 圆形区域
-  if(entrty.ellipse){
-    const radius = entrty.ellipse.semiMinorAxis.getValue()
-    let center = entrty.position._value
-    let r = Cesium.Cartesian3.distance(position,center)
-
-    console.log(r < radius,r , radius,center)
-    if(r){
-      return r < radius
-    }
-  }
-  // 矩形区域
-  if(entrty.rectangle){
-    let rectanglePosition = entrty.rectangle.coordinates.getValue()
-    let rectangle = new Cesium.Rectangle(rectanglePosition.west, rectanglePosition.south, rectanglePosition.east, rectanglePosition.north)
-    if (position) {
-      const cartographic = Cesium.Ellipsoid.WGS84.cartesianToCartographic(position);
-      // 判断元素点是否在矩形内
-      const status = Cesium.Rectangle.contains(rectangle, cartographic);
-      return status
-    }
-  }
-  return false;
-  
 }
 
 window.gisMap = gisMap;
@@ -157,9 +129,8 @@ function Content() {
     lister.addArea('rect')
     lister.addArea('circle')
     // 监视回调
-    console.log(lister,999)
     lister.event.on('in', (e) => {
-      console.log('移入', e)
+      console.log(`${e.animate.entity.id} 进入 ${e.area.entity.id}`)
       if(e.area.id  === 'rect'){
         e.area.entity.rectangle.material = Cesium.Color.RED
       }
@@ -168,7 +139,7 @@ function Content() {
       }
     })
     lister.event.on('out', (e) => {
-      console.log('移出', e)
+      console.log(`${e.animate.entity.id} 移出 ${e.area.entity.id}`)
       if(e.area.id  === 'rect'){
         e.area.entity.rectangle.material = Cesium.Color.BLUE
       }

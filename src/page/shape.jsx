@@ -15,6 +15,20 @@ import './index.less';
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap('cesium');
 
+
+gisMap.drawCircleTest({
+  longitude: 106,
+  latitude: 27.2,
+  height: 100000,
+  radius: 200000
+})
+
+gisMap.drawCircleTest2({
+  longitude: 120,
+  latitude: 40,
+  height: 100000,
+  radius: 200000
+})
 function Content() {
   useEffect(() => {
     gisMap.setView({
@@ -102,7 +116,12 @@ function Content() {
   };
   const addRadarScan = () => {
     gisMap.addRadarScan({
-      longitude: 113.665412, latitude: 34.757975, r: 50000, scanColor: new Color(1.0, 0.0, 0.0, 1), interval: 1000,
+      longitude: 113.665412, latitude: 34.757975, r: 200000, scanColor: new Color(1.0, 0.0, 0.0, 1), interval: 1000,
+    });
+
+
+    gisMap.addRadarScan({
+      longitude: 100.665412, latitude: 34.757975, r: 100000, scanColor: new Color(1.0, 1.0, 0.0, 1), interval: 1000,
     });
   };
   return (

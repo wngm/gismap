@@ -149,7 +149,7 @@ function addRadarScanPostStage(viewer, cartographicCenter, radius, scanColor, du
         + 'vec4 viewPos = toEye(v_textureCoordinates, depth);\n'
         + 'vec3 prjOnPlane = pointProjectOnPlane(u_scanPlaneNormalEC.xyz, u_scanCenterEC.xyz, viewPos.xyz);\n'
         + 'float dis = length(prjOnPlane.xyz - u_scanCenterEC.xyz);\n'
-        + 'float twou_radius = u_radius * 2.0;\n'
+        + 'float twou_radius = u_radius * 1.5;\n'
         + 'if(dis < u_radius)\n'
         + '{\n'
         + 'float f0 = 1.0 -abs(u_radius - dis) / u_radius;\n'

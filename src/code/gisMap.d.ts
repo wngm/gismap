@@ -1,4 +1,19 @@
 import { BillboardGraphics, LabelGraphics } from 'cesium'
+import EventEmitter from "eventemitter3"
+
+// id参数 Fun
+interface IfnId {
+  (id: stirng): void
+}
+
+interface AreaEvent {
+  event: EventEmitter
+  add: IfnId
+  remove: IfnId
+  addArea: IfnId
+  remove: IfnId
+  [key: string]: any
+}
 
 interface IPosition {
   longitude: number
@@ -18,7 +33,7 @@ interface Tip {
   show?: boolean
   content: {
     title: string
-    items: {key: string, value:string}[]
+    items: { key: string, value: string }[]
   }
   style?: {}
   className?: string
@@ -145,9 +160,9 @@ declare class GisMap {
   measureLine(): void
   measurePolygn(): void
   selectRect(): object
-  selectCircle(): object
+  selectCircle(): Object
   loadCzml(): object
-  areaEvent(): object
+  areaEvent(options?: any): AreaEvent
   remove(id: string): void
   removeAll(id: string): void
   paintPoint(data: IPoint, callback: () => {})
