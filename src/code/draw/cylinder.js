@@ -1,4 +1,5 @@
 import {
+    HeightReference,
     Entity, ArcType, Cartesian3, Color,PolylineTrailLinkMaterialProperty
   } from 'cesium';
   
@@ -132,23 +133,44 @@ import {
         radius,
         key
     } = data
+    const _color = Color.fromCssColorString(color||'#990000')
     const entity = new Entity({
       id:key,
       layer: data.layer || 'default',
       // show: true,
       position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
       ...options,
-      ellipse: {
-        semiMinorAxis:radius,
-        semiMajorAxis:radius,
+      cylinder: {
+        topRadius:radius,
+        bottomRadius:radius,
+        bottomSurface:true,
+        topSurface:false,
+        length:1.0,
+        slices:128,
         material:new Cesium.RadarMaterialProperty({
             duration:2000,
             count:2,
             gradient:1,
-            color: Color.fromCssColorString(color||'#990000')
-        }),
-        outline: false,
+            color: _color
+        })
       },
+      // ellipse: {
+      //   semiMinorAxis:radius,
+      //   semiMajorAxis:radius,
+      //   height:10,
+      //   extrudedHeightReference:HeightReference.RELATIVE_TO_GROUND,
+      //   outlineColor:Cesium.Color.RED,
+      //   // outlineWidth: 10.0,
+      //   // outline:true,
+      //   // outlineWidth:20.0,
+      //   // material: _color,
+      //   material:new Cesium.RadarMaterialProperty({
+      //       duration:2000,
+      //       count:2,
+      //       gradient:1,
+      //       color: _color
+      //   }),
+      // },
       
     });
     this.viewer.entities.add(entity);
@@ -181,19 +203,37 @@ import {
       // show: true,
       position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
       ...options,
-      ellipse: {
-        semiMinorAxis:radius,
-        semiMajorAxis:radius,
+      cylinder: {
+        topRadius:radius,
+        bottomRadius:radius,
+        bottomSurface:true,
+        topSurface:false,
+        length:1.0,
+        slices:128,
+        heightReference:HeightReference.NONE,
         material:new Cesium.RadarAngleMaterialProperty({
-            duration:2000,
-            count:2,
-            gradient:1,
-            color: Color.fromCssColorString(color||'#990000'),
-            start,
-            end,
-        }),
-        outline: false,
+          duration:2000,
+          count:2,
+          gradient:1,
+          color: Color.fromCssColorString(color||'#990000'),
+          start,
+          end,
+      }),
       },
+      // ellipse: {
+      //   semiMinorAxis:radius,
+      //   semiMajorAxis:radius,
+      //   height:10,
+      //   material:new Cesium.RadarAngleMaterialProperty({
+      //       duration:2000,
+      //       count:2,
+      //       gradient:1,
+      //       color: Color.fromCssColorString(color||'#990000'),
+      //       start,
+      //       end,
+      //   }),
+      //   outline: false,
+      // },
       
     });
     this.viewer.entities.add(entity);

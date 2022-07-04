@@ -129,6 +129,8 @@ type weather = 'rain ' | 'snow' | 'fog'
 
 
 declare class GisMap {
+  static Cesium: Cesium
+  static version: string
   constructor(dom: any, options?: any)
   setView(data: IPosition): void
   setDefaultPosition(data: IPosition): void

@@ -185,6 +185,7 @@ function load (Cesium){
       }
       material.shininess = 0.0;
       material.specular = 0.0;
+      material.emission = vec3(0.2,0.2,0.2);
       return material;
     }`;
   
@@ -305,6 +306,7 @@ Cesium.Material.RadarAngleSource = `czm_material czm_getMaterial(czm_materialInp
     }
     material.shininess = 0.0;
     material.specular = 0.0;
+    material.emission = vec3(0.2,0.2,0.2);
     return material;
   }`;
 
