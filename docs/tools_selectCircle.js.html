@@ -1,45 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>tools/selectCircle.js - Documentation</title>
 
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
-    <!--[if lt IE 9]>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>tools/selectCircle.js - Documentation</title>
+
+  <script src="scripts/prettify/prettify.js"></script>
+  <script src="scripts/prettify/lang-css.js"></script>
+  <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+  <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
 </head>
+
 <body>
 
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
+  <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+  <label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+  </label>
 
-<label for="nav-trigger" class="overlay"></label>
+  <label for="nav-trigger" class="overlay"></label>
 
-<nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AreaEvent.AreaEvent.html">AreaEvent</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="GisMap.html">GisMap</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.addCameraEvent">addCameraEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.addMouseEvent">addMouseEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.canvas2image">canvas2image</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.clearSky">clearSky</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.getCameraHeight">getCameraHeight</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.getCameraPosition">getCameraPosition</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.getLayer">getLayer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.getLayerValues">getLayerValues</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.layerHide">layerHide</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.layerRemove">layerRemove</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.layerShow">layerShow</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.removeCameraEvent">removeCameraEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.removeMouseEvent">removeMouseEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.resetSky">resetSky</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.setSceneMode2D3D">setSceneMode2D3D</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.setSky">setSky</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.zoomIn">zoomIn</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#.zoomOut">zoomOut</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#clearWeather">clearWeather</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#drawPolyLine">drawPolyLine</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#remove">remove</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#removeAll">removeAll</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#setView">setView</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="GisMap.html#setWeather">setWeather</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="LoadCzml.html">LoadCzml</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="LoadCzml.html#bindStallite">bindStallite</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="LoadCzml.html#load">load</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="LoadCzml.html#remove">remove</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="LoadCzml.html#unbindStallite">unbindStallite</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="LoadCzml.LoadCzml.html">LoadCzml</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MeasureLine.html">MeasureLine</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeasureLine.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeasureLine.html#finish">finish</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MeasureLine.MeasureLine.html">MeasureLine</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MeasurePolygn.html">MeasurePolygn</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeasurePolygn.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeasurePolygn.html#finish">finish</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MeasurePolygn.MeasurePolygn.html">MeasurePolygn</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SelectCircle.html">SelectCircle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SelectCircle.html#finish">finish</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SelectCircle.SelectCircle.html">SelectCircle</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SelectRect.html">SelectRect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SelectRect.html#finish">finish</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SelectRect.SelectRect.html">SelectRect</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li>
-</nav>
+  <nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li>
+    <li class="nav-heading">Classes</li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a
+          href="AreaEvent.AreaEvent.html">AreaEvent</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a
+          href="GisMap.html">GisMap</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.addCameraEvent">addCameraEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.addMouseEvent">addMouseEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.canvas2image">canvas2image</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.clearSky">clearSky</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.getCameraHeight">getCameraHeight</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.getCameraPosition">getCameraPosition</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.getLayer">getLayer</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.getLayerValues">getLayerValues</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.layerHide">layerHide</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.layerRemove">layerRemove</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.layerShow">layerShow</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.removeCameraEvent">removeCameraEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.removeMouseEvent">removeMouseEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.resetSky">resetSky</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.setSceneMode2D3D">setSceneMode2D3D</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.setSky">setSky</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.zoomIn">zoomIn</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#.zoomOut">zoomOut</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#clearWeather">clearWeather</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#destroy">destroy</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#drawPolyLine">drawPolyLine</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#remove">remove</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#removeAll">removeAll</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#setView">setView</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="GisMap.html#setWeather">setWeather</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a
+          href="LoadCzml.html">LoadCzml</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="LoadCzml.html#bindStallite">bindStallite</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="LoadCzml.html#load">load</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="LoadCzml.html#remove">remove</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="LoadCzml.html#unbindStallite">unbindStallite</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a
+          href="LoadCzml.LoadCzml.html">LoadCzml</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a
+          href="MeasureLine.html">MeasureLine</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="MeasureLine.html#destroy">destroy</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="MeasureLine.html#finish">finish</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a
+          href="MeasureLine.MeasureLine.html">MeasureLine</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a
+          href="MeasurePolygn.html">MeasurePolygn</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="MeasurePolygn.html#destroy">destroy</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="MeasurePolygn.html#finish">finish</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a
+          href="MeasurePolygn.MeasurePolygn.html">MeasurePolygn</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a
+          href="SelectCircle.html">SelectCircle</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="SelectCircle.html#finish">finish</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a
+          href="SelectCircle.SelectCircle.html">SelectCircle</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a
+          href="SelectRect.html">SelectRect</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a
+          href="SelectRect.html#finish">finish</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a
+          href="SelectRect.SelectRect.html">SelectRect</a></span></li>
+    <li class="nav-heading"><a href="global.html">Globals</a></li>
+  </nav>
 
-<div id="main">
-    
+  <div id="main">
+
     <h1 class="page-title">tools/selectCircle.js</h1>
-    
-
-    
 
 
 
-    
+
+
+
+
     <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/* eslint-disable no-plusplus */
+      <article>
+        <pre class="prettyprint source linenums"><code>/* eslint-disable no-plusplus */
 /* eslint-disable func-names */
 import * as Cesium from 'cesium';
 
@@ -90,7 +188,7 @@ class SelectCircle {
                 semiMajorAxis : size,
                 // heightReference: GisMap.Cesium.HeightReference.NONE,
                 // height:1000,
-                material: Cesium.Color.fromCssColorString('#0099cc77')
+                material: Cesium.Color.fromCssColorString('#0dfcff77')
             }
         });
     };
@@ -266,21 +364,23 @@ class SelectCircle {
 
 export default SelectCircle;
 </code></pre>
-        </article>
+      </article>
     </section>
 
 
 
 
-</div>
+  </div>
 
-<br class="clear">
+  <br class="clear">
 
-<footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Mon Jul 04 2022 13:37:47 GMT+0800 (中国标准时间) using the Minami theme.
-</footer>
+  <footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Mon Jul 04 2022 13:37:47 GMT+0800
+    (中国标准时间) using the Minami theme.
+  </footer>
 
-<script>prettyPrint();</script>
-<script src="scripts/linenumber.js"></script>
+  <script>prettyPrint();</script>
+  <script src="scripts/linenumber.js"></script>
 </body>
+
 </html>

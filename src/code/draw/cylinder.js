@@ -18,7 +18,7 @@ import {
         longitude,
         latitude,
         height,
-        color = "#0099cc",
+        color = "#0dfcff",
         bottomRadius,
         key
     } = data
@@ -50,7 +50,7 @@ import {
    * @property {number} longitude 经度
    * @property {number} latitude 维度
    * @property {number} height 高度
-   * @property {string} [color] 颜色 默认值#0099cc
+   * @property {string} [color] 颜色 默认值#0dfcff
    * @property {number} [count = 4] 波形数量
    */
 

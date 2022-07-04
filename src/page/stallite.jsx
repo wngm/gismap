@@ -107,7 +107,7 @@ function Content() {
     // 监视区域1
     gisMap.drawRect({
       key: 'rect',
-      color: '#0099cc',
+      color: '#0dfcff',
       // highlight: true,
       // highlightColor: 'red',
       coordinates: [

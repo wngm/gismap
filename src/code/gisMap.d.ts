@@ -134,8 +134,8 @@ declare class GisMap {
   constructor(dom: any, options?: any)
   setView(data: IPosition): void
   setDefaultPosition(data: IPosition): void
-  zoomIn(scale: number): number
-  zoomoOut(scale: number): number
+  zoomIn(scale?: number): number
+  zoomOut(scale?: number): number
   setSceneMode2D3D(mode: 2 | 3): void
   drawPoint(data: IPoint)
   drawMarkerPoint(data: IPoint)

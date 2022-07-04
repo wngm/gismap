@@ -276,7 +276,7 @@ class GisMap {
     let material = Cesium.Color.fromCssColorString(color)
     if(type){
       material = new Cesium.PolylineProperty(
-          Cesium.Color.fromCssColorString(color || '#0099cc'),
+          Cesium.Color.fromCssColorString(color || '#0dfcff'),
           2000,
         )
     }
@@ -291,7 +291,7 @@ class GisMap {
         material,
         // material: ,
         // material: new Cesium.PolylineGlowMaterialProperty({
-        //   color :new Cesium.Color.fromCssColorString(color||'#0099cc'),
+        //   color :new Cesium.Color.fromCssColorString(color||'#0dfcff'),
         // }),
       },
     });

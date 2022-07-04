@@ -49,7 +49,7 @@ class SelectCircle {
                 semiMajorAxis : size,
                 // heightReference: GisMap.Cesium.HeightReference.NONE,
                 // height:1000,
-                material: Cesium.Color.fromCssColorString('#0099cc77')
+                material: Cesium.Color.fromCssColorString('#0dfcff77')
             }
         });
     };

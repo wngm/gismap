@@ -41,7 +41,7 @@ function Content() {
       [104.0652037488406, 30.640307797224754, 10],
       [104.06842086951482, 30.600165370177698, 10],
     ];
-    gisMap.drawPolyLine(points, { width: 6, color: '#0099cc' });
+    gisMap.drawPolyLine(points, { width: 6, color: '#0dfcff' });
   };
   const test2 = () => {
     const points = [

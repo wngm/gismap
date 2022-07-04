@@ -38,7 +38,7 @@ function drawAnimateLine(points, options = {}) {
       positions: Cartesian3.fromDegreesArrayHeights(pointsArray),
       // material:  Cesium.Material.fromType(Cesium.Material.PolylineTrailLinkType),
       material: new PolylineTrailLinkMaterialProperty(
-        Color.fromCssColorString(options.color || '#0099cc'),
+        Color.fromCssColorString(options.color || '#0dfcff'),
         2000,
       ),
       arcType: ArcType.GEODESIC,
