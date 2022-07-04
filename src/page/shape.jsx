@@ -16,18 +16,54 @@ import './index.less';
 const gisMap = new GisMap('cesium');
 
 
-gisMap.drawCircleTest({
+gisMap.drawCircleRadar({
   longitude: 106,
   latitude: 27.2,
   height: 100000,
   radius: 200000
 })
 
-gisMap.drawCircleTest2({
+gisMap.drawCircleRadarAngle({
   longitude: 120,
   latitude: 40,
   height: 100000,
-  radius: 200000
+  radius: 200000,
+  start: -Math.PI/4,
+  end:Math.PI/4
+})
+
+gisMap.drawCircleRadarAngle({
+  longitude: 120,
+  latitude: 30,
+  height: 100000,
+  radius: 200000,
+  start: -Math.PI/4*3,
+  end:-Math.PI/4
+})
+gisMap.drawCircleRadarAngle({
+  longitude: 120,
+  latitude: 20,
+  height: 100000,
+  radius: 200000,
+  start: -Math.PI/4*3,
+  end:-Math.PI/2
+})
+gisMap.drawCircleRadarAngle({
+  longitude: 120,
+  latitude: 25,
+  height: 100000,
+  radius: 200000,
+  start: Math.PI/4,
+  end:Math.PI/2
+})
+
+gisMap.drawCircleRadarAngle({
+  longitude: 120,
+  latitude: 15,
+  height: 100000,
+  radius: 200000,
+  start: Math.PI/4,
+  end:Math.PI/4*3
 })
 function Content() {
   useEffect(() => {

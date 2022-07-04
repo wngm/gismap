@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>methods/camera.js - Documentation</title>
+    <title>AreaEvent - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,83 +29,205 @@
 
 <div id="main">
     
-    <h1 class="page-title">methods/camera.js</h1>
+    <h1 class="page-title">AreaEvent</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * 获取摄像头位置
- * @memberof GisMap
- * @returns {Point} 坐标点
- */
-function getCameraPosition() {
-  const { viewer, Cesium } = this;
-  const result = viewer.camera.pickEllipsoid(new Cesium.Cartesian2(viewer.canvas.clientWidth / 2, viewer.canvas
-    .clientHeight / 2));
-  if (!result) {
-    return {};
-  }
-  const curPosition = Cesium.Ellipsoid.WGS84.cartesianToCartographic(result);
-  const lon = (curPosition.longitude * 180) / Math.PI;
-  const lat = (curPosition.latitude * 180) / Math.PI;
-  const height = this.getCameraHeight();
-  return {
-    longitude: lon,
-    latitude: lat,
-    height,
-  };
-}
+        <h2>
+        AreaEvent
+        </h2>
+        
+    
+</header>
 
-/**
- * 获取摄像头高度
- * @memberof GisMap
- * @returns {Number} height
- */
-function getCameraHeight() {
-  const { viewer } = this;
-  if (viewer) {
-    const { scene } = viewer;
-    const { ellipsoid } = scene.globe;
-    const { height } = ellipsoid.cartesianToCartographic(viewer.camera.position);
-    return height;
-  }
-}
+<article>
+    <div class="container-overview">
+    
+        
+<div class="section-method">
 
-/**
- * 添加摄像头事件监听
- * @memberof GisMap
- * @param {function} listener 监听执行函数
- */
-function addCameraEvent(listener) {
-  const { camera } = this;
-  camera.changed.addEventListener(listener);
-}
+    
 
-/**
- * 移除摄像头事件监听
- * @memberof GisMap
- * @param {function} listener 监听执行函数
- */
-function removeCameraEvent(listener) {
-  const { camera } = this;
-  camera.changed.removeEventListener(listener);
-}
+    <h4 class="name" id="AreaEvent"><span class="type-signature"></span>new AreaEvent<span class="signature">(options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
-export default {
-  addCameraEvent,
-  removeCameraEvent,
-  getCameraPosition,
-  getCameraHeight,
-};
-</code></pre>
-        </article>
-    </section>
+    
+
+
+
+<div class="description">
+    创建区域识别实例 AreaEvent.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tools_areaEvent.js.html">tools/areaEvent.js</a>, <a href="tools_areaEvent.js.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>*</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    {}
+                
+                </td>
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

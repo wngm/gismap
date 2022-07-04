@@ -216,6 +216,8 @@ function load (Cesium){
         this._color = undefined;
         this._colorSubscription = undefined;
         this.color = options.color;
+        this.start =  Cesium.defaultValue(options.start, -Math.PI);
+        this.end =  Cesium.defaultValue(options.end, Math.PI);
         this.duration = Cesium.defaultValue(options.duration, 2e3);
         this.count = Cesium.defaultValue(options.count, 2);
         if (this.count <= 0) this.count = 1;
@@ -250,6 +252,8 @@ RadarAngleMaterialProperty.prototype.getValue = function(time, result) {
     result.count = this.count;
     result.pi = Math.PI;
     result.gradient = 1 + 10 * (1 - this.gradient);
+    result.start=  this.start;
+    result.end =   this.end;
     return result;
 }
 RadarAngleMaterialProperty.prototype.equals = function(other) {
@@ -262,17 +266,16 @@ Cesium.Material.RadarAngleMaterialType = 'RadarAngleMaterial';
 Cesium.Material.RadarAngleSource = `czm_material czm_getMaterial(czm_materialInput materialInput) {
     czm_material material = czm_getDefaultMaterial(materialInput);
     material.diffuse = 1.0 * color.rgb;
-    float start = -pi/4.0 ;
-    float end = pi / 3.0 * 2.0;
     vec2 st = materialInput.st;
     vec3 str = materialInput.str;
     float dis = distance(st, vec2(0.5, 0.5));
     float per = fract(time);
     float border = 0.015;
     vec2 ang = st - vec2(0.5, 0.5);
-    vec2 ang2 = st - vec2(0.5+border, 0.5);
+    vec2 ang2 = st - vec2(0.5+border*1.3, 0.5);
     float vl = atan(ang.y, ang.x);
     float vl2 = atan(ang2.y, ang2.x);
+    float angVal = abs(vl2-vl);
     float size = 2.0;
     float jd =  per * 2.0 * pi - pi;
     float dbjd = jd+pi+pi;
@@ -291,10 +294,10 @@ Cesium.Material.RadarAngleSource = `czm_material czm_getMaterial(czm_materialInp
               material.alpha = pow(tt,2.0);
             }
         }
-        if(vl2 < start){
+        if(vl > start && vl < start+angVal){
             material.alpha = 1.0;
         }
-        if(vl2 > end){
+        if(vl < end && vl > end - angVal){
             material.alpha = 1.0;
         }
     }else {
@@ -314,7 +317,9 @@ Cesium.Material._materialCache.addMaterial(Cesium.Material.RadarAngleMaterialTyp
             time: 1,
             count: 1,
             gradient: 0.1,
-            pi:Math.PI
+            pi:Math.PI,
+            start: -Math.PI/4,
+            end: Math.PI/4
         },
         source: Cesium.Material.RadarAngleSource
     },

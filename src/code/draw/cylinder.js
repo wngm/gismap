@@ -114,7 +114,15 @@ import {
   }
 
 
-  function drawCircleTest(data = {}, options = {}) {
+
+
+   /**
+   * 雷达扫描
+   * @param {Objec} data
+   * @param {Object} [options={}]
+   * @memberof GisMap
+   * @returns {*} Entity
+  */function drawCircleRadar(data = {}, options = {}) {
 
     const {
         longitude,
@@ -146,7 +154,16 @@ import {
     this.viewer.entities.add(entity);
     return entity;
   }
-  function drawCircleTest2(data = {}, options = {}) {
+
+   /**
+   * 雷达扫描
+   * @param {Objec} data
+   * @param {Object} [options={}]
+   * @memberof GisMap
+   * @returns {*} Entity
+   * 
+   */
+  function drawCircleRadarAngle(data = {}, options = {}) {
 
     const {
         longitude,
@@ -154,7 +171,9 @@ import {
         height,
         color = "#0dfcff",
         radius,
-        key
+        key,
+        start = -Math.PI,
+        end = Math.PI
     } = data
     const entity = new Entity({
       id:key,
@@ -169,7 +188,9 @@ import {
             duration:2000,
             count:2,
             gradient:1,
-            color: Color.fromCssColorString(color||'#990000')
+            color: Color.fromCssColorString(color||'#990000'),
+            start,
+            end,
         }),
         outline: false,
       },
@@ -182,7 +203,7 @@ import {
   export default {
     drawCylinder,
     cylinderWave,
-    drawCircleTest,
-    drawCircleTest2
+    drawCircleRadar,
+    drawCircleRadarAngle
   };
   

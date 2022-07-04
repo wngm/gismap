@@ -147,6 +147,8 @@ declare class GisMap {
   addCircleScan(data: RadarProps)
   drawCylinder(data: CylinderProps)
   cylinderWave(data: CylinderWaveProps)
+  drawCircleRadar(data: any)
+  drawCircleRadarAngle(data: any)
   addRadarScan(data: PolygonProps)
   drawLine(points: number[][], options: IPoint): void
   drawLineWithPoints(points: number[][], options: IPoint): void
