@@ -1,3 +1,11 @@
+/*
+ * @Author: R10
+ * @Date: 2022-05-31 15:41:36
+ * @LastEditTime: 2022-07-01 15:31:04
+ * @LastEditors: R10
+ * @Description: 
+ * @FilePath: /gismap/src/page/line.jsx
+ */
 import * as Cesium from 'cesium';
 import React, { useState, useCallback } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -12,7 +20,7 @@ function Content() {
   const [name, setName] = useState('测试');
   const [latitude, setLatitude] = useState(30.644);
   const [longitude, setLongitude] = useState(104);
-  const [height, setheight] = useState(100);
+  const [height, setheight] = useState(0);
   const [labelName, setLabelName] = useState('测试点');
   const [tip, setTip] = useState('');
 
@@ -23,12 +31,28 @@ function Content() {
     const start = [Number(longitude), Number(latitude), Number(height)];
     const ends = [start, [116.20, 39.56, 0]];
     // const ends = [[110,20,0],[100,10],[90,0,0],[70,20,0],[50,10,0]]
-    gisMap.drawAnimateLine(ends, { color: '#33FF66' });
+    gisMap.drawAnimateLine(ends, { color: '#33FF66'});
   };
   const drawLine = () => {
     const start = [Number(longitude), Number(latitude), Number(height)];
     const ends = [start, [116.20, 39.56, 0]];
-    gisMap.drawLine(ends, { color: '#66FFFF' });
+    gisMap.drawLine(ends, {
+      showDefaultMenu: true, width: 8,
+      label: {
+        text: '线'
+      }
+    });
+  }
+  const drawLineWithPoints = () => {
+    const start = [Number(longitude), Number(latitude), Number(height)];
+    const ends = [start, [116.20, 39.56, 0]];
+    gisMap.drawLineWithPoints(ends, {
+      showDefaultMenu: true, width: 2,
+      label: {
+        text: '点线'
+      },
+      pixelSize: 60,
+    });
   };
 
   const test = () => {
@@ -68,6 +92,7 @@ function Content() {
       </div>
       <div className="btn" onClick={setView}>设置显示</div>
       <div className="btn" onClick={drawLine}>线段绘制</div>
+      <div className="btn" onClick={drawLineWithPoints}>带点线绘制</div>
       <div className="btn" onClick={drawAnimateLine}>动态线绘制</div>
       {/* <div className="btn" onClick={test}>暂停</div>       */}
       {/* <div className="btn" onClick={test2}>运动</div>       */}

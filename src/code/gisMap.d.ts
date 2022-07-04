@@ -1,4 +1,19 @@
 import { BillboardGraphics, LabelGraphics } from 'cesium'
+import EventEmitter from "eventemitter3"
+
+// id参数 Fun
+interface IfnId {
+  (id: stirng): void
+}
+
+interface AreaEvent {
+  event: EventEmitter
+  add: IfnId
+  remove: IfnId
+  addArea: IfnId
+  remove: IfnId
+  [key: string]: any
+}
 
 interface IPosition {
   longitude: number
@@ -16,7 +31,10 @@ declare interface IKeyValue {
 
 interface Tip {
   show?: boolean
-  content: string
+  content: {
+    title: string
+    items: { key: string, value: string }[]
+  }
   style?: {}
   className?: string
 }
@@ -72,6 +90,8 @@ interface IPoint extends IPosition {
   tip?: Tip
   menu?: Menu
   highlight?: boolean
+  isHighlight?: boolean
+  showDefaultMenu?: boolean
   highlightColor?: string
   [key: string]: any
 }
@@ -116,6 +136,7 @@ declare class GisMap {
   zoomoOut(scale: number): number
   setSceneMode2D3D(mode: 2 | 3): void
   drawPoint(data: IPoint)
+  drawMarkerPoint(data: IPoint)
   drawImgPoint(data: ImgPoint)
   drawFlashPoint(data: IPoint)
   drawFlashPointClock(data: IPoint)
@@ -126,8 +147,11 @@ declare class GisMap {
   addCircleScan(data: RadarProps)
   drawCylinder(data: CylinderProps)
   cylinderWave(data: CylinderWaveProps)
+  drawCircleRadar(data: any)
+  drawCircleRadarAngle(data: any)
   addRadarScan(data: PolygonProps)
-  drawLine(start: IPoint, end: IPoint, options: ILineOPtions): void
+  drawLine(points: number[][], options: IPoint): void
+  drawLineWithPoints(points: number[][], options: IPoint): void
   drawAnimateLine(point: IPoint[], options: ILineOPtions): void
   setWeather(weather: weather): void
   clearWeather(): void
@@ -138,17 +162,20 @@ declare class GisMap {
   measureLine(): void
   measurePolygn(): void
   selectRect(): object
-  selectCircle(): object
+  selectCircle(): Object
   loadCzml(): object
+  areaEvent(options?: any): AreaEvent
   remove(id: string): void
   removeAll(id: string): void
   paintPoint(data: IPoint, callback: () => {})
   paintFlashPoint(data: IPoint, callback: () => {})
   paintImgPoint(data: ImgPoint, callback: () => {})
   paintLine(data: IPoint, callback: () => {})
+  paintLineWithPoints(data: IPoint, callback: () => {})
   paintRect(data: IPoint, callback: () => {})
   paintCircle(data: IPoint, callback: () => {})
   paintPolygon(data: IPoint, callback: () => {})
+  clearLayer(layer: string): void
 }
 
 

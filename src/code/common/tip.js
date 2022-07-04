@@ -1,3 +1,11 @@
+/*
+ * @Author: R10
+ * @Date: 2022-06-22 13:41:52
+ * @LastEditTime: 2022-06-28 16:35:11
+ * @LastEditors: R10
+ * @Description: 
+ * @FilePath: /gismap/src/code/common/tip.js
+ */
 import * as Cesium from 'cesium';
 import './tip.css';
 
@@ -22,7 +30,16 @@ class Tip {
     if (!content) return;
     this.dom = document.createElement('div');
     this.dom.className = `kdyh-cesium-tip ${className}`;
-    this.dom.innerHTML = content || '该节点缺少 tip 字段';
+    const htmlContent = `
+      <div class="title">${content.title}</div>
+      ${content.items.map(item => `
+        <div class="item">
+          <span>${item.key}</span>
+          <span>${item.value}</span>
+        </div>
+      `).join('')}
+    `
+    this.dom.innerHTML = htmlContent || '该节点缺少 tip 字段';
     this.container.appendChild(this.dom);
     let _positon= this.bindEntity.primitive.position || this.bindEntity.id.position._value
     const position = Cesium.SceneTransforms.wgs84ToWindowCoordinates(this.viewer.scene, _positon);

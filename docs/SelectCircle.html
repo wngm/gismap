@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>methods/camera.js - Documentation</title>
+    <title>SelectCircle - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,83 +29,252 @@
 
 <div id="main">
     
-    <h1 class="page-title">methods/camera.js</h1>
+    <h1 class="page-title">SelectCircle</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * 获取摄像头位置
- * @memberof GisMap
- * @returns {Point} 坐标点
- */
-function getCameraPosition() {
-  const { viewer, Cesium } = this;
-  const result = viewer.camera.pickEllipsoid(new Cesium.Cartesian2(viewer.canvas.clientWidth / 2, viewer.canvas
-    .clientHeight / 2));
-  if (!result) {
-    return {};
-  }
-  const curPosition = Cesium.Ellipsoid.WGS84.cartesianToCartographic(result);
-  const lon = (curPosition.longitude * 180) / Math.PI;
-  const lat = (curPosition.latitude * 180) / Math.PI;
-  const height = this.getCameraHeight();
-  return {
-    longitude: lon,
-    latitude: lat,
-    height,
-  };
-}
+        <h2>
+        SelectCircle
+        </h2>
+        
+    
+</header>
 
-/**
- * 获取摄像头高度
- * @memberof GisMap
- * @returns {Number} height
- */
-function getCameraHeight() {
-  const { viewer } = this;
-  if (viewer) {
-    const { scene } = viewer;
-    const { ellipsoid } = scene.globe;
-    const { height } = ellipsoid.cartesianToCartographic(viewer.camera.position);
-    return height;
-  }
-}
+<article>
+    <div class="container-overview">
+    
+        
+<div class="section-method">
 
-/**
- * 添加摄像头事件监听
- * @memberof GisMap
- * @param {function} listener 监听执行函数
- */
-function addCameraEvent(listener) {
-  const { camera } = this;
-  camera.changed.addEventListener(listener);
-}
+    
 
-/**
- * 移除摄像头事件监听
- * @memberof GisMap
- * @param {function} listener 监听执行函数
- */
-function removeCameraEvent(listener) {
-  const { camera } = this;
-  camera.changed.removeEventListener(listener);
-}
+    <h4 class="name" id="SelectCircle"><span class="type-signature"></span>new SelectCircle<span class="signature">()</span><span class="type-signature"></span></h4>
 
-export default {
-  addCameraEvent,
-  removeCameraEvent,
-  getCameraPosition,
-  getCameraHeight,
-};
-</code></pre>
-        </article>
-    </section>
+    
+
+
+
+<div class="description">
+    地图框选工具 返回元素和框选矩形的起点和终点坐标
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tools_selectCircle.js.html">tools/selectCircle.js</a>, <a href="tools_selectCircle.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="SelectCircle.SelectCircle.html">SelectCircle</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="finish"><span class="type-signature"></span>finish<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="global.html#selectInfo">selectInfo</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    完成测量
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="tools_selectCircle.js.html">tools/selectCircle.js</a>, <a href="tools_selectCircle.js.html#line176">line 176</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code><a href="global.html#selectInfo">selectInfo</a></code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    info 返回数据 【value】为距离单位米，【points】坐标点
+</div>
+
+    
+</div>
+
+
+
+</div>
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

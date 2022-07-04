@@ -18,16 +18,19 @@ import {
         latitude,
         height,
         color = "#0099cc",
-        count = 4
+        bottomRadius,
+        key
     } = data
     const entity = new Entity({
+      id:key,
+      layer: data.layer || 'default',
       // show: true,
       // tip:{show:true,content:'这是圆柱体'},
       position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height/2),
       ...options,
       cylinder: {
         topRadius:0,
-        bottomRadius: height * 0.3, //半径
+        bottomRadius:bottomRadius || height * 0.3, //半径
         bottomSurface:false,
         length:height,
         slices:128,
@@ -63,8 +66,10 @@ import {
         longitude,
         latitude,
         height,
-        color = "#0099cc",
-        count = 4
+        color = "#0dfcff",
+        count = 4,
+        bottomRadius,
+        key
     } = data
 
     // const dashImg = window.CESIUM_BASE_URL +'/image/dash3.png'
@@ -81,10 +86,12 @@ import {
     //     }
     //   });
     const entity = new Entity({
+        id:key,
+        layer: data.layer || 'default',
         position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height/2),
         cylinder: {
           topRadius:0,
-          bottomRadius: height * 0.3, //半径
+          bottomRadius: bottomRadius || height * 0.3, //半径
           bottomSurface:false,
           length:height,
           slices:128,
@@ -105,9 +112,98 @@ import {
     this.viewer.entities.add(entity);
     return entity;
   }
+
+
+
+
+   /**
+   * 雷达扫描
+   * @param {Objec} data
+   * @param {Object} [options={}]
+   * @memberof GisMap
+   * @returns {*} Entity
+  */function drawCircleRadar(data = {}, options = {}) {
+
+    const {
+        longitude,
+        latitude,
+        height,
+        color = "#0dfcff",
+        radius,
+        key
+    } = data
+    const entity = new Entity({
+      id:key,
+      layer: data.layer || 'default',
+      // show: true,
+      position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
+      ...options,
+      ellipse: {
+        semiMinorAxis:radius,
+        semiMajorAxis:radius,
+        material:new Cesium.RadarMaterialProperty({
+            duration:2000,
+            count:2,
+            gradient:1,
+            color: Color.fromCssColorString(color||'#990000')
+        }),
+        outline: false,
+      },
+      
+    });
+    this.viewer.entities.add(entity);
+    return entity;
+  }
+
+   /**
+   * 雷达扫描
+   * @param {Objec} data
+   * @param {Object} [options={}]
+   * @memberof GisMap
+   * @returns {*} Entity
+   * 
+   */
+  function drawCircleRadarAngle(data = {}, options = {}) {
+
+    const {
+        longitude,
+        latitude,
+        height,
+        color = "#0dfcff",
+        radius,
+        key,
+        start = -Math.PI,
+        end = Math.PI
+    } = data
+    const entity = new Entity({
+      id:key,
+      layer: data.layer || 'default',
+      // show: true,
+      position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
+      ...options,
+      ellipse: {
+        semiMinorAxis:radius,
+        semiMajorAxis:radius,
+        material:new Cesium.RadarAngleMaterialProperty({
+            duration:2000,
+            count:2,
+            gradient:1,
+            color: Color.fromCssColorString(color||'#990000'),
+            start,
+            end,
+        }),
+        outline: false,
+      },
+      
+    });
+    this.viewer.entities.add(entity);
+    return entity;
+  }
   
   export default {
     drawCylinder,
     cylinderWave,
+    drawCircleRadar,
+    drawCircleRadarAngle
   };
   

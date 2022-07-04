@@ -38,7 +38,11 @@ class Menu {
     const list = menuItems.map((i) => {
       const item = document.createElement('div');
       item.className = 'kdyh-cesium-menu-item';
-      item.innerText = i.text;
+      item.innerHTML = `
+        <div type=${i.type}>
+          <span type=${i.type}>${i.text}</span>
+        </div>
+      `;
       item.setAttribute('type', i.type);
       return item;
     });

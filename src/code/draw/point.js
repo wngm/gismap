@@ -2,7 +2,7 @@
 /*
  * @Author: R10
  * @Date: 2022-05-31 09:31:52
- * @LastEditTime: 2022-06-09 10:44:45
+ * @LastEditTime: 2022-07-01 09:20:03
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/code/draw/point.js
@@ -11,6 +11,10 @@ import {
   Entity, Cartesian3, HeightReference, CallbackProperty, Color,
 } from 'cesium';
 import { getPointOptions, getLabelOptions } from '../entity';
+import normalPoint from '@src/assets/images/point.png'
+import normalPointHighlight from '@src/assets/images/point-highlight.png'
+import imgPoint from '@src/assets/images/img-point.png'
+import imgPointHighlight from '@src/assets/images/img-point-highlight.png'
 
 let _id = 1;
 /**
@@ -26,21 +30,29 @@ function drawPoint(data) {
     latitude,
     height,
     key,
-    name,
-    pixelSize,
-    label,
-    tip,
     menu,
+    name,
+    isHighlight = false,
+    pixelSize = 14,
+    label = {},
+    showDefaultMenu = false,
+    onMenuSelect,
+    tip,
   } = data;
 
   const pointOption = getPointOptions(data);
   const labelOptions = getLabelOptions({
     ...label,
     pixelSize,
+    isHighlight
   });
   _id += 1;
   const entity = new Entity({
+    layer: data.layer || 'default',
     name,
+    pixelSize,
+    label,
+    tip,
     id: key || Number.prototype.toString.apply(_id),
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
@@ -48,7 +60,106 @@ function drawPoint(data) {
     point: pointOption,
     label: labelOptions,
     tip,
-    menu,
+    menu: showDefaultMenu ? (menu || {
+      className: 'test-menu',
+      show: true,
+      menuItems: [
+        { text: '编辑', icon: 'fa-edit', type: 'edit' },
+        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
+        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
+      ],
+
+      onSelect: (type, entity) => {
+        if (type === 'delete') {
+          console.log(entity)
+          this.remove(entity);
+        }
+        onMenuSelect && onMenuSelect(type, entity)
+      },
+    }) : null,
+  });
+  this.viewer.entities.add(entity);
+  return entity;
+}
+
+/**
+ *
+ * 点的参数
+ * @typedef {Object} PointProps 点的相关参数
+ * @property {number} longitude 经度
+ * @property {number} latitude 维度
+ * @property {number} height 高度
+ * @property {number} pixelSize 点大小
+ * @property {Object} [label] label 展示
+ * @property {Object} [tip] 提示信息
+ * @property {Object} [menu] 右键菜单
+ * @property {string} [key] 指定唯一 id 
+ * @property {string} [layer] 图层 默认图层名为【default】
+ */
+
+/**
+ *
+ * 标记点绘制
+ * @param {PointProps} data
+ * @returns {entity} entity
+ * @memberof GisMap
+ */
+function drawMarkerPoint(data) {
+  const {
+    name,
+    key,
+    longitude,
+    latitude,
+    isHighlight = false,
+    pixelSize = 14,
+    height,
+    label = {},
+    imgOptions,
+    showDefaultMenu = false,
+    onMenuSelect,
+    tip,
+    menu
+  } = data;
+
+  // const pointOption = getPointOptions(data);
+  const labelOptions = getLabelOptions({
+    ...label,
+    pixelSize,
+    isHighlight
+  });
+  _id += 1;
+  const entity = new Entity({
+    name,
+    layer: data.layer || 'default',
+    id: key || Number.prototype.toString.apply(_id),
+    show: true,
+    position: Cartesian3.fromDegrees(longitude, latitude, height),
+    heightReference: HeightReference.CLAMP_TO_GROUND,
+    billboard: {
+      width: 24,
+      height: 27,
+      image: isHighlight ? normalPointHighlight : normalPoint,
+      ...imgOptions,
+    },
+    label: labelOptions,
+    tip,
+    menu: showDefaultMenu ? (menu || {
+      className: 'test-menu',
+      show: true,
+      menuItems: [
+        { text: '编辑', icon: 'fa-edit', type: 'edit' },
+        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
+        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
+      ],
+
+      onSelect: (type, entity) => {
+        if (type === 'delete') {
+          console.log(entity)
+          this.remove(entity);
+        }
+        onMenuSelect && onMenuSelect(type, entity)
+      },
+    }) : null,
   });
   this.viewer.entities.add(entity);
   return entity;
@@ -68,30 +179,54 @@ function drawImgPoint(data) {
     height,
     key,
     name,
-    label,
+    label = {},
     tip,
     menu,
     imgOptions,
+    showDefaultMenu = false,
+    onMenuSelect,
+    isHighlight = false,
+    pixelSize = 14,
   } = data;
 
   const labelOptions = getLabelOptions({
     ...label,
+    pixelSize,
+    isHighlight
   });
   _id += 1;
   const entity = new Entity({
     name,
+    layer: data.layer || 'default',
     id: key || Number.prototype.toString.apply(_id),
     show: true,
     billboard: {
-      width: 40,
-      height: 40,
+      width: 44,
+      height: 46,
+      image: isHighlight ? imgPointHighlight : imgPoint,
       ...imgOptions,
     },
     position: Cartesian3.fromDegrees(longitude, latitude, height),
     heightReference: HeightReference.CLAMP_TO_GROUND,
     label: labelOptions,
     tip,
-    menu,
+    menu: showDefaultMenu ? (menu || {
+      className: 'test-menu',
+      show: true,
+      menuItems: [
+        { text: '编辑', icon: 'fa-edit', type: 'edit' },
+        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
+        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
+      ],
+
+      onSelect: (type, entity) => {
+        if (type === 'delete') {
+          console.log(entity)
+          this.remove(entity);
+        }
+        onMenuSelect && onMenuSelect(type, entity)
+      },
+    }) : null,
   });
   this.viewer.entities.add(entity);
   return entity;
@@ -110,20 +245,28 @@ function drawFlashPoint(data) {
     latitude,
     height,
     key,
+    pixelSize = 14,
     name,
     label,
     tip,
+    showDefaultMenu = false,
+    isHighlight = false,
+    onMenuSelect,
     menu,
+    color,
   } = data;
   let alpha = 0;
   let size = data.pixelSize - 20;
   const initSize = data.pixelSize - 20;
   const labelOptions = getLabelOptions({
     ...label,
+    pixelSize,
+    isHighlight
   });
   _id += 1;
   const entity = new Entity({
     name,
+    layer: data.layer || 'default',
     id: key || Number.prototype.toString.apply(_id),
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
@@ -138,12 +281,28 @@ function drawFlashPoint(data) {
       color: new CallbackProperty(() => {
         if (alpha >= 1) alpha = 0;
         alpha += 0.05;
-        return Color.fromCssColorString(data?.color || 'red').withAlpha(alpha);
+        return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(alpha);
       }, false),
     },
     label: labelOptions,
     tip,
-    menu,
+    menu: showDefaultMenu ? (menu || {
+      className: 'test-menu',
+      show: true,
+      menuItems: [
+        { text: '编辑', icon: 'fa-edit', type: 'edit' },
+        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
+        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
+      ],
+
+      onSelect: (type, entity) => {
+        if (type === 'delete') {
+          console.log(entity)
+          this.remove(entity);
+        }
+        onMenuSelect && onMenuSelect(type, entity)
+      },
+    }) : null,
   });
   this.viewer.entities.add(entity);
   return entity;
@@ -158,7 +317,7 @@ function drawFlashPoint(data) {
  */
 function drawFlashPointClock(data) {
   const {Cesium} = this
-  const pointOption = getPointOptions(data);
+  // const pointOption = getPointOptions(data);
   const {
     longitude,
     latitude,
@@ -171,21 +330,28 @@ function drawFlashPointClock(data) {
     color,
     flashTime = 5000,
     duration=1000,
-    pixelSize= 1000
+    pixelSize = 1000,
+    showDefaultMenu = false,
+    isHighlight = false,
+    onMenuSelect,
   } = data;
   let size = pixelSize;
   const labelOptions = getLabelOptions({
     ...label,
+    pixelSize: 14,
+    isHighlight
   });
+  console.log(labelOptions)
   _id += 1;
   const entity = new Entity({
     name,
+    layer: data.layer || 'default',
     id: key || Number.prototype.toString.apply(_id),
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
     // heightReference: HeightReference.CLAMP_TO_GROUND,
     ellipse: {
-      ...pointOption,
+      // ...pointOption,
       semiMinorAxis: size,
       semiMajorAxis:  size,
       heightReference: Cesium.HeightReference.NONE,
@@ -195,12 +361,28 @@ function drawFlashPointClock(data) {
         count:5,
         gradient:1,
         flashTime,
-        color: Color.fromCssColorString(color||'#ff0000')
+        color: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
       })
     },
     label: labelOptions,
     tip,
-    menu,
+    menu: showDefaultMenu ? (menu || {
+      className: 'test-menu',
+      show: true,
+      menuItems: [
+        { text: '编辑', icon: 'fa-edit', type: 'edit' },
+        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
+        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
+      ],
+
+      onSelect: (type, entity) => {
+        if (type === 'delete') {
+          console.log(entity)
+          this.remove(entity);
+        }
+        onMenuSelect && onMenuSelect(type, entity)
+      },
+    }) : null,
   });
   this.viewer.entities.add(entity);
   return entity;
@@ -208,6 +390,7 @@ function drawFlashPointClock(data) {
 
 export default {
   drawPoint,
+  drawMarkerPoint,
   drawImgPoint,
   drawFlashPoint,
   drawFlashPointClock,

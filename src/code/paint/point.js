@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-06-06 10:32:17
- * @LastEditTime: 2022-06-09 11:05:35
+ * @LastEditTime: 2022-07-01 09:13:25
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/code/paint/point.js
@@ -88,7 +88,7 @@ function paintImgPoint(data, callback) {
     const cartesian = this.viewer.scene.camera.pickEllipsoid(movement.position, this.viewer.scene.globe.ellipsoid);
     const position = getWGS84FromDKR(cartesian);
     positions.push(position);
-    entity = this.drawImgPoint({
+    entity = this.drawMarkerPoint({
       ...data,
       ...position,
     });

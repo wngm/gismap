@@ -1,7 +1,7 @@
 /*
  * @Author: R10
  * @Date: 2022-06-01 13:47:55
- * @LastEditTime: 2022-06-02 11:54:43
+ * @LastEditTime: 2022-07-01 16:09:08
  * @LastEditors: R10
  * @Description:
  * @FilePath: /gismap/src/page/shape.jsx
@@ -10,10 +10,61 @@ import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Color } from 'cesium';
 import GisMap from '../code/gisMap';
+import * as Cesium from 'cesium'
 import './index.less';
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap('cesium');
 
+
+gisMap.drawCircleRadar({
+  longitude: 106,
+  latitude: 27.2,
+  height: 100000,
+  radius: 200000
+})
+
+gisMap.drawCircleRadarAngle({
+  longitude: 120,
+  latitude: 40,
+  height: 100000,
+  radius: 200000,
+  start: -Math.PI/4,
+  end:Math.PI/4
+})
+
+gisMap.drawCircleRadarAngle({
+  longitude: 120,
+  latitude: 30,
+  height: 100000,
+  radius: 200000,
+  start: -Math.PI/4*3,
+  end:-Math.PI/4
+})
+gisMap.drawCircleRadarAngle({
+  longitude: 120,
+  latitude: 20,
+  height: 100000,
+  radius: 200000,
+  start: -Math.PI/4*3,
+  end:-Math.PI/2
+})
+gisMap.drawCircleRadarAngle({
+  longitude: 120,
+  latitude: 25,
+  height: 100000,
+  radius: 200000,
+  start: Math.PI/4,
+  end:Math.PI/2
+})
+
+gisMap.drawCircleRadarAngle({
+  longitude: 120,
+  latitude: 15,
+  height: 100000,
+  radius: 200000,
+  start: Math.PI/4,
+  end:Math.PI/4*3
+})
 function Content() {
   useEffect(() => {
     gisMap.setView({
@@ -24,40 +75,59 @@ function Content() {
   }, []);
   const drawCircle = () => {
     gisMap.drawCircle({
-      color: 'rgba(212,225,127,0.5)',
       radius: 1000000,
       longitude: Number(106),
       latitude: Number(27),
       height: 0,
+      showDefaultMenu: true,
+      label: {
+        text: '圆'
+      }
     });
+  }
+  const clearLayer = () => {
+    gisMap.clearLayer('default');
   };
   const drawEllipse = () => {
     gisMap.drawEllipse({
-      color: 'red',
       semiMajorAxis: 400000,
       semiMinorAxis: 200000,
       longitude: Number(136),
       latitude: Number(37),
+      label: {
+        text: '椭圆',
+        pixelOffset: new Cesium.Cartesian2(0, 30)
+      },
       height: 0,
+      showDefaultMenu: true,
+      onMenuSelect() {
+      }
+
     });
   };
   const drawRect = () => {
     gisMap.drawRect({
-      color: 'orange',
-      highlight: true,
-      highlightColor: 'red',
+      showDefaultMenu: true,
+      label: {
+        text: '矩形',
+        pixelOffset: new Cesium.Cartesian2(0, 30)
+      },
+      isHighlight: true,
       coordinates: [
         [106, 27],
         [110, 30],
       ],
+      onMenuSelect() {
+        
+      }
     });
   };
   const drawPolygon = () => {
     gisMap.drawPolygon({
       name: 'polygon',
-      color: 'red',
       highlight: true,
       highlightColor: 'lightblue',
+      showDefaultMenu: true,
       coordinates: [
         [120, 33],
         [125, 27],
@@ -65,6 +135,14 @@ function Content() {
         [118, 26],
         // [102, 30],
       ],
+      label: {
+        text: '多边形',
+        pixelOffset: new Cesium.Cartesian2(0, 100)
+      },
+      isHighlight: true,
+      onMenuSelect() {
+        
+      }
     });
   };
   const addCircleScan = () => {
@@ -74,7 +152,12 @@ function Content() {
   };
   const addRadarScan = () => {
     gisMap.addRadarScan({
-      longitude: 113.665412, latitude: 34.757975, r: 50000, scanColor: new Color(1.0, 0.0, 0.0, 1), interval: 1000,
+      longitude: 113.665412, latitude: 34.757975, r: 200000, scanColor: new Color(1.0, 0.0, 0.0, 1), interval: 1000,
+    });
+
+
+    gisMap.addRadarScan({
+      longitude: 100.665412, latitude: 34.757975, r: 100000, scanColor: new Color(1.0, 1.0, 0.0, 1), interval: 1000,
     });
   };
   return (
@@ -84,6 +167,7 @@ function Content() {
       <div className="btn" onClick={drawEllipse}>画椭圆</div>
       <div className="btn" onClick={drawRect}>画矩形</div>
       <div className="btn" onClick={drawPolygon}>多边形</div>
+      <div className="btn" onClick={clearLayer}>清除图形组</div>
       <div className="btn" onClick={addCircleScan}>圆扫描</div>
       <div className="btn" onClick={addRadarScan}>扇形扫描</div>
       {/* <div className="btn" onClick={test}>暂停</div>       */}

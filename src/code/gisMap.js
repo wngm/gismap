@@ -11,10 +11,11 @@ import { computeCircle } from './utils';
 import camera from './methods/camera';
 import mouse from './methods/mouse';
 import base from './methods/base';
-import { MeasureLine, MeasurePolygn, SelectRect,SelectCircle,LoadCzml} from './tools';
+import { MeasureLine, MeasurePolygn, SelectRect,SelectCircle,LoadCzml,AreaEvent} from './tools';
 import '@modules/cesium/Source/Widgets/widgets.css';
 import drawFns from './draw';
 import paintFns from './paint';
+import layer from './layer';
 
 window.CESIUM_BASE_URL = '/static/Cesium';
 
@@ -360,14 +361,28 @@ GisMap.prototype.measurePolygn = function measurePolygn(options) { return new Me
 GisMap.prototype.selectRect = function selectRect(options) { return new SelectRect(this.viewer, options); };
 GisMap.prototype.selectCircle = function selectCircle(options) { return new SelectCircle(this.viewer, options); };
 GisMap.prototype.loadCzml = function loadCzml(options) { return new LoadCzml(this.viewer, options); };
+GisMap.prototype.areaEvent = function areaEvent(options) { return new AreaEvent(this.viewer, options); };
+GisMap.prototype.clearLayer = function (str) {
+  const entities = this.viewer.entities.values
+  entities.forEach(({ id, layer }) => {
+    if (layer === str) {
+      this.viewer.entities.removeById(id)
+    }
+  })
+}
 
 // 画图方法
 const fns = {
-  ...drawFns, ...paintFns,
+  ...drawFns, ...paintFns,...layer
 };
 Object.keys(fns).forEach((key) => {
   GisMap.prototype[key] = fns[key];
 });
+
+
 window.Cesium = Cesium;
+window.Cesium.highlightColor = '#0dfcff';
+window.Cesium.themeColor = '#4291da';
+window.Cesium.fontColor = '#dbfaff';
 
 export default GisMap;
