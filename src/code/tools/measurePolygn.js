@@ -2,6 +2,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable func-names */
 import * as Cesium from 'cesium';
+import { color1,color1_a,color3,color4} from "../color"
 
 /**
  * 测量工具可选配配置项
@@ -87,8 +88,12 @@ class MeasurePolygn {
     this.PolygonPrimitive = function PolygonPrimitive(positions) {
       this.polygon = viewer.entities.add({
         polygon: {
+          height:1,
           hierarchy: new Cesium.CallbackProperty(() => new Cesium.PolygonHierarchy(positions), false),
-          material: Cesium.Color.GREEN.withAlpha(0.5),
+          outline:true,
+          outlineColor:color1,
+          outerlineWidth:2,
+          material:color1_a
         },
       });
     };
@@ -134,8 +139,8 @@ class MeasurePolygn {
           position: this.labelPt,
           point: {
             pixelSize: 5,
-            color: Cesium.Color.RED,
-            outlineColor: Cesium.Color.WHITE,
+            color: color1,
+            outlineColor: color3,
             outlineWidth: 2,
           },
         // label: {
@@ -204,8 +209,8 @@ class MeasurePolygn {
           position: this.labelPt,
           point: {
             pixelSize: 5,
-            color: Cesium.Color.RED,
-            outlineColor: Cesium.Color.WHITE,
+            color: color1,
+            outlineColor: color3,
             outlineWidth: 2,
           },
           // label: {
@@ -264,9 +269,9 @@ class MeasurePolygn {
       label: {
         text: textArea,
         font: '18px sans-serif',
-        fillColor: Cesium.Color.ALICEBLUE,
+        fillColor: color4,
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-        outlineWidth: 2,
+        outlineWidth: 1,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
         // pixelOffset: new Cesium.Cartesian3(0, 0, -100),
         eyeOffset: new Cesium.Cartesian3(0, 0, -200),

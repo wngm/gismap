@@ -58,18 +58,26 @@ function zoomOut(scale = 0.5) {
    * 切换2D/3D模式
    * @memberof GisMap
    * @param {"2｜3"} [mode] 2或3，不传参数默认切换
+   * @returns {"2｜3"}
+   * 
    */
 function setSceneMode2D3D(mode) {
+  let _mode = 3;
   const { Cesium } = this;
   if (mode === 3) {
     this.viewer.scene.mode = Cesium.SceneMode.SCENE3D;
+    _mode = 3
   } else if (mode === 2) {
     this.viewer.scene.mode = Cesium.SceneMode.SCENE2D;
+    _mode = 2
   } else if (this.viewer.scene.mode === Cesium.SceneMode.SCENE3D) {
     this.viewer.scene.mode = Cesium.SceneMode.SCENE2D;
+    _mode = 2
   } else {
     this.viewer.scene.mode = Cesium.SceneMode.SCENE3D;
+    _mode = 3
   }
+  return _mode
 }
 /**
  * 自定义星空背景图

@@ -136,7 +136,7 @@ declare class GisMap {
   setDefaultPosition(data: IPosition): void
   zoomIn(scale?: number): number
   zoomOut(scale?: number): number
-  setSceneMode2D3D(mode: 2 | 3): void
+  setSceneMode2D3D(mode?: 2 | 3): (2 | 3)
   drawPoint(data: IPoint)
   drawMarkerPoint(data: IPoint)
   drawImgPoint(data: ImgPoint)

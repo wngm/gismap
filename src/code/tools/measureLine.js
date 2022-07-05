@@ -1,6 +1,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable func-names */
 import * as Cesium from 'cesium';
+import { color1,color3,color4} from "../color"
 
 /**
  * 测量工具可选配配置项
@@ -53,7 +54,7 @@ class MeasureLine {
             show: true,
             positions: [],
             // material: Cesium.Color.TRANSPARENT,
-            material: Cesium.Color.CHARTREUSE,
+            material: color1,
             width: 2,
             clampToGround: true,
           },
@@ -115,17 +116,17 @@ class MeasureLine {
         position: this.labelPt,
         point: {
           pixelSize: 5,
-          color: Cesium.Color.RED,
-          outlineColor: Cesium.Color.WHITE,
+          color: color1,
+          outlineColor: color3,
           outlineWidth: 2,
         },
         label: {
           text: lonLat + textDisance,
           font: '18px sans-serif',
-          fillColor: Cesium.Color.GOLD,
+          fillColor: color4,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          outlineWidth: 2,
-          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          outlineWidth: 1,
+          // verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
           pixelOffset: new Cesium.Cartesian2(20, -20),
           eyeOffset: new Cesium.Cartesian3(0, 0, 10),
         },
@@ -182,8 +183,8 @@ class MeasureLine {
           point: {
             heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
             pixelSize: 5,
-            color: Cesium.Color.RED,
-            outlineColor: Cesium.Color.WHITE,
+            color: color1,
+            outlineColor: color3,
             outlineWidth: 2,
           },
         });
