@@ -1,6 +1,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable func-names */
 import * as Cesium from 'cesium';
+import {color1_a} from "../color"
 
 /**
  * 测量工具可选配配置项
@@ -49,7 +50,7 @@ class SelectCircle {
                 semiMajorAxis : size,
                 // heightReference: GisMap.Cesium.HeightReference.NONE,
                 // height:1000,
-                material: Cesium.Color.fromCssColorString('#0dfcff77')
+                material: color1_a
             }
         });
     };
@@ -144,7 +145,7 @@ class SelectCircle {
             // if(obj.south==obj.north){obj.north+=0.000001};
             return obj;
           }), false),
-          material: Cesium.Color.RED.withAlpha(0.3),
+          material: color1_a
         },
       });
     }
