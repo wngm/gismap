@@ -1,4 +1,4 @@
-import { BillboardGraphics, LabelGraphics } from 'cesium'
+import { BillboardGraphics, LabelGraphics, Viewer } from 'cesium'
 import EventEmitter from "eventemitter3"
 
 // id参数 Fun
@@ -132,6 +132,7 @@ declare class GisMap {
   static Cesium: Cesium
   static version: string
   constructor(dom: any, options?: any)
+  viewer: Viewer
   setView(data: IPosition): void
   setDefaultPosition(data: IPosition): void
   zoomIn(scale?: number): number
@@ -168,7 +169,7 @@ declare class GisMap {
   loadCzml(): object
   areaEvent(options?: any): AreaEvent
   remove(id: string): void
-  removeAll(id: string): void
+  removeAll(id?: string): void
   paintPoint(data: IPoint, callback?: () => {})
   paintFlashPoint(data: IPoint, callback?: () => {})
   paintImgPoint(data: ImgPoint, callback?: () => {})
