@@ -16,8 +16,8 @@ interface AreaEvent {
 }
 
 interface IPosition {
-  longitude: number
-  latitude: number
+  longitude?: number
+  latitude?: number
   height?: number
   heading?: number
   pitch?: number
@@ -79,7 +79,7 @@ interface IPoint extends IPosition {
   //类型
   type?: string
   // uid
-  key: string
+  key?: string
   name?: string
   // 点大小
   pixelSize?: number
@@ -169,14 +169,14 @@ declare class GisMap {
   areaEvent(options?: any): AreaEvent
   remove(id: string): void
   removeAll(id: string): void
-  paintPoint(data: IPoint, callback: () => {})
-  paintFlashPoint(data: IPoint, callback: () => {})
-  paintImgPoint(data: ImgPoint, callback: () => {})
-  paintLine(data: IPoint, callback: () => {})
-  paintLineWithPoints(data: IPoint, callback: () => {})
-  paintRect(data: IPoint, callback: () => {})
-  paintCircle(data: IPoint, callback: () => {})
-  paintPolygon(data: IPoint, callback: () => {})
+  paintPoint(data: IPoint, callback?: () => {})
+  paintFlashPoint(data: IPoint, callback?: () => {})
+  paintImgPoint(data: ImgPoint, callback?: () => {})
+  paintLine(data: IPoint, callback?: () => {})
+  paintLineWithPoints(data: IPoint, callback?: () => {})
+  paintRect(data: IPoint, callback?: () => {})
+  paintCircle(data: IPoint, callback?: () => {})
+  paintPolygon(data: IPoint, callback?: () => {})
   clearLayer(layer: string): void
 }
 

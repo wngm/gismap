@@ -102,49 +102,52 @@ class AreaEvent {
     check() {
         const {viewer} = this 
         this.plotes.forEach(plot => {
-          let plotEntity = viewer.entities.values.find(i => i.id === plot)
-          this.animateEntities.forEach(a => {
-            let animateEntity = viewer.entities.values.find(i => i.id === a)
-            let position = animateEntity.position.getValue(viewer.clock.currentTime)
-            if (position) {
-              let status = this.isInArea(position, plotEntity)
-              if (!this.record[plot]) {
-                this.record[plot] = {}
-              }
-              if (!this.record[plot][a]) {
-                this.record[plot][a] = {
-                  status
-                } 
-              }else{
-                // 触发事件
-                if(this.record[plot][a].status !== status) {
-                  let eventName = status?'in': 'out'
-                  this.event.emit(eventName, {
-                    area:{
-                      id:plot,
-                      name:plotEntity.name,
-                      entity:plotEntity
-  
-                    },
-                    animate:{
-                      id:a,
-                      name:animateEntity.name,
-                      entity:animateEntity
-                    }
-                  })
+          let plotEntity = viewer.entities.values.find(i => i.id === plot)        
+          if(plotEntity){
+            this.animateEntities.forEach(a => {
+              let animateEntity = viewer.entities.values.find(i => i.id === a)
+              let position = animateEntity.position.getValue(viewer.clock.currentTime)
+              if (position) {
+                let status = this.isInArea(position, plotEntity)
+                if (!this.record[plot]) {
+                  this.record[plot] = {}
                 }
-                this.record[plot][a] = {
-                  status
-                } 
+                if (!this.record[plot][a]) {
+                  this.record[plot][a] = {
+                    status
+                  } 
+                }else{
+                  // 触发事件
+                  if(this.record[plot][a].status !== status) {
+                    let eventName = status?'in': 'out'
+                    this.event.emit(eventName, {
+                      area:{
+                        id:plot,
+                        name:plotEntity.name,
+                        entity:plotEntity
+    
+                      },
+                      animate:{
+                        id:a,
+                        name:animateEntity.name,
+                        entity:animateEntity
+                      }
+                    })
+                  }
+                  this.record[plot][a] = {
+                    status
+                  } 
+                }
               }
-            }
-          })
+            })
+          }
         })
       }
 
     isInArea(position, entity) {
+        console.log('isInArea',entity)
         // 圆形区域
-        if(entity.ellipse){
+        if(entity?.ellipse){
           const radius = entity.ellipse.semiMinorAxis.getValue()
           let center = entity.position._value
           let r = Cesium.Cartesian3.distance(position,center)
@@ -153,7 +156,7 @@ class AreaEvent {
           }
         }
         // 矩形区域
-        if(entity.rectangle){
+        if(entity?.rectangle){
           let rectanglePosition = entity.rectangle.coordinates.getValue()
           let rectangle = new Cesium.Rectangle(rectanglePosition.west, rectanglePosition.south, rectanglePosition.east, rectanglePosition.north)
           if (position) {

@@ -194,7 +194,7 @@ function drawRect(data) {
     menu,
     tip
   } = data;
-  const id = _id || key;
+  const id = key || _id;
   const labelOptions = getLabelOptions({
     ...label,
     pixelSize,
