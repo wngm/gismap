@@ -1,7 +1,7 @@
 
 
 function load(Cesium) {
-  const dashImg = '/image/dash3.png'
+  const dashImg = '/images/dash3.png'
 
   function PolylineTrailLinkMaterialProperty(color, duration) {
     this._definitionChanged = new Cesium.Event();

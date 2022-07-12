@@ -5,6 +5,7 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { merge } = require('webpack-merge');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpackBase = require('./webpack.base.config.js');
 
 const entry = {};
@@ -25,6 +26,16 @@ const webppackBuild = {
       ],
     }),
     new CleanWebpackPlugin(),
+    new UglifyJsPlugin({
+      uglifyOptions:{
+          compress:{
+              drop_console:true
+          }
+      },
+      sourceMap:true,
+      parallel:true    
+  
+  })
   ],
 };
 

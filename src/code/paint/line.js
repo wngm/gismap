@@ -9,10 +9,9 @@
 import {
   ScreenSpaceEventHandler, ScreenSpaceEventType, Entity, Color, CallbackProperty, Cartesian3, Cartesian2, ColorMaterialProperty,
 } from 'cesium';
+import {defaultMenuItems} from '../common/utils'
 import { getWGS84FromDKR } from '../common/utils';
 import { getLabelOptions } from '../entity';
-
-let id = 'paintLine'
 
 /**
  *
@@ -36,8 +35,7 @@ function paintLine(data = {}, callback) {
     menu,
     tip
   } = data;
-  id += 1;
-  let _id = key || id
+  let _id = key
   const labelOptions = getLabelOptions({
     ...label,
     pixelSize,
@@ -86,7 +84,7 @@ function paintLine(data = {}, callback) {
           layer: 'default' || data.layer,
           polyline: {
           material: new ColorMaterialProperty(new CallbackProperty(() => {
-            if (id === this.moveActiveId) {
+            if (_id === this.moveActiveId) {
               return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
             }
               return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor));
@@ -107,11 +105,7 @@ function paintLine(data = {}, callback) {
           menu: showDefaultMenu ? (menu || {
             className: 'test-menu',
             show: true,
-            menuItems: [
-              { text: '编辑', icon: 'fa-edit', type: 'edit' },
-              { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-              { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-            ],
+            menuItems: defaultMenuItems,
             onSelect: (type, entity) => {
               if (type === 'delete') {
                 console.log(entity)
@@ -157,8 +151,7 @@ function paintLineWithPoints(data = {}, callback) {
     menu,
     tip
   } = data;
-  id += 1;
-  let _id = key || id
+  let _id = key
   const labelOptions = getLabelOptions({
     ...label,
     pixelSize,
@@ -175,11 +168,36 @@ function paintLineWithPoints(data = {}, callback) {
   handler.setInputAction((movement) => {
     const cartesian = this.viewer.scene.camera.pickEllipsoid(movement.position, this.viewer.scene.globe.ellipsoid);
     const position = getWGS84FromDKR(cartesian);
-    this.drawPoint({
-      ...position,
-      ...data,
-      label: null
-    })
+    if(positions.length===0){
+      setTimeout(()=>{
+        this.drawPoint({
+          lineIndex:positions.length+1,
+          parent:polyline,
+          ...position,
+          ...data,
+          label: null,
+          onMenuSelect:(type,entities) => {
+            if(entities.lineIndex){
+              positions.splice(entities.lineIndex-1,1)
+            }
+          }
+        })
+      },100)
+    }else{
+      this.drawPoint({
+        lineIndex:positions.length+1,
+        parent:polyline,
+        ...position,
+        ...data,
+        label: null,
+        onMenuSelect:(type,entities) => {
+          if(entities.lineIndex){
+            positions.splice(entities.lineIndex-1,1)
+          }
+        }
+      })
+    }
+    
     positions.push(position);
   }, ScreenSpaceEventType.LEFT_CLICK);
   // 鼠标移动
@@ -212,9 +230,9 @@ function paintLineWithPoints(data = {}, callback) {
           layer: 'default' || data.layer,
           polyline: {
           material: new ColorMaterialProperty(new CallbackProperty(() => {
-            if (id === this.moveActiveId) {
-              return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
-            }
+            // if (_id === this.moveActiveId) {
+            //   return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
+            // }
               return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor));
             }, false)),
             width: data?.width || 1,
@@ -233,14 +251,12 @@ function paintLineWithPoints(data = {}, callback) {
           menu: showDefaultMenu ? (menu || {
             className: 'test-menu',
             show: true,
-            menuItems: [
-              { text: '编辑', icon: 'fa-edit', type: 'edit' },
-              { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-              { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-            ],
+            menuItems:defaultMenuItems,
             onSelect: (type, entity) => {
-              if (type === 'delete') {
-                console.log(entity)
+              if (type === 'delete') {             
+                if(entity._children){
+                  entity._children.forEach(ch=>this.remove(ch))
+                }
                 this.remove(entity);
               }
               onMenuSelect && onMenuSelect(type, entity)

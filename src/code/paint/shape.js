@@ -17,8 +17,9 @@ import {
 } from 'cesium';
 import { getWGS84FromDKR } from '../common/utils';
 import { getLabelOptions } from '../entity';
+import {defaultMenuItems} from '../common/utils'
 
-let id = 'shape'
+
 
 function getPointFromWindowPoint(point, viewer) {
   if (viewer.scene.terrainProvider.constructor.name === 'EllipsoidTerrainProvider') {
@@ -35,7 +36,6 @@ function getPointFromWindowPoint(point, viewer) {
  * @memberof GisMap
  */
 function paintRect(data = {}, callback) {
-  id += 1;
   const {
     key,
     name,
@@ -55,7 +55,7 @@ function paintRect(data = {}, callback) {
     pixelSize,
     isHighlight
   });
-  let _id = key || id
+  let _id = key
   const pointsArr = [];
   const shape = {
     points: [],
@@ -86,12 +86,6 @@ function paintRect(data = {}, callback) {
           layer: 'default' || data.layer,
           rectangle: {
             coordinates: shape.rect,
-            material: new ColorMaterialProperty(new CallbackProperty(() => {
-              if (_id === this.moveActiveId) {
-                return Color.fromCssColorString(highlightColor);
-              }
-              return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
-            }, false)),
             height: 0,
             outline: true,
             width: 10,
@@ -103,11 +97,7 @@ function paintRect(data = {}, callback) {
           menu: showDefaultMenu ? (menu || {
             className: 'test-menu',
             show: true,
-            menuItems: [
-              { text: '编辑', icon: 'fa-edit', type: 'edit' },
-              { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-              { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-            ],
+            menuItems:defaultMenuItems,
             onSelect: (type, entity) => {
               if (type === 'delete') {
                 console.log(entity)
@@ -117,6 +107,12 @@ function paintRect(data = {}, callback) {
             },
           }) : null,
         });
+        shape.entity.rectangle.material= new ColorMaterialProperty(new CallbackProperty(() => {
+          if (shape.entity.id === this.moveActiveId) {
+            return Color.fromCssColorString(highlightColor||window.Cesium.highlightColor).withAlpha(0.3);
+          }
+          return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
+        }, false))
         shape.bufferEntity = shape.entity;
       } else if (shape.points.length >= 2) {
         handler.destroy();
@@ -178,7 +174,6 @@ function paintRect(data = {}, callback) {
  * @memberof GisMap
  */
 function paintCircle(data = {}, callback) {
-  id += 1;
   const {
     key,
     name,
@@ -210,7 +205,7 @@ function paintCircle(data = {}, callback) {
   let tempLat;
   let p = null;
   let text = '';
-  let _id = key || id
+  let _id = key
   const handle = new ScreenSpaceEventHandler(this.viewer.scene.canvas);
   handle.setInputAction((click) => {
     tempPosition = getPointFromWindowPoint(click.position, this.viewer);
@@ -245,12 +240,6 @@ function paintCircle(data = {}, callback) {
             semiMinorAxis: new CallbackProperty(callBackPos, false),
             semiMajorAxis: new CallbackProperty(callBackPos, false),
             outline: false,
-            material: new ColorMaterialProperty(new CallbackProperty(() => {
-              if (id === this.moveActiveId) {
-                return Color.fromCssColorString(highlightColor);
-              }
-              return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
-            }, false)),
             height: 0,
             outline: true,
             width: 10,
@@ -261,27 +250,7 @@ function paintCircle(data = {}, callback) {
           menu: showDefaultMenu ? (menu || {
             className: 'test-menu',
             show: true,
-            menuItems: [
-              { text: '编辑', icon: 'fa-edit', type: 'edit' },
-              { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-              { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-            ],
-            onSelect: (type, entity) => {
-              if (type === 'delete') {
-                console.log(entity)
-                this.remove(entity);
-              }
-              onMenuSelect && onMenuSelect(type, entity)
-            },
-          }) : null,          tip,
-          menu: showDefaultMenu ? (menu || {
-            className: 'test-menu',
-            show: true,
-            menuItems: [
-              { text: '编辑', icon: 'fa-edit', type: 'edit' },
-              { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-              { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-            ],
+            menuItems: defaultMenuItems,
             onSelect: (type, entity) => {
               if (type === 'delete') {
                 console.log(entity)
@@ -291,6 +260,12 @@ function paintCircle(data = {}, callback) {
             },
           }) : null,
         });
+        circle.entity.ellipse.material= new ColorMaterialProperty(new CallbackProperty(() => {
+          if (circle.entity.id === this.moveActiveId) {
+            return Color.fromCssColorString(highlightColor||window.Cesium.highlightColor).withAlpha(0.3);
+          }
+          return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
+        }, false))
       } else {
         // const tempCircle = new CircleOutlineGeometry({
         //   center: Cartesian3.fromDegrees(tempLon, tempLat),
@@ -353,7 +328,6 @@ function paintCircle(data = {}, callback) {
  * @memberof GisMap
  */
 function paintPolygon(data = {}, callback) {
-  id += 1;
   const {
     key,
     name,
@@ -373,7 +347,7 @@ function paintPolygon(data = {}, callback) {
     pixelSize,
     isHighlight
   });
-  let _id = key || id
+  let _id = key
   let labelEntity = null;
   let text = '';
   let tempLon = '';

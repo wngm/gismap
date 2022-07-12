@@ -9,6 +9,7 @@
 import {
   Entity, ArcType, Cartesian3, PolylineTrailLinkMaterialProperty, Color,ColorMaterialProperty, CallbackProperty
 } from 'cesium';
+import {defaultMenuItems} from '../common/utils'
 import { getLabelOptions } from '../entity';
 
 let _id = 'line';
@@ -111,14 +112,9 @@ function drawLine(points = [], options = {}) {
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
-      menuItems: [
-        { text: '编辑', icon: 'fa-edit', type: 'edit' },
-        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-      ],
+      menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
-          console.log(entity)
           this.remove(entity);
         }
         onMenuSelect && onMenuSelect(type, entity)
@@ -188,15 +184,11 @@ function drawLineWithPoints(points = [], options = {}) {
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
-      menuItems: [
-        { text: '编辑', icon: 'fa-edit', type: 'edit' },
-        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-      ],
+      menuItems:defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
-          console.log(entity)
-          this.remove(entity);
+          console.log(this.viewer.entities,99988)
+          // this.remove(entity);
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
@@ -206,6 +198,7 @@ function drawLineWithPoints(points = [], options = {}) {
   points.forEach(item => {
     console.log(item)
     this.drawPoint({
+      parent:entity,
       longitude: item[0],
       latitude: item[1],
       height: item[2],
