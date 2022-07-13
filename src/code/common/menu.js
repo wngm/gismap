@@ -30,7 +30,7 @@ class Menu {
     if (!menuItems || menuItems.length === 0) {
       return;
     }
-    console.log(menuItems,999)
+    console.log(this.bindEntity ,menuItems,999)
     this.dom = document.createElement('div');
     this.dom.className = `kdyh-cesium-menu ${className}`;
     const content = this.createChildrenDom(menuItems);

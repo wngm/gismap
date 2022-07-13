@@ -3,6 +3,7 @@
 /* eslint-disable func-names */
 import * as Cesium from 'cesium';
 import { color1,color1_a,color3,color4} from "../color"
+import {defaultMenuItems} from '../common/utils'
 
 /**
  * 测量工具可选配配置项
@@ -95,6 +96,16 @@ class MeasurePolygn {
           outerlineWidth:2,
           material:color1_a
         },
+        // menu: {
+        //   show: true,
+        //   menuItems: defaultMenuItems,
+        //   onSelect: (type, entity) => {
+        //     console.log(1,entity)
+        //     if (type === 'delete') {
+        //       // this.viewer.entities.remove(entity);
+        //     }
+        //   },
+        // }
       });
     };
     viewer.scene.globe.depthTestAgainstTerrain = false;

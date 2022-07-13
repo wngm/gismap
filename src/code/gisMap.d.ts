@@ -181,5 +181,4 @@ declare class GisMap {
   clearLayer(layer: string): void
 }
 
-
 export default GisMap
