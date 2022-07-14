@@ -27,7 +27,7 @@ export default () => ({
       failIfMajorPerformanceCaveat: true,
     },
     requestWebgl2: true,
-    msaaSamples:1,
+    msaaSamples: 1,
     allowTextureFilterAnisotropic: true,
   },
 
@@ -36,10 +36,10 @@ export default () => ({
   shouldAnimate: true,
   // terrainProvider: Cesium.createWorldTerrain(),
   // msaaSamples: 4,
-  // imageryProvider: new Cesium.TileMapServiceImageryProvider({
-  //   url : Cesium.buildModuleUrl('Assets/Textures/NaturalEarthII/'),
-  //   maximumLevel : 2
-  // }),
+  imageryProvider: new Cesium.TileMapServiceImageryProvider({
+    url: Cesium.buildModuleUrl('Assets/Textures/NaturalEarthII/'),
+    maximumLevel: 2
+  }),
 
   // 加载arcGis 暗色地图
   // url: '/static/resource',
@@ -47,17 +47,17 @@ export default () => ({
   //   url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer',
   // }),
   // 高德矢量
-  imageryProvider: new Cesium.UrlTemplateImageryProvider({
-    url: "http://webrd02.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
-    minimumLevel: 3,
-    maximumLevel: 18,
-  }),
+  // imageryProvider: new Cesium.UrlTemplateImageryProvider({
+  //   url: "http://webrd02.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
+  //   minimumLevel: 3,
+  //   maximumLevel: 18,
+  // }),
   // 高德影像
-  imageryProvider: new Cesium.UrlTemplateImageryProvider({
-    url: "https://webst02.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
-    minimumLevel: 3,
-    maximumLevel: 18,
-  }),
+  // imageryProvider: new Cesium.UrlTemplateImageryProvider({
+  //   url: "https://webst02.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
+  //   minimumLevel: 3,
+  //   maximumLevel: 18,
+  // }),
   // 高德标记
   // imageryProvider: new Cesium.UrlTemplateImageryProvider({
   //   url: "http://webst02.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scale=1&style=8",
