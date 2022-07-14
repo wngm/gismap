@@ -26,12 +26,19 @@ export default () => ({
       preserveDrawingBuffer: true,
       failIfMajorPerformanceCaveat: true,
     },
+    requestWebgl2: true,
+    msaaSamples: 1,
     allowTextureFilterAnisotropic: true,
   },
+
+  shadows: true,
+  terrainShadows: Cesium.ShadowMode.ENABLED,
+  shouldAnimate: true,
+  // terrainProvider: Cesium.createWorldTerrain(),
   // msaaSamples: 4,
   imageryProvider: new Cesium.TileMapServiceImageryProvider({
-    url : Cesium.buildModuleUrl('Assets/Textures/NaturalEarthII/'),
-    maximumLevel : 2
+    url: Cesium.buildModuleUrl('Assets/Textures/NaturalEarthII/'),
+    maximumLevel: 2
   }),
 
   // 加载arcGis 暗色地图

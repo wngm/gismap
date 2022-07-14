@@ -185,6 +185,7 @@ function load (Cesium){
       }
       material.shininess = 0.0;
       material.specular = 0.0;
+      material.emission = vec3(0.2,0.2,0.2);
       return material;
     }`;
   
@@ -270,9 +271,9 @@ Cesium.Material.RadarAngleSource = `czm_material czm_getMaterial(czm_materialInp
     vec3 str = materialInput.str;
     float dis = distance(st, vec2(0.5, 0.5));
     float per = fract(time);
-    float border = 0.015;
+    float border = 0.01;
     vec2 ang = st - vec2(0.5, 0.5);
-    vec2 ang2 = st - vec2(0.5+border*1.3, 0.5);
+    vec2 ang2 = st - vec2(0.5+border*1.1, 0.5);
     float vl = atan(ang.y, ang.x);
     float vl2 = atan(ang2.y, ang2.x);
     float angVal = abs(vl2-vl);
@@ -305,6 +306,7 @@ Cesium.Material.RadarAngleSource = `czm_material czm_getMaterial(czm_materialInp
     }
     material.shininess = 0.0;
     material.specular = 0.0;
+    material.emission = vec3(0.2,0.2,0.2);
     return material;
   }`;
 

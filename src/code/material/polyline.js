@@ -4,7 +4,7 @@
 // import line3 from './image/line3.png';
 
 function load(Cesium) {
-  const dashImg = '/image/dash3.png'
+  const dashImg = '/images/dash3.png'
   function PolylineProperty(color, duration) {
     this._definitionChanged = new Cesium.Event();
     this._color = undefined;

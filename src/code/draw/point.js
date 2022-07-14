@@ -11,12 +11,12 @@ import {
   Entity, Cartesian3, HeightReference, CallbackProperty, Color,
 } from 'cesium';
 import { getPointOptions, getLabelOptions } from '../entity';
-import normalPoint from '@src/assets/images/point.png'
-import normalPointHighlight from '@src/assets/images/point-highlight.png'
-import imgPoint from '@src/assets/images/img-point.png'
-import imgPointHighlight from '@src/assets/images/img-point-highlight.png'
+import {defaultMenuItems} from '../common/utils'
+// import normalPoint from '@src/assets/images/point.png'
+// import normalPointHighlight from '@src/assets/images/point-highlight.png'
+// import imgPoint from '@src/assets/images/img-point.png'
+// import imgPointHighlight from '@src/assets/images/img-point-highlight.png'
 
-let _id = 1;
 /**
  *
  * 点绘制
@@ -38,6 +38,7 @@ function drawPoint(data) {
     showDefaultMenu = false,
     onMenuSelect,
     tip,
+    ...optopns
   } = data;
 
   const pointOption = getPointOptions(data);
@@ -46,14 +47,14 @@ function drawPoint(data) {
     pixelSize,
     isHighlight
   });
-  _id += 1;
   const entity = new Entity({
+    ...optopns,
     layer: data.layer || 'default',
     name,
     pixelSize,
     label,
     tip,
-    id: key || Number.prototype.toString.apply(_id),
+    id: key,
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
     heightReference: HeightReference.CLAMP_TO_GROUND,
@@ -63,12 +64,7 @@ function drawPoint(data) {
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
-      menuItems: [
-        { text: '编辑', icon: 'fa-edit', type: 'edit' },
-        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-      ],
-
+      menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)
@@ -127,11 +123,13 @@ function drawMarkerPoint(data) {
     pixelSize,
     isHighlight
   });
-  _id += 1;
+
+  let normalPointHighlight = window.CESIUM_BASE_URL +'/images/point-highlight.png'
+  let normalPoint = window.CESIUM_BASE_URL +'/images/point.png'
   const entity = new Entity({
     name,
     layer: data.layer || 'default',
-    id: key || Number.prototype.toString.apply(_id),
+    id: key ,
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
     heightReference: HeightReference.CLAMP_TO_GROUND,
@@ -146,12 +144,7 @@ function drawMarkerPoint(data) {
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
-      menuItems: [
-        { text: '编辑', icon: 'fa-edit', type: 'edit' },
-        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-      ],
-
+      menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)
@@ -194,15 +187,16 @@ function drawImgPoint(data) {
     pixelSize,
     isHighlight
   });
-  _id += 1;
+  let imgPointHighlight = window.CESIUM_BASE_URL +'/images/img-point-highlight.png'
+  let imgPoint = window.CESIUM_BASE_URL +'/images/img-point.png'
   const entity = new Entity({
     name,
     layer: data.layer || 'default',
-    id: key || Number.prototype.toString.apply(_id),
+    id: key ,
     show: true,
     billboard: {
-      width: 44,
-      height: 46,
+      width: 28,
+      height: 36,
       image: isHighlight ? imgPointHighlight : imgPoint,
       ...imgOptions,
     },
@@ -213,12 +207,7 @@ function drawImgPoint(data) {
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
-      menuItems: [
-        { text: '编辑', icon: 'fa-edit', type: 'edit' },
-        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-      ],
-
+      menuItems:defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)
@@ -263,11 +252,10 @@ function drawFlashPoint(data) {
     pixelSize,
     isHighlight
   });
-  _id += 1;
   const entity = new Entity({
     name,
     layer: data.layer || 'default',
-    id: key || Number.prototype.toString.apply(_id),
+    id: key,
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
     heightReference: HeightReference.CLAMP_TO_GROUND,
@@ -289,12 +277,7 @@ function drawFlashPoint(data) {
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
-      menuItems: [
-        { text: '编辑', icon: 'fa-edit', type: 'edit' },
-        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-      ],
-
+      menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)
@@ -341,12 +324,10 @@ function drawFlashPointClock(data) {
     pixelSize: 14,
     isHighlight
   });
-  console.log(labelOptions)
-  _id += 1;
   const entity = new Entity({
     name,
     layer: data.layer || 'default',
-    id: key || Number.prototype.toString.apply(_id),
+    id: key,
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
     // heightReference: HeightReference.CLAMP_TO_GROUND,
@@ -369,15 +350,9 @@ function drawFlashPointClock(data) {
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
-      menuItems: [
-        { text: '编辑', icon: 'fa-edit', type: 'edit' },
-        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-      ],
-
+      menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
-          console.log(entity)
           this.remove(entity);
         }
         onMenuSelect && onMenuSelect(type, entity)

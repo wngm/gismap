@@ -11,8 +11,7 @@ import {
 } from 'cesium';
 import * as Cesium from 'cesium';
 import { getLabelOptions } from '../entity';
-
-let _id = 'shape';
+import {defaultMenuItems} from '../common/utils'
 
 /**
  *
@@ -22,7 +21,6 @@ let _id = 'shape';
  * @memberof GisMap
  */
 function drawCircle(data) {
-  _id += 1;
   const {
     longitude,
     latitude,
@@ -46,7 +44,7 @@ function drawCircle(data) {
     pixelSize: pixelSize || (radius / 10000 * 3.6),
     isHighlight
   });
-  const id = key || _id;
+  const id = key;
   const entity = new Entity({
     name,
     layer: data.layer || 'default',
@@ -73,12 +71,7 @@ function drawCircle(data) {
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
-      menuItems: [
-        { text: '编辑', icon: 'fa-edit', type: 'edit' },
-        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-      ],
-
+      menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)
@@ -120,7 +113,7 @@ function drawEllipse(data) {
     menu,
     tip
   } = data;
-  const id = key || _id;
+  const id = key;
   const labelOptions = getLabelOptions({
     ...label,
     pixelSize,
@@ -152,12 +145,7 @@ function drawEllipse(data) {
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
-      menuItems: [
-        { text: '编辑', icon: 'fa-edit', type: 'edit' },
-        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-      ],
-
+      menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)
@@ -178,7 +166,6 @@ function drawEllipse(data) {
  * @memberof GisMap
  */
 function drawRect(data) {
-  _id += 1;
   const {
     key,
     name,
@@ -194,7 +181,7 @@ function drawRect(data) {
     menu,
     tip
   } = data;
-  const id = _id || key;
+  const id = key;
   const labelOptions = getLabelOptions({
     ...label,
     pixelSize,
@@ -225,11 +212,7 @@ function drawRect(data) {
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
-      menuItems: [
-        { text: '编辑', icon: 'fa-edit', type: 'edit' },
-        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
-      ],
+      menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)

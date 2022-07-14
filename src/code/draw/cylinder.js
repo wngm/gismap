@@ -1,8 +1,9 @@
 import {
-    Entity, ArcType, Cartesian3, Color,PolylineTrailLinkMaterialProperty
+    HeightReference,
+    Color,
+    Entity,
   } from 'cesium';
   
-  let _id = 10000;
   /**
      *
      * 绘制圆柱体
@@ -17,10 +18,12 @@ import {
         longitude,
         latitude,
         height,
-        color = "#0099cc",
         bottomRadius,
-        key
+        key,
+        isHighlight
     } = data
+
+    const color = data.color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)
     const entity = new Entity({
       id:key,
       layer: data.layer || 'default',
@@ -34,7 +37,7 @@ import {
         bottomSurface:false,
         length:height,
         slices:128,
-        material:Color.fromCssColorString(color||'#00cc99')
+        material:Color.fromCssColorString(color)
       },
       
     });
@@ -49,7 +52,7 @@ import {
    * @property {number} longitude 经度
    * @property {number} latitude 维度
    * @property {number} height 高度
-   * @property {string} [color] 颜色 默认值#0099cc
+   * @property {string} [color] 颜色 默认值#0dfcff
    * @property {number} [count = 4] 波形数量
    */
 
@@ -66,25 +69,12 @@ import {
         longitude,
         latitude,
         height,
-        color = "#0dfcff",
         count = 4,
         bottomRadius,
-        key
+        key,
+        isHighlight
     } = data
-
-    // const dashImg = window.CESIUM_BASE_URL +'/image/dash3.png'
-    // let material = new Cesium.Material({
-    //     fabric : {
-    //       type : 'DiffuseMap',
-    //       uniforms : {
-    //         image : dashImg,
-    //         repeat : {
-    //           x : 10,
-    //           y : 2
-    //         }
-    //       }
-    //     }
-    //   });
+    const color = data.color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)
     const entity = new Entity({
         id:key,
         layer: data.layer || 'default',
@@ -95,12 +85,11 @@ import {
           bottomSurface:false,
           length:height,
           slices:128,
-        //   material:Cesium.Color.fromCssColorString(color),
           material: new Cesium.CircleWaveMaterialProperty({
             duration:2000,
             count,
             gradient:1,
-            color: Color.fromCssColorString(color||'#00cc99')
+            color: Color.fromCssColorString(color)
           }),
         //   material:new PolylineTrailLinkMaterialProperty(
         //     Color.fromCssColorString('#ff0000'),
@@ -128,35 +117,39 @@ import {
         longitude,
         latitude,
         height,
-        color = "#0dfcff",
         radius,
-        key
+        key,
+        isHighlight
     } = data
+    const color = data.color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)
+    const _color = Color.fromCssColorString(color)
     const entity = new Entity({
       id:key,
       layer: data.layer || 'default',
       // show: true,
       position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
       ...options,
-      ellipse: {
-        semiMinorAxis:radius,
-        semiMajorAxis:radius,
+      cylinder: {
+        topRadius:radius,
+        bottomRadius:radius,
+        bottomSurface:true,
+        topSurface:false,
+        length:1.0,
+        slices:128,
         material:new Cesium.RadarMaterialProperty({
             duration:2000,
             count:2,
             gradient:1,
-            color: Color.fromCssColorString(color||'#990000')
-        }),
-        outline: false,
+            color: _color
+        })
       },
-      
     });
     this.viewer.entities.add(entity);
     return entity;
   }
 
    /**
-   * 雷达扫描
+   * 雷达扫描扇形（自定义角度）
    * @param {Objec} data
    * @param {Object} [options={}]
    * @memberof GisMap
@@ -169,31 +162,50 @@ import {
         longitude,
         latitude,
         height,
-        color = "#0dfcff",
         radius,
         key,
         start = -Math.PI,
-        end = Math.PI
+        end = Math.PI,
+        isHighlight
     } = data
+    const color = data.color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)
     const entity = new Entity({
       id:key,
       layer: data.layer || 'default',
       // show: true,
       position: Cesium.Cartesian3.fromDegrees(longitude, latitude, height),
       ...options,
-      ellipse: {
-        semiMinorAxis:radius,
-        semiMajorAxis:radius,
+      cylinder: {
+        topRadius:radius,
+        bottomRadius:radius,
+        bottomSurface:true,
+        topSurface:false,
+        length:1.0,
+        slices:128,
+        heightReference:HeightReference.NONE,
         material:new Cesium.RadarAngleMaterialProperty({
-            duration:2000,
-            count:2,
-            gradient:1,
-            color: Color.fromCssColorString(color||'#990000'),
-            start,
-            end,
-        }),
-        outline: false,
+          duration:2000,
+          count:2,
+          gradient:1,
+          color: Color.fromCssColorString(color),
+          start,
+          end,
+      }),
       },
+      // ellipse: {
+      //   semiMinorAxis:radius,
+      //   semiMajorAxis:radius,
+      //   height:10,
+      //   material:new Cesium.RadarAngleMaterialProperty({
+      //       duration:2000,
+      //       count:2,
+      //       gradient:1,
+      //       color: Color.fromCssColorString(color||'#990000'),
+      //       start,
+      //       end,
+      //   }),
+      //   outline: false,
+      // },
       
     });
     this.viewer.entities.add(entity);

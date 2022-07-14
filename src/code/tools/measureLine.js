@@ -1,6 +1,8 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable func-names */
 import * as Cesium from 'cesium';
+import { color1,color3,color4} from "../color"
+import {defaultMenuItems} from '../common/utils'
 
 /**
  * 测量工具可选配配置项
@@ -44,35 +46,6 @@ class MeasureLine {
     this.labelPt = null;
     this.viewer = viewer;
     this.onFinish = options.onFinish;
-
-    this.PolyLinePrimitive = (function () {
-      function _(positions) {
-        this.options = {
-          name: '直线',
-          polyline: {
-            show: true,
-            positions: [],
-            // material: Cesium.Color.TRANSPARENT,
-            material: Cesium.Color.CHARTREUSE,
-            width: 2,
-            clampToGround: true,
-          },
-        };
-        this.positions = positions;
-        this._init();
-      }
-      _.prototype._init = function () {
-        const _self = this;
-        const _update = function () {
-          return _self.positions;
-        };
-        // 实时更新polyline.positions
-        this.options.polyline.positions = new Cesium.CallbackProperty(_update, false);
-        viewer.entities.add(this.options);
-      };
-
-      return _;
-    }());
     // eslint-disable-next-line no-param-reassign
     viewer.scene.globe.depthTestAgainstTerrain = false;
     this.init(viewer);
@@ -81,7 +54,35 @@ class MeasureLine {
   init() {
     this.handleEvent();
   }
+  polyLinePrimitivey (positions){
+    let entity= new Cesium.Entity({
+      name: '折线',
+      polyline: {
+        show: true,
+        positions: [],
+        // material: Cesium.Color.TRANSPARENT,
+        material: color1,
+        width: 2,
+        clampToGround: true,
+      },
+      menu: {
+          show: true,
+          menuItems: defaultMenuItems,
+          onSelect: (type, _entity) => {
+            console.log(type, _entity)
+            if (type === 'delete') {
+              this.viewer.entities.remove(_entity);
+            }
+          },
+        }
+    })
+    entity.polyline.positions =  new Cesium.CallbackProperty(()=>{
+      return positions
+    },false)
+    this.viewer.entities.add(entity);
+    return entity
 
+  }
   getTerrainDistance(point1cartographic, point2cartographic) {
     const { viewer } = this;
     const geodesic = new Cesium.EllipsoidGeodesic();
@@ -115,17 +116,17 @@ class MeasureLine {
         position: this.labelPt,
         point: {
           pixelSize: 5,
-          color: Cesium.Color.RED,
-          outlineColor: Cesium.Color.WHITE,
+          color: color1,
+          outlineColor: color3,
           outlineWidth: 2,
         },
         label: {
           text: lonLat + textDisance,
           font: '18px sans-serif',
-          fillColor: Cesium.Color.GOLD,
+          fillColor: color4,
           style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-          outlineWidth: 2,
-          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          outlineWidth: 1,
+          // verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
           pixelOffset: new Cesium.Cartesian2(20, -20),
           eyeOffset: new Cesium.Cartesian3(0, 0, 10),
         },
@@ -152,7 +153,7 @@ class MeasureLine {
       if (!Cesium.defined(this.cartesian)) { return; }
       if (this.positions.length >= 2) {
         if (!Cesium.defined(this.poly)) {
-          this.poly = new this.PolyLinePrimitive(this.positions);
+          this.poly = this.polyLinePrimitivey(this.positions);
         } else {
           this.positions.pop();
           this.positions.push(this.cartesian);
@@ -182,8 +183,8 @@ class MeasureLine {
           point: {
             heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
             pixelSize: 5,
-            color: Cesium.Color.RED,
-            outlineColor: Cesium.Color.WHITE,
+            color: color1,
+            outlineColor: color3,
             outlineWidth: 2,
           },
         });

@@ -1,6 +1,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable func-names */
 import * as Cesium from 'cesium';
+import {color2,color2_a} from "../color"
 
 /**
  * 测量工具可选配配置项
@@ -44,7 +45,10 @@ class SelectRect {
         name: 'Blue translucent, rotated, and extruded ellipse with outline',
         rectangle: {
           coordinates: new Cesium.CallbackProperty(() => Cesium.Rectangle.fromCartesianArray(positions), false),
-          material: Cesium.Color.CHARTREUSE.withAlpha(0.5),
+          material: color2_a,
+          outline:true,
+          outlineWidth:2.0,
+          outlineColor:color2
         },
       });
     };
@@ -138,7 +142,10 @@ class SelectRect {
             // if(obj.south==obj.north){obj.north+=0.000001};
             return obj;
           }), false),
-          material: Cesium.Color.RED.withAlpha(0.3),
+          material: color2_a,
+          outline:true,
+          outlineWidth:2.0,
+          outlineColor:color2
         },
       });
     }

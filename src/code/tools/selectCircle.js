@@ -1,6 +1,7 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable func-names */
 import * as Cesium from 'cesium';
+import {color1_a} from "../color"
 
 /**
  * 测量工具可选配配置项
@@ -49,7 +50,7 @@ class SelectCircle {
                 semiMajorAxis : size,
                 // heightReference: GisMap.Cesium.HeightReference.NONE,
                 // height:1000,
-                material: Cesium.Color.fromCssColorString('#0099cc77')
+                material: color1_a
             }
         });
     };
@@ -128,28 +129,28 @@ class SelectCircle {
     // }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
   }
 
-  drawShape(positionData) {
-    const { viewer } = this;
-    let shape;
-    const drawingMode = 'rectangle';
-    if (drawingMode === 'rectangle') {
-      // 当positionData为数组时绘制最终图，如果为function则绘制动态图
-      const arr = typeof positionData.getValue === 'function' ? positionData.getValue(0) : positionData;
-      shape = viewer.entities.add({
-        name: 'Blue translucent, rotated, and extruded ellipse with outline',
-        rectangle: {
-          coordinates: new Cesium.CallbackProperty((() => {
-            const obj = Cesium.Circle.fromCartesianArray(arr);
-            // if(obj.west==obj.east){ obj.east+=0.000001};
-            // if(obj.south==obj.north){obj.north+=0.000001};
-            return obj;
-          }), false),
-          material: Cesium.Color.RED.withAlpha(0.3),
-        },
-      });
-    }
-    return shape;
-  }
+  // drawShape(positionData) {
+  //   const { viewer } = this;
+  //   let shape;
+  //   const drawingMode = 'rectangle';
+  //   if (drawingMode === 'rectangle') {
+  //     // 当positionData为数组时绘制最终图，如果为function则绘制动态图
+  //     const arr = typeof positionData.getValue === 'function' ? positionData.getValue(0) : positionData;
+  //     shape = viewer.entities.add({
+  //       name: 'Blue translucent, rotated, and extruded ellipse with outline',
+  //       rectangle: {
+  //         coordinates: new Cesium.CallbackProperty((() => {
+  //           const obj = Cesium.Circle.fromCartesianArray(arr);
+  //           // if(obj.west==obj.east){ obj.east+=0.000001};
+  //           // if(obj.south==obj.north){obj.north+=0.000001};
+  //           return obj;
+  //         }), false),
+  //         material: color1_a
+  //       },
+  //     });
+  //   }
+  //   return shape;
+  // }
 
   /**
  * 框选完成后返回 区域内的数据格式

@@ -1,7 +1,7 @@
 .kdyh-cesium-menu {
   min-width: 80px;
   max-width: 300px;
-  padding: 10px 0;
+  padding: 2px 0;
   box-sizing: border-box;
   background: #2f446f;
   border: 1px solid #0dfcff;
@@ -14,12 +14,32 @@
 }
 
 .kdyh-cesium-menu-item {
-  min-width: 120px;
+  min-width: 80px;
   font-size: 14px;
   color: #dbfaff;
   cursor: pointer;
-  line-height: 32px;
-  padding: 4px 10px;
+  line-height: 24px;
+  box-sizing: border-box;
+  padding: 0 6px;
+}
+
+.kdyh-cesium-menu-item-icon {
+  display: inline-block;
+  width: 1.8em;
+  padding: left 0.5em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.kdyh-cesium-menu-item-icon-none {
+  display: none;
+}
+
+.kdyh-cesium-menu-item-icon>.icon {
+  width: 1em;
+  height: 1em;
+  line-height: 24px;
+  fill: #dbfaff;
 }
 
 .kdyh-cesium-menu-item:hover {
