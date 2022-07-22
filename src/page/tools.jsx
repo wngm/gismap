@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import * as turf from '@turf/turf';
-import GisMap from '../code/gisMap';
-import './index.less';
+import React, { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import * as turf from "@turf/turf";
+import GisMap from "../code/gisMap";
+import "./index.less";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
-const gisMap = new GisMap('cesium');
+const gisMap = new GisMap("cesium", {
+  contextOptions: {},
+});
 
-const pt = turf.circle([120, 41],100);
-const p = turf.point([115,46]);
-const p2 = turf.point([120,46]);
-console.log(turf.booleanWithin(p,pt),888 ,pt,p);
-console.log(turf.distance(p,p2))
+const pt = turf.circle([120, 41], 100);
+const p = turf.point([115, 46]);
+const p2 = turf.point([120, 46]);
+console.log(turf.booleanWithin(p, pt), 888, pt, p);
+console.log(turf.distance(p, p2));
 
 // 随机测试点
 gisMap.setView({
@@ -20,7 +22,6 @@ gisMap.setView({
 });
 
 gisMap.drawPoint({
-
   longitude: 120,
   latitude: 41,
   height: 0,
@@ -42,23 +43,20 @@ gisMap.drawPoint({
   height: 0,
 });
 
-
-
-
 window.gisMap = gisMap;
 function Content() {
   const [measure, setMeasure] = useState(null);
 
-  const home=()=>{
+  const home = () => {
     gisMap.setView({
       longitude: 106.038795,
       latitude: 31.042339,
       height: 9853204,
     });
-  }
+  };
   const getImage = () => {
-    const img = gisMap.canvas2image('file');
-    console.log('image', img);
+    const img = gisMap.canvas2image("file");
+    console.log("image", img);
   };
 
   const getDistance = () => {
@@ -79,19 +77,19 @@ function Content() {
   };
 
   const selectRectCallBack = (data) => {
-    console.log('selectRectCallBack', data);
+    console.log("selectRectCallBack", data);
     // 删除选中点
     // data.list.forEach(i=>{
     //   gisMap.remove(i.id)
     // })
     // 高亮标记
 
-    const colorRed = new gisMap.Cesium.Color.fromCssColorString('#ff0000');
-    data.list.forEach(i=>{
+    const colorRed = new gisMap.Cesium.Color.fromCssColorString("#ff0000");
+    data.list.forEach((i) => {
       let entity = gisMap.viewer.entities.getById(i.id);
-      entity.point.color= colorRed
-        // gisMap.remove(i.id)
-      })
+      entity.point.color = colorRed;
+      // gisMap.remove(i.id)
+    });
   };
 
   const selectRect = () => {
@@ -112,7 +110,9 @@ function Content() {
       <div className="btn" role="none" onClick={() => home()}>home</div>
       <div className="btn" role="none" onClick={() => getImage()}>截图</div>
       <div className="btn" role="none" onClick={() => getDistance()}>测量距离</div>
-      <div className="btn" role="none" onClick={() => removeDistance()}>完成测量距离</div>
+      <div className="btn" role="none" onClick={() => removeDistance()}>
+        完成测量距离
+      </div>
       <div className="btn" role="none" onClick={() => getSize()}>测量面积</div>
       <div className="btn" role="none" onClick={() => removeSize()}>完成测量面积</div>
       <div className="btn" role="none" onClick={() => selectRect()}>框选</div>
@@ -122,5 +122,5 @@ function Content() {
   );
 }
 
-const root = createRoot(document.getElementById('app'));
+const root = createRoot(document.getElementById("app"));
 root.render(<Content />);

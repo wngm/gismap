@@ -11,7 +11,7 @@ import {
   Entity, Cartesian3, HeightReference, CallbackProperty, Color,
 } from 'cesium';
 import { getPointOptions, getLabelOptions } from '../entity';
-import {defaultMenuItems} from '../common/utils'
+import { defaultMenuItems } from '../common/utils'
 // import normalPoint from '@src/assets/images/point.png'
 // import normalPointHighlight from '@src/assets/images/point-highlight.png'
 // import imgPoint from '@src/assets/images/img-point.png'
@@ -57,7 +57,6 @@ function drawPoint(data) {
     id: key,
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
-    heightReference: HeightReference.CLAMP_TO_GROUND,
     point: pointOption,
     label: labelOptions,
     tip,
@@ -124,12 +123,12 @@ function drawMarkerPoint(data) {
     isHighlight
   });
 
-  let normalPointHighlight = window.CESIUM_BASE_URL +'/images/point-highlight.png'
-  let normalPoint = window.CESIUM_BASE_URL +'/images/point.png'
+  let normalPointHighlight = window.CESIUM_BASE_URL + '/images/point-highlight.png'
+  let normalPoint = window.CESIUM_BASE_URL + '/images/point.png'
   const entity = new Entity({
     name,
     layer: data.layer || 'default',
-    id: key ,
+    id: key,
     show: true,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
     heightReference: HeightReference.CLAMP_TO_GROUND,
@@ -187,12 +186,12 @@ function drawImgPoint(data) {
     pixelSize,
     isHighlight
   });
-  let imgPointHighlight = window.CESIUM_BASE_URL +'/images/img-point-highlight.png'
-  let imgPoint = window.CESIUM_BASE_URL +'/images/img-point.png'
+  let imgPointHighlight = window.CESIUM_BASE_URL + '/images/img-point-highlight.png'
+  let imgPoint = window.CESIUM_BASE_URL + '/images/img-point.png'
   const entity = new Entity({
     name,
     layer: data.layer || 'default',
-    id: key ,
+    id: key,
     show: true,
     billboard: {
       width: 28,
@@ -207,7 +206,7 @@ function drawImgPoint(data) {
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
-      menuItems:defaultMenuItems,
+      menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
           console.log(entity)
@@ -299,7 +298,7 @@ function drawFlashPoint(data) {
  * @memberof GisMap
  */
 function drawFlashPointClock(data) {
-  const {Cesium} = this
+  const { Cesium } = this
   // const pointOption = getPointOptions(data);
   const {
     longitude,
@@ -312,7 +311,7 @@ function drawFlashPointClock(data) {
     menu,
     color,
     flashTime = 5000,
-    duration=1000,
+    duration = 1000,
     pixelSize = 1000,
     showDefaultMenu = false,
     isHighlight = false,
@@ -334,13 +333,13 @@ function drawFlashPointClock(data) {
     ellipse: {
       // ...pointOption,
       semiMinorAxis: size,
-      semiMajorAxis:  size,
+      semiMajorAxis: size,
       heightReference: Cesium.HeightReference.NONE,
       height,
-      material :new Cesium.PointFlashMaterialProperty({
+      material: new Cesium.PointFlashMaterialProperty({
         duration,
-        count:5,
-        gradient:1,
+        count: 5,
+        gradient: 1,
         flashTime,
         color: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
       })

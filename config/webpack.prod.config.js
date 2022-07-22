@@ -15,7 +15,7 @@ const webppackBuild = {
   mode: 'production',
   devtool: 'source-map',
   output: {
-    libraryTarget: 'commonjs2',
+    libraryTarget: 'umd',
   },
   plugins: [
     new CopyPlugin({
@@ -27,15 +27,15 @@ const webppackBuild = {
     }),
     new CleanWebpackPlugin(),
     new UglifyJsPlugin({
-      uglifyOptions:{
-          compress:{
-              drop_console:true
-          }
+      uglifyOptions: {
+        compress: {
+          drop_console: true
+        }
       },
-      sourceMap:true,
-      parallel:true    
-  
-  })
+      sourceMap: true,
+      parallel: true
+
+    })
   ],
 };
 

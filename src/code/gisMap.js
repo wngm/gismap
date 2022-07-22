@@ -11,15 +11,14 @@ import { computeCircle } from './utils';
 import camera from './methods/camera';
 import mouse from './methods/mouse';
 import base from './methods/base';
-import { MeasureLine, MeasurePolygn, SelectRect,SelectCircle,LoadCzml,AreaEvent} from './tools';
+import { MeasureLine, MeasurePolygn, SelectRect, SelectCircle, LoadCzml, AreaEvent, Satellite } from './tools';
 import '@modules/cesium/Source/Widgets/widgets.css';
 import drawFns from './draw';
 import paintFns from './paint';
 import layer from './layer';
-
 window.CESIUM_BASE_URL = '/static/Cesium';
 
-function loadMaterial(){
+function loadMaterial() {
   material(Cesium);
   material2(Cesium);
   material3(Cesium);
@@ -27,7 +26,7 @@ function loadMaterial(){
 }
 // id 累加计数器
 
-class GisMap {
+export class GisMap {
   static version = '1.0.0';
   static Cesium = Cesium;
   Cesium = Cesium;
@@ -58,10 +57,14 @@ class GisMap {
   }
 
   init(container, options) {
-    if(!Cesium.PointFlashMaterialProperty){
+    if (!Cesium.PointFlashMaterialProperty) {
       loadMaterial()
     }
-    
+
+    if (options.CESIUM_BASE_URL) {
+      window.CESIUM_BASE_URL = options.CESIUM_BASE_URL;
+    }
+
     this.initViewer(container, options);
   }
 
@@ -274,11 +277,11 @@ class GisMap {
 
     const type = options.type || 0
     let material = Cesium.Color.fromCssColorString(color)
-    if(type){
+    if (type) {
       material = new Cesium.PolylineProperty(
-          Cesium.Color.fromCssColorString(color || '#0dfcff'),
-          2000,
-        )
+        Cesium.Color.fromCssColorString(color || '#0dfcff'),
+        2000,
+      )
     }
 
     const pointsArray = points.reduce((a, b) => a.concat(b), []);
@@ -362,6 +365,7 @@ GisMap.prototype.selectRect = function selectRect(options) { return new SelectRe
 GisMap.prototype.selectCircle = function selectCircle(options) { return new SelectCircle(this.viewer, options); };
 GisMap.prototype.loadCzml = function loadCzml(options) { return new LoadCzml(this.viewer, options); };
 GisMap.prototype.areaEvent = function areaEvent(options) { return new AreaEvent(this.viewer, options); };
+GisMap.prototype.Satellite = Satellite;
 GisMap.prototype.clearLayer = function (str) {
   const entities = this.viewer.entities.values
   entities.forEach(({ id, layer }) => {
@@ -373,7 +377,7 @@ GisMap.prototype.clearLayer = function (str) {
 
 // 画图方法
 const fns = {
-  ...drawFns, ...paintFns,...layer
+  ...drawFns, ...paintFns, ...layer
 };
 Object.keys(fns).forEach((key) => {
   GisMap.prototype[key] = fns[key];
@@ -384,5 +388,6 @@ window.Cesium = Cesium;
 window.Cesium.highlightColor = '#0dfcff';
 window.Cesium.themeColor = '#4291da';
 window.Cesium.fontColor = '#dbfaff';
+
 
 export default GisMap;
