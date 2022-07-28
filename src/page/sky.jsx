@@ -1,23 +1,23 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import GisMap from '../code/gisMap';
-import './index.less';
-import left from '../assets/images/skybox/left.jpg';
-import right from '../assets/images/skybox/right.jpg';
-import top from '../assets/images/skybox/top.jpg';
-import bottom from '../assets/images/skybox/bottom.jpg';
-import front from '../assets/images/skybox/front.jpg';
-import back from '../assets/images/skybox/back.jpg';
-// window['CESIUM_BASE_URL'] = '/static/Cesium'
-const gisMap = new GisMap('cesium');
+import React from "react";
+import { createRoot } from "react-dom/client";
+import GisMap from "../code/gisMap";
+import "./index.less";
+import left from "../assets/images/skybox/00h+00.jpg";
+import right from "../assets/images/skybox/12h+00.jpg";
+import top from "../assets/images/skybox/top.jpg";
+import bottom from "../assets/images/skybox/06h-90.jpg";
+import front from "../assets/images/skybox/06h+00.jpg";
+import back from "../assets/images/skybox/18h+00.jpg";
+window["CESIUM_BASE_URL"] = "/static/Cesium";
+const gisMap = new GisMap("cesium");
 gisMap.setView({
-  latitude:40,
-  longitude:120,
-  height:200000000,
-  heading:0.0,
+  latitude: 40,
+  longitude: 120,
+  height: 200000000,
+  heading: 0.0,
   pitc: -90.0,
-  roll:70.0
-})
+  roll: 70.0,
+});
 window.gisMap = gisMap;
 function Content() {
   const setSky = () => {
@@ -40,5 +40,5 @@ function Content() {
 }
 
 // 3.渲染react元素
-const root = createRoot(document.getElementById('app'));
+const root = createRoot(document.getElementById("app"));
 root.render(<Content />);

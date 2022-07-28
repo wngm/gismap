@@ -83,7 +83,6 @@ function cylinderWave(data = {}) {
       topRadius: 0,
       bottomRadius: bottomRadius || height * 0.3, //半径
       bottomSurface: false,
-      bottomSurface: false,
       length: height,
       slices: 128,
       material: new Cesium.CircleWaveMaterialProperty({

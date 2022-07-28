@@ -41,6 +41,7 @@ export class GisMap {
     this.viewer = null;
     this.scene = null;
     this.camera = null;
+    this.primitives = null;
     // 天气
     this.weather = null;
     // 选中元素
@@ -61,7 +62,7 @@ export class GisMap {
       loadMaterial()
     }
 
-    if (options.CESIUM_BASE_URL) {
+    if (options?.CESIUM_BASE_URL) {
       window.CESIUM_BASE_URL = options.CESIUM_BASE_URL;
     }
 
@@ -70,6 +71,8 @@ export class GisMap {
 
   initViewer(container, options = {}) {
     this.viewer = new Cesium.Viewer(container, { ...baseOptions(), ...options });
+    //新建 primitives 集合 然后添加到顶层集合中 不然调用 removeAll 会报错 
+    this.primitives = this.viewer.scene.primitives.add(new Cesium.PrimitiveCollection());
     this.scene = this.viewer.scene;
     this.camera = this.viewer.camera;
     this.viewer.scene.globe.depthTestAgainstTerrain = false;
@@ -109,16 +112,16 @@ export class GisMap {
 
   _handleEvent() {
     const handler = new Cesium.ScreenSpaceEventHandler(this.scene.canvas);
-    handler.setInputAction((movement) => {
-      const windowPosition = movement.position;
-      const pick = this.viewer.scene.pick(windowPosition);
-      if (pick) {
-        this.handleTip(pick);
-      } else {
-        this.unHandleTip();
-        this.unHandleMenu();
-      }
-    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    // handler.setInputAction((movement) => {
+    // const windowPosition = movement.position;
+    // const pick = this.viewer.scene.pick(windowPosition);
+    // if (pick) {
+    //   this.handleTip(pick);
+    // } else {
+    //   this.unHandleTip();
+    //   this.unHandleMenu();
+    // }
+    // }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
     handler.setInputAction((movement) => {
       const windowPosition = movement.position;
@@ -129,14 +132,21 @@ export class GisMap {
         this.unHandleTip();
         this.unHandleMenu();
       }
-    }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     // 高亮id设置
     handler.setInputAction((movement) => {
       const moveFeature = this.viewer.scene.pick(movement.endPosition);
       if (!Cesium.defined(moveFeature)) {
         this.moveActiveId = undefined;
+        this.unHandleTip();
       } else if (moveFeature.id.highlight) {
         this.moveActiveId = moveFeature.id.id;
+      } else if (moveFeature.id) {
+        if (!this.contextMenu) {
+          this.handleTip(moveFeature);
+        }
+      } else {
+
       }
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
@@ -238,6 +248,7 @@ export class GisMap {
   unHandleMenu() {
     if (this.contextMenu) {
       this.contextMenu.destroy();
+      console.log(1111)
       this.contextMenu = null;
       this.selected = null;
     }
@@ -260,6 +271,7 @@ export class GisMap {
       this.selected = entity;
       this.contextMenu = new Menu(this.viewer, entity);
     }
+    console.log(this.contextMenu, 999)
   }
   /**
    *
@@ -324,8 +336,8 @@ export class GisMap {
    * @memberof GisMap
    */
   removeAll() {
-    this.viewer.entities.removeAll();
-    this.viewer.scene.primitives.removeAll()
+    this.viewer.entities.removeAll()
+    this.primitives.removeAll()
   }
 
   /**

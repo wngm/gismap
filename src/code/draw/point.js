@@ -108,7 +108,7 @@ function drawMarkerPoint(data) {
     isHighlight = false,
     pixelSize = 14,
     height,
-    label = {},
+    c = {},
     imgOptions,
     showDefaultMenu = false,
     onMenuSelect,

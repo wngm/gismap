@@ -8,9 +8,6 @@ const gisMap = new GisMap("cesium", { animation: true, timeline: true });
 gisMap.viewer.scene.debugShowFramesPerSecond = true;
 
 const { Cesium } = gisMap;
-const tles = `CALSPHERE 1
-1 00900U 64063C   22201.59855198  .00000465  00000+0  48647-3 0  9991
-2 00900  90.1734  41.5172 0024979 284.1901 139.1813 13.73845354875213`;
 // 波形
 // gisMap.cylinderWave({
 //   longitude: 89,
@@ -28,6 +25,35 @@ const tles = `CALSPHERE 1
 //   latitude: 42,
 //   height: 2003204,
 //   color: '#ff0000'
+// });
+
+// var redRectangle = new Cesium.Primitive({
+//   geometryInstances: new Cesium.GeometryInstance({
+//     geometry: new Cesium.RectangleGeometry({
+//       rectangle: Cesium.Rectangle.fromDegrees(-110.0, 20.0, -80.0, 25.0),
+//     }),
+//     attributes: {
+//       color: Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.RED),
+//     },
+//   }),
+//   appearance: new Cesium.PerInstanceColorAppearance({
+//     flat: true,
+//   }),
+// });
+// var greenRectangle = new Cesium.Primitive({
+//   geometryInstances: new Cesium.GeometryInstance({
+//     geometry: new Cesium.RectangleGeometry({
+//       rectangle: Cesium.Rectangle.fromDegrees(-100.0, 30.0, -90.0, 40.0),
+//     }),
+//     attributes: {
+//       color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+//         Cesium.Color.GREEN,
+//       ),
+//     },
+//   }),
+//   appearance: new Cesium.PerInstanceColorAppearance({
+//     flat: true,
+//   }),
 // });
 
 // 波形绑定卫星
@@ -70,6 +96,9 @@ function bindStallite(dataSource, id) {
 }
 
 window.gisMap = gisMap;
+
+// gisMap.primitives.add(redRectangle);
+// gisMap.primitives.add(greenRectangle);
 function Content() {
   const [czmlData, setCzmlData] = useState(null);
   const home = () => {
@@ -170,98 +199,60 @@ function Content() {
     //   "2 47293  87.8873 274.4828 0002579  97.4959 262.6462 13.12443371 77202";
 
     // lines = lines.split("\n");
-    let lines = tles.split("\n");
-    console.log(lines);
-    let l = lines.length / 3;
+    const tle1 =
+      "1 00900U 64063C   22201.59855198  .00000465  00000+0  48647-3 0  9991";
+    const tle2 =
+      "2 00900  90.1734  41.5172 0024979 284.1901 139.1813 13.73845354875213";
     let start = "2022/07/15 00:00:00";
     let end = "2022/07/15 02:00:00";
     gisMap.viewer.clock.currentTime = new GisMap.Cesium.JulianDate.fromDate(
       new Date(start),
     );
     gisMap.viewer.clock.multiplier = 40;
-    const points = gisMap.scene.primitives.add(
-      new Cesium.PointPrimitiveCollection(),
-    );
-    const colors = {
-      0: "#00ff00",
-      1: "#ff0000",
-      2: "#0000ff",
-    };
+
+    let { sampledPosition, positionList = [] } = gisMap.Satellite
+      .getPassLineFormTle(
+        tle1,
+        tle2,
+        start,
+        end,
+        10,
+        gisMap,
+      );
     // 单条线还行 一多就卡
-    for (let i = 0; i < l; i++) {
-      let tle1 = lines[3 * i + 1];
-      let tle2 = lines[3 * i + 2];
-      let point = gisMap.drawPoint({
-        color: colors[i % 3],
-        longitude: 149,
-        latitude: 42,
-        height: 2000000,
-        heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
-      });
 
-      // let _sampledPosition = gisMap.Satellite.getTleSampledPosition(
-      let { sampledPosition, positionList = [] } = gisMap.Satellite
-        .getPassLineFormTle(
-          tle1,
-          tle2,
-          start,
-          end,
-          10,
-          gisMap,
-        );
-      let circle = gisMap.cylinderWave({
-        longitude: 89,
-        latitude: 42,
-        height: 2003204,
-        //可选参数
-        bottomRadius: 503204,
-        color: "#00ff00",
-      });
-      // points.add({
-      //   pixelSize: 100.0,
-      //   position: Cesium.Cartesian3.ZERO,
-      //   color: Cesium.Color.YELLOW,
-      // });
-      point.position = sampledPosition;
-      circle.position = sampledPosition;
-      gisMap.viewer.entities.add(gisMap.Satellite.drawPath(
-        new Date(start),
-        new Date(end),
-        sampledPosition,
-      ));
-      // positionList.forEach(({ startTime, endTime, position }) => {
-      // console.log(gisMap.Satellite.drawPath(startTime, endTime, ç√));
-      // });
-    }
-
-    //   positionList.forEach(({
-    //     position, startTime, endTime
-    // }) => {
-    //     Satellite.drawPath(startTime, endTime, position)
-
-    // })
-    // let cl2 = gisMap.cylinderWave({
-    //   key: "STRO_E2_P2",
-    //   longitude: 149,
-    //   latitude: 42,
-    //   height: 2000000,
-    //   bottomRadius: 1000000,
-    //   color: "#cc0099",
-    // });
-
-    // cl.position = _sampledPosition.sampledPosition;
-    // _sampledPosition.positionList.forEach(
-    //   ({ startTime, endTime, position }) => {
-    //     console.log(position, 888);
-    //     gisMap.viewer.entities.add(
-    //       gisMap.Satellite.drawPath(
-    //         startTime,
-    //         endTime,
-    //         _sampledPosition.sampledPosition,
-    //       ),
-    //     );
-    //   },
-    // );
+    // WX 点
+    let point = gisMap.drawPoint({
+      color: "#0000ff",
+      longitude: 149,
+      latitude: 42,
+      height: 2000000,
+      heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
+    });
+    point.position = sampledPosition;
+    // 轨道线
+    let path = gisMap.Satellite.drawPath(
+      new Date(start),
+      new Date(end),
+      sampledPosition,
+    );
+    gisMap.viewer.entities.add(path);
+    //波形
+    let circle = gisMap.cylinderWave({
+      longitude: 89,
+      latitude: 42,
+      height: 2003204,
+      //可选参数
+      bottomRadius: 503204,
+      color: "#0099cc",
+    });
+    gisMap.Satellite.bindEntity2Position(
+      circle,
+      sampledPosition,
+      start,
+      end,
+      gisMap,
+    );
   };
   return (
     <div className="box">

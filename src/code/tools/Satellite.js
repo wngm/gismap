@@ -117,13 +117,47 @@ class Satellite {
             path: {
                 // leadTime: 0,
                 resolution: 1,
-                material: Cesium.Color.LIGHTBLUE,
+                material: Cesium.Color.LIGHTGREEN,
                 with: 5
             }
         }
 
         return new Cesium.Entity(obj)
 
+    }
+    static bindEntity2Position(entity, _position, startTime, stopTime, gisMap) {
+        let step = 10;
+        const { ellipsoid } = gisMap.viewer.scene.globe
+        const start = new Date(startTime);
+        const stop = new Date(stopTime);
+        const time = new Date(startTime)
+        let long = (stop - start) / (step * 1000)
+        let property = new Cesium.SampledPositionProperty();
+        let property2 = new Cesium.SampledProperty(Number);
+        for (var i = 0; i < long; i++) {
+            time.setTime(start.getTime() + step * 1000 * i);
+            let _time = Cesium.JulianDate.fromDate(time)
+            var position = _position.getValue(_time);
+            var cartographic = ellipsoid.cartesianToCartographic(position);
+            var lat = Cesium.Math.toDegrees(cartographic.latitude),
+                lng = Cesium.Math.toDegrees(cartographic.longitude),
+                hei = cartographic.height / 2;
+            property.addSample(_time, Cesium.Cartesian3.fromDegrees(lng, lat, hei));
+            property2.addSample(_time, hei * 2);
+
+        }
+
+        const interpolationOptions = {
+            interpolationDegree: 2,
+            interpolationAlgorithm: Cesium.LagrangePolynomialApproximation
+        };
+        property.setInterpolationOptions(interpolationOptions)
+        entity.position = property;
+        entity.cylinder.length = property2;
+        entity.cylinder.length.setInterpolationOptions({
+            interpolationDegree: 1,
+            interpolationAlgorithm: Cesium.HermitePolynomialApproximation
+        });
     }
 
 }

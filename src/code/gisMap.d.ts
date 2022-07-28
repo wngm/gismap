@@ -1,4 +1,4 @@
-import { BillboardGraphics, LabelGraphics, Viewer } from 'cesium'
+import { BillboardGraphics, LabelGraphics, Viewer, PrimitiveCollection } from 'cesium'
 import EventEmitter from "eventemitter3"
 
 // id参数 Fun
@@ -66,6 +66,7 @@ interface PolygonProps extends IPoint {
 interface MenuItem {
   text: string
   type: string
+  icon?:
 }
 
 interface Menu {
@@ -133,6 +134,7 @@ declare class GisMap {
   static version: string
   constructor(dom: any, options?: any)
   viewer: Viewer
+  primitives: PrimitiveCollection
   setView(data: IPosition): void
   setDefaultPosition(data: IPosition): void
   zoomIn(scale?: number): number
