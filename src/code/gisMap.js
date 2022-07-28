@@ -46,6 +46,7 @@ export class GisMap {
     this.weather = null;
     // 选中元素
     this.selected = null;
+    this.selectedMenu = null;
     // tip 对象
     this.tip = null;
     // 右键菜单
@@ -232,25 +233,26 @@ export class GisMap {
       this.contextMenu.hide();
     }
     // 单个tip展示
-    if (this.tip && this.selected && this.selected.id === entity.id) {
+    if (this.tip && this.selected && this.selected === entity.id) {
       this.tip.show();
       console.log('已选中该对象');
-    } else if (this.selected && this.selected.id !== entity.id) {
+    } else if (this.selected && this.selected !== entity.id) {
       this.unHandleTip();
-      this.selected = entity;
+      this.selected = entity.id || entity;
       this.tip = new Tip(this.viewer, entity);
     } else {
-      this.selected = entity;
+      this.selected = entity.id || entity;
       this.tip = new Tip(this.viewer, entity);
     }
   }
 
   unHandleMenu() {
+    console.log(999)
     if (this.contextMenu) {
       this.contextMenu.destroy();
       console.log(1111)
       this.contextMenu = null;
-      this.selected = null;
+      this.selectedMenu = null;
     }
   }
 
@@ -259,16 +261,19 @@ export class GisMap {
       this.tip.hide();
     }
     // 单个tip展示
-    if (this.contextMenu && this.selected && this.selected.id === entity.id) {
+
+    if (this.contextMenu && this.selectedMenu && this.selectedMenu === entity.id) {
       this.contextMenu.show();
       // console.log( this.contextMenu)
       console.log('已选中该对象');
-    } else if (this.selected && this.selected.id !== entity.id) {
+    } else if (this.selectedMenu && this.selectedMenu !== entity.id) {
       this.unHandleMenu();
-      this.selected = entity;
+
+      console.log('unHandleMenu')
+      this.selectedMenu = entity.id || entity;
       this.contextMenu = new Menu(this.viewer, entity);
     } else {
-      this.selected = entity;
+      this.selectedMenu = entity.id || entity;
       this.contextMenu = new Menu(this.viewer, entity);
     }
     console.log(this.contextMenu, 999)

@@ -40,7 +40,6 @@ class Menu {
     this.setAt(position);
     this.handle();
     this.onEvent();
-    console.log('created menu');
   }
 
   createChildrenDom(menuItems) {
@@ -62,18 +61,13 @@ class Menu {
     list.forEach((item) => {
       ul.appendChild(item);
     });
-    console.log(10000)
     return ul;
   }
 
   destroy() {
     if (this.dom) {
-      console.log(2222)
       this.handleEvent.destroy();
       this.container.removeChild(this.dom);
-
-      console.log(3333)
-
     }
   }
 

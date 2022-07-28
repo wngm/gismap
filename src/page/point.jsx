@@ -39,14 +39,9 @@ gisMap.drawPoint({
     </ul>`,
     },
   },
-
-  Menu: {},
   // isHighlight: true,
+  // 默认删除 菜单
   showDefaultMenu: true,
-  onMenuSelect(type, entity) {
-    console.log(type);
-    console.log(entity);
-  },
 });
 
 gisMap.drawPoint({
@@ -88,6 +83,7 @@ gisMap.drawPoint({
   },
   // isHighlight: true,
   showDefaultMenu: true,
+  // 自定义菜单
   onMenuSelect(type, entity) {
     console.log(type);
     console.log(entity);
