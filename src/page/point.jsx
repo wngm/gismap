@@ -12,9 +12,22 @@ gisMap.setView({
   roll: 70.0,
 });
 window.gisMap = gisMap;
+//高质量展示
+// gisMap.hightQuality();
+//低质量展示
+// gisMap.lowQuality()
 // 绘制点
-
-gisMap.drawPoint({
+gisMap.event.on("click", (e) => {
+  console.log("click", e);
+});
+gisMap.event.on("dbClick", (e) => {
+  console.log("dbClick", e);
+});
+gisMap.event.on("contextmenu", (e) => {
+  console.log("contextmenu", e);
+});
+let p1 = gisMap.drawPoint({
+  key: "p1",
   longitude: 120,
   latitude: 40,
   height: 10,
@@ -44,7 +57,8 @@ gisMap.drawPoint({
   showDefaultMenu: true,
 });
 
-gisMap.drawPoint({
+let p2 = gisMap.drawPoint({
+  key: "p2",
   longitude: 120,
   latitude: 30,
   height: 10,
@@ -81,8 +95,18 @@ gisMap.drawPoint({
       ],
     },
   },
-  // isHighlight: true,
-  showDefaultMenu: true,
+  menu: {
+    className: "div-menu",
+    menuItems: [
+      { text: "编辑", icon: "fa-edit", type: "edit" },
+      { text: "展示详情", icon: "fa-eye", type: "detail" },
+      { text: "删除", icon: "fa-trash-alt", type: "delete" },
+      { type: "type1", text: "文本1 " },
+      { type: "type2", text: "文本2 " },
+      { type: "type3", text: "文本3 " },
+    ],
+  },
+  isHighlight: true,
   // 自定义菜单
   onMenuSelect(type, entity) {
     console.log(type);
@@ -94,6 +118,36 @@ function Content() {
   return (
     <div className="box">
       <div className="btn" role="none" onClick={() => setSky()}>设置</div>
+      <div className="btn" role="none" onClick={() => gisMap.hightQuality()}>
+        图像质量高
+      </div>
+      <div className="btn" role="none" onClick={() => gisMap.lowQuality()}>
+        图像质量低
+      </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => gisMap.highlightPoint("p1")}
+      >
+        高亮
+      </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => gisMap.highlightPoint("p2", "#ff0000")}
+      >
+        高亮红
+      </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => {
+          gisMap.unhighlightPoint("p1");
+          gisMap.unhighlightPoint("p2");
+        }}
+      >
+        默认
+      </div>
     </div>
   );
 }

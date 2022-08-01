@@ -1,4 +1,5 @@
 import * as Cesium from 'cesium';
+import Eventemitter from 'eventemitter3'
 import baseOptions from '../config/base';
 import Weather from './weather/index';
 import Tip from './common/tip';
@@ -11,6 +12,7 @@ import { computeCircle } from './utils';
 import camera from './methods/camera';
 import mouse from './methods/mouse';
 import base from './methods/base';
+import entityMethods from './methods/entityMethods';
 import { MeasureLine, MeasurePolygn, SelectRect, SelectCircle, LoadCzml, AreaEvent, Satellite } from './tools';
 import '@modules/cesium/Source/Widgets/widgets.css';
 import drawFns from './draw';
@@ -52,7 +54,7 @@ export class GisMap {
     // 右键菜单
     this.contextMenu = null;
     //  事件中心
-    this.eventCenter = {};
+    this.event = new Eventemitter();
     // 绘图事件集合
     this.paintHandler = [];
     this.init(container, options);
@@ -113,43 +115,35 @@ export class GisMap {
 
   _handleEvent() {
     const handler = new Cesium.ScreenSpaceEventHandler(this.scene.canvas);
-    // handler.setInputAction((movement) => {
-    // const windowPosition = movement.position;
-    // const pick = this.viewer.scene.pick(windowPosition);
-    // if (pick) {
-    //   this.handleTip(pick);
-    // } else {
-    //   this.unHandleTip();
-    //   this.unHandleMenu();
-    // }
-    // }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-
     handler.setInputAction((movement) => {
       const windowPosition = movement.position;
       const pick = this.viewer.scene.pick(windowPosition);
       if (pick) {
         this.handleMenu(pick);
+        this.event.emit('contextmenu', { id: pick.id?.id, entity: pick.id })
+      }
+
+    }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+    handler.setInputAction((movement) => {
+      const windowPosition = movement.position;
+      const pick = this.viewer.scene.pick(windowPosition);
+      if (pick) {
+        this.handleMenu(pick);
+        this.event.emit('click', { id: pick.id?.id, entity: pick.id })
       } else {
         this.unHandleTip();
         this.unHandleMenu();
       }
-    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+
     // 高亮id设置
     handler.setInputAction((movement) => {
-      const moveFeature = this.viewer.scene.pick(movement.endPosition);
-      if (!Cesium.defined(moveFeature)) {
-        this.moveActiveId = undefined;
-        this.unHandleTip();
-      } else if (moveFeature.id.highlight) {
-        this.moveActiveId = moveFeature.id.id;
-      } else if (moveFeature.id) {
-        if (!this.contextMenu) {
-          this.handleTip(moveFeature);
-        }
-      } else {
-
+      console.log(movement)
+      const pick = this.viewer.scene.pick(movement.position);
+      if (pick) {
+        this.event.emit('dbClick', { id: pick.id?.id, entity: pick.id })
       }
-    }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+    }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
   }
 
   /**
@@ -247,7 +241,6 @@ export class GisMap {
   }
 
   unHandleMenu() {
-    console.log(999)
     if (this.contextMenu) {
       this.contextMenu.destroy();
       console.log(1111)
@@ -276,7 +269,6 @@ export class GisMap {
       this.selectedMenu = entity.id || entity;
       this.contextMenu = new Menu(this.viewer, entity);
     }
-    console.log(this.contextMenu, 999)
   }
   /**
    *
@@ -370,6 +362,8 @@ GisMap.prototype.removeMouseEvent = mouse.removeMouseEvent;
 GisMap.prototype.zoomIn = base.zoomIn;
 GisMap.prototype.zoomOut = base.zoomOut;
 GisMap.prototype.setSceneMode2D3D = base.setSceneMode2D3D;
+GisMap.prototype.hightQuality = base.hightQuality;
+GisMap.prototype.lowQuality = base.lowQuality;
 // 星空背景
 GisMap.prototype.setSky = base.setSky;
 GisMap.prototype.clearSky = base.clearSky;
@@ -383,6 +377,7 @@ GisMap.prototype.selectCircle = function selectCircle(options) { return new Sele
 GisMap.prototype.loadCzml = function loadCzml(options) { return new LoadCzml(this.viewer, options); };
 GisMap.prototype.areaEvent = function areaEvent(options) { return new AreaEvent(this.viewer, options); };
 GisMap.prototype.Satellite = Satellite;
+// 图层管理
 GisMap.prototype.clearLayer = function (str) {
   const entities = this.viewer.entities.values
   entities.forEach(({ id, layer }) => {
@@ -394,7 +389,7 @@ GisMap.prototype.clearLayer = function (str) {
 
 // 画图方法
 const fns = {
-  ...drawFns, ...paintFns, ...layer
+  ...drawFns, ...paintFns, ...layer, ...entityMethods
 };
 Object.keys(fns).forEach((key) => {
   GisMap.prototype[key] = fns[key];

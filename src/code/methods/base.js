@@ -157,6 +157,34 @@ function canvas2image(type = 'file', width, height) {
   return img;
 }
 
+/**
+ *
+ * 高质量画质 （抗锯齿效果）
+ * @memberof GisMap
+ */
+function hightQuality() {
+  this.scene.fxaa = true;
+  this.scene.postProcessStages.fxaa.enabled = true;
+  if (Cesium.FeatureDetection.supportsImageRenderingPixelated()) {
+    this.viewer.resolutionScale = window.devicePixelRatio;
+  }
+}
+
+
+/**
+ *
+ * 低质量画质 （流畅度优先）
+ * @memberof GisMap
+ */
+function lowQuality() {
+  this.scene.fxaa = false;
+  this.scene.postProcessStages.fxaa.enabled = false;
+  if (Cesium.FeatureDetection.supportsImageRenderingPixelated()) {
+    this.viewer.resolutionScale = 1.0;
+  }
+
+}
+
 export default {
   zoomOut,
   zoomIn,
@@ -165,4 +193,6 @@ export default {
   resetSky,
   clearSky,
   canvas2image,
+  hightQuality,
+  lowQuality
 };

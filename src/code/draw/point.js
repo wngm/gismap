@@ -16,7 +16,6 @@ import { defaultMenuItems } from '../common/utils'
 // import normalPointHighlight from '@src/assets/images/point-highlight.png'
 // import imgPoint from '@src/assets/images/img-point.png'
 // import imgPointHighlight from '@src/assets/images/img-point-highlight.png'
-
 /**
  *
  * 点绘制
@@ -61,20 +60,25 @@ function drawPoint(data) {
     label: labelOptions,
     tip,
     menu: showDefaultMenu ? (menu || {
-      className: 'test-menu',
+      className: 'te-menu',
       show: true,
       menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
-          console.log(entity)
           this.remove(entity);
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
-    }) : null,
+    }) : menu,
   });
   this.viewer.entities.add(entity);
-  return entity;
+  return {
+    longitude,
+    latitude,
+    height,
+    id: entity._id,
+    entity
+  };
 }
 
 /**
@@ -151,10 +155,16 @@ function drawMarkerPoint(data) {
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
-    }) : null,
+    }) : menu,
   });
   this.viewer.entities.add(entity);
-  return entity;
+  return {
+    longitude,
+    latitude,
+    height,
+    id: entity._id,
+    entity
+  };
 }
 
 /**
@@ -209,15 +219,20 @@ function drawImgPoint(data) {
       menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
-          console.log(entity)
           this.remove(entity);
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
-    }) : null,
+    }) : menu,
   });
   this.viewer.entities.add(entity);
-  return entity;
+  return {
+    longitude,
+    latitude,
+    height,
+    id: entity._id,
+    entity
+  };
 }
 /**
  *
@@ -284,10 +299,16 @@ function drawFlashPoint(data) {
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
-    }) : null,
+    }) : menu,
   });
   this.viewer.entities.add(entity);
-  return entity;
+  return {
+    longitude,
+    latitude,
+    height,
+    id: entity._id,
+    entity
+  };
 }
 
 /**
@@ -356,10 +377,17 @@ function drawFlashPointClock(data) {
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
-    }) : null,
+    }) : menu,
   });
   this.viewer.entities.add(entity);
-  return entity;
+
+  return {
+    longitude,
+    latitude,
+    height,
+    id: entity._id,
+    entity
+  };
 }
 
 export default {
