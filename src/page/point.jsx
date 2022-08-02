@@ -17,15 +17,23 @@ window.gisMap = gisMap;
 //低质量展示
 // gisMap.lowQuality()
 // 绘制点
+
+// 事件监听 单击
 gisMap.event.on("click", (e) => {
   console.log("click", e);
 });
+
+// 事件监听 双击
 gisMap.event.on("dbClick", (e) => {
   console.log("dbClick", e);
 });
+
+// 事件监听 右键
 gisMap.event.on("contextmenu", (e) => {
   console.log("contextmenu", e);
 });
+
+//测试点1
 let p1 = gisMap.drawPoint({
   key: "p1",
   longitude: 120,
@@ -57,6 +65,7 @@ let p1 = gisMap.drawPoint({
   showDefaultMenu: true,
 });
 
+//测试点2
 let p2 = gisMap.drawPoint({
   key: "p2",
   longitude: 120,
@@ -117,7 +126,6 @@ let p2 = gisMap.drawPoint({
 function Content() {
   return (
     <div className="box">
-      <div className="btn" role="none" onClick={() => setSky()}>设置</div>
       <div className="btn" role="none" onClick={() => gisMap.hightQuality()}>
         图像质量高
       </div>

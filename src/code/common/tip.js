@@ -37,6 +37,7 @@ class Tip {
   //tip mode = { table:'列表模式',html:'html 内容模式'}
   // placement 展现位置：top left right bottom topLeft topRight bottomLeft bottomRight leftTop leftBottom rightTop rightBottom
   init() {
+    if (!this.bindEntity.id.tip) return;
     const tip = this.bindEntity.id.tip || {};
     const {
       content = {},

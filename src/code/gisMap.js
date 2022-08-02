@@ -61,12 +61,12 @@ export class GisMap {
   }
 
   init(container, options) {
-    if (!Cesium.PointFlashMaterialProperty) {
-      loadMaterial()
-    }
-
+    // CESIUM_BASE_URL 配置
     if (options?.CESIUM_BASE_URL) {
       window.CESIUM_BASE_URL = options.CESIUM_BASE_URL;
+    }
+    if (!Cesium.PointFlashMaterialProperty) {
+      loadMaterial()
     }
 
     this.initViewer(container, options);
@@ -136,7 +136,6 @@ export class GisMap {
       }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
 
-    // 高亮id设置
     handler.setInputAction((movement) => {
       console.log(movement)
       const pick = this.viewer.scene.pick(movement.position);
@@ -144,6 +143,22 @@ export class GisMap {
         this.event.emit('dbClick', { id: pick.id?.id, entity: pick.id })
       }
     }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+
+    handler.setInputAction((movement) => {
+      const moveFeature = this.viewer.scene.pick(movement.endPosition);
+      if (!Cesium.defined(moveFeature)) {
+        this.moveActiveId = undefined;
+        this.unHandleTip();
+      } else if (moveFeature.id.highlight) {
+        this.moveActiveId = moveFeature.id.id;
+      } else if (moveFeature.id) {
+        if (!this.contextMenu) {
+          this.handleTip(moveFeature);
+        }
+      } else {
+
+      }
+    }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
 
   /**
@@ -216,6 +231,7 @@ export class GisMap {
 
   unHandleTip() {
     if (this.tip) {
+      console.log(777777)
       this.tip.destroy();
       this.tip = null;
       this.selected = null;

@@ -46,7 +46,7 @@ function getPointOptions(options) {
     color,
     pixelSize = 30,
     isHighlight,
-    heightReference = Cesium.HeightReference.CLAMP_TO_GROUND,
+    heightReference = Cesium.HeightReference.RELATIVE_TO_GROUND,
   } = options;
   color = color ? Cesium.Color.fromCssColorString(color) : Cesium.Color.fromCssColorString(isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor);
   return {

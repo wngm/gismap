@@ -7,9 +7,9 @@
  * @FilePath: /gismap/src/code/draw/line.js
  */
 import {
-  Entity, ArcType, Cartesian3, PolylineTrailLinkMaterialProperty, Color,ColorMaterialProperty, CallbackProperty
+  Entity, ArcType, Cartesian3, PolylineTrailLinkMaterialProperty, Color, ColorMaterialProperty, CallbackProperty
 } from 'cesium';
-import {defaultMenuItems} from '../common/utils'
+import { defaultMenuItems } from '../common/utils'
 import { getLabelOptions } from '../entity';
 
 let _id = 'line';
@@ -43,7 +43,7 @@ function drawAnimateLine(points, options = {}) {
         2000,
       ),
       arcType: ArcType.GEODESIC,
-      // clampToGround: true,
+
     },
   });
 
@@ -66,7 +66,7 @@ function drawLine(points = [], options = {}) {
   }
   const pointsArray = points.reduce((a, b) => a.concat(b), []);
   _id += 1;
-    const {
+  const {
     key,
     name,
     color,
@@ -80,7 +80,7 @@ function drawLine(points = [], options = {}) {
     width = 2,
     menu,
     tip
-    } = options;
+  } = options;
   const labelOptions = getLabelOptions({
     ...label,
     pixelSize,
@@ -90,8 +90,10 @@ function drawLine(points = [], options = {}) {
     id: key || _id,
     // tip:{show:true,content:'这是线段'},
     name,
-    layer: 'default' || options.layer,
+    layer: options.layer || 'default',
     ...options,
+    // 备份原数据
+    sourceData: pointsArray,
     polyline: {
       positions: Cartesian3.fromDegreesArrayHeights(pointsArray),
       height: 0,
@@ -104,7 +106,8 @@ function drawLine(points = [], options = {}) {
       }, false)),
       width,
       arcType: ArcType.GEODESIC,
-      // clampToGround: true,
+      // 是否固定到地面上
+      clampToGround: false,
     },
     position: Cartesian3.fromDegrees(points[0][0], points[0][1], 0),
     label: labelOptions,
@@ -133,12 +136,22 @@ function drawLine(points = [], options = {}) {
    * @returns {*}
    */
 function drawLineWithPoints(points = [], options = {}) {
+  // 0 简单模式； 1 复合模式
+  let mode = 0;
   if (points.length < 2) {
     return;
   }
-  const pointsArray = points.reduce((a, b) => a.concat(b), []);
-  _id += 1;
-    const {
+  console.log(options.key, points)
+  let pointsArray = []
+  if (points[0].longitude && typeof points[0].longitude === 'number') {
+    mode = 1
+    pointsArray = points.reduce((a, b) => a.concat([b.longitude, b.latitude, b.height]), []);
+  } else {
+    pointsArray = points.reduce((a, b) => a.concat(b), []);
+  }
+
+  console.log('pointsArray', pointsArray)
+  const {
     key,
     name,
     color,
@@ -152,18 +165,20 @@ function drawLineWithPoints(points = [], options = {}) {
     width = 2,
     menu,
     tip
-    } = options;
+  } = options;
   const labelOptions = getLabelOptions({
     ...label,
     pixelSize,
     isHighlight
   });
   const entity = new Entity({
-    id: key || _id,
+    id: key,
     // tip:{show:true,content:'这是线段'},
     name,
-    layer: 'default' || options.layer,
+    layer: options.layer || 'default',
     ...options,
+    // 原数据
+    sourceData: points,
     polyline: {
       positions: Cartesian3.fromDegreesArrayHeights(pointsArray),
       height: 0,
@@ -178,16 +193,17 @@ function drawLineWithPoints(points = [], options = {}) {
       arcType: ArcType.GEODESIC,
       // clampToGround: true,
     },
-    position: Cartesian3.fromDegrees(points[0][0], points[0][1], 0),
+    // label 位置
+    position: Cartesian3.fromDegrees(pointsArray[0], pointsArray[1], 0),
     label: labelOptions,
     tip,
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
-      menuItems:defaultMenuItems,
+      menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
-          console.log(this.viewer.entities,99988)
+          console.log(this.viewer.entities, 99988)
           // this.remove(entity);
         }
         onMenuSelect && onMenuSelect(type, entity)
@@ -195,17 +211,24 @@ function drawLineWithPoints(points = [], options = {}) {
     }) : null,
   });
   this.viewer.entities.add(entity);
-  points.forEach(item => {
-    console.log(item)
-    this.drawPoint({
-      parent:entity,
-      longitude: item[0],
-      latitude: item[1],
-      height: item[2],
-      ...options,
-      label: null
+  if (mode === 1) {
+    points.forEach(item => {
+      this.drawPoint(item)
     })
-  })
+  } else {
+    points.forEach(item => {
+      this.drawPoint({
+        parent: entity,
+        longitude: item[0],
+        latitude: item[1],
+        height: item[2],
+        ...options,
+        key: null,
+        label: null
+      })
+    })
+  }
+
   return entity;
 }
 
