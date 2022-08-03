@@ -85,13 +85,91 @@ function unhighlightLine(id, value) {
 // 4. 轨道线
 // 5. 路径线
 
-function lineAddPoint(id, value) {
+
+/**
+ *
+ *  线段添加 点
+ * @memberof GisMap
+ * @param {string} id 线id
+ * @param {*} [value] 属性值
+ */
+function linePush(id, value) {
     let entity = this.viewer.entities.getById(id);
     if (entity && entity.polyline) {
-        entity.sourceData = entity.sourceData.concat(value)
-        console.log(entity.sourceData, 887)
-        entity.polyline.positions = Cartesian3.fromDegreesArrayHeights(entity.sourceData)
+        entity.sourceData.push(value)
+        this.renderLine(entity, entity.sourceData)
     }
+}
+
+/**
+ *
+ *  线段 删除点
+ * @memberof GisMap
+ * @param {string} id 线id
+ * @param {int} start 起始位
+ * @param {int} length 长度
+ */
+function lineSplice(id, start, length) {
+    let entity = this.viewer.entities.getById(id);
+    if (entity && entity.polyline) {
+        entity.sourceData.splice(start, length)
+        this.renderLine(entity, entity.sourceData)
+    }
+
+}
+
+function renderLine(entity, data) {
+
+    console.log('render', entity, data)
+    if (entity && data) {
+        let type = entity.sourceType
+        switch (type) {
+            case 'line':
+                const pointsArray = data.reduce((a, b) => a.concat(b), []);
+                entity.polyline.positions = Cartesian3.fromDegreesArrayHeights(pointsArray)
+                break;
+            case 'linePoint':
+                this.renderLinePoint(entity, data)
+                break;
+            default:
+                break
+        }
+    }
+}
+
+function renderLinePoint(entity, data) {
+
+    entity._children.forEach(e => {
+        this.viewer.entities.remove(e)
+    })
+
+    let mode = Array.isArray(data[0]) ? 0 : 1;
+
+    if (mode === 1) {
+        let pointsArray = data.reduce((a, b) => a.concat([b.longitude, b.latitude, b.height]), []);
+        entity.polyline.positions = Cartesian3.fromDegreesArrayHeights(pointsArray)
+        data.forEach(item => {
+            this.drawPoint({
+                parent: entity,
+                ...item
+            })
+        })
+    } else {
+        let pointsArray = data.reduce((a, b) => a.concat(b), []);
+        entity.polyline.positions = Cartesian3.fromDegreesArrayHeights(pointsArray)
+        data.forEach(item => {
+            let p = this.drawPoint({
+                parent: entity,
+                longitude: item[0],
+                latitude: item[1],
+                height: item[2],
+                key: null,
+                label: null
+            })
+            p.entity.point.color = Color.clone(entity.polyline.material.color._value)
+        })
+    }
+
 }
 
 
@@ -104,5 +182,8 @@ export default {
     unhighlightPoint,
     highlightLine,
     unhighlightLine,
-    lineAddPoint
+    linePush,
+    lineSplice,
+    renderLine,
+    renderLinePoint
 }

@@ -173,9 +173,9 @@ declare class GisMap {
   drawCircleRadar(data: any)
   drawCircleRadarAngle(data: any)
   addRadarScan(data: PolygonProps)
-  drawLine(points: number[][], options: IPoint): void
-  drawLineWithPoints(points: Array<number[] | IPoint>, options: IPoint): void
-  drawAnimateLine(point: IPoint[], options: ILineOPtions): void
+  drawLine(points: number[][], options: IPoint): DrawEntity
+  drawLineWithPoints(points: Array<number[] | IPoint>, options: IPoint): DrawEntity
+  drawAnimateLine(point: IPoint[], options: ILineOPtions): DrawEntity
   setWeather(weather: weather): void
   clearWeather(): void
   setSky(urls: Array<string>): void
@@ -216,11 +216,15 @@ declare class GisMap {
   // 高亮点 @params {cssSting} value 自定义颜色 
   highlightPoint(id, value?: string): void
   // 取消高亮
-  unhighlightPoint(id, value?: string): void
+  unhighlightPoint(id: string, value?: string): void
   // 高亮线段 @params {cssSting} value 自定义颜色 
-  highlightLine(id, value?: string): void
+  highlightLine(id: string, value?: string): void
   // 取消高亮线
-  unhighlightLine(id, value?: string): void
+  unhighlightLine(id: string, value?: string): void
+  // 线 增加点
+  linePush(id: string, data: number[] | IPoint): void
+  // 线 删除点
+  lineSplice(id: string, startIndex: number, length: number): void
 }
 
 export default GisMap

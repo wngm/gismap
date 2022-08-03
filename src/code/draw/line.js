@@ -47,9 +47,12 @@ function drawAnimateLine(points, options = {}) {
     },
   });
 
-  const line = this.viewer.entities.add(entity);
+  this.viewer.entities.add(entity);
 
-  return line;
+  return {
+    id: entity._id,
+    entity
+  };;
 }
 
 /**
@@ -65,7 +68,6 @@ function drawLine(points = [], options = {}) {
     return;
   }
   const pointsArray = points.reduce((a, b) => a.concat(b), []);
-  _id += 1;
   const {
     key,
     name,
@@ -87,13 +89,14 @@ function drawLine(points = [], options = {}) {
     isHighlight
   });
   const entity = new Entity({
-    id: key || _id,
+    id: key,
     // tip:{show:true,content:'这是线段'},
     name,
     layer: options.layer || 'default',
     ...options,
     // 备份原数据
-    sourceData: pointsArray,
+    sourceData: points,
+    sourceType: 'line',
     polyline: {
       positions: Cartesian3.fromDegreesArrayHeights(pointsArray),
       height: 0,
@@ -125,7 +128,10 @@ function drawLine(points = [], options = {}) {
     }) : null,
   });
   this.viewer.entities.add(entity);
-  return entity;
+  return {
+    id: entity._id,
+    entity
+  };
 }
 /**
    *
@@ -141,7 +147,6 @@ function drawLineWithPoints(points = [], options = {}) {
   if (points.length < 2) {
     return;
   }
-  console.log(options.key, points)
   let pointsArray = []
   if (points[0].longitude && typeof points[0].longitude === 'number') {
     mode = 1
@@ -150,7 +155,6 @@ function drawLineWithPoints(points = [], options = {}) {
     pointsArray = points.reduce((a, b) => a.concat(b), []);
   }
 
-  console.log('pointsArray', pointsArray)
   const {
     key,
     name,
@@ -179,16 +183,19 @@ function drawLineWithPoints(points = [], options = {}) {
     ...options,
     // 原数据
     sourceData: points,
+    sourceType: 'linePoint',
     polyline: {
       positions: Cartesian3.fromDegreesArrayHeights(pointsArray),
       height: 0,
+      material: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
+      ,
       // eslint-disable-next-line new-cap
-      material: new ColorMaterialProperty(new CallbackProperty(() => {
-        if (_id === this.moveActiveId) {
-          return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
-        }
-        return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor));
-      }, false)),
+      // material: new ColorMaterialProperty(new CallbackProperty(() => {
+      //   if (_id === this.moveActiveId) {
+      //     return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
+      //   }
+      //   return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor));
+      // }, false)),
       width,
       arcType: ArcType.GEODESIC,
       // clampToGround: true,
@@ -203,7 +210,7 @@ function drawLineWithPoints(points = [], options = {}) {
       menuItems: defaultMenuItems,
       onSelect: (type, entity) => {
         if (type === 'delete') {
-          console.log(this.viewer.entities, 99988)
+          // console.log(this.viewer.entities, 99988)
           // this.remove(entity);
         }
         onMenuSelect && onMenuSelect(type, entity)
@@ -213,7 +220,10 @@ function drawLineWithPoints(points = [], options = {}) {
   this.viewer.entities.add(entity);
   if (mode === 1) {
     points.forEach(item => {
-      this.drawPoint(item)
+      this.drawPoint({
+        parent: entity,
+        ...item
+      })
     })
   } else {
     points.forEach(item => {
@@ -229,7 +239,10 @@ function drawLineWithPoints(points = [], options = {}) {
     })
   }
 
-  return entity;
+  return {
+    id: entity._id,
+    entity
+  };;
 }
 
 export default {

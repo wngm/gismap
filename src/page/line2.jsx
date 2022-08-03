@@ -1,4 +1,5 @@
 import * as Cesium from "cesium";
+import { start } from "qiankun";
 import React, { useCallback, useState } from "react";
 import { createRoot } from "react-dom/client";
 import GisMap from "../code/gisMap";
@@ -8,6 +9,7 @@ const gisMap = new GisMap("cesium");
 
 window.gisMap = gisMap;
 
+// 标准线
 const line1 = gisMap.drawLine([
   [10, 40, 0],
   [120, 40, 0],
@@ -20,7 +22,7 @@ const line1 = gisMap.drawLine([
     text: "线",
   },
 });
-
+// 标准线
 const line2 = gisMap.drawLine([
   [10, 30, 0],
   [120, 30, 0],
@@ -32,7 +34,7 @@ const line2 = gisMap.drawLine([
     text: "线段2",
   },
 });
-
+// 标准线
 const line3 = gisMap.drawLine([
   [10, 20, 0],
   [120, 20, 0],
@@ -46,7 +48,7 @@ const line3 = gisMap.drawLine([
   },
 });
 
-// 线点
+// 线点1【使用模式1】
 const line4 = gisMap.drawLineWithPoints([
   [10, 5, 0],
   [120, 5, 0],
@@ -61,7 +63,7 @@ const line4 = gisMap.drawLineWithPoints([
   },
 });
 
-// 线点 【点属性拓展】
+// 线点1【使用模式2 点属性拓展】
 const line5 = gisMap.drawLineWithPoints([
   {
     longitude: 10,
@@ -79,10 +81,6 @@ const line5 = gisMap.drawLineWithPoints([
       content: {
         htmlContent: `<ul class="list-group">
         <li class="list-group-item">点1 描述</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Morbi leo risus</li>
-        <li class="list-group-item">Porta ac consectetur ac</li>
-        <li class="list-group-item">Vestibulum at eros</li>
       </ul>`,
       },
     },
@@ -103,8 +101,15 @@ const line5 = gisMap.drawLineWithPoints([
     longitude: 120,
     latitude: -5,
     height: 0,
-    label: {
-      text: "点2",
+    tip: {
+      mode: "html",
+      // 自定义css class
+      className: "class-tip",
+      content: {
+        htmlContent: `<ul class="list-group">
+        <li class="list-group-item">点2 描述</li>
+      </ul>`,
+      },
     },
   },
   {
@@ -114,6 +119,16 @@ const line5 = gisMap.drawLineWithPoints([
     pixelSize: 40,
     label: {
       text: "点3",
+    },
+    tip: {
+      mode: "html",
+      // 自定义css class
+      className: "class-tip",
+      content: {
+        htmlContent: `<ul class="list-group">
+        <li class="list-group-item">点3 描述</li>
+      </ul>`,
+      },
     },
   },
 ], {
@@ -185,11 +200,58 @@ function Content() {
         className="btn"
         onClick={() => {
           console.log(linePoints[linePointsIndex], linePointsIndex);
-          gisMap.lineAddPoint("line1", linePoints[linePointsIndex]);
+          gisMap.linePush("line1", linePoints[linePointsIndex]);
           linePointsIndex += 1;
         }}
       >
         插入点
+      </div>
+      <div
+        className="btn"
+        onClick={() => {
+          gisMap.lineSplice("line1", 2, 1);
+        }}
+      >
+        删除中间点
+      </div>
+
+      <div
+        className="btn"
+        onClick={() => {
+          gisMap.linePush("line4", linePoints[0]);
+        }}
+      >
+        点线插入点
+      </div>
+      <div
+        className="btn"
+        onClick={() => {
+          gisMap.linePush("line5", {
+            longitude: 120,
+            latitude: -50,
+            height: 0,
+            pixelSize: 40,
+            label: {
+              text: "新增点",
+            },
+            tip: {
+              mode: "html",
+              content: {
+                htmlContent: `<li class="list-group-item">新增点</li>`,
+              },
+            },
+          });
+        }}
+      >
+        点线插入点
+      </div>
+      <div
+        className="btn"
+        onClick={() => {
+          gisMap.lineSplice("line5", 1, 1);
+        }}
+      >
+        删除 line5 点
       </div>
     </div>
   );
