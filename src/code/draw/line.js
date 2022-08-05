@@ -221,6 +221,7 @@ function drawLineWithPoints(points = [], options = {}) {
   if (mode === 1) {
     points.forEach(item => {
       this.drawPoint({
+        layer: options.layer || 'default',
         parent: entity,
         ...item
       })
@@ -229,6 +230,7 @@ function drawLineWithPoints(points = [], options = {}) {
     points.forEach(item => {
       this.drawPoint({
         parent: entity,
+        layer: options.layer || 'default',
         longitude: item[0],
         latitude: item[1],
         height: item[2],

@@ -231,7 +231,6 @@ export class GisMap {
 
   unHandleTip() {
     if (this.tip) {
-      console.log(777777)
       this.tip.destroy();
       this.tip = null;
       this.selected = null;

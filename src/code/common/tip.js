@@ -95,7 +95,7 @@ class Tip {
       case 'leftBottom':
         this.positionFix = {
           left: 0 - width - 24,
-          top: -20,
+          top: 0 + 4 - height,
         }
         break;
       case 'top':

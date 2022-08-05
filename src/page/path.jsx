@@ -7,7 +7,13 @@ const gisMap = new GisMap("cesium", { animation: true, timeline: true });
 
 window.gisMap = gisMap;
 gisMap.viewer.scene.debugShowFramesPerSecond = true;
-// gisMap.setSceneMode2D3D();
+gisMap.setSceneMode2D3D();
+
+gisMap.setView({
+  longitude: 60,
+  latitude: 0,
+  height: 50000000,
+});
 
 function createPath() {
   // 动态加点 数据
@@ -19,11 +25,17 @@ function createPath() {
   ];
 
   const { viewer, Cesium } = gisMap;
+  viewer.clockViewModel.multiplier = 600;
   let startTime = Cesium.JulianDate.fromDate(new Date("2022/07/15 00:00:00"));
   let stopTime = Cesium.JulianDate.fromDate(new Date("2022/07/16 00:00:00"));
+  let stopTime1 = Cesium.JulianDate.fromDate(new Date("2022/07/16 01:00:00"));
   viewer.clock.startTime = startTime.clone();
-  // viewer.clock.stopTime = stopTime.clone();
+  viewer.clock.stopTime = stopTime1.clone();
   viewer.clock.currentTime = startTime.clone();
+  viewer.clock.onStop = () => {
+    alert(1);
+    viewer.clock.shouldAnimate = false;
+  };
 
   let positions = linePoints.map((item) => {
     return Cesium.Cartesian3.fromDegrees(item[0], item[1], item[2]);
@@ -55,7 +67,7 @@ function createPath() {
       new Cesium.TimeInterval({
         start: startTime,
         stop: stopTime,
-        isStopIncluded: false,
+        // isStopIncluded: false,
       }),
     ]),
     sourceData: linePoints,
@@ -67,11 +79,11 @@ function createPath() {
 
     //   // 轨迹路径
     path: {
-      // leadTime: 0,
+      leadTime: 0,
       // trailTime: 0,
       resolution: 100,
       width: 1,
-      material: Cesium.Color.RED,
+      material: Cesium.Color.GREEN,
     },
     billboard: {
       width: 30,
@@ -90,8 +102,11 @@ function createPath() {
 }
 
 function pathPush() {
-  let _entity = viewer.entities.getById("path1");
-
+  let _entity = gisMap.viewer.entities.getById("path1");
+  let time = Cesium.JulianDate.fromDate(new Date("2022/07/16 01:00:00"));
+  let item = _entity.sourceData[0];
+  let p = Cesium.Cartesian3.fromDegrees(item[0], item[1], item[2]);
+  _entity.position.addSample(time, p);
   console.log(1, _entity);
 }
 

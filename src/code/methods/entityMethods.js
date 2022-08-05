@@ -151,6 +151,7 @@ function renderLinePoint(entity, data) {
         data.forEach(item => {
             this.drawPoint({
                 parent: entity,
+                layer: entity.layer,
                 ...item
             })
         })
@@ -160,6 +161,7 @@ function renderLinePoint(entity, data) {
         data.forEach(item => {
             let p = this.drawPoint({
                 parent: entity,
+                layer: entity.layer,
                 longitude: item[0],
                 latitude: item[1],
                 height: item[2],
