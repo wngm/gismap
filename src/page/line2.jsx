@@ -1,5 +1,4 @@
 import * as Cesium from "cesium";
-import { start } from "qiankun";
 import React, { useCallback, useState } from "react";
 import { createRoot } from "react-dom/client";
 import GisMap from "../code/gisMap";

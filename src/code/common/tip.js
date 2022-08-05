@@ -10,16 +10,6 @@ import * as Cesium from 'cesium';
 import './tip.css';
 
 class Tip {
-  static positionFromPlacement = {
-    rightTop: {
-      x: { key: 'left', fixValue: 24 },
-      y: { key: 'top', fixValue: -20 },
-    },
-    leftTop: {
-      x: { key: 'left', fixValue: 24 },
-      y: { key: 'top', fixValue: -20 },
-    }
-  }
   constructor(viewer, entity) {
     this.container = viewer.container;
     this.viewer = viewer;
@@ -29,6 +19,10 @@ class Tip {
     this.bindEntity = entity;
     this.dom = null;
     this.handleEvent = null;
+    this.positionFix = {
+      left: 24,
+      top: -20,
+    }
     console.log(entity)
     this.init();
   }
@@ -75,6 +69,48 @@ class Tip {
     this.container.appendChild(this.dom);
     let _positon = this.bindEntity.primitive.position || this.bindEntity.id.position._value
     const position = Cesium.SceneTransforms.wgs84ToWindowCoordinates(this.viewer.scene, _positon);
+
+
+    let width = this.dom.offsetWidth;
+    let height = this.dom.offsetHeight
+    switch (placement) {
+      case 'rightTop':
+        this.positionFix = {
+          left: 24,
+          top: -20,
+        }
+        break;
+      case 'rightBottom':
+        this.positionFix = {
+          left: 24,
+          top: 0 + 4 - height,
+        }
+        break;
+      case 'leftTop':
+        this.positionFix = {
+          left: 0 - width - 24,
+          top: -20,
+        }
+        break;
+      case 'leftBottom':
+        this.positionFix = {
+          left: 0 - width - 24,
+          top: -20,
+        }
+        break;
+      case 'top':
+        this.positionFix = {
+          left: 0 - width / 2,
+          top: 0 - height - 16,
+        }
+      case 'bottom':
+        this.positionFix = {
+          left: 0 - width / 2,
+          top: 0 + 16,
+        }
+      default:
+        break;
+    }
     this.setAt(position);
     this.handle();
   }
@@ -111,11 +147,11 @@ class Tip {
   setAt(position) {
     if (!this.dom) return;
     const placement = this.placement
-    const style = Tip.positionFromPlacement[placement]
-    // let width = this.dom.offsetWidth
-    // let height = this.dom.offsetHeight
-    this.dom.style[style.x.key] = `${position.x + style.x.fixValue}px`;
-    this.dom.style[style.y.key] = `${position.y + style.y.fixValue}px`;
+    const { left, top } = this.positionFix
+    let x = position.x + left;
+    let y = position.y + top;
+    this.dom.style.left = `${x}px`;
+    this.dom.style.top = `${y}px`;
   }
 }
 

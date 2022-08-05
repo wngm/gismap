@@ -259,7 +259,6 @@ export class GisMap {
   unHandleMenu() {
     if (this.contextMenu) {
       this.contextMenu.destroy();
-      console.log(1111)
       this.contextMenu = null;
       this.selectedMenu = null;
     }
@@ -280,10 +279,14 @@ export class GisMap {
 
       console.log('unHandleMenu')
       this.selectedMenu = entity.id || entity;
-      this.contextMenu = new Menu(this.viewer, entity);
+      this.contextMenu = this.selectedMenu?.menu ? new Menu(this.viewer, entity) : null;
     } else {
       this.selectedMenu = entity.id || entity;
-      this.contextMenu = new Menu(this.viewer, entity);
+      this.contextMenu = this.selectedMenu?.menu ? new Menu(this.viewer, entity) : null;
+    }
+    if (!this.selectedMenu?.menu) {
+      this.selectedMenu = null
+      this.tip.show();
     }
   }
   /**

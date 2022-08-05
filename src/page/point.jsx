@@ -46,7 +46,7 @@ let p1 = gisMap.drawPoint({
   },
   //   提示
   tip: {
-    placement: "rightTop",
+    placement: "rightBottom",
     mode: "html",
     // 自定义css class
     className: "class-tip",
@@ -62,7 +62,7 @@ let p1 = gisMap.drawPoint({
   },
   // isHighlight: true,
   // 默认删除 菜单
-  showDefaultMenu: true,
+  // showDefaultMenu: true,
 });
 
 //测试点2
@@ -78,7 +78,7 @@ let p2 = gisMap.drawPoint({
   },
   //   提示
   tip: {
-    placement: "leftTop",
+    placement: "rightTop",
     mode: "table",
     // 自定义css class
     className: "class-tip",
