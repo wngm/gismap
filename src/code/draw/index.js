@@ -12,6 +12,7 @@ import lineFn from './line';
 import shapeFn from './shape';
 import radarFn from './radar';
 import cylinderFn from './cylinder';
+import pathLine from './pathLine';
 
 export default {
   ...pointFn,
@@ -19,4 +20,5 @@ export default {
   ...shapeFn,
   ...radarFn,
   ...cylinderFn,
+  ...pathLine
 };

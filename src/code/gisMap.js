@@ -55,6 +55,7 @@ export class GisMap {
     this.contextMenu = null;
     //  事件中心
     this.event = new Eventemitter();
+    this.eventCenter = {};
     // 绘图事件集合
     this.paintHandler = [];
     this.init(container, options);
@@ -340,8 +341,15 @@ export class GisMap {
     if (typeof entity === 'string') {
       _entity = this.viewer.entities.getById(entity);
     }
+
     if (_entity) {
       this.viewer.entities.remove(_entity);
+    }
+
+    if (entity._children && entity._children.length > 0) {
+      entity._children.forEach(e => {
+        this.viewer.entities.remove(e)
+      })
     }
   }
 
@@ -387,6 +395,7 @@ GisMap.prototype.setSky = base.setSky;
 GisMap.prototype.clearSky = base.clearSky;
 GisMap.prototype.resetSky = base.resetSky;
 GisMap.prototype.canvas2image = base.canvas2image;
+GisMap.prototype.getPositionByCartesian = base.getPositionByCartesian;
 // 测量工具
 GisMap.prototype.measureLine = function measureLine(options) { return new MeasureLine(this.viewer, options); };
 GisMap.prototype.measurePolygn = function measurePolygn(options) { return new MeasurePolygn(this.viewer, options); };

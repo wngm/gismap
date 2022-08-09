@@ -1,6 +1,7 @@
 //衍生处理管理 【事件中心管理】
-import { Color, Cartesian3 } from 'cesium'
+import * as Cesium from 'cesium'
 
+const { Color, Cartesian3 } = Cesium
 
 
 //  ------------------点 部分-----------------
@@ -17,7 +18,22 @@ function setPoint(id, type, value) {
 
 }
 
-function getPoint() {
+
+/**
+ *
+ *  获取点 属性
+ * @memberof GisMap
+ * @param {entity} entity 点
+ */
+function getPoint(entity) {
+    const { viewer, } = this
+    let position = entity.position.getValue(viewer.clock.currentTime)
+    let _p = this.getPositionByCartesian(position)
+    return {
+        id: entity._id,
+        key: entity._id,
+        ..._p
+    }
 
 }
 /**
@@ -174,6 +190,84 @@ function renderLinePoint(entity, data) {
 
 }
 
+// 动画点
+function pathLinePush(id, value) {
+    let entity = this.viewer.entities.getById(id);
+    if (entity.sourceType === 'pathLineByTime') {
+        entity.sourceData.push(value)
+
+        let pointsList = entity.sourceData.map((item) => {
+            const {
+                longitude,
+                latitude,
+                height = 0,
+                time
+            } = item
+            if (!time) {
+                throw new Error('drawPathLine data 缺少参数time')
+            }
+            let position = Cesium.Cartesian3.fromDegrees(longitude, latitude, height)
+            let _time = Cesium.JulianDate.fromDate(new Date(time));
+            return {
+                position,
+                time: _time
+            }
+        });
+        var property = new Cesium.SampledPositionProperty();
+        pointsList.forEach(i => {
+            property.addSample(i.time, i.position);
+        })
+        entity.position = property
+        entity.orientation = new Cesium.VelocityOrientationProperty(property)
+
+        const showPoint = entity?.sourceOptions?.showPoint
+        if (showPoint) {
+            this.renderPathPoint(entity, entity.sourceData)
+        }
+    }
+}
+
+function renderPathPoint(entity, data) {
+    let stopTime = new Cesium.JulianDate.fromDate(new Date())
+
+    const color = entity?.sourceOptions?.color || window.Cesium.highlightColor
+    // entity._children.forEach(e => {
+    //     this.viewer.entities.remove(e)
+    // })
+
+
+    let p = data[data.length - 1]
+    let _st = Cesium.JulianDate.fromDate(new Date(p.time))
+    this.drawPoint({
+        parent: entity,
+        color,
+        ...p,
+        availability: new Cesium.TimeIntervalCollection([
+            new Cesium.TimeInterval({
+                start: _st,
+                stop: stopTime,
+                // isStopIncluded: false,
+            }),
+        ])
+    })
+    // data.forEach(p => {
+    //     let _st = Cesium.JulianDate.fromDate(new Date(p.time))
+    //     this.drawPoint({
+    //         parent: entity,
+    //         color,
+    //         ...p,
+    //         availability: new Cesium.TimeIntervalCollection([
+    //             new Cesium.TimeInterval({
+    //                 start: _st,
+    //                 stop: stopTime,
+    //                 // isStopIncluded: false,
+    //             }),
+    //         ])
+    //     })
+    // })
+
+}
+
 
 
 
@@ -187,5 +281,7 @@ export default {
     linePush,
     lineSplice,
     renderLine,
-    renderLinePoint
+    renderLinePoint,
+    pathLinePush,
+    renderPathPoint
 }

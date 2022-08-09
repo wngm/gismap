@@ -185,6 +185,24 @@ function lowQuality() {
 
 }
 
+
+// Cartesian 转 经纬度坐标
+function getPositionByCartesian(cartesian3) {
+  const { viewer, Cesium } = this
+  var ellipsoid = viewer.scene.globe.ellipsoid;
+  var cartographic = ellipsoid.cartesianToCartographic(cartesian3);
+  var latitude = Cesium.Math.toDegrees(cartographic.latitude);
+  var longitude = Cesium.Math.toDegrees(cartographic.longitude);
+  var height = cartographic.height;
+
+  return {
+    longitude,
+    latitude,
+    height
+  }
+}
+
+
 export default {
   zoomOut,
   zoomIn,
@@ -194,5 +212,6 @@ export default {
   clearSky,
   canvas2image,
   hightQuality,
-  lowQuality
+  lowQuality,
+  getPositionByCartesian
 };

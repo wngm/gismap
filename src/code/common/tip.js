@@ -103,6 +103,7 @@ class Tip {
           left: 0 - width / 2,
           top: 0 - height - 16,
         }
+        break;
       case 'bottom':
         this.positionFix = {
           left: 0 - width / 2,

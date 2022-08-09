@@ -46,7 +46,7 @@ let p1 = gisMap.drawPoint({
   },
   //   提示
   tip: {
-    placement: "rightBottom",
+    placement: "top",
     mode: "html",
     // 自定义css class
     className: "class-tip",
@@ -114,13 +114,15 @@ let p2 = gisMap.drawPoint({
       { type: "type2", text: "文本2 " },
       { type: "type3", text: "文本3 " },
     ],
+    onSelect: (type, entity) => {
+      console.log(type);
+      console.log(entity);
+      const p = gisMap.getPoint(entity);
+      // 点信息
+      console.log(p);
+    },
   },
   isHighlight: true,
-  // 自定义菜单
-  onMenuSelect(type, entity) {
-    console.log(type);
-    console.log(entity);
-  },
 });
 
 function Content() {

@@ -32,7 +32,8 @@ export default () => ({
   },
 
   shadows: true,
-  terrainShadows: Cesium.ShadowMode.ENABLED,
+  terrainProvider: new Cesium.EllipsoidTerrainProvider({}),
+  terrainShadows: Cesium.ShadowMode.DISABLED,
   shouldAnimate: true,
   // terrainProvider: Cesium.createWorldTerrain(),
   // msaaSamples: 4,

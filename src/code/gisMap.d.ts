@@ -112,6 +112,9 @@ interface IPoint extends IPosition {
   highlightColor?: string
   [key: string]: any
 }
+interface ITimePoint extends IPoint {
+  time?: string
+}
 
 interface ImgPoint extends IPoint {
   imgOptions: BillboardGraphics.ConstructorOptions
@@ -225,6 +228,14 @@ declare class GisMap {
   linePush(id: string, data: number[] | IPoint): void
   // 线 删除点
   lineSplice(id: string, startIndex: number, length: number): void
+  // 路径回放 
+  drawPathLine(data: ITimePoint[], options?: any): DrawEntity
+  //路径回放动态插入点
+  pathLinePush(id: string, value: ITimePoint)
+  //对像获取点属性
+  getPoint(entity: any): IPoint
+  //cartesian3类型 对象转经纬度高
+  getPositionByCartesian(cartesian3: any): IPosition
 }
 
 export default GisMap

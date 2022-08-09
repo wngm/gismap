@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import GisMap from "../code/gisMap";
 import "./index.less";
+
+import img1 from "../assets/images/img-point.png";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap("cesium", { animation: true, timeline: true });
 
@@ -12,102 +14,71 @@ gisMap.setSceneMode2D3D();
 gisMap.setView({
   longitude: 60,
   latitude: 0,
-  height: 50000000,
+  height: 30000000,
 });
 
 function createPath() {
-  // 动态加点 数据
-  const linePoints = [
-    [120, 0, 100000],
-    [60, 0, 100000],
-    [60, -20, 100000],
-    [10, 40, 100000],
-  ];
-
   const { viewer, Cesium } = gisMap;
-  viewer.clockViewModel.multiplier = 600;
-  let startTime = Cesium.JulianDate.fromDate(new Date("2022/07/15 00:00:00"));
-  let stopTime = Cesium.JulianDate.fromDate(new Date("2022/07/16 00:00:00"));
-  let stopTime1 = Cesium.JulianDate.fromDate(new Date("2022/07/16 01:00:00"));
-  viewer.clock.startTime = startTime.clone();
-  viewer.clock.stopTime = stopTime1.clone();
-  viewer.clock.currentTime = startTime.clone();
-  viewer.clock.onStop = () => {
-    alert(1);
-    viewer.clock.shouldAnimate = false;
-  };
 
-  let positions = linePoints.map((item) => {
-    return Cesium.Cartesian3.fromDegrees(item[0], item[1], item[2]);
-  });
-
-  var property = new Cesium.SampledPositionProperty();
-  let spend =
-    (new Date("2022/07/16 00:00:00") - new Date("2022/07/15 00:00:00")) / 1000 /
-    positions.length;
-  for (var i = 0; i < positions.length; i++) {
-    const time = Cesium.JulianDate.addSeconds(
-      startTime,
-      spend * i,
-      new Cesium.JulianDate(),
-    );
-    property.addSample(time, positions[i]);
-  }
-  console.log(property, 555, spend, positions);
-  // const interpolationOptions = {
-  //   interpolationDegree: 2,
-  //   interpolationAlgorithm: Cesium.LagrangePolynomialApproximation,
-  // };
-  // property.setInterpolationOptions(interpolationOptions);
-
-  viewer.entities.add({
-    id: "path1",
-    //   // 实体可用性，在指定时间内返回有效数据
-    availability: new Cesium.TimeIntervalCollection([
-      new Cesium.TimeInterval({
-        start: startTime,
-        stop: stopTime,
-        // isStopIncluded: false,
-      }),
-    ]),
-    sourceData: linePoints,
-    sourceType: "linePointWithTime",
-    //   // 位置信息随时间变化property
-    position: property,
-    //   // 实体方向
-    //   orientation: new Cesium.VelocityOrientationProperty(property),
-
-    //   // 轨迹路径
-    path: {
-      leadTime: 0,
-      // trailTime: 0,
-      resolution: 100,
-      width: 1,
-      material: Cesium.Color.GREEN,
+  gisMap.drawPathLine([
+    {
+      longitude: 120,
+      latitude: 40,
+      height: 100000,
+      time: "2022-7-15 00:00:00",
     },
+    {
+      longitude: 80,
+      latitude: 30,
+      height: 100000,
+      time: "2022-7-15 10:00:00",
+    },
+    {
+      longitude: 70,
+      latitude: 60,
+      height: 100000,
+      time: "2022-7-16 00:00:00",
+    },
+  ], {
+    key: "path2",
+    showPoint: true,
+    // 标记样式
     billboard: {
       width: 30,
-      height: 30,
-      image: window.CESIUM_BASE_URL + "/images/pointer.svg",
+      height: 40,
+      // image  支持base64 || url
+      image: img1,
+      // image: window.CESIUM_BASE_URL + "/images/img-point.png",
+      // 位置调整
       verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-      eyeOffset: new Cesium.Cartesian3(0, 0, 10),
     },
-    // point: {
-    //   pixelSize: 10,
-    //   // heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
-    //   color: Cesium.Color.fromCssColorString("#0099cc"),
-    // },
+  });
+  let startTime = Cesium.JulianDate.fromDate(new Date("2022-7-15 00:00:00"));
+  let stopTime = Cesium.JulianDate.fromDate(new Date("2022-7-16 06:00:00"));
+  viewer.clockViewModel.multiplier = 600;
+  viewer.clock.startTime = startTime;
+  viewer.clock.stopTime = stopTime;
+  viewer.clock.currentTime = startTime.clone();
+
+  // let event = new Cesium.Event();
+
+  console.log(viewer.clock);
+  viewer.clock.onStop.addEventListener(function (c) {
+    console.log(2222, c);
+  });
+  viewer.clock.onTick.addEventListener(function (clock) {
+    console.log(888, clock);
   });
 }
 
 function pathPush() {
-  let _entity = gisMap.viewer.entities.getById("path1");
-  let time = Cesium.JulianDate.fromDate(new Date("2022/07/16 01:00:00"));
-  let item = _entity.sourceData[0];
-  let p = Cesium.Cartesian3.fromDegrees(item[0], item[1], item[2]);
-  _entity.position.addSample(time, p);
-  console.log(1, _entity);
+  gisMap.pathLinePush("path2", {
+    longitude: 120,
+    latitude: 60,
+    height: 100000,
+    time: "2022-7-16 06:00:00",
+  });
 }
 
 function Content() {
@@ -137,6 +108,15 @@ function Content() {
         }}
       >
         追加坐标点
+      </div>
+
+      <div
+        className="btn"
+        onClick={() => {
+          gisMap.setSceneMode2D3D();
+        }}
+      >
+        2D/3D
       </div>
     </div>
   );

@@ -15,7 +15,8 @@ const webppackBuild = {
   mode: 'production',
   devtool: 'source-map',
   output: {
-    libraryTarget: 'umd',
+    libraryTarget: 'commonjs2',
+    clean: true
   },
   plugins: [
     new CopyPlugin({
