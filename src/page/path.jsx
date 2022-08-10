@@ -5,12 +5,46 @@ import "./index.less";
 
 import img1 from "../assets/images/img-point.png";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
-const gisMap = new GisMap("cesium", { animation: true, timeline: true });
+const gisMap = new GisMap("cesium", {
+  animation: true,
+  timeline: true,
+  // mapMode2D: GisMap.Cesium.MapMode2D.ROTATE,
+});
+
+let data = [
+  [120, 40, 0],
+  [110, 40, 0],
+  [100, 40, 0],
+  [90, 40, 0],
+  [80, 40, 0],
+  [120, 30, 0],
+  [110, 30, 0],
+  [100, 30, 0],
+];
+
+data.forEach((i) => {
+  gisMap.drawPoint({
+    longitude: i[0],
+    latitude: i[1],
+    height: i[2],
+    layer: "pp1",
+    color: "#ff0000",
+  });
+});
+
+gisMap.drawPoint({
+  longitude: 120,
+  latitude: 40,
+  height: 0,
+  pixelSize: 48,
+  layer: "mergePoint",
+  color: "rgba(244,248,9,1)",
+});
 
 window.gisMap = gisMap;
 gisMap.viewer.scene.debugShowFramesPerSecond = true;
 gisMap.setSceneMode2D3D();
-
+// gisMap.viewer.scene.requestRenderMode = true;
 gisMap.setView({
   longitude: 60,
   latitude: 0,
@@ -117,6 +151,26 @@ function Content() {
         }}
       >
         2D/3D
+      </div>
+      <div
+        className="btn"
+        onClick={() => {
+          gisMap.layerShow("mergePoint");
+          setTimeout(() => {
+            gisMap.viewer.scene.requestRender();
+            gisMap.viewer.scene.forceRender();
+          }, 1000);
+        }}
+      >
+        图层显示
+      </div>
+      <div
+        className="btn"
+        onClick={() => {
+          gisMap.layerHide("mergePoint");
+        }}
+      >
+        图层隐藏
       </div>
     </div>
   );

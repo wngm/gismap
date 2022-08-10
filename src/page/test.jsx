@@ -84,7 +84,6 @@ function Content() {
   const imageRendering = () => {
     //判断是否支持图像渲染像素化处理
     if (Cesium.FeatureDetection.supportsImageRenderingPixelated()) {
-      console.log(viewer.resolutionScale, 999);
       viewer.resolutionScale = window.devicePixelRatio;
     } else {
       console.warn("不支持图像渲染像素化");

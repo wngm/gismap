@@ -1,5 +1,6 @@
 //衍生处理管理 【事件中心管理】
 import * as Cesium from 'cesium'
+import entity from '../entity'
 
 const { Color, Cartesian3 } = Cesium
 
@@ -24,6 +25,7 @@ function setPoint(id, type, value) {
  *  获取点 属性
  * @memberof GisMap
  * @param {entity} entity 点
+ * @returns {{id:string,key:string}}
  */
 function getPoint(entity) {
     const { viewer, } = this
@@ -268,6 +270,88 @@ function renderPathPoint(entity, data) {
 
 }
 
+// 获取图形内 信息
+
+// function getC
+
+// 获取矩形框内数据
+// entity: entity | string
+
+/**
+ *
+ *  获取矩形框内数据
+ * @memberof GisMap
+ * @param {entity | string} entity 点id
+ * @returns {[{}]}
+ */
+function getDataInArea(area) {
+    let _entity = area;
+    if (typeof area === 'string') {
+        _entity = this.viewer.entities.getById(area);
+    }
+    const { viewer } = this;
+    const { ellipsoid } = viewer.scene.globe;
+    const time = viewer.clock.currentTime
+    const datas = [];
+    //圆形 处理
+    if (_entity.ellipse) {
+        const r = _entity.ellipse.semiMajorAxis.getValue(time)
+        this.viewer.entities.values.forEach((entity) => {
+            const { id } = entity;
+            if (entity.point && id !== _entity.id && entity.position?.getValue(time)) {
+                const cartographic = ellipsoid.cartesianToCartographic(entity.position.getValue(time));
+                const latitude = Cesium.Math.toDegrees(cartographic.latitude);
+                const longitude = Cesium.Math.toDegrees(cartographic.longitude);
+                const { height } = cartographic;
+                let _r = Cesium.Cartesian3.distance(_entity.position.getValue(time), entity.position.getValue(time))
+                // 判断元素点是否在圆形内
+                const status = _r < r
+                // 判断元素点是否在矩形内
+                // const status = Cesium.Rectangle.contains(rectangle, cartographic);
+
+                if (status) {
+                    datas.push({
+                        latitude,
+                        longitude,
+                        height,
+                        id,
+                        type: 'point',
+                        entity
+                    });
+                }
+            }
+        });
+
+    }
+    // 矩形处理
+    if (_entity.rectangle) {
+        this.viewer.entities.values.forEach((entity) => {
+            const { id } = entity;
+            if (entity.point && id !== _entity.id && entity.position?.getValue(time)) {
+                const cartographic = ellipsoid.cartesianToCartographic(entity.position.getValue(time));
+                const latitude = Cesium.Math.toDegrees(cartographic.latitude);
+                const longitude = Cesium.Math.toDegrees(cartographic.longitude);
+                const { height } = cartographic;
+                // 判断元素点是否在矩形内
+                const status = Cesium.Rectangle.contains(_entity.rectangle.coordinates.getValue(time), cartographic);
+                if (status) {
+                    datas.push({
+                        latitude,
+                        longitude,
+                        height,
+                        id,
+                        type: 'point',
+                        entity
+                    });
+                }
+            }
+        });
+
+    }
+
+
+    return datas;
+}
 
 
 
@@ -283,5 +367,6 @@ export default {
     renderLine,
     renderLinePoint,
     pathLinePush,
-    renderPathPoint
+    renderPathPoint,
+    getDataInArea
 }

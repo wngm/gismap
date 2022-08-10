@@ -14,8 +14,19 @@ interface DrawEntity {
   longitude?: number
   latitude?: number
   height?: number
+  type?: string
   id: string,
   entity: Entity
+}
+
+interface PaintEntity {
+  id: string,
+  entity: Entity,
+  positions?: [],
+  // 中心点 [longitude,latitude]
+  center?: [number, number]
+  // 半径长度
+  radius?: number,
 }
 // id参数 Fun
 interface IfnId {
@@ -148,6 +159,12 @@ interface CylinderWaveProps {
 type weather = 'rain ' | 'snow' | 'fog'
 
 
+interface PaintCallback {
+  (paint: PaintEntity): void;
+}
+
+
+
 declare class GisMap {
   static Cesium: Cesium
   static version: string
@@ -166,10 +183,10 @@ declare class GisMap {
   drawImgPoint(data: ImgPoint): DrawEntity
   drawFlashPoint(data: IPoint): DrawEntity
   drawFlashPointClock(data: IPoint): DrawEntity
-  drawCircle(data: CircleProps)
-  drawEllipse(data: EllipseProps)
-  drawRect(data: RectProps)
-  drawPolygon(data: RadarProps)
+  drawCircle(data: CircleProps): DrawEntity
+  drawEllipse(data: EllipseProps): drawEllipse
+  drawRect(data: RectProps): drawRect
+  drawPolygon(data: RadarProps): drawPolygon
   addCircleScan(data: RadarProps)
   drawCylinder(data: CylinderProps)
   cylinderWave(data: CylinderWaveProps)
@@ -198,9 +215,9 @@ declare class GisMap {
   paintImgPoint(data: ImgPoint, callback?: () => {})
   paintLine(data: IPoint, callback?: () => {})
   paintLineWithPoints(data: IPoint, callback?: () => {})
-  paintRect(data: IPoint, callback?: () => {})
-  paintCircle(data: IPoint, callback?: () => {})
-  paintPolygon(data: IPoint, callback?: () => {})
+  paintRect(data: IPoint, callback?: PaintCallback)
+  paintCircle(data: IPoint, callback?: PaintCallback)
+  paintPolygon(data: IPoint, callback?: PaintCallback)
   clearLayer(layer: string): void
   //图像高质量模式
   hightQuality(): void
@@ -236,6 +253,8 @@ declare class GisMap {
   getPoint(entity: any): IPoint
   //cartesian3类型 对象转经纬度高
   getPositionByCartesian(cartesian3: any): IPosition
+  //获取区域内元素 area 元素ID 或 entity 对象
+  getDataInArea(area: Entity | string): DrawEntity[]
 }
 
 export default GisMap

@@ -17,7 +17,7 @@ import {
 } from 'cesium';
 import { getWGS84FromDKR } from '../common/utils';
 import { getLabelOptions } from '../entity';
-import {defaultMenuItems} from '../common/utils'
+import { defaultMenuItems } from '../common/utils'
 
 
 
@@ -97,7 +97,7 @@ function paintRect(data = {}, callback) {
           menu: showDefaultMenu ? (menu || {
             className: 'test-menu',
             show: true,
-            menuItems:defaultMenuItems,
+            menuItems: defaultMenuItems,
             onSelect: (type, entity) => {
               if (type === 'delete') {
                 console.log(entity)
@@ -107,9 +107,9 @@ function paintRect(data = {}, callback) {
             },
           }) : null,
         });
-        shape.entity.rectangle.material= new ColorMaterialProperty(new CallbackProperty(() => {
+        shape.entity.rectangle.material = new ColorMaterialProperty(new CallbackProperty(() => {
           if (shape.entity.id === this.moveActiveId) {
-            return Color.fromCssColorString(highlightColor||window.Cesium.highlightColor).withAlpha(0.3);
+            return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor).withAlpha(0.3);
           }
           return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
         }, false))
@@ -118,7 +118,11 @@ function paintRect(data = {}, callback) {
         handler.destroy();
         this.viewer.entities.remove(labelEntity);
         if (callback) {
-          callback({ id: shape.entity._id, positions: pointsArr });
+          callback({
+            id: shape.entity._id,
+            entity: shape.entity,
+            positions: pointsArr
+          });
         }
       }
     }
@@ -260,9 +264,9 @@ function paintCircle(data = {}, callback) {
             },
           }) : null,
         });
-        circle.entity.ellipse.material= new ColorMaterialProperty(new CallbackProperty(() => {
+        circle.entity.ellipse.material = new ColorMaterialProperty(new CallbackProperty(() => {
           if (circle.entity.id === this.moveActiveId) {
-            return Color.fromCssColorString(highlightColor||window.Cesium.highlightColor).withAlpha(0.3);
+            return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor).withAlpha(0.3);
           }
           return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
         }, false))
@@ -280,7 +284,8 @@ function paintCircle(data = {}, callback) {
         if (callback) {
           callback({
             id: circle.entity._id,
-            centerPoint: [tempLon, tempLat],
+            entity: circle.entity,
+            center: [tempLon, tempLat],
             radius: r,
           });
         }
@@ -364,9 +369,9 @@ function paintPolygon(data = {}, callback) {
         hierarchy: new CallbackProperty(() => new PolygonHierarchy(positions), false),
         outline: false,
         material: new ColorMaterialProperty(new CallbackProperty(() => {
-        if (_id === this.moveActiveId) {
-          return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
-        }
+          if (_id === this.moveActiveId) {
+            return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
+          }
           return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.5);
         }, false)),
         height: 0,
@@ -384,7 +389,7 @@ function paintPolygon(data = {}, callback) {
         menuItems: [
           { text: '编辑', icon: 'fa-edit', type: 'edit' },
           { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-          { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
+          { text: '删除', icon: 'fa-trash-alt', type: 'delete' },
         ],
         onSelect: (type, entity) => {
           if (type === 'delete') {
@@ -452,6 +457,7 @@ function paintPolygon(data = {}, callback) {
     if (callback) {
       callback({
         id: poly._id,
+        entity: poly,
         positions,
       });
     }

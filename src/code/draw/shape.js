@@ -11,7 +11,7 @@ import {
 } from 'cesium';
 import * as Cesium from 'cesium';
 import { getLabelOptions } from '../entity';
-import {defaultMenuItems} from '../common/utils'
+import { defaultMenuItems } from '../common/utils'
 
 /**
  *
@@ -82,7 +82,10 @@ function drawCircle(data) {
     }) : null,
   });
   this.viewer.entities.add(entity);
-  return entity;
+  return {
+    id: entity._id,
+    entity
+  };
 }
 
 /**
@@ -156,7 +159,10 @@ function drawEllipse(data) {
     }) : null,
   });
   this.viewer.entities.add(entity);
-  return entity;
+  return {
+    id: entity._id,
+    entity
+  };
 }
 /**
  *
@@ -223,7 +229,10 @@ function drawRect(data) {
     }) : null,
   });
   this.viewer.entities.add(entity);
-  return entity;
+  return {
+    id: entity._id,
+    entity
+  };
 }
 
 /**
@@ -256,7 +265,7 @@ function drawPolygon(data) {
     pixelSize,
     isHighlight
   });
-  const polygon = this.viewer.entities.add({
+  const entity = this.viewer.entities.add({
     name,
     id,
     layer: data.layer || 'default',
@@ -276,7 +285,7 @@ function drawPolygon(data) {
       outlineColor: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
     },
     label: labelOptions,
-    position: Cartesian3.fromDegrees(coordinates[0][0],coordinates[0][1], 0),
+    position: Cartesian3.fromDegrees(coordinates[0][0], coordinates[0][1], 0),
     tip,
     menu: showDefaultMenu ? (menu || {
       className: 'test-menu',
@@ -284,7 +293,7 @@ function drawPolygon(data) {
       menuItems: [
         { text: '编辑', icon: 'fa-edit', type: 'edit' },
         { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-        { text: '删除',icon: 'fa-trash-alt', type: 'delete' },
+        { text: '删除', icon: 'fa-trash-alt', type: 'delete' },
       ],
 
       onSelect: (type, entity) => {
@@ -296,7 +305,10 @@ function drawPolygon(data) {
       },
     }) : null,
   });
-  return polygon;
+  return {
+    id: entity._id,
+    entity
+  };
 }
 
 export default {

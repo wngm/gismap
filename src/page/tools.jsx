@@ -77,7 +77,7 @@ function Content() {
   };
 
   const selectRectCallBack = (data) => {
-    console.log("selectRectCallBack", data);
+    // console.log("selectRectCallBack", data);
     // 删除选中点
     // data.list.forEach(i=>{
     //   gisMap.remove(i.id)

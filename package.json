@@ -1,6 +1,6 @@
 {
   "name": "@kdhy/gismap",
-  "version": "1.0.29",
+  "version": "1.0.32",
   "description": "",
   "main": "build/gisMap.js",
   "scripts": {
@@ -33,15 +33,12 @@
     "webpack": "^5.11.1",
     "webpack-cli": "3",
     "webpack-dev-server": "^3.11.1",
-    "webpack-merge": "^5.7.3"
-  },
-  "dependencies": {
+    "webpack-merge": "^5.7.3",
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@turf/turf": "^6.5.0",
     "babel-loader": "^8.2.5",
-    "cesium": "^1.95.0",
     "copy-webpack-plugin": "^7.0.0",
     "cross-env": "^7.0.3",
     "eventemitter3": "^4.0.7",
@@ -51,10 +48,13 @@
     "mammoth": "^1.4.16",
     "minami": "^1.2.3",
     "mockjs": "^1.1.0",
-    "qiankun": "^2.5.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "satellite.js": "^4.1.3",
     "url-loader": "^4.1.1"
+  },
+  "dependencies": {
+    "satellite.js": "^4.1.3",
+    "qiankun": "^2.5.1",
+    "cesium": "1.96.0"
   }
 }

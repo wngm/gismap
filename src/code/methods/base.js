@@ -164,6 +164,7 @@ function canvas2image(type = 'file', width, height) {
  */
 function hightQuality() {
   this.scene.fxaa = true;
+  // this.scene.msaaSamples = 2;
   this.scene.postProcessStages.fxaa.enabled = true;
   if (Cesium.FeatureDetection.supportsImageRenderingPixelated()) {
     this.viewer.resolutionScale = window.devicePixelRatio;
