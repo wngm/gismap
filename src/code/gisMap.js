@@ -146,19 +146,34 @@ export class GisMap {
     }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
     handler.setInputAction((movement) => {
-      const moveFeature = this.viewer.scene.pick(movement.endPosition);
-      if (!Cesium.defined(moveFeature)) {
+      const { startPosition, endPosition } = movement
+      const moveEnd = this.viewer.scene.pick(endPosition);
+      const moveStart = this.viewer.scene.pick(startPosition);
+      if (!Cesium.defined(moveEnd)) {
         this.moveActiveId = undefined;
         this.unHandleTip();
-      } else if (moveFeature.id.highlight) {
-        this.moveActiveId = moveFeature.id.id;
-      } else if (moveFeature.id) {
+      } else if (moveEnd.id.highlight) {
+        this.moveActiveId = moveEnd.id.id;
+      } else if (moveEnd.id) {
         if (!this.contextMenu) {
-          this.handleTip(moveFeature);
+          this.handleTip(moveEnd);
         }
       } else {
 
       }
+      // moveIn
+      if (!Cesium.defined(moveStart) && Cesium.defined(moveEnd)) {
+        this.event.emit('moveIn', { id: moveEnd.id?.id, entity: moveEnd.id })
+      }
+      if (Cesium.defined(moveStart) && !Cesium.defined(moveEnd)) {
+        this.event.emit('moveOut', { id: moveStart.id?.id, entity: moveStart.id })
+      }
+      if (Cesium.defined(moveStart) && Cesium.defined(moveEnd) && moveStart.id !== moveEnd.id) {
+        this.event.emit('moveIn', { id: moveEnd.id?.id, entity: moveEnd.id })
+        this.event.emit('moveOut', { id: moveStart.id?.id, entity: moveStart.id })
+      }
+
+
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
 

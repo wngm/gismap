@@ -17,105 +17,108 @@
  * @memberof GisMap
  */
 function getLayer() {
-    const {viewer} = this
+    const { viewer } = this
     const layersMap = {}
-    let layers =[]
+    let layers = []
     viewer.entities.values.forEach(e => {
-        if(e.layer){
-            if(layersMap[e.layer]){
-                layers[layersMap[e.layer]].children.push({id:e.id,entity:e})
-                layers[layersMap[e.layer]].length +=1
-            }else{
+        if (e.layer) {
+            if (layersMap[e.layer]) {
+                layers[layersMap[e.layer]].children.push({ id: e.id, entity: e })
+                layers[layersMap[e.layer]].length += 1
+            } else {
                 layersMap[e.layer] = layers.length
                 layers.push({
-                    layer:e.layer,
-                    children:[{id:e.id,entity:e}],
-                    length:1
+                    layer: e.layer,
+                    children: [{ id: e.id, entity: e }],
+                    length: 1
                 })
             }
         }
     });
     return layers
 
- }
- /**
-  *
-  * 获取图层下元素
-  * @param {string} [layer='default'] 图层名 
-  * @returns {Array<{id:string}>}  图层下元素数组
-  * @memberof GisMap
-  */
- function getLayerValues(layer='default'){
-    const {viewer} = this
-    let children =[]
+}
+/**
+ *
+ * 获取图层下元素
+ * @param {string} [layer='default'] 图层名 
+ * @returns {Array<{id:string}>}  图层下元素数组
+ * @memberof GisMap
+ */
+function getLayerValues(layer = 'default') {
+    const { viewer } = this
+    let children = []
     viewer.entities.values.forEach(e => {
-        if(e.layer === layer){
-            children.push({id:e.id,entity:e})
-        }
-
-    })
-    return children
- }
-
-  /**
-  *
-  * 隐藏图层
-  * @param {string} [layer='default'] 图层名 
-  * @returns {Array<{id:string}>}  图层下元素数组
-  * @memberof GisMap
-  */
- function layerHide(layer='default'){
-    const {viewer} = this
-    let children =[]
-    viewer.entities.values.forEach(e => {
-        if(e.layer === layer){
-            children.push({id:e.id,entity:e})
-            e.show = false
-        }
-
-    })
-    return children
- }
-
- /**
-  *
-  * 显示图层
-  * @param {string} [layer='default'] 图层名 
-  * @returns {Array<{id:string}>}  图层下元素数组
-  * @memberof GisMap
-  */
-function layerShow(layer='default'){
-    const {viewer} = this
-    let children =[]
-    viewer.entities.values.forEach(e => {
-        if(e.layer === layer){
-            children.push({id:e.id,entity:e})
-            e.show = true
+        if (e.layer === layer) {
+            children.push({ id: e.id, entity: e })
         }
 
     })
     return children
 }
 
- /**
-  *
-  * 删除图层
-  * @param {string} [layer='default'] 图层名 
-  * @returns {Array<{id:string}>}  图层下元素数组
-  * @memberof GisMap
-  */
-  function layerRemove(layer='default'){
-    const {viewer} = this
-    let children =[]
+/**
+*
+* 隐藏图层
+* @param {string} [layer='default'] 图层名 
+* @returns {Array<{id:string}>}  图层下元素数组
+* @memberof GisMap
+*/
+function layerHide(layer = 'default') {
+    const { viewer } = this
+    let children = []
     viewer.entities.values.forEach(e => {
-        if(e.layer === layer){
-            children.push({id:e.id})
+        if (e.layer === layer) {
+            children.push({ id: e.id, entity: e })
+            e.show = false
+            // e._old_color = Cesium.Color.clone(e.point.color.getValue())
+            // e.point.color = Cesium.Color.TRANSPARENT
+        }
+
+    })
+    return children
+}
+
+/**
+ *
+ * 显示图层
+ * @param {string} [layer='default'] 图层名 
+ * @returns {Array<{id:string}>}  图层下元素数组
+ * @memberof GisMap
+ */
+function layerShow(layer = 'default') {
+    const { viewer, Cesium } = this
+    let children = []
+    viewer.entities.values.forEach(e => {
+        if (e.layer === layer) {
+            children.push({ id: e.id, entity: e })
+            e.show = true
+            // e.point.color = e._old_color
+        }
+
+    })
+    return children
+}
+
+/**
+ *
+ * 删除图层
+ * @param {string} [layer='default'] 图层名 
+ * @returns {Array<{id:string}>}  图层下元素数组
+ * @memberof GisMap
+ */
+function layerRemove(layer = 'default') {
+    const { viewer } = this
+    let children = []
+    viewer.entities.values.forEach(e => {
+        if (e.layer === layer) {
+            children.push({ id: e.id })
             viewer.entities.remove(e)
         }
 
     })
     return children
- }
+}
 
 export default {
     getLayer,
@@ -123,4 +126,4 @@ export default {
     layerHide,
     layerShow,
     layerRemove
- }
+}

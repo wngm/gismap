@@ -5,12 +5,23 @@ import "./index.less";
 
 import img1 from "../assets/images/img-point.png";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
+
+const { Cesium } = GisMap;
 const gisMap = new GisMap("cesium", {
-  animation: true,
-  timeline: true,
+  // animation: true,
+  // timeline: true,
   // mapMode2D: GisMap.Cesium.MapMode2D.ROTATE,
+  // requestRenderMode: true,
 });
 
+// gisMap.scene.postUpdate.addEventListener(function (e) {
+//   // This code will run at 60 FPS
+//   console.log("postUpdate", e);
+// });
+// gisMap.scene.preRender.addEventListener(function (e) {
+//   // This code will run at 60 FPS
+//   console.log("preRender", e);
+// });
 let data = [
   [120, 40, 0],
   [110, 40, 0],
@@ -22,24 +33,25 @@ let data = [
   [100, 30, 0],
 ];
 
-data.forEach((i) => {
-  gisMap.drawPoint({
-    longitude: i[0],
-    latitude: i[1],
-    height: i[2],
-    layer: "pp1",
-    color: "#ff0000",
-  });
-});
+// data.forEach((i) => {
+//   gisMap.drawPoint({
+//     longitude: i[0],
+//     latitude: i[1],
+//     height: i[2],
+//     layer: "pp1",
+//     pixelSize: 48,
+//     color: "#ff0000",
+//   });
+// });
 
-gisMap.drawPoint({
-  longitude: 120,
-  latitude: 40,
-  height: 0,
-  pixelSize: 48,
-  layer: "mergePoint",
-  color: "rgba(244,248,9,1)",
-});
+// gisMap.drawPoint({
+//   longitude: 120,
+//   latitude: 40,
+//   height: 0,
+//   pixelSize: 68,
+//   layer: "mergePoint",
+//   color: "rgba(244,248,9,1)",
+// });
 
 window.gisMap = gisMap;
 gisMap.viewer.scene.debugShowFramesPerSecond = true;
@@ -50,7 +62,14 @@ gisMap.setView({
   latitude: 0,
   height: 30000000,
 });
-
+// gisMap.event.on("moveIn", (e) => {
+//   console.log(e);
+//   e.entity.point.color = Cesium.Color.BLUE;
+// });
+// gisMap.event.on("moveOut", (e) => {
+//   console.log(e);
+//   e.entity.point.color = Cesium.Color.RED;
+// });
 function createPath() {
   const { viewer, Cesium } = gisMap;
 
@@ -155,11 +174,7 @@ function Content() {
       <div
         className="btn"
         onClick={() => {
-          gisMap.layerShow("mergePoint");
-          setTimeout(() => {
-            gisMap.viewer.scene.requestRender();
-            gisMap.viewer.scene.forceRender();
-          }, 1000);
+          gisMap.layerShow("pp1");
         }}
       >
         图层显示
@@ -167,10 +182,25 @@ function Content() {
       <div
         className="btn"
         onClick={() => {
-          gisMap.layerHide("mergePoint");
+          gisMap.layerHide("pp1");
         }}
       >
         图层隐藏
+      </div>
+      <div
+        className="btn"
+        onClick={() => {
+          // gisMap.viewer.scene.requestRender();
+          // gisMap.viewer.scene.forceRender();
+
+          // setTimeout(() => {
+          //   gisMap.zoomIn();
+          // }, 1000);
+          // gisMap.setSceneMode2D3D();
+          // gisMap.setSceneMode2D3D();
+        }}
+      >
+        强制渲染
       </div>
     </div>
   );

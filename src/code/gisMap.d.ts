@@ -171,7 +171,7 @@ declare class GisMap {
   constructor(dom: any, options?: any)
   viewer: Viewer
   primitives: PrimitiveCollection
-  // 事件中心 事件名称 ['click'|'dbClick','contextmenu']
+  // 事件中心 事件名称 ['click'|'dbClick','contextmenu','moveIn','moveOut']
   event: EventEmitter
   setView(data: IPosition): void
   setDefaultPosition(data: IPosition): void
