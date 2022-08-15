@@ -62,17 +62,22 @@ function getLayerValues(layer = 'default') {
 * 隐藏图层
 * @param {string} [layer='default'] 图层名 
 * @returns {Array<{id:string}>}  图层下元素数组
+* @param {string} [mode] 模式 目前为2D模式下字段  
 * @memberof GisMap
 */
-function layerHide(layer = 'default') {
+function layerHide(layer = 'default', mode) {
     const { viewer } = this
     let children = []
     viewer.entities.values.forEach(e => {
         if (e.layer === layer) {
             children.push({ id: e.id, entity: e })
-            e.show = false
-            // e._old_color = Cesium.Color.clone(e.point.color.getValue())
-            // e.point.color = Cesium.Color.TRANSPARENT
+            if (mode) {
+                //当前仅支持点属性
+                e._old_color = Cesium.Color.clone(e.point.color.getValue())
+                e.point.color = Cesium.Color.TRANSPARENT
+            } else {
+                e.show = false
+            }
         }
 
     })
@@ -83,17 +88,23 @@ function layerHide(layer = 'default') {
  *
  * 显示图层
  * @param {string} [layer='default'] 图层名 
+ * @param {string} [mode] 模式 目前为2D模式下字段 
  * @returns {Array<{id:string}>}  图层下元素数组
  * @memberof GisMap
  */
-function layerShow(layer = 'default') {
+function layerShow(layer = 'default', mode) {
     const { viewer, Cesium } = this
     let children = []
     viewer.entities.values.forEach(e => {
         if (e.layer === layer) {
             children.push({ id: e.id, entity: e })
-            e.show = true
-            // e.point.color = e._old_color
+            if (mode) {
+
+                //当前仅支持点属性
+                e.point.color = e._old_color
+            } else {
+                e.show = true
+            }
         }
 
     })

@@ -227,10 +227,10 @@ declare class GisMap {
   getLayer(): LayerProp[]
   //获取layer下 元素id
   getLayerValues(layer: string): { id: string }[]
-  // 隐藏图层
-  layerHide(layer: string): void
-  // 显示图层
-  layerShow(layer: string): void
+  // 隐藏图层 【mode 值为 '2d'时 特殊处理 2d 模式下展示】
+  layerHide(layer: string, mode?: string): void
+  // 显示图层 【mode 值为 '2d'时 特殊处理 2d 模式下展示】
+  layerShow(layer: string, mode?: string): void
   // 移除图层
   layerRemove(layer: string): void
   // 高亮点 @params {cssSting} value 自定义颜色 
