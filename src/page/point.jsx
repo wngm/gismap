@@ -11,6 +11,8 @@ gisMap.setView({
   pitc: -90.0,
   roll: 70.0,
 });
+
+gisMap.setSceneMode2D3D();
 window.gisMap = gisMap;
 //高质量展示
 // gisMap.hightQuality();
@@ -125,6 +127,64 @@ let p2 = gisMap.drawPoint({
   isHighlight: true,
 });
 
+// 测试图片点
+
+let p3 = gisMap.drawImgPoint({
+  key: "p3",
+  longitude: 90,
+  latitude: 30,
+  height: 10,
+  // 点大小
+  width: 80,
+  height: 80,
+  label: {
+    text: "table tip 点",
+  },
+  //   提示
+  tip: {
+    placement: "rightTop",
+    mode: "table",
+    // 自定义css class
+    className: "class-tip",
+    content: {
+      title: "tips",
+      items: [
+        {
+          key: "test1",
+          value: "苏打水",
+        },
+        {
+          key: "test2",
+          value: "苏打水",
+        },
+        {
+          key: "test3",
+          value: "苏打水",
+        },
+        {
+          key: "test4",
+          value: "苏打水",
+        },
+      ],
+    },
+  },
+  menu: {
+    className: "div-menu",
+    menuItems: [
+      { text: "编辑", icon: "fa-edit", type: "edit" },
+      { text: "展示详情", icon: "fa-eye", type: "detail" },
+      { text: "删除", icon: "fa-trash-alt", type: "delete" },
+    ],
+    onSelect: (type, entity) => {
+      console.log(type);
+      console.log(entity);
+      const p = gisMap.getPoint(entity);
+      // 点信息
+      console.log(p);
+    },
+  },
+  isHighlight: true,
+});
 function Content() {
   return (
     <div className="box">
@@ -158,9 +218,31 @@ function Content() {
       >
         默认
       </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => {
+          gisMap.setPointFlash("p1", 5000);
+        }}
+      >
+        闪烁
+      </div>
     </div>
   );
 }
+
+gisMap.event.on("moveIn", (e) => {
+  if (e.id === "p3") {
+    gisMap.setImgPoint("p3", {
+      image: "/static/Cesium/images/img-point-highlight.png",
+    });
+  }
+});
+gisMap.event.on("moveOut", (e) => {
+  if (e.id === "p3") {
+    gisMap.setImgPoint("p3", { image: "/static/Cesium/images/img-point.png" });
+  }
+});
 
 // 3.渲染react元素
 const root = createRoot(document.getElementById("app"));

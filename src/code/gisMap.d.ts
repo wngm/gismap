@@ -1,7 +1,7 @@
 import { BillboardGraphics, LabelGraphics, Viewer, PrimitiveCollection, Entity } from 'cesium'
 import EventEmitter from "eventemitter3"
 
-interface LayerProp {
+export interface LayerProp {
   // 图层名
   layer: string
   // children 图层下的元素集id
@@ -10,7 +10,7 @@ interface LayerProp {
   length: number
 }
 
-interface DrawEntity {
+export interface DrawEntity {
   longitude?: number
   latitude?: number
   height?: number
@@ -19,7 +19,7 @@ interface DrawEntity {
   entity: Entity
 }
 
-interface PaintEntity {
+export interface PaintEntity {
   id: string,
   entity: Entity,
   positions?: [],
@@ -29,11 +29,11 @@ interface PaintEntity {
   radius?: number,
 }
 // id参数 Fun
-interface IfnId {
+export interface IfnId {
   (id: stirng): void
 }
 
-interface AreaEvent {
+export interface AreaEvent {
   event: EventEmitter
   add: IfnId
   remove: IfnId
@@ -42,7 +42,7 @@ interface AreaEvent {
   [key: string]: any
 }
 
-interface IPosition {
+export interface IPosition {
   longitude?: number
   latitude?: number
   height?: number
@@ -56,7 +56,7 @@ declare interface IKeyValue {
   [key: string]: any
 }
 
-interface Tip {
+export interface Tip {
   show?: boolean
   content: {
     title: string
@@ -66,46 +66,47 @@ interface Tip {
   className?: string
 }
 
-interface CircleProps extends IPoint {
+export interface CircleProps extends IPoint {
   radius: number // meter
 }
-interface EllipseProps extends IPoint {
+export interface EllipseProps extends IPoint {
   semiMinorAxis: number // meter
   semiMajorAxis: number // meter
 }
-interface RectProps extends IPoint {
+export interface RectProps extends IPoint {
   coordinates: [
     [number, number],
     [number, number]
   ]
 }
-interface RadarProps {
+export interface RadarProps {
   longitude: number
   latitude: number
   r: number
   scanColor: any
   interval: number
 }
-interface PolygonProps extends IPoint {
+export interface PolygonProps extends IPoint {
   coordinates: [number, number, number][]
 }
 
-interface MenuItem {
+export interface MenuItem {
   text: string
   type: string
   icon?: string
 }
 
-interface Menu {
+export interface Menu {
   show?: boolean
   menuItems: MenuItem[]
   style?: {}
   className?: string
   onSelect?(key: string, entity?: Entity): void
 }
-interface IPoint extends IPosition {
+export interface IPoint extends IPosition {
   //类型
   type?: string
+
   // uid
   key?: string
   name?: string
@@ -123,22 +124,22 @@ interface IPoint extends IPosition {
   highlightColor?: string
   [key: string]: any
 }
-interface ITimePoint extends IPoint {
+export interface ITimePoint extends IPoint {
   time?: string
 }
 
-interface ImgPoint extends IPoint {
+export interface ImgPoint extends IPoint {
   imgOptions: BillboardGraphics.ConstructorOptions
 }
 
 type lineType = 'normal' | 'animate'
-interface ILineOPtions {
+export interface ILineOPtions {
   lineType?: lineType
   tip?: Tip
   menu?: Menu
 }
 // 圆柱形
-interface CylinderProps {
+export interface CylinderProps {
   longitude: number
   latitude: number
   height: number
@@ -147,7 +148,7 @@ interface CylinderProps {
 }
 
 // 圆锥形
-interface CylinderWaveProps {
+export interface CylinderWaveProps {
   longitude: number
   latitude: number
   height: number
@@ -159,8 +160,11 @@ interface CylinderWaveProps {
 type weather = 'rain ' | 'snow' | 'fog'
 
 
-interface PaintCallback {
+export interface PaintCallback {
   (paint: PaintEntity): void;
+}
+export interface PositionEvent {
+  (position: IPosition): void;
 }
 
 
@@ -208,6 +212,10 @@ declare class GisMap {
   selectCircle(): Object
   loadCzml(): object
   areaEvent(options?: any): AreaEvent
+  addCameraEvent(event: string, callback: PositionEvent)
+  removeCameraEvent(event: string, callback: PositionEvent)
+  addMouseEvent(event: string, callback: PositionEvent)
+  removeMouseEvent(event: string, callback: PositionEvent)
   remove(id: string): void
   removeAll(id?: string): void
   paintPoint(data: IPoint, callback?: () => {})
@@ -237,6 +245,8 @@ declare class GisMap {
   highlightPoint(id, value?: string): void
   // 取消高亮
   unhighlightPoint(id: string, value?: string): void
+  // 修改图标点 属性 values => ({image:string})
+  setImgPoint(id: string, values: any)
   // 高亮线段 @params {cssSting} value 自定义颜色 
   highlightLine(id: string, value?: string): void
   // 取消高亮线

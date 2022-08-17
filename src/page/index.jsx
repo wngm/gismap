@@ -1,24 +1,63 @@
-import React, { useState, useCallback } from 'react';
-import { createRoot } from 'react-dom/client';
-import pointImg from '@src/assets/images/point.png';
-import GisMap from '../code/gisMap';
-import './index.less';
-const {Cesium} = GisMap
+import React, { useCallback, useState } from "react";
+import { createRoot } from "react-dom/client";
+import pointImg from "@src/assets/images/point.png";
+import GisMap from "../code/gisMap";
+import "./index.less";
+const { Cesium } = GisMap;
 
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
-const gisMap = new GisMap('cesium');
+const gisMap = new GisMap("cesium");
+gisMap.viewer.scene.debugShowFramesPerSecond = true;
 
 window.gisMap = gisMap;
 gisMap.viewer.scene.globe.depthTestAgainstTerrain = false;
+
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test.json", {
+    // stroke: Cesium.Color.HOTPINK,
+    // fill: Cesium.Color.PINK,
+    // strokeWidth: 3,
+    // markerSymbol: "?",
+  }),
+);
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test2.json", {
+    stroke: Cesium.Color.HOTPINK,
+    fill: Cesium.Color.PINK,
+    strokeWidth: 3,
+    markerSymbol: "?",
+  }),
+);
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test3.json", {
+    stroke: Cesium.Color.BLUE,
+    fill: Cesium.Color.BLUE,
+    strokeWidth: 3,
+    markerSymbol: "?",
+  }),
+);
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test4.json", {
+    stroke: Cesium.Color.BLUE,
+    fill: Cesium.Color.BLUE,
+    strokeWidth: 3,
+    markerSymbol: "?",
+  }),
+);
 function Content() {
-  const [name, setName] = useState('测试');
+  return <div></div>;
+  const [name, setName] = useState("测试");
   const [latitude, setLatitude] = useState(60);
   const [longitude, setLongitude] = useState(100);
   const [height, setheight] = useState(10);
-  const [labelName, setLabelName] = useState('测试点');
-  const [tip, setTip] = useState('点的描述信息');
+  const [labelName, setLabelName] = useState("测试点");
+  const [tip, setTip] = useState("点的描述信息");
   const setView = useCallback(() => {
-    gisMap.setView({ longitude: Number(longitude), latitude: Number(latitude), height: Number(height) });
+    gisMap.setView({
+      longitude: Number(longitude),
+      latitude: Number(latitude),
+      height: Number(height),
+    });
   }, [latitude, longitude, height]);
 
   const zoomIn = () => {
@@ -41,31 +80,31 @@ function Content() {
         tip: {
           show: true,
           content: {
-            title: 'tips',
+            title: "tips",
             items: [
               {
-                key: 'test1',
-                value: '苏打水'
+                key: "test1",
+                value: "苏打水",
               },
               {
-                key: 'test2',
-                value: '苏打水'
+                key: "test2",
+                value: "苏打水",
               },
               {
-                key: 'test3',
-                value: '苏打水'
+                key: "test3",
+                value: "苏打水",
               },
               {
-                key: 'test4',
-                value: '苏打水'
+                key: "test4",
+                value: "苏打水",
               },
-            ]
-          }
+            ],
+          },
         },
         onMenuSelect(type, entity) {
-          console.log(type, entity)
+          console.log(type, entity);
         },
-        showDefaultMenu: true
+        showDefaultMenu: true,
         // menu: {
         //   className: 'test-menu',
         //   show: true,
@@ -84,8 +123,8 @@ function Content() {
         // },
       },
     );
-    console.log('new point ', point);
-  }
+    console.log("new point ", point);
+  };
   const drawPoint = () => {
     const point = gisMap.drawPoint(
       {
@@ -100,35 +139,35 @@ function Content() {
         tip: {
           show: true,
           content: {
-            title: 'tips',
+            title: "tips",
             items: [
               {
-                key: 'test1',
-                value: '苏打水'
+                key: "test1",
+                value: "苏打水",
               },
               {
-                key: 'test2',
-                value: '苏打水'
+                key: "test2",
+                value: "苏打水",
               },
               {
-                key: 'test3',
-                value: '苏打水'
+                key: "test3",
+                value: "苏打水",
               },
               {
-                key: 'test4',
-                value: '苏打水'
+                key: "test4",
+                value: "苏打水",
               },
-            ]
-          }
+            ],
+          },
         },
         onMenuSelect(type, entity) {
-          console.log(type, entity)
+          console.log(type, entity);
         },
-        showDefaultMenu: true
+        showDefaultMenu: true,
       },
     );
-    console.log('new point ', point);
-  }
+    console.log("new point ", point);
+  };
   const drawHighlightPoint = () => {
     const point = gisMap.drawPoint(
       {
@@ -144,34 +183,34 @@ function Content() {
         tip: {
           show: true,
           content: {
-            title: 'tips',
+            title: "tips",
             items: [
               {
-                key: 'test1',
-                value: '苏打水'
+                key: "test1",
+                value: "苏打水",
               },
               {
-                key: 'test2',
-                value: '苏打水'
+                key: "test2",
+                value: "苏打水",
               },
               {
-                key: 'test3',
-                value: '苏打水'
+                key: "test3",
+                value: "苏打水",
               },
               {
-                key: 'test4',
-                value: '苏打水'
+                key: "test4",
+                value: "苏打水",
               },
-            ]
-          }
+            ],
+          },
         },
         onMenuSelect(type, entity) {
-          console.log(type, entity)
+          console.log(type, entity);
         },
-        showDefaultMenu: true
+        showDefaultMenu: true,
       },
     );
-    console.log('new point ', point);
+    console.log("new point ", point);
   };
   const drawFlashPoint = () => {
     const point = gisMap.drawFlashPoint(
@@ -187,58 +226,57 @@ function Content() {
         tip: {
           show: true,
           content: {
-            title: 'tips',
+            title: "tips",
             items: [
               {
-                key: 'test1',
-                value: '苏打水'
+                key: "test1",
+                value: "苏打水",
               },
               {
-                key: 'test2',
-                value: '苏打水'
+                key: "test2",
+                value: "苏打水",
               },
               {
-                key: 'test3',
-                value: '苏打水'
+                key: "test3",
+                value: "苏打水",
               },
               {
-                key: 'test4',
-                value: '苏打水'
+                key: "test4",
+                value: "苏打水",
               },
-            ]
-          }
+            ],
+          },
         },
         isHighlight: true,
         showDefaultMenu: true,
         onMenuSelect(type, entity) {
-          console.log(type)
-          console.log(entity)
-        }
+          console.log(type);
+          console.log(entity);
+        },
       },
     );
-    console.log('new point ', point);
+    console.log("new point ", point);
   };
 
-  const drawFlashPointClock= () => {
+  const drawFlashPointClock = () => {
     const point = gisMap.drawFlashPointClock(
       {
         name,
-        flashTime:5000,
-        duration:1000,
+        flashTime: 5000,
+        duration: 1000,
         pixelSize: 100000,
         longitude: Number(longitude),
         latitude: Number(latitude),
         height: Number(height),
         label: {
-          text: '点啊',
+          text: "点啊",
         },
         showDefaultMenu: true,
         onMenuSelect() {
-
-        }
+        },
       },
     );
-    console.log('new point ', point);
+    console.log("new point ", point);
   };
   const drawImgPoint = () => {
     const point = gisMap.drawImgPoint(
@@ -254,7 +292,7 @@ function Content() {
         showDefaultMenu: true,
       },
     );
-    console.log('new point ', point);
+    console.log("new point ", point);
   };
   const drawCircle = () => {
     const point = gisMap.drawCircle(
@@ -265,15 +303,14 @@ function Content() {
         latitude: Number(70),
         height: 0,
         highlight: true,
-        highlightColor: 'red',
+        highlightColor: "red",
         isHighlight: true,
         showDefaultMenu: true,
         onMenuSelect() {
-          
-        }
+        },
       },
     );
-    console.log('new point ', point);
+    console.log("new point ", point);
   };
 
   const switchType = () => {
@@ -288,25 +325,41 @@ function Content() {
         </div>
         <div>
           <span>经度</span>
-          <input type="number" value={longitude} onChange={(e) => setLongitude(e.target.value)} />
+          <input
+            type="number"
+            value={longitude}
+            onChange={(e) => setLongitude(e.target.value)}
+          />
         </div>
         <div>
           <span>纬度</span>
-          <input type="number" value={latitude} onChange={(e) => { setLatitude(e.target.value); }} />
+          <input
+            type="number"
+            value={latitude}
+            onChange={(e) => {
+              setLatitude(e.target.value);
+            }}
+          />
         </div>
         <div>
           <span>高度</span>
-          <input type="number" value={height} onChange={(e) => setheight(e.target.value)} />
+          <input
+            type="number"
+            value={height}
+            onChange={(e) => setheight(e.target.value)}
+          />
         </div>
         <div>
           <span>labelName</span>
-          <input value={labelName} onChange={(e) => setLabelName(e.target.value)} />
+          <input
+            value={labelName}
+            onChange={(e) => setLabelName(e.target.value)}
+          />
         </div>
         <div>
           <span>tip</span>
           <input value={tip} onChange={(e) => setTip(e.target.value)} />
         </div>
-
       </div>
       <div className="btn" onClick={setView}>设置显示</div>
       <div className="btn" onClick={drawPoint}>绘点</div>
@@ -324,7 +377,7 @@ function Content() {
 }
 
 // 3.渲染react元素
-const root = createRoot(document.getElementById('app'));
+const root = createRoot(document.getElementById("app"));
 root.render(<Content />);
 // gisMap.setView({
 //     longitude: 110.00,

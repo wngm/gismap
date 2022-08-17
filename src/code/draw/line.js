@@ -187,6 +187,10 @@ function drawLineWithPoints(points = [], options = {}) {
     polyline: {
       positions: Cartesian3.fromDegreesArrayHeights(pointsArray),
       height: 0,
+      // material: new Cesium.PolylineDashMaterialProperty({
+      //   color: Cesium.Color.YELLOW,
+      //   dashLength: 20 //短划线长度」
+      // }),
       material: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
       ,
       // eslint-disable-next-line new-cap

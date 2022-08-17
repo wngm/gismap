@@ -1,21 +1,21 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState, useCallback, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
-import GisMap from '../code/gisMap';
-import './index.less';
+import React, { useCallback, useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import GisMap from "../code/gisMap";
+import "./index.less";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
-const gisMap = new GisMap('cesium');
+const gisMap = new GisMap("cesium");
 window.gisMap = gisMap;
 function Content() {
   const [position, setPosition] = useState({
-    longitude: '',
-    latitude: '',
-    height: '',
+    longitude: "",
+    latitude: "",
+    height: "",
   });
   const [mousePosition, setMousePosition] = useState({
-    longitude: '',
-    latitude: '',
-    height: '',
+    longitude: "",
+    latitude: "",
+    height: "",
   });
   // 监听摄像机位置
   const cameraHandle = () => {
@@ -26,16 +26,16 @@ function Content() {
   };
   // 鼠标位置监听
   const mouseHandle = (moment) => {
-    if (moment.longitude)setMousePosition(moment);
+    if (moment.longitude) setMousePosition(moment);
   };
   useEffect(
     () => {
       cameraHandle();
       gisMap.addCameraEvent(cameraHandle);
-      gisMap.addMouseEvent('mousemove', mouseHandle);
+      gisMap.addMouseEvent("mousemove", mouseHandle);
       return () => {
         gisMap.removeCameraEvent(cameraHandle);
-        gisMap.removeMouseEvent('mousemove', mouseHandle);
+        gisMap.removeMouseEvent("mousemove", mouseHandle);
       };
     },
     [],
@@ -75,5 +75,5 @@ function Content() {
 }
 
 // 3.渲染react元素
-const root = createRoot(document.getElementById('app'));
+const root = createRoot(document.getElementById("app"));
 root.render(<Content />);

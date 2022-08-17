@@ -120,3 +120,5 @@ const gisMap = new GisMap('cesium')
 | :----------- | :------- | :------------------------------------------- |
 | setWeather   | 设置天气 | (wether:'rain' \| 'snow' \| 'fog'  ) => void |
 | clearWeather | 关闭天气 |                                              |
+
+

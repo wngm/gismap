@@ -67,6 +67,51 @@ function unhighlightPoint(id, value) {
 }
 
 
+/**
+ *
+ *  图点设置
+ * @memberof GisMap
+ * @param {string} id 点id
+ * @param {Object} [value] 属性值
+ */
+function setImgPoint(id, value) {
+    let entity = this.viewer.entities.getById(id);
+    if (entity && entity.billboard) {
+        for (let key in value) {
+            entity.billboard[key] = value[key]
+        }
+        // entity.billboard.
+    }
+}
+
+/**
+ *
+ *  点设置闪烁时常
+ * @memberof GisMap
+ * @param {string} id 点id
+ * @param {number} [time] 单位毫秒，缺省为一直闪烁
+ */
+function setPointFlash(id, time) {
+    const { Cesium } = this
+    let entity = this.viewer.entities.getById(id);
+    if (entity && entity.point) {
+        let color = Cesium.Color.clone(entity.point.color.getValue())
+        let alpha = 0
+        if (time) {
+            setTimeout(() => {
+                entity.point.color = color
+            }, time)
+        }
+        const property = new Cesium.CallbackProperty(() => {
+            if (alpha >= 1) alpha = 0;
+            alpha += 0.05;
+            return Cesium.Color.clone(color).withAlpha(alpha);
+        }, false)
+        entity.point.color = property
+        // entity.billboard.
+    }
+}
+
 // ----------------- 线段部分------------------
 
 /**
@@ -360,6 +405,8 @@ export default {
     getPoint,
     highlightPoint,
     unhighlightPoint,
+    setImgPoint,
+    setPointFlash,
     highlightLine,
     unhighlightLine,
     linePush,
@@ -368,5 +415,5 @@ export default {
     renderLinePoint,
     pathLinePush,
     renderPathPoint,
-    getDataInArea
+    getDataInArea,
 }

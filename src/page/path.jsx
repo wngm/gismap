@@ -168,7 +168,7 @@ function Content() {
       <div
         className="btn"
         onClick={() => {
-          gisMap.layerShow("pp1", "2d");
+          
         }}
       >
         图层显示
@@ -176,6 +176,7 @@ function Content() {
       <div
         className="btn"
         onClick={() => {
+          gisMap.layerShow("pp1", "2d");
           gisMap.layerHide("pp1", "2d");
         }}
       >

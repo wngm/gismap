@@ -203,7 +203,7 @@ function drawRect(data) {
       coordinates: Rectangle.fromDegrees(...coordinates.flat(Infinity)),
       material: new ColorMaterialProperty(new CallbackProperty(() => {
         if (id === this.moveActiveId) {
-          return Color.fromCssColorString(highlightColor);
+          return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
         }
         return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
       }, false)),
@@ -275,7 +275,7 @@ function drawPolygon(data) {
       },
       material: new ColorMaterialProperty(new CallbackProperty(() => {
         if (id === this.moveActiveId) {
-          return Color.fromCssColorString(highlightColor);
+          return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
         }
         return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
       }, false)),
