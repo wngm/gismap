@@ -6,65 +6,65 @@
  * @Description:
  * @FilePath: /gismap/src/page/shape.jsx
  */
-import React, { useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
-import { Color } from 'cesium';
-import GisMap from '../code/gisMap';
-import * as Cesium from 'cesium'
-import './index.less';
+import React, { useEffect } from "react";
+import { createRoot } from "react-dom/client";
+import { Color } from "cesium";
+import GisMap from "../code/gisMap";
+import * as Cesium from "cesium";
+import "./index.less";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
-const gisMap = new GisMap('cesium');
+const gisMap = new GisMap("cesium");
 
-
+gisMap.setSceneMode2D3D();
 gisMap.drawCircleRadar({
   longitude: 106,
   latitude: 27.2,
   height: 0,
-  radius: 200000
-})
+  radius: 200000,
+});
 
 gisMap.drawCircleRadarAngle({
   longitude: 120,
   latitude: 40,
   height: 0,
   radius: 200000,
-  start: -Math.PI/4,
-  end:Math.PI/4
-})
+  start: -Math.PI / 4,
+  end: Math.PI / 4,
+});
 
 gisMap.drawCircleRadarAngle({
   longitude: 120,
   latitude: 30,
   height: 0,
   radius: 200000,
-  start: -Math.PI/4*3,
-  end:-Math.PI/4
-})
+  start: -Math.PI / 4 * 3,
+  end: -Math.PI / 4,
+});
 gisMap.drawCircleRadarAngle({
   longitude: 120,
   latitude: 20,
   height: 0,
   radius: 200000,
-  start: -Math.PI/4*3,
-  end:-Math.PI/2
-})
+  start: -Math.PI / 4 * 3,
+  end: -Math.PI / 2,
+});
 gisMap.drawCircleRadarAngle({
   longitude: 120,
   latitude: 25,
   height: 0,
   radius: 200000,
-  start: Math.PI/4,
-  end:Math.PI/2
-})
+  start: Math.PI / 4,
+  end: Math.PI / 2,
+});
 
 gisMap.drawCircleRadarAngle({
   longitude: 120,
   latitude: 15,
   height: 0,
   radius: 20000,
-  start: Math.PI/4,
-  end:Math.PI/4*3
-})
+  start: Math.PI / 4,
+  end: Math.PI / 4 * 3,
+});
 function Content() {
   useEffect(() => {
     gisMap.setView({
@@ -81,12 +81,14 @@ function Content() {
       height: 0,
       showDefaultMenu: true,
       label: {
-        text: '圆'
-      }
+        text: "圆",
+      },
+      borderType: "dash",
+      isHighlight: true,
     });
-  }
+  };
   const clearLayer = () => {
-    gisMap.clearLayer('default');
+    gisMap.clearLayer("default");
   };
   const drawEllipse = () => {
     gisMap.drawEllipse({
@@ -95,22 +97,34 @@ function Content() {
       longitude: Number(136),
       latitude: Number(37),
       label: {
-        text: '椭圆',
-        pixelOffset: new Cesium.Cartesian2(0, 30)
+        text: "椭圆",
+        pixelOffset: new Cesium.Cartesian2(0, 30),
       },
       height: 0,
       showDefaultMenu: true,
       onMenuSelect() {
-      }
-
+      },
     });
   };
   const drawRect = () => {
     gisMap.drawRect({
       showDefaultMenu: true,
       label: {
-        text: '矩形',
-        pixelOffset: new Cesium.Cartesian2(0, 30)
+        text: "矩形",
+        pixelOffset: new Cesium.Cartesian2(0, 30),
+      },
+      borderType: "dash",
+      isHighlight: true,
+      coordinates: [
+        [106, 17],
+        [110, 20],
+      ],
+    });
+    gisMap.drawRect({
+      showDefaultMenu: true,
+      label: {
+        text: "矩形",
+        pixelOffset: new Cesium.Cartesian2(0, 30),
       },
       isHighlight: true,
       coordinates: [
@@ -118,15 +132,29 @@ function Content() {
         [110, 30],
       ],
       onMenuSelect() {
-        
-      }
+      },
     });
   };
   const drawPolygon = () => {
     gisMap.drawPolygon({
-      name: 'polygon',
+      name: "polygon",
       highlight: true,
-      highlightColor: 'lightblue',
+      highlightColor: "lightblue",
+      showDefaultMenu: true,
+      coordinates: [
+        [100, 33],
+        [105, 27],
+        [108, 26],
+        [98, 26],
+        // [102, 30],
+      ],
+      isHighlight: true,
+      borderType: "dash",
+    });
+    gisMap.drawPolygon({
+      name: "polygon",
+      highlight: true,
+      highlightColor: "lightblue",
       showDefaultMenu: true,
       coordinates: [
         [120, 33],
@@ -136,28 +164,38 @@ function Content() {
         // [102, 30],
       ],
       label: {
-        text: '多边形',
-        pixelOffset: new Cesium.Cartesian2(0, 100)
+        text: "多边形",
+        pixelOffset: new Cesium.Cartesian2(0, 100),
       },
       isHighlight: true,
       onMenuSelect() {
-        
-      }
+      },
     });
   };
   const addCircleScan = () => {
     gisMap.addCircleScan({
-      longitude: 113.665412, latitude: 34.757975, r: 50000, scanColor: new Color(1.0, 0.0, 0.0, 1), interval: 1000,
+      longitude: 113.665412,
+      latitude: 34.757975,
+      r: 50000,
+      scanColor: new Color(1.0, 0.0, 0.0, 1),
+      interval: 1000,
     });
   };
   const addRadarScan = () => {
     gisMap.addRadarScan({
-      longitude: 113.665412, latitude: 34.757975, r: 200000, scanColor: new Color(1.0, 0.0, 0.0, 1), interval: 1000,
+      longitude: 113.665412,
+      latitude: 34.757975,
+      r: 200000,
+      scanColor: new Color(1.0, 0.0, 0.0, 1),
+      interval: 1000,
     });
 
-
     gisMap.addRadarScan({
-      longitude: 100.665412, latitude: 34.757975, r: 100000, scanColor: new Color(1.0, 1.0, 0.0, 1), interval: 1000,
+      longitude: 100.665412,
+      latitude: 34.757975,
+      r: 100000,
+      scanColor: new Color(1.0, 1.0, 0.0, 1),
+      interval: 1000,
     });
   };
   return (
@@ -172,11 +210,10 @@ function Content() {
       <div className="btn" onClick={addRadarScan}>扇形扫描</div>
       {/* <div className="btn" onClick={test}>暂停</div>       */}
       {/* <div className="btn" onClick={test2}>运动</div>       */}
-
     </div>
   );
 }
 
 // 3.渲染react元素
-const root = createRoot(document.getElementById('app'));
+const root = createRoot(document.getElementById("app"));
 root.render(<Content />);

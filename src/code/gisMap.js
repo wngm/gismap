@@ -360,9 +360,8 @@ export class GisMap {
     if (_entity) {
       this.viewer.entities.remove(_entity);
     }
-
-    if (entity._children && entity._children.length > 0) {
-      entity._children.forEach(e => {
+    if (_entity._children && _entity._children.length > 0) {
+      _entity._children.forEach(e => {
         this.viewer.entities.remove(e)
       })
     }
@@ -421,11 +420,10 @@ GisMap.prototype.areaEvent = function areaEvent(options) { return new AreaEvent(
 GisMap.prototype.Satellite = Satellite;
 // 图层管理
 GisMap.prototype.clearLayer = function (str) {
+  console.log(this.viewer.entities)
   const entities = this.viewer.entities.values
-  entities.forEach(({ id, layer }) => {
-    if (layer === str) {
-      this.viewer.entities.removeById(id)
-    }
+  entities.filter(e => e.layer === str).forEach(e => {
+    this.remove(e)
   })
 }
 

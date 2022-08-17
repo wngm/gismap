@@ -251,8 +251,34 @@ function drawLineWithPoints(points = [], options = {}) {
   };;
 }
 
+// b
+function drawBorder(points = [], options = {}, parent) {
+  if (points.length < 2) {
+    return;
+  }
+  const { isHighlight, color } = options
+
+  points.push([...points[0]])
+  const pointsArray = points.reduce((a, b) => a.concat(b), []);
+
+  let entity = new Entity({
+    parent,
+    polyline: {
+      positions: Cartesian3.fromDegreesArrayHeights(pointsArray),
+      height: 0,
+      width: 1,
+      material: new Cesium.PolylineDashMaterialProperty({
+        color: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
+      })
+    }
+  })
+  this.viewer.entities.add(entity)
+
+}
+
 export default {
   drawAnimateLine,
   drawLine,
   drawLineWithPoints,
+  drawBorder
 };

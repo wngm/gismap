@@ -9,9 +9,11 @@
 import {
   Entity, Cartesian3, Color, Rectangle, CallbackProperty, ColorMaterialProperty,
 } from 'cesium';
-import * as Cesium from 'cesium';
 import { getLabelOptions } from '../entity';
 import { defaultMenuItems } from '../common/utils'
+import * as turf from "@turf/turf";
+
+const { lineArc } = turf;
 
 /**
  *
@@ -37,7 +39,8 @@ function drawCircle(data) {
     label = {},
     pixelSize,
     menu,
-    tip
+    tip,
+    borderType = 'dash',
   } = data;
   const labelOptions = getLabelOptions({
     ...label,
@@ -55,13 +58,8 @@ function drawCircle(data) {
       semiMinorAxis: radius,
       semiMajorAxis: radius,
       height: 0,
-      material: new ColorMaterialProperty(new CallbackProperty(() => {
-        if (id === this.moveActiveId) {
-          return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor).withAlpha(0.5);
-        }
-        return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
-      }, false)),
-      outline: true,
+      material: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3),
+      outline: borderType === 'dash' ? false : true,
       width: 10,
       outlineColor: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
     },
@@ -82,6 +80,20 @@ function drawCircle(data) {
     }) : null,
   });
   this.viewer.entities.add(entity);
+
+  // 虚线边框
+  if (borderType === 'dash') {
+    // 圆边
+    const lines = lineArc(turf.point([longitude, latitude]), 1000, 0, 360, {
+      steps: 200,
+      units: "kilometers",
+    });
+    this.drawBorder(lines.geometry.coordinates.map((i) => [...i, 0]), {
+      color: color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor),
+      isHighlight,
+    }, entity);
+
+  }
   return {
     id: entity._id,
     entity
@@ -185,7 +197,8 @@ function drawRect(data) {
     showDefaultMenu = false,
     pixelSize,
     menu,
-    tip
+    tip,
+    borderType
   } = data;
   const id = key;
   const labelOptions = getLabelOptions({
@@ -201,14 +214,8 @@ function drawRect(data) {
     highlight,
     rectangle: {
       coordinates: Rectangle.fromDegrees(...coordinates.flat(Infinity)),
-      material: new ColorMaterialProperty(new CallbackProperty(() => {
-        if (id === this.moveActiveId) {
-          return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
-        }
-        return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
-      }, false)),
       height: 0,
-      outline: true,
+      outline: borderType === 'dash' ? false : true,
       width: 10,
       outlineColor: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
     },
@@ -228,7 +235,14 @@ function drawRect(data) {
       },
     }) : null,
   });
+  entity.rectangle.material = Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3)
   this.viewer.entities.add(entity);
+  // 虚线边框
+  if (borderType === 'dash') {
+    let start = coordinates[0]
+    let end = coordinates[1]
+    this.drawBorder([[...start, 0], [start[0], end[1], 0], [...end, 0], [end[0], start[1], 0]], { color, isHighlight }, entity)
+  }
   return {
     id: entity._id,
     entity
@@ -243,7 +257,6 @@ function drawRect(data) {
  * @memberof GisMap
  */
 function drawPolygon(data) {
-  _id += 1;
   const {
     key,
     name,
@@ -257,54 +270,57 @@ function drawPolygon(data) {
     showDefaultMenu = false,
     pixelSize,
     menu,
-    tip
+    tip,
+    borderType,
   } = data;
-  const id = key || _id;
+  const id = key;
   const labelOptions = getLabelOptions({
     ...label,
     pixelSize,
     isHighlight
   });
-  const entity = this.viewer.entities.add({
-    name,
-    id,
-    layer: data.layer || 'default',
-    polygon: {
-      hierarchy: {
-        positions: Cartesian3.fromDegreesArray([...coordinates.flat(Infinity)]),
+  const entity = new Entity(
+    {
+      name,
+      id,
+      layer: data.layer || 'default',
+      polygon: {
+        hierarchy: {
+          positions: Cartesian3.fromDegreesArray([...coordinates.flat(Infinity)]),
+        },
+        height: 0,
+        outline: borderType === 'dash' ? false : true,
+        width: 10,
+        outlineColor: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
       },
-      material: new ColorMaterialProperty(new CallbackProperty(() => {
-        if (id === this.moveActiveId) {
-          return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
-        }
-        return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
-      }, false)),
-      height: 0,
-      outline: true,
-      width: 10,
-      outlineColor: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
-    },
-    label: labelOptions,
-    position: Cartesian3.fromDegrees(coordinates[0][0], coordinates[0][1], 0),
-    tip,
-    menu: showDefaultMenu ? (menu || {
-      className: 'test-menu',
-      show: true,
-      menuItems: [
-        { text: '编辑', icon: 'fa-edit', type: 'edit' },
-        { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-        { text: '删除', icon: 'fa-trash-alt', type: 'delete' },
-      ],
+      label: labelOptions,
+      position: Cartesian3.fromDegrees(coordinates[0][0], coordinates[0][1], 0),
+      tip,
+      menu: showDefaultMenu ? (menu || {
+        className: 'test-menu',
+        show: true,
+        menuItems: [
+          { text: '编辑', icon: 'fa-edit', type: 'edit' },
+          { text: '展示详情', icon: 'fa-eye', type: 'detail' },
+          { text: '删除', icon: 'fa-trash-alt', type: 'delete' },
+        ],
 
-      onSelect: (type, entity) => {
-        if (type === 'delete') {
-          console.log(entity)
-          this.remove(entity);
-        }
-        onMenuSelect && onMenuSelect(type, entity)
-      },
-    }) : null,
-  });
+        onSelect: (type, entity) => {
+          if (type === 'delete') {
+            console.log(entity)
+            this.remove(entity);
+          }
+          onMenuSelect && onMenuSelect(type, entity)
+        },
+      }) : null,
+    })
+  entity.polygon.material = Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3)
+  this.viewer.entities.add(entity)
+
+  // 虚线边框
+  if (borderType === 'dash') {
+    this.drawBorder(coordinates.map(i => ([...i, 0])), { color, isHighlight }, entity)
+  }
   return {
     id: entity._id,
     entity
