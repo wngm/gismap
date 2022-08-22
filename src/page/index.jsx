@@ -37,13 +37,35 @@ gisMap.viewer.dataSources.add(
   }),
 );
 gisMap.viewer.dataSources.add(
-  Cesium.GeoJsonDataSource.load("/static/test4.json", {
-    stroke: Cesium.Color.BLUE,
-    fill: Cesium.Color.BLUE,
-    strokeWidth: 3,
-    markerSymbol: "?",
-  }),
+  Cesium.GeoJsonDataSource.load("/static/test4.json"),
 );
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test5.json"),
+);
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test6.json"),
+);
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test7.json"),
+);
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test8.json"),
+);
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test9.json"),
+);
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test10.json"),
+);
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test11.json"),
+);
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test12.json"),
+);
+// gisMap.viewer.dataSources.add(
+//   Cesium.GeoJsonDataSource.load("/static/test13.json"),
+// );
 function Content() {
   return <div></div>;
   const [name, setName] = useState("测试");

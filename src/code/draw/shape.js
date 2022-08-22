@@ -108,7 +108,6 @@ function drawCircle(data) {
  * @memberof GisMap
  */
 function drawEllipse(data) {
-  _id += 1;
   const {
     longitude,
     latitude,
@@ -144,12 +143,13 @@ function drawEllipse(data) {
       semiMinorAxis,
       semiMajorAxis,
       height: 0,
-      material: new ColorMaterialProperty(new CallbackProperty(() => {
-        if (id === this.moveActiveId) {
-          return Color.fromCssColorString(highlightColor);
-        }
-        return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
-      }, false)),
+      material: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3),
+      // material: new ColorMaterialProperty(new CallbackProperty(() => {
+      //   if (id === this.moveActiveId) {
+      //     return Color.fromCssColorString(highlightColor);
+      //   }
+      //   return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3);
+      // }, false)),
       outline: true,
       width: 10,
       outlineColor: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor))
