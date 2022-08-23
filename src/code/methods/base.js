@@ -1,4 +1,5 @@
 import Canvas2Image from './canvas2image';
+import * as Cesium from "cesium"
 // view zoomTo
 // function zoomTo() {
 //   this.viewer.zoomTo();
@@ -202,6 +203,40 @@ function getPositionByCartesian(cartesian3) {
     height
   }
 }
+// 地球自转
+function globeRotate() {
+  const { viewer } = this
+  if (viewer.scene.mode !== Cesium.SceneMode.SCENE3D) {
+    return ture;
+  }
+  let icrfToFixed = Cesium.Transforms.computeIcrfToFixedMatrix(viewer.clock.currentTime);
+  if (icrfToFixed) {
+    let camera = viewer.camera;
+    let offset = Cesium.Cartesian3.clone(camera.position);
+    let transform = Cesium.Matrix4.fromRotationTranslation(icrfToFixed);
+    // 偏移相机，否则会场景旋转而地球不转
+    camera.lookAtTransform(transform, offset);
+  }
+}
+// 地球自转
+function globeRotateStart(speed = 15) {
+  const { viewer } = this
+  viewer.clock.shouldAnimate = true;
+  viewer.clock.multiplier = speed * 1000;
+  // 初始化为单位矩阵
+  viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+  viewer.scene.postUpdate.addEventListener(globeRotate, this);
+}
+// 地球自转
+function globeRotateStop() {
+  const { viewer } = this
+  viewer.clock.shouldAnimate = true;
+  viewer.clock.multiplier = 1;
+  viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+  viewer.scene.postUpdate.removeEventListener(globeRotate, this);
+
+}
+
 
 
 export default {
@@ -214,5 +249,7 @@ export default {
   canvas2image,
   hightQuality,
   lowQuality,
-  getPositionByCartesian
+  getPositionByCartesian,
+  globeRotateStart,
+  globeRotateStop
 };

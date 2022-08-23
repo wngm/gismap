@@ -395,6 +395,7 @@ GisMap.prototype.addCameraEvent = camera.addCameraEvent;
 GisMap.prototype.removeCameraEvent = camera.removeCameraEvent;
 GisMap.prototype.getCameraPosition = camera.getCameraPosition;
 GisMap.prototype.getCameraHeight = camera.getCameraHeight;
+
 // 鼠标事件
 GisMap.prototype.addMouseEvent = mouse.addMouseEvent;
 GisMap.prototype.removeMouseEvent = mouse.removeMouseEvent;
@@ -404,6 +405,9 @@ GisMap.prototype.zoomOut = base.zoomOut;
 GisMap.prototype.setSceneMode2D3D = base.setSceneMode2D3D;
 GisMap.prototype.hightQuality = base.hightQuality;
 GisMap.prototype.lowQuality = base.lowQuality;
+// 自转
+GisMap.prototype.globeRotateStart = base.globeRotateStart
+GisMap.prototype.globeRotateStop = base.globeRotateStop
 // 星空背景
 GisMap.prototype.setSky = base.setSky;
 GisMap.prototype.clearSky = base.clearSky;

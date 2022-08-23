@@ -39,10 +39,20 @@ let str9 = JSON.stringify({
     ...config,
     features: list.slice(165, 167)
 })
-let str10 = JSON.stringify({
-    ...config,
-    features: list.slice(167, 168)
-})
+
+let data = list.slice(167, 168)
+
+let str10 = JSON.stringify(
+    {
+        ...data[0],
+        geometry: {
+            type: 'MultiPolygon',
+            coordinates: data[0].geometry.coordinates.slice(1, 127)
+        }
+    }
+)
+console.log(data[0], data[0].geometry.coordinates.length)
+
 let str11 = JSON.stringify({
     ...config,
     features: list.slice(170, 190)

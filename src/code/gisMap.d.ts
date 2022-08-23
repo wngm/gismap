@@ -265,6 +265,10 @@ declare class GisMap {
   getPositionByCartesian(cartesian3: any): IPosition
   //获取区域内元素 area 元素ID 或 entity 对象
   getDataInArea(area: Entity | string): DrawEntity[]
+  // 地球自转开始
+  globeRotateStart(speed?: number)
+  // 地球自转停止
+  globeRotateStop()
 }
 
 export default GisMap

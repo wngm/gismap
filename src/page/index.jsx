@@ -63,9 +63,9 @@ gisMap.viewer.dataSources.add(
 gisMap.viewer.dataSources.add(
   Cesium.GeoJsonDataSource.load("/static/test12.json"),
 );
-// gisMap.viewer.dataSources.add(
-//   Cesium.GeoJsonDataSource.load("/static/test13.json"),
-// );
+gisMap.viewer.dataSources.add(
+  Cesium.GeoJsonDataSource.load("/static/test13.json"),
+);
 function Content() {
   return <div></div>;
   const [name, setName] = useState("测试");
