@@ -1,3 +1,11 @@
+/*
+ * @Author: wengqi wengqi925@163.com
+ * @Date: 2022-08-23 09:17:14
+ * @LastEditors: wengqi wengqi925@163.com
+ * @LastEditTime: 2022-08-24 08:51:00
+ * @FilePath: /GisMap/src/page/tt.jsx
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import React from "react";
 import { createRoot } from "react-dom/client";
 import GisMap from "../code/gisMap";
@@ -19,12 +27,18 @@ function Content() {
         <img src={back} alt="" />
         <img src={top} alt="" />
         <img src={front} alt="" />
+        <img src={bottom} alt="" />
         <div className="box-inline">
-          <img src={right} alt="" />
-          <img src={back} alt="" />
+          {/* <img src={back} alt="" /> */}
           <img src={left} alt="" />
-          <img src={front} alt="" />
-          x
+        </div>
+        <div
+          className="box-inline"
+          style={{ width: "400px", top: "0px", left: 0 }}
+        >
+          {/* <img src={back} alt="" /> */}
+          {/* <img src={left} alt="" /> */}
+          <img src={right} alt="" />
         </div>
       </div>
     </>
