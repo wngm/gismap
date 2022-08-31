@@ -177,6 +177,7 @@ declare class GisMap {
   primitives: PrimitiveCollection
   // 事件中心 事件名称 ['click'|'dbClick','contextmenu','moveIn','moveOut']
   event: EventEmitter
+  // 设置摄像机视角
   setView(data: IPosition): void
   setDefaultPosition(data: IPosition): void
   zoomIn(scale?: number): number

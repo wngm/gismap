@@ -40,6 +40,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import * as Cesium from 'cesium';
+import Eventemitter from 'eventemitter3'
 import baseOptions from '../config/base';
 import Weather from './weather/index';
 import Tip from './common/tip';
@@ -52,6 +53,7 @@ import { computeCircle } from './utils';
 import camera from './methods/camera';
 import mouse from './methods/mouse';
 import base from './methods/base';
+import entityMethods from './methods/entityMethods';
 import { MeasureLine, MeasurePolygn, SelectRect, SelectCircle, LoadCzml, AreaEvent, Satellite } from './tools';
 import '@modules/cesium/Source/Widgets/widgets.css';
 import drawFns from './draw';
@@ -87,11 +89,13 @@ export class GisMap {
     this.weather = null;
     // 选中元素
     this.selected = null;
+    this.selectedMenu = null;
     // tip 对象
     this.tip = null;
     // 右键菜单
     this.contextMenu = null;
     //  事件中心
+    this.event = new Eventemitter();
     this.eventCenter = {};
     // 绘图事件集合
     this.paintHandler = [];
@@ -99,12 +103,12 @@ export class GisMap {
   }
 
   init(container, options) {
-    if (!Cesium.PointFlashMaterialProperty) {
-      loadMaterial()
-    }
-
+    // CESIUM_BASE_URL 配置
     if (options?.CESIUM_BASE_URL) {
       window.CESIUM_BASE_URL = options.CESIUM_BASE_URL;
+    }
+    if (!Cesium.PointFlashMaterialProperty) {
+      loadMaterial()
     }
 
     this.initViewer(container, options);
@@ -157,31 +161,60 @@ export class GisMap {
       const windowPosition = movement.position;
       const pick = this.viewer.scene.pick(windowPosition);
       if (pick) {
-        this.handleTip(pick);
-      } else {
-        this.unHandleTip();
-        this.unHandleMenu();
+        this.handleMenu(pick);
+        this.event.emit('contextmenu', { id: pick.id?.id, entity: pick.id })
       }
-    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 
+    }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
     handler.setInputAction((movement) => {
       const windowPosition = movement.position;
       const pick = this.viewer.scene.pick(windowPosition);
       if (pick) {
         this.handleMenu(pick);
+        this.event.emit('click', { id: pick.id?.id, entity: pick.id })
       } else {
         this.unHandleTip();
         this.unHandleMenu();
       }
-    }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
-    // 高亮id设置
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+
     handler.setInputAction((movement) => {
-      const moveFeature = this.viewer.scene.pick(movement.endPosition);
-      if (!Cesium.defined(moveFeature)) {
-        this.moveActiveId = undefined;
-      } else if (moveFeature.id.highlight) {
-        this.moveActiveId = moveFeature.id.id;
+      console.log(movement)
+      const pick = this.viewer.scene.pick(movement.position);
+      if (pick) {
+        this.event.emit('dbClick', { id: pick.id?.id, entity: pick.id })
       }
+    }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+
+    handler.setInputAction((movement) => {
+      const { startPosition, endPosition } = movement
+      const moveEnd = this.viewer.scene.pick(endPosition);
+      const moveStart = this.viewer.scene.pick(startPosition);
+      if (!Cesium.defined(moveEnd)) {
+        this.moveActiveId = undefined;
+        this.unHandleTip();
+      } else if (moveEnd.id.highlight) {
+        this.moveActiveId = moveEnd.id.id;
+      } else if (moveEnd.id) {
+        if (!this.contextMenu) {
+          this.handleTip(moveEnd);
+        }
+      } else {
+
+      }
+      // moveIn
+      if (!Cesium.defined(moveStart) &amp;&amp; Cesium.defined(moveEnd)) {
+        this.event.emit('moveIn', { id: moveEnd.id?.id, entity: moveEnd.id })
+      }
+      if (Cesium.defined(moveStart) &amp;&amp; !Cesium.defined(moveEnd)) {
+        this.event.emit('moveOut', { id: moveStart.id?.id, entity: moveStart.id })
+      }
+      if (Cesium.defined(moveStart) &amp;&amp; Cesium.defined(moveEnd) &amp;&amp; moveStart.id !== moveEnd.id) {
+        this.event.emit('moveIn', { id: moveEnd.id?.id, entity: moveEnd.id })
+        this.event.emit('moveOut', { id: moveStart.id?.id, entity: moveStart.id })
+      }
+
+
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
 
@@ -266,15 +299,15 @@ export class GisMap {
       this.contextMenu.hide();
     }
     // 单个tip展示
-    if (this.tip &amp;&amp; this.selected &amp;&amp; this.selected.id === entity.id) {
+    if (this.tip &amp;&amp; this.selected &amp;&amp; this.selected === entity.id) {
       this.tip.show();
       console.log('已选中该对象');
-    } else if (this.selected &amp;&amp; this.selected.id !== entity.id) {
+    } else if (this.selected &amp;&amp; this.selected !== entity.id) {
       this.unHandleTip();
-      this.selected = entity;
+      this.selected = entity.id || entity;
       this.tip = new Tip(this.viewer, entity);
     } else {
-      this.selected = entity;
+      this.selected = entity.id || entity;
       this.tip = new Tip(this.viewer, entity);
     }
   }
@@ -283,7 +316,7 @@ export class GisMap {
     if (this.contextMenu) {
       this.contextMenu.destroy();
       this.contextMenu = null;
-      this.selected = null;
+      this.selectedMenu = null;
     }
   }
 
@@ -292,17 +325,24 @@ export class GisMap {
       this.tip.hide();
     }
     // 单个tip展示
-    if (this.contextMenu &amp;&amp; this.selected &amp;&amp; this.selected.id === entity.id) {
+
+    if (this.contextMenu &amp;&amp; this.selectedMenu &amp;&amp; this.selectedMenu === entity.id) {
       this.contextMenu.show();
       // console.log( this.contextMenu)
       console.log('已选中该对象');
-    } else if (this.selected &amp;&amp; this.selected.id !== entity.id) {
+    } else if (this.selectedMenu &amp;&amp; this.selectedMenu !== entity.id) {
       this.unHandleMenu();
-      this.selected = entity;
-      this.contextMenu = new Menu(this.viewer, entity);
+
+      console.log('unHandleMenu')
+      this.selectedMenu = entity.id || entity;
+      this.contextMenu = this.selectedMenu?.menu ? new Menu(this.viewer, entity) : null;
     } else {
-      this.selected = entity;
-      this.contextMenu = new Menu(this.viewer, entity);
+      this.selectedMenu = entity.id || entity;
+      this.contextMenu = this.selectedMenu?.menu ? new Menu(this.viewer, entity) : null;
+    }
+    if (!this.selectedMenu?.menu) {
+      this.selectedMenu = null
+      this.tip.show();
     }
   }
   /**
@@ -357,8 +397,14 @@ export class GisMap {
     if (typeof entity === 'string') {
       _entity = this.viewer.entities.getById(entity);
     }
+
     if (_entity) {
       this.viewer.entities.remove(_entity);
+    }
+    if (_entity._children &amp;&amp; _entity._children.length > 0) {
+      _entity._children.forEach(e => {
+        this.viewer.entities.remove(e)
+      })
     }
   }
 
@@ -390,6 +436,7 @@ GisMap.prototype.addCameraEvent = camera.addCameraEvent;
 GisMap.prototype.removeCameraEvent = camera.removeCameraEvent;
 GisMap.prototype.getCameraPosition = camera.getCameraPosition;
 GisMap.prototype.getCameraHeight = camera.getCameraHeight;
+
 // 鼠标事件
 GisMap.prototype.addMouseEvent = mouse.addMouseEvent;
 GisMap.prototype.removeMouseEvent = mouse.removeMouseEvent;
@@ -397,11 +444,17 @@ GisMap.prototype.removeMouseEvent = mouse.removeMouseEvent;
 GisMap.prototype.zoomIn = base.zoomIn;
 GisMap.prototype.zoomOut = base.zoomOut;
 GisMap.prototype.setSceneMode2D3D = base.setSceneMode2D3D;
+GisMap.prototype.hightQuality = base.hightQuality;
+GisMap.prototype.lowQuality = base.lowQuality;
+// 自转
+GisMap.prototype.globeRotateStart = base.globeRotateStart
+GisMap.prototype.globeRotateStop = base.globeRotateStop
 // 星空背景
 GisMap.prototype.setSky = base.setSky;
 GisMap.prototype.clearSky = base.clearSky;
 GisMap.prototype.resetSky = base.resetSky;
 GisMap.prototype.canvas2image = base.canvas2image;
+GisMap.prototype.getPositionByCartesian = base.getPositionByCartesian;
 // 测量工具
 GisMap.prototype.measureLine = function measureLine(options) { return new MeasureLine(this.viewer, options); };
 GisMap.prototype.measurePolygn = function measurePolygn(options) { return new MeasurePolygn(this.viewer, options); };
@@ -410,18 +463,18 @@ GisMap.prototype.selectCircle = function selectCircle(options) { return new Sele
 GisMap.prototype.loadCzml = function loadCzml(options) { return new LoadCzml(this.viewer, options); };
 GisMap.prototype.areaEvent = function areaEvent(options) { return new AreaEvent(this.viewer, options); };
 GisMap.prototype.Satellite = Satellite;
+// 图层管理
 GisMap.prototype.clearLayer = function (str) {
+  console.log(this.viewer.entities)
   const entities = this.viewer.entities.values
-  entities.forEach(({ id, layer }) => {
-    if (layer === str) {
-      this.viewer.entities.removeById(id)
-    }
+  entities.filter(e => e.layer === str).forEach(e => {
+    this.remove(e)
   })
 }
 
 // 画图方法
 const fns = {
-  ...drawFns, ...paintFns, ...layer
+  ...drawFns, ...paintFns, ...layer, ...entityMethods
 };
 Object.keys(fns).forEach((key) => {
   GisMap.prototype[key] = fns[key];
@@ -447,7 +500,7 @@ export default GisMap;
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Mon Jul 25 2022 14:13:23 GMT+0800 (中国标准时间) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Wed Aug 31 2022 11:31:00 GMT+0800 (中国标准时间) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

@@ -108,10 +108,10 @@ function createPath() {
     },
   });
   let startTime = Cesium.JulianDate.fromDate(new Date("2022-7-15 00:00:00"));
-  let stopTime = Cesium.JulianDate.fromDate(new Date("2022-7-16 06:00:00"));
-  viewer.clockViewModel.multiplier = 600;
-  viewer.clock.startTime = startTime;
-  viewer.clock.stopTime = stopTime;
+  let stopTime = Cesium.JulianDate.fromDate(new Date("2022-7-16 10:00:00"));
+  gisMap.viewer.clockViewModel.multiplier = 600;
+  gisMap.viewer.clock.startTime = startTime;
+  gisMap.viewer.clock.stopTime = stopTime;
   viewer.clock.currentTime = startTime.clone();
   viewer.clock.clockRange = Cesium.ClockRange.CLAMPED;
   // -----------------
@@ -120,11 +120,32 @@ function createPath() {
 }
 
 function pathPush() {
-  gisMap.pathLinePush("path2", {
-    longitude: 120,
-    latitude: 60,
-    height: 100000,
-    time: "2022-7-16 06:00:00",
+  const list = [
+    {
+      longitude: 120,
+      latitude: 60,
+      height: 100000,
+      time: "2022-7-16 06:00:00",
+    },
+    {
+      longitude: 130,
+      latitude: 50,
+      height: 100000,
+      time: "2022-7-16 07:00:00",
+    },
+    {
+      longitude: 140,
+      latitude: 40,
+      height: 100000,
+      time: "2022-7-16 09:00:00",
+    },
+  ];
+  // gisMap.pathLinePush("path2", list[2]);
+  list.map((i, index) => {
+    gisMap.pathLinePush("path2", i);
+    setTimeout(() => {
+      console.log(i);
+    }, index * 5000);
   });
 }
 
@@ -168,7 +189,6 @@ function Content() {
       <div
         className="btn"
         onClick={() => {
-          
         }}
       >
         图层显示

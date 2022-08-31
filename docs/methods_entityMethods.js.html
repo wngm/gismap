@@ -1,4 +1,45 @@
-//衍生处理管理 【事件中心管理】
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>methods/entityMethods.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AreaEvent.AreaEvent.html">AreaEvent</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="GisMap_GisMap.html">GisMap</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="LoadCzml.html">LoadCzml</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="LoadCzml.html#bindStallite">bindStallite</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="LoadCzml.html#load">load</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="LoadCzml.html#remove">remove</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="LoadCzml.html#unbindStallite">unbindStallite</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="LoadCzml.LoadCzml.html">LoadCzml</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MeasureLine.html">MeasureLine</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeasureLine.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeasureLine.html#finish">finish</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MeasureLine.MeasureLine.html">MeasureLine</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MeasurePolygn.html">MeasurePolygn</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeasurePolygn.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MeasurePolygn.html#finish">finish</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MeasurePolygn.MeasurePolygn.html">MeasurePolygn</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SelectCircle.html">SelectCircle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SelectCircle.html#finish">finish</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SelectCircle.SelectCircle.html">SelectCircle</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SelectRect.html">SelectRect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SelectRect.html#finish">finish</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SelectRect.SelectRect.html">SelectRect</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">methods/entityMethods.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//衍生处理管理 【事件中心管理】
 import * as Cesium from 'cesium'
 import entity from '../entity'
 
@@ -76,7 +117,7 @@ function unhighlightPoint(id, value) {
  */
 function setImgPoint(id, value) {
     let entity = this.viewer.entities.getById(id);
-    if (entity && entity.billboard) {
+    if (entity &amp;&amp; entity.billboard) {
         for (let key in value) {
             entity.billboard[key] = value[key]
         }
@@ -94,7 +135,7 @@ function setImgPoint(id, value) {
 function setPointFlash(id, time) {
     const { Cesium } = this
     let entity = this.viewer.entities.getById(id);
-    if (entity && entity.point) {
+    if (entity &amp;&amp; entity.point) {
         let color = Cesium.Color.clone(entity.point.color.getValue())
         let alpha = 0
         if (time) {
@@ -158,7 +199,7 @@ function unhighlightLine(id, value) {
  */
 function linePush(id, value) {
     let entity = this.viewer.entities.getById(id);
-    if (entity && entity.polyline) {
+    if (entity &amp;&amp; entity.polyline) {
         entity.sourceData.push(value)
         this.renderLine(entity, entity.sourceData)
     }
@@ -174,7 +215,7 @@ function linePush(id, value) {
  */
 function lineSplice(id, start, length) {
     let entity = this.viewer.entities.getById(id);
-    if (entity && entity.polyline) {
+    if (entity &amp;&amp; entity.polyline) {
         entity.sourceData.splice(start, length)
         this.renderLine(entity, entity.sourceData)
     }
@@ -184,7 +225,7 @@ function lineSplice(id, start, length) {
 function renderLine(entity, data) {
 
     console.log('render', entity, data)
-    if (entity && data) {
+    if (entity &amp;&amp; data) {
         let type = entity.sourceType
         switch (type) {
             case 'line':
@@ -336,14 +377,14 @@ function getDataInArea(area) {
         const r = _entity.ellipse.semiMajorAxis.getValue(time)
         this.viewer.entities.values.forEach((entity) => {
             const { id } = entity;
-            if (entity.point && id !== _entity.id && entity.position?.getValue(time)) {
+            if (entity.point &amp;&amp; id !== _entity.id &amp;&amp; entity.position?.getValue(time)) {
                 const cartographic = ellipsoid.cartesianToCartographic(entity.position.getValue(time));
                 const latitude = Cesium.Math.toDegrees(cartographic.latitude);
                 const longitude = Cesium.Math.toDegrees(cartographic.longitude);
                 const { height } = cartographic;
                 let _r = Cesium.Cartesian3.distance(_entity.position.getValue(time), entity.position.getValue(time))
                 // 判断元素点是否在圆形内
-                const status = _r < r
+                const status = _r &lt; r
                 // 判断元素点是否在矩形内
                 // const status = Cesium.Rectangle.contains(rectangle, cartographic);
 
@@ -365,7 +406,7 @@ function getDataInArea(area) {
     if (_entity.rectangle) {
         this.viewer.entities.values.forEach((entity) => {
             const { id } = entity;
-            if (entity.point && id !== _entity.id && entity.position?.getValue(time)) {
+            if (entity.point &amp;&amp; id !== _entity.id &amp;&amp; entity.position?.getValue(time)) {
                 const cartographic = ellipsoid.cartesianToCartographic(entity.position.getValue(time));
                 const latitude = Cesium.Math.toDegrees(cartographic.latitude);
                 const longitude = Cesium.Math.toDegrees(cartographic.longitude);
@@ -409,4 +450,22 @@ export default {
     pathLinePush,
     renderPathPoint,
     getDataInArea,
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Wed Aug 31 2022 11:31:00 GMT+0800 (中国标准时间) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
