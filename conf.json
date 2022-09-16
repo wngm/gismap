@@ -1,10 +1,17 @@
 {
     "tags": {
         "allowUnknownTags": true,
-        "dictionaries": ["jsdoc","closure"]
+        "dictionaries": ["jsdoc", "closure"]
     },
     "source": {
-        "include": [ "./src/code","./src/code/methods","./src/code/tools","./src/code/layer"],
+        "include": ["./src/code",
+            "./src/code/draw",
+            "./src/code/methods",
+            "./src/code/material",
+            "./src/code/paint",
+            "./src/code/tools",
+            "./src/code/layer",
+        ],
         "includePattern": ".+\\.js(doc)?$",
         "excludePattern": "(^|\\/|\\\\)_"
     },

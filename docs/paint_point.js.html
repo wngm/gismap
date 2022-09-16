@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>MeasureLine - Documentation</title>
+    <title>paint/point.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,360 +29,127 @@
 
 <div id="main">
     
-    <h1 class="page-title">MeasureLine</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        MeasureLine
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="MeasureLine"><span class="type-signature"></span>new MeasureLine<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    线段距离测量工具 【单击鼠标左键绘制点，点击鼠标右键结束】
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tools_measureLine.js.html">tools/measureLine.js</a>, <a href="tools_measureLine.js.html#line27">line 27</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>Object</code></span>
-
-
-    </dd>
-</dl>
-
-
-<div class="param-desc">
-    measureInstance 测量工具实例
-</div>
-
-    
-</div>
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="MeasureLine.MeasureLine.html">MeasureLine</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="destroy"><span class="type-signature"></span>destroy<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    销毁测量工具
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tools_measureLine.js.html">tools/measureLine.js</a>, <a href="tools_measureLine.js.html#line223">line 223</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="finish"><span class="type-signature"></span>finish<span class="signature">()</span><span class="type-signature"> &rarr; {'{points:any[],value:Number}'}</span></h4>
-
-    
-
-
-
-<div class="description">
-    完成测量
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="tools_measureLine.js.html">tools/measureLine.js</a>, <a href="tools_measureLine.js.html#line205">line 205</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>'{points:any[],value:Number}'</code></span>
-
-
-    </dd>
-</dl>
-
-
-<div class="param-desc">
-    data 返回数据 【value】为距离单位米，【points】坐标点
-</div>
-
-    
-</div>
-
-
-
-</div>
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">paint/point.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/*
+ * @Author: R10
+ * @Date: 2022-06-06 10:32:17
+ * @LastEditTime: 2022-07-01 09:13:25
+ * @LastEditors: R10
+ * @Description:
+ * @FilePath: /gismap/src/code/paint/point.js
+ */
+import {
+  ScreenSpaceEventHandler, Color, ScreenSpaceEventType, CallbackProperty,
+} from 'cesium';
+import { getWGS84FromDKR } from '../common/utils';
+
+/**
+ *
+ * 鼠标点绘制
+ * @param {object} data
+ * @returns {entity} entity
+ * @memberof GisMap
+ */
+function paintPoint(data, callback) {
+  const positions = [];
+  let entity = null;
+  const handler = new ScreenSpaceEventHandler(this.viewer.scene.canvas);
+  this.paintHandler.push(handler);
+  // 单机鼠标左键画点
+  handler.setInputAction((movement) => {
+    const cartesian = this.viewer.scene.camera.pickEllipsoid(movement.position, this.viewer.scene.globe.ellipsoid);
+    const position = getWGS84FromDKR(cartesian);
+    positions.push(position);
+    entity = this.drawPoint({
+      ...data,
+      ...position,
+    });
+    handler.destroy();
+    if (callback) callback({ positions, entity });
+  }, ScreenSpaceEventType.LEFT_CLICK);
+  handler.setInputAction(() => {
+    handler.destroy();
+    if (callback) callback({ positions, entity });
+  }, ScreenSpaceEventType.RIGHT_CLICK);
+}
+
+/**
+ *
+ * 鼠标闪烁点绘制
+ * @param {object} data
+ * @returns {entity} entity
+ * @memberof GisMap
+ */
+function paintFlashPoint(data, callback) {
+  const positions = [];
+  let entity = null;
+  const handler = new ScreenSpaceEventHandler(this.viewer.scene.canvas);
+  this.paintHandler.push(handler);
+  // 单机鼠标左键画点
+  handler.setInputAction((movement) => {
+    const cartesian = this.viewer.scene.camera.pickEllipsoid(movement.position, this.viewer.scene.globe.ellipsoid);
+    const position = getWGS84FromDKR(cartesian);
+    positions.push(position);
+    entity = this.drawFlashPoint({
+      ...data,
+      ...position,
+    });
+    handler.destroy();
+    if (callback) callback({ positions, entity });
+  }, ScreenSpaceEventType.LEFT_CLICK);
+  handler.setInputAction(() => {
+    handler.destroy();
+    if (callback) callback({ positions, entity });
+  }, ScreenSpaceEventType.RIGHT_CLICK);
+}
+
+/**
+ *
+ * 鼠标图片点绘制
+ * @param {object} data
+ * @returns {entity} entity
+ * @memberof GisMap
+ */
+function paintImgPoint(data, callback) {
+  const positions = [];
+  let entity = null;
+  const handler = new ScreenSpaceEventHandler(this.viewer.scene.canvas);
+  this.paintHandler.push(handler);
+  // 单机鼠标左键画点
+  handler.setInputAction((movement) => {
+    const cartesian = this.viewer.scene.camera.pickEllipsoid(movement.position, this.viewer.scene.globe.ellipsoid);
+    const position = getWGS84FromDKR(cartesian);
+    positions.push(position);
+    entity = this.drawMarkerPoint({
+      ...data,
+      ...position,
+    });
+    handler.destroy();
+    if (callback) callback({ positions, entity });
+  }, ScreenSpaceEventType.LEFT_CLICK);
+  handler.setInputAction(() => {
+    handler.destroy();
+    if (callback) callback({ positions, entity });
+  }, ScreenSpaceEventType.RIGHT_CLICK);
+}
+
+export default {
+  paintPoint,
+  paintImgPoint,
+  paintFlashPoint,
+};
+</code></pre>
+        </article>
+    </section>
 
 
 

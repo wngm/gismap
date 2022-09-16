@@ -108,9 +108,10 @@ function createPath() {
     },
   });
   let startTime = Cesium.JulianDate.fromDate(new Date("2022-7-15 00:00:00"));
+  let startTime2 = Cesium.JulianDate.fromDate(new Date("2022-7-14 00:00:00"));
   let stopTime = Cesium.JulianDate.fromDate(new Date("2022-7-16 10:00:00"));
   gisMap.viewer.clockViewModel.multiplier = 600;
-  gisMap.viewer.clock.startTime = startTime;
+  gisMap.viewer.clock.startTime = startTime2;
   gisMap.viewer.clock.stopTime = stopTime;
   viewer.clock.currentTime = startTime.clone();
   viewer.clock.clockRange = Cesium.ClockRange.CLAMPED;
@@ -177,6 +178,24 @@ function Content() {
       >
         追加坐标点
       </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => {
+          gisMap.viewer.clock.shouldAnimate = true;
+        }}
+      >
+        播放
+      </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => {
+          gisMap.viewer.clock.shouldAnimate = false;
+        }}
+      >
+        停止
+      </div>
 
       <div
         className="btn"
@@ -217,6 +236,7 @@ function Content() {
       >
         强制渲染
       </div>
+      <div></div>
     </div>
   );
 }

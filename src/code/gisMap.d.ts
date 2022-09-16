@@ -246,6 +246,8 @@ declare class GisMap {
   highlightPoint(id, value?: string): void
   // 取消高亮
   unhighlightPoint(id: string, value?: string): void
+  // 定时闪烁
+  setPointFlash(id: string, time?: number)
   // 修改图标点 属性 values => ({image:string})
   setImgPoint(id: string, values: any)
   // 高亮线段 @params {cssSting} value 自定义颜色 
