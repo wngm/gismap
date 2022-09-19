@@ -112,8 +112,8 @@ let p2 = gisMap.drawPoint({
       { text: "编辑", icon: "fa-edit", type: "edit" },
       { text: "展示详情", icon: "fa-eye", type: "detail" },
       { text: "删除", icon: "fa-trash-alt", type: "delete" },
-      { type: "type1", text: "文本1 " },
-      { type: "type2", text: "文本2 " },
+      { type: "type1", icon: "fa-more", text: "文本1 " },
+      { type: "type2", icon: "fa-more2", text: "文本2 " },
       { type: "type3", text: "文本3 " },
     ],
     onSelect: (type, entity) => {

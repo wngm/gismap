@@ -56,11 +56,15 @@ declare interface IKeyValue {
   [key: string]: any
 }
 
+type Placement = 'top' | 'left' | 'right' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' | 'leftTop' | 'leftBottom' | 'rightTop' | 'rightBottom'
 export interface Tip {
   show?: boolean
+  placement?: Placement
+  mode?: 'table' | 'html'
   content: {
-    title: string
-    items: { key: string, value: string }[]
+    title?: string
+    items?: { key: string, value: string }[]
+    htmlContent?: string
   }
   style?: {}
   className?: string
@@ -114,7 +118,7 @@ export interface IPoint extends IPosition {
   pixelSize?: number
   color?: string
   // 标签
-  label?: LabelGraphics.ConstructorOptions
+  label?: LabelGraphics.ConstructorOptions | { fillColor?: string }
   // 提示信息
   tip?: Tip
   menu?: Menu

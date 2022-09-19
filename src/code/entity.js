@@ -15,7 +15,8 @@ function getLabelOptions(options) {
     outlineColor,
     text,
     pixelSize = 30,
-    isHighlight = false
+    isHighlight = false,
+    font
   } = options;
   const offset = {}
   if (options.pixelOffset) {
@@ -23,7 +24,7 @@ function getLabelOptions(options) {
   }
   return {
     text,
-    font: '14px Source Han Sans CN', // 字体样式
+    font: font || '14px Source Han Sans CN', // 字体样式
     fillColor: fillColor ? Cesium.Color.fromCssColorString(fillColor) : Cesium.Color.fromCssColorString(isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor), // 字体颜色
     // outlineColor: outlineColor ? Cesium.Color.fromCssColorString(outlineColor) : Cesium.Color.TRANSPARENT,
     // backgroundColor: Cesium.Color.AQUA, // 背景颜色
