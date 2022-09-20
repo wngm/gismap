@@ -7,7 +7,7 @@ npm i  @kdhy/gismap
 --------
 
 
-## (详细文档)[https://wngm.github.io/gismap]
+## [详细文档](https://wngm.github.io/gismap)
 
 ## 使用前注意事项
 > 因为使用cesium，需要配置静态资源目录
