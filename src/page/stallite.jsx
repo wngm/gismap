@@ -4,7 +4,7 @@ import GisMap from "../code/gisMap";
 import Eventemitter from "eventemitter3";
 import "./index.less";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
-const gisMap = new GisMap("cesium", { animation: true, timeline: true });
+const gisMap = new GisMap("cesium", { animation: false, timeline: true });
 gisMap.viewer.scene.debugShowFramesPerSecond = true;
 
 const { Cesium } = gisMap;
@@ -207,6 +207,15 @@ function Content() {
     let end = "2022/07/15 02:00:00";
     gisMap.viewer.clock.currentTime = new GisMap.Cesium.JulianDate.fromDate(
       new Date(start),
+    );
+    // 时间轴
+    gisMap.viewer.timeline.zoomTo(
+      new GisMap.Cesium.JulianDate.fromDate(
+        new Date(start),
+      ),
+      new GisMap.Cesium.JulianDate.fromDate(
+        new Date(end),
+      ),
     );
     gisMap.viewer.clock.multiplier = 40;
 

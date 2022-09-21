@@ -1,0 +1,60 @@
+/* #0dfcff */
+.cesium-timeline-main {
+    border-color: #addaff;
+    height: 100%;
+}
+
+.cesium-timeline-bar {
+    height: 2.2em;
+    background: linear-gradient(to bottom,
+            rgba(8, 22, 63, 0.8) 0%,
+            rgba(8, 22, 63, 0.8) 11%,
+            rgba(8, 22, 63, 0.8) 46%,
+            rgba(8, 22, 63, 0.8) 81%,
+            rgba(8, 22, 63, 0.8) 100%);
+}
+
+.cesium-timeline-ticTiny {
+    /* background-color: #c0f1f2aa; */
+    background-color: #0dfcffaa;
+}
+
+.cesium-timeline-ticSub {
+    background-color: #0dfcff;
+}
+
+.cesium-timeline-ticMain {
+    background-color: #0dfcff;
+}
+
+.cesium-timeline-ticLabel {
+    color: #c0f1f2;
+}
+
+.cesium-viewer-timelineContainer {
+    height: 48px;
+    font-size: 18px;
+}
+
+.cesium-timeline-trackContainer {
+    /* height: 10px; */
+    border-bottom: 1px solid #addaff;
+    /* background-color: #0dfcff; */
+    background-color: #08163f;
+}
+
+.cesium-timeline-needle {
+    width: 2px;
+    top: 1em
+}
+
+.cesium-timeline-needle::before {
+    content: '';
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 1px;
+    left: -5px;
+    border: 6px solid transparent;
+    border-bottom-color: #f00;
+}
