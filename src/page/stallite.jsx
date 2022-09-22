@@ -4,7 +4,7 @@ import GisMap from "../code/gisMap";
 import Eventemitter from "eventemitter3";
 import "./index.less";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
-const gisMap = new GisMap("cesium", { animation: false, timeline: true });
+const gisMap = new GisMap("cesium", { animation: true, timeline: true });
 gisMap.viewer.scene.debugShowFramesPerSecond = true;
 
 const { Cesium } = gisMap;

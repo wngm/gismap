@@ -18,6 +18,7 @@ import '@modules/cesium/Source/Widgets/widgets.css';
 import drawFns from './draw';
 import paintFns from './paint';
 import layer from './layer';
+import ClockAnimate from "./control/clockAnimate"
 import './index.css'
 window.CESIUM_BASE_URL = '/static/Cesium';
 
@@ -26,6 +27,9 @@ function sprintf() {
   let args = arguments, string = args[0];
   for (let i = 1; i < args.length; i++) {
     let item = arguments[i];
+    if (item < 10) {
+      item = `0${item}`
+    }
     string = string.replace('%02d', item);
   }
   return string;
@@ -85,7 +89,7 @@ export class GisMap {
   }
 
   initViewer(container, options = {}) {
-    this.viewer = new Cesium.Viewer(container, { ...baseOptions(), ...options });
+    this.viewer = new Cesium.Viewer(container, { ...baseOptions(), ...options, animation: false });
     //新建 primitives 集合 然后添加到顶层集合中 不然调用 removeAll 会报错 
     this.primitives = this.viewer.scene.primitives.add(new Cesium.PrimitiveCollection());
     this.scene = this.viewer.scene;
@@ -120,8 +124,10 @@ export class GisMap {
 
     // 格式化时间 （北京时间）
     if (options.animation) {
-      this.viewer.animation.viewModel.dateFormatter = this.DateTimeFormatter
-      this.viewer.animation.viewModel.timeFormatter = this.TimeFormatter
+      // this.viewer.animation.viewModel.dateFormatter = this.DateTimeFormatter
+      // this.viewer.animation.viewModel.timeFormatter = this.TimeFormatter
+      const clockAnimate = new ClockAnimate(this.viewer)
+      this.viewer.timeline._topDiv.style.left = "240px"
     }
     if (options.timeline) {
       this.viewer.timeline.makeLabel = this.DateTimeFormatter
