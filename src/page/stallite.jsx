@@ -282,6 +282,7 @@ function Content() {
       >
         2D3D
       </div>
+      <div className="gismap-location-bar"></div>
     </div>
   );
 }

@@ -40,7 +40,8 @@ function drawCircle(data) {
     pixelSize,
     menu,
     tip,
-    borderType = 'dash',
+    // borderType = 'dash',
+    borderType = 'soild',
   } = data;
   const labelOptions = getLabelOptions({
     ...label,
@@ -84,7 +85,7 @@ function drawCircle(data) {
   // 虚线边框
   if (borderType === 'dash') {
     // 圆边
-    const lines = lineArc(turf.point([longitude, latitude]), 1000, 0, 360, {
+    const lines = lineArc(turf.point([longitude, latitude]), radius, 0, 360, {
       steps: 200,
       units: "kilometers",
     });

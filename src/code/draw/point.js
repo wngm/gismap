@@ -117,7 +117,8 @@ function drawMarkerPoint(data) {
     showDefaultMenu = false,
     onMenuSelect,
     tip,
-    menu
+    menu,
+    label = {}
   } = data;
 
   // const pointOption = getPointOptions(data);
@@ -130,6 +131,7 @@ function drawMarkerPoint(data) {
   let normalPointHighlight = window.CESIUM_BASE_URL + '/images/point-highlight.png'
   let normalPoint = window.CESIUM_BASE_URL + '/images/point.png'
   const entity = new Entity({
+    ...data,
     name,
     layer: data.layer || 'default',
     id: key,
