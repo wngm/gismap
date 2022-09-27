@@ -171,6 +171,15 @@ export interface PositionEvent {
   (position: IPosition): void;
 }
 
+enum PathModeKey {
+  'show' = '显示',
+  'none' = '隐藏',
+  'trail' = '线索',
+  'lead' = '燃尽',
+}
+
+type PathMode = keyof typeof PathModeKey;
+
 
 
 declare class GisMap {
@@ -266,6 +275,12 @@ declare class GisMap {
   drawPathLine(data: ITimePoint[], options?: any): DrawEntity
   //路径回放动态插入点
   pathLinePush(id: string, value: ITimePoint)
+  //路径回放 删除点
+  pathLineDeletePoint(pathId: string, pointId: string)
+  // 路径回放模式
+  pathLineSetMode(pathId: string, mode: PathMode)
+  // 路径回放设置图标
+  pathLineSetBillboard(pathId: string, options: any)
   //对像获取点属性
   getPoint(entity: any): IPoint
   //cartesian3类型 对象转经纬度高

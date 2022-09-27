@@ -274,7 +274,80 @@ function pathLinePush(id, value) {
     }
 }
 
-function renderPathPoint(entity, data) {
+
+function pathLineDeletePoint(pathId, pointId) {
+    let entity = this.viewer.entities.getById(pathId);
+    if (entity.sourceType === 'pathLineByTime') {
+        let index = entity.sourceData.findIndex(i => {
+            return i.key === pointId
+        })
+        entity.sourceData.splice(index, 1)
+        this.remove(pointId)
+        let pointsList = entity.sourceData.map((item) => {
+            const {
+                longitude,
+                latitude,
+                height = 0,
+                time
+            } = item
+            if (!time) {
+                throw new Error('drawPathLine data 缺少参数time')
+            }
+            let position = Cesium.Cartesian3.fromDegrees(longitude, latitude, height)
+            let _time = Cesium.JulianDate.fromDate(new Date(time));
+            return {
+                position,
+                time: _time
+            }
+        });
+        var property = new Cesium.SampledPositionProperty();
+        pointsList.forEach(i => {
+            property.addSample(i.time, i.position);
+        })
+        entity.position = property
+        entity.orientation = new Cesium.VelocityOrientationProperty(property)
+        // this.renderPathPoint(entity, entity.sourceData)
+    }
+}
+
+const mode2Option = {
+    'show': {
+        leadTime: undefined,
+        trailTime: undefined,
+    },
+    'none': {
+        leadTime: 0,
+        trailTime: 0,
+    },
+    'trail': {
+        leadTime: 0,
+        trailTime: undefined,
+    },
+    'lead': {
+        leadTime: undefined,
+        trailTime: 0,
+    },
+}
+// path 播放模式 
+function pathLineSetMode(pathId, type) {
+    let entity = this.viewer.entities.getById(pathId);
+    if (entity.sourceType === 'pathLineByTime') {
+        entity.path.leadTime = mode2Option[type].leadTime
+        entity.path.trailTime = mode2Option[type].trailTime
+    }
+}
+
+// 设置path图标
+function pathLineSetBillboard(pathId, options) {
+    let entity = this.viewer.entities.getById(pathId);
+    if (entity.sourceType === 'pathLineByTime') {
+        for (let i in options) {
+            entity.billboard[i] = options[i]
+        }
+
+    }
+}
+function renderPathPoint(entity, data, force) {
     let stopTime = new Cesium.JulianDate.fromDate(new Date())
 
     const color = entity?.sourceOptions?.color || window.Cesium.highlightColor
@@ -282,21 +355,35 @@ function renderPathPoint(entity, data) {
     //     this.viewer.entities.remove(e)
     // })
 
+    if (force) {
 
-    let p = data[data.length - 1]
-    let _st = Cesium.JulianDate.fromDate(new Date(p.time))
-    this.drawPoint({
-        parent: entity,
-        color,
-        ...p,
-        availability: new Cesium.TimeIntervalCollection([
+    } else {
+        let p = data[data.length - 1]
+        let _st = Cesium.JulianDate.fromDate(new Date(p.time))
+
+        let availability = new Cesium.TimeIntervalCollection([
             new Cesium.TimeInterval({
                 start: _st,
                 stop: stopTime,
                 // isStopIncluded: false,
             }),
         ])
-    })
+        if (p.imgOptions) {
+            this.drawMarkerPoint({
+                parent: entity,
+                ...p,
+                availability
+            })
+        } else {
+            this.drawPoint({
+                parent: entity,
+                color,
+                ...p,
+                availability,
+            })
+        }
+    }
+
     // data.forEach(p => {
     //     let _st = Cesium.JulianDate.fromDate(new Date(p.time))
     //     this.drawPoint({
@@ -406,6 +493,9 @@ export default {
     lineSplice,
     renderLine,
     renderLinePoint,
+    pathLineDeletePoint,
+    pathLineSetMode,
+    pathLineSetBillboard,
     pathLinePush,
     renderPathPoint,
     getDataInArea,

@@ -1,11 +1,31 @@
 
 import * as Cesium from 'cesium'
 
+const mode2Option = {
+    'show': {
+        leadTime: undefined,
+        trailTime: undefined,
+    },
+    'none': {
+        leadTime: 0,
+        trailTime: 0,
+    },
+    'trail': {
+        leadTime: 0,
+        trailTime: undefined,
+    },
+    'lead': {
+        leadTime: undefined,
+        trailTime: 0,
+    },
+}
+
 
 function drawPathLine(points, options = {}) {
     const { viewer } = this
 
     const {
+        mode = 'trail',
         color = window.Cesium.highlightColor,
         key,
         layer = 'default',
@@ -60,8 +80,9 @@ function drawPathLine(points, options = {}) {
         ]),
         orientation: new Cesium.VelocityOrientationProperty(property),
         path: {
-            leadTime: 0,
+            // leadTime: 0,
             // trailTime: 0,
+            ...mode2Option[mode],
             resolution: 100,
             width: 1,
             // material: Cesium.PolylineDashMaterialProperty({
@@ -80,18 +101,28 @@ function drawPathLine(points, options = {}) {
     if (showPoint) {
         points.forEach(p => {
             let _st = Cesium.JulianDate.fromDate(new Date(p.time))
-            this.drawPoint({
-                parent: entity,
-                color,
-                ...p,
-                availability: new Cesium.TimeIntervalCollection([
-                    new Cesium.TimeInterval({
-                        start: _st,
-                        stop: stopTime,
-                        // isStopIncluded: false,
-                    }),
-                ])
-            })
+            let availability = new Cesium.TimeIntervalCollection([
+                new Cesium.TimeInterval({
+                    start: _st,
+                    stop: stopTime,
+                    // isStopIncluded: false,
+                }),
+            ])
+            if (p.imgOptions) {
+                this.drawMarkerPoint({
+                    parent: entity,
+                    ...p,
+                    availability
+                })
+            } else {
+                this.drawPoint({
+                    parent: entity,
+                    color,
+                    ...p,
+                    availability
+                })
+            }
+
         })
     }
     return {

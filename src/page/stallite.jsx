@@ -208,6 +208,15 @@ function Content() {
     gisMap.viewer.clock.currentTime = new GisMap.Cesium.JulianDate.fromDate(
       new Date(start),
     );
+    // 时间轴
+    gisMap.viewer.timeline.zoomTo(
+      new GisMap.Cesium.JulianDate.fromDate(
+        new Date(start),
+      ),
+      new GisMap.Cesium.JulianDate.fromDate(
+        new Date(end),
+      ),
+    );
     gisMap.viewer.clock.multiplier = 40;
 
     let { sampledPosition, positionList = [] } = gisMap.Satellite
@@ -273,6 +282,7 @@ function Content() {
       >
         2D3D
       </div>
+      <div className="gismap-location-bar"></div>
     </div>
   );
 }

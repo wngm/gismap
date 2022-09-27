@@ -1,0 +1,173 @@
+/* #0dfcff */
+.cesium-timeline-main {
+    /* border-color: #addaff; */
+    border-color: #0dfcff;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.cesium-timeline-bar {
+    height: 2.2em;
+    background: linear-gradient(to bottom,
+            rgba(8, 22, 63, 0.8) 0%,
+            rgba(8, 22, 63, 0.8) 11%,
+            rgba(8, 22, 63, 0.8) 46%,
+            rgba(8, 22, 63, 0.8) 81%,
+            rgba(8, 22, 63, 0.8) 100%);
+}
+
+.cesium-timeline-ticTiny {
+    /* background-color: #c0f1f2aa; */
+    background-color: #0dfcffaa;
+}
+
+.cesium-timeline-ticSub {
+    background-color: #0dfcff;
+}
+
+.cesium-timeline-ticMain {
+    background-color: #0dfcff;
+}
+
+.cesium-timeline-ticLabel {
+    color: #c0f1f2;
+}
+
+.cesium-viewer-timelineContainer {
+    height: 48px;
+    font-size: 18px;
+}
+
+.cesium-timeline-trackContainer {
+    /* height: 10px; */
+    border-bottom: 1px solid #addaff;
+    /* background-color: #0dfcff; */
+    background-color: #08163f;
+}
+
+.cesium-timeline-needle {
+    width: 2px;
+    top: 1em
+}
+
+.cesium-timeline-needle::before {
+    content: '';
+    width: 0;
+    height: 0;
+    position: absolute;
+    bottom: 1px;
+    left: -5px;
+    border: 6px solid transparent;
+    border-bottom-color: #f00;
+}
+
+.gismap-clockanimate {
+    width: 240px;
+    height: 48px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(8, 22, 63, 0.8);
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #0dfcff;
+    box-sizing: border-box;
+    border-right: none;
+}
+
+.gismap-play {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.gismap-clock-btn {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.6s;
+}
+
+.gismap-clock-btn:hover {
+    background-color: rgba(13, 252, 255, 0.36);
+}
+
+.gismap-clock-btn svg {
+    fill: #c0f1f2
+}
+
+.gismap-clock-btn:hover svg {
+    fill: #0dfcff
+}
+
+.gismap-time {
+    width: 140px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: #c0f1f2;
+    font-size: 12px;
+    border-left: 1px solid #c0f1f233;
+    border-right: 1px solid #c0f1f233;
+}
+
+.gismap-multiplier {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: #c0f1f2;
+    font-size: 16px;
+    flex: 1;
+    cursor: pointer;
+    transition: all 0.6s;
+}
+
+.gismap-multiplier:hover {
+    background-color: rgba(13, 252, 255, 0.36);
+}
+
+.gismap-multiplier-select {
+    width: 54px;
+    height: 160px;
+    position: absolute;
+    right: 0;
+    top: -162px;
+    border: 1px solid #0dfcff;
+    display: none;
+}
+
+.gismap-multiplier-select-item {
+    cursor: pointer;
+    height: 40px;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #c0f1f2cc;
+    text-align: center;
+    background-color: rgba(8, 22, 63, 0.6);
+    box-sizing: border-box;
+    border-bottom: 1px solid #0dfcff33;
+    transition: all 0.6s;
+}
+
+.gismap-multiplier-select-item:hover {
+    background-color: rgba(13, 252, 255, 0.26);
+}
+
+.gismap-location-bar {
+    position: absolute;
+    left: 0;
+    bottom: -42px;
+    width: 100%;
+    height: 42px;
+    background-color: #0dfcff33;
+}

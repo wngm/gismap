@@ -4,6 +4,7 @@ import GisMap from "../code/gisMap";
 import "./index.less";
 
 import img1 from "../assets/images/img-point.png";
+import img2 from "../assets/images/img-point-highlight.png";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 
 const { Cesium } = GisMap;
@@ -75,26 +76,72 @@ function createPath() {
 
   gisMap.drawPathLine([
     {
+      key: "path2_p1",
       longitude: 120,
-      latitude: 40,
-      height: 100000,
-      time: "2022-7-15 00:00:00",
-    },
-    {
-      longitude: 80,
       latitude: 30,
       height: 100000,
-      time: "2022-7-15 10:00:00",
+      time: "2022-7-15 00:00:00",
+      showDefaultMenu: true,
+      imgOptions: {
+        image: img1,
+      },
+      menu: {
+        menuItems: [
+          { text: "删除", icon: "fa-trash-alt", type: "delete" },
+        ],
+        onSelect: (type, entity) => {
+          gisMap.pathLineDeletePoint("path2", entity._id);
+        },
+      },
     },
     {
+      key: "path2_p2",
+      longitude: 60,
+      latitude: 20,
+      height: 100000,
+      time: "2022-7-15 10:00:00",
+      imgOptions: {
+        image: img2,
+      },
+      menu: {
+        menuItems: [
+          { text: "删除", icon: "fa-trash-alt", type: "delete" },
+        ],
+        onSelect: (type, entity) => {
+          if (type === "delete") {
+            // gisMap.pathLineDeletePoint(
+            //   "path2",
+            //   "path2_p2",
+            // );
+            // 删除
+            gisMap.pathLineDeletePoint(
+              entity.parent._id,
+              entity._id,
+            );
+          }
+        },
+      },
+    },
+    {
+      key: "path2_p3",
       longitude: 70,
       latitude: 60,
       height: 100000,
       time: "2022-7-16 00:00:00",
+      showDefaultMenu: true,
+      menu: {
+        menuItems: [
+          { text: "删除", icon: "fa-trash-alt", type: "delete" },
+        ],
+        onSelect: (type, entity) => {
+          gisMap.pathLineDeletePoint("path2", entity._id);
+        },
+      },
     },
   ], {
     key: "path2",
     showPoint: true,
+    mode: "show",
     // 标记样式
     billboard: {
       width: 30,
@@ -109,11 +156,15 @@ function createPath() {
   });
   let startTime = Cesium.JulianDate.fromDate(new Date("2022-7-15 00:00:00"));
   let startTime2 = Cesium.JulianDate.fromDate(new Date("2022-7-14 00:00:00"));
-  let stopTime = Cesium.JulianDate.fromDate(new Date("2022-7-16 10:00:00"));
+  let stopTime = Cesium.JulianDate.fromDate(new Date("2022-7-16 00:00:00"));
   gisMap.viewer.clockViewModel.multiplier = 600;
-  gisMap.viewer.clock.startTime = startTime2;
-  gisMap.viewer.clock.stopTime = stopTime;
+  viewer.clock.startTime = startTime.clone();
+  // viewer.clock.stopTime = stopTime.clone();
   viewer.clock.currentTime = startTime.clone();
+  gisMap.viewer.timeline.zoomTo(
+    startTime.clone(),
+    stopTime.clone(),
+  );
   viewer.clock.clockRange = Cesium.ClockRange.CLAMPED;
   // -----------------
 
@@ -149,6 +200,53 @@ function pathPush() {
     }, index * 5000);
   });
 }
+const addListener = () => {
+  const { Cesium } = GisMap;
+
+  // 监视区域1
+  gisMap.drawRect({
+    key: "rect",
+    color: "#0dfcff",
+    // highlight: true,
+    // highlightColor: 'red',
+    coordinates: [
+      [80, 20],
+      [120, 40],
+    ],
+  });
+  // 监视区域2
+  gisMap.drawCircle({
+    key: "circle",
+    longitude: 60,
+    latitude: 10,
+    height: 0,
+    radius: 2000000,
+    color: "#009900",
+  });
+  const lister = gisMap.areaEvent({ duration: 500 });
+  lister.add("path2");
+  lister.addArea("rect");
+  lister.addArea("circle");
+  // 监视回调
+  lister.event.on("in", (e) => {
+    console.log(`${e.animate.entity.id} 进入 ${e.area.entity.id}`);
+    if (e.area.id === "rect") {
+      e.area.entity.rectangle.material = Cesium.Color.RED;
+    }
+    if (e.area.id === "circle") {
+      e.area.entity.ellipse.material = Cesium.Color.RED;
+    }
+  });
+  lister.event.on("out", (e) => {
+    console.log(`${e.animate.entity.id} 移出 ${e.area.entity.id}`);
+    if (e.area.id === "rect") {
+      e.area.entity.rectangle.material = Cesium.Color.BLUE;
+    }
+    if (e.area.id === "circle") {
+      e.area.entity.ellipse.material = Cesium.Color.BLUE;
+    }
+  });
+};
 
 function Content() {
   return (
@@ -178,6 +276,72 @@ function Content() {
       >
         追加坐标点
       </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => {
+          gisMap.pathLineSetMode("path2", "none");
+        }}
+      >
+        隐藏轨迹
+      </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => {
+          gisMap.pathLineSetMode("path2", "show");
+        }}
+      >
+        显示轨迹
+      </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => {
+          gisMap.pathLineSetMode("path2", "lead");
+        }}
+      >
+        燃尽轨迹
+      </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => {
+          gisMap.pathLineSetMode("path2", "trail");
+        }}
+      >
+        尾轨迹
+      </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => {
+          gisMap.pathLineSetBillboard("path2", {
+            image: img2,
+          });
+        }}
+      >
+        切换icon
+      </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => {
+          addListener();
+        }}
+      >
+        区域监测
+      </div>
+      <div
+        className="btn"
+        role="none"
+        onClick={() => {
+          gisMap.pathLineDeletePoint("path2");
+        }}
+      >
+        删除点
+      </div>
+
       <div
         className="btn"
         role="none"
