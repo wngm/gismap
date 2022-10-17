@@ -178,9 +178,6 @@ let p3 = gisMap.drawImgPoint({
     onSelect: (type, entity) => {
       console.log(type);
       console.log(entity);
-      const p = gisMap.getPoint(entity);
-      // 点信息
-      console.log(p);
     },
   },
   isHighlight: true,

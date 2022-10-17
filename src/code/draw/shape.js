@@ -67,7 +67,7 @@ function drawCircle(data) {
     label: labelOptions,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
     tip,
-    menu: showDefaultMenu ? (menu || {
+    mmenu: showDefaultMenu ? (menu || {
       className: 'test-menu',
       show: true,
       menuItems: defaultMenuItems,
@@ -78,7 +78,7 @@ function drawCircle(data) {
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
-    }) : null,
+    }) : menu,
   });
   this.viewer.entities.add(entity);
 
@@ -169,7 +169,7 @@ function drawEllipse(data) {
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
-    }) : null,
+    }) : menu,
   });
   this.viewer.entities.add(entity);
   return {
@@ -234,7 +234,7 @@ function drawRect(data) {
         }
         onMenuSelect && onMenuSelect(type, entity)
       },
-    }) : null,
+    }) : menu,
   });
   entity.rectangle.material = Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3)
   this.viewer.entities.add(entity);
@@ -300,12 +300,7 @@ function drawPolygon(data) {
       menu: showDefaultMenu ? (menu || {
         className: 'test-menu',
         show: true,
-        menuItems: [
-          { text: '编辑', icon: 'fa-edit', type: 'edit' },
-          { text: '展示详情', icon: 'fa-eye', type: 'detail' },
-          { text: '删除', icon: 'fa-trash-alt', type: 'delete' },
-        ],
-
+        menuItems: defaultMenuItems,
         onSelect: (type, entity) => {
           if (type === 'delete') {
             console.log(entity)
@@ -313,7 +308,7 @@ function drawPolygon(data) {
           }
           onMenuSelect && onMenuSelect(type, entity)
         },
-      }) : null,
+      }) : menu,
     })
   entity.polygon.material = Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)).withAlpha(0.3)
   this.viewer.entities.add(entity)

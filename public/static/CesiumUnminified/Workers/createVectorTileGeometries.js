@@ -1,7 +1,9 @@
 /**
+ * @license
  * Cesium - https://github.com/CesiumGS/cesium
+ * Version 1.98
  *
- * Copyright 2011-2020 Cesium Contributors
+ * Copyright 2011-2022 Cesium Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +23,7 @@
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
 
-define(['./Transforms-4ee811db', './BoxGeometry-863653d7', './Matrix2-c430e55a', './Color-8d08a55c', './CylinderGeometry-4d329d77', './defaultValue-81eec7ed', './EllipsoidGeometry-1013e64a', './IndexDatatype-bed3935d', './createTaskProcessorWorker', './RuntimeError-8952249c', './ComponentDatatype-9e86ac8f', './WebGLConstants-508b9636', './_commonjsHelpers-3aae1032-26891ab7', './combine-3c023bda', './GeometryOffsetAttribute-2bff0974', './GeometryAttribute-51ed9bde', './GeometryAttributes-32b29525', './VertexFormat-7df34ea5', './CylinderGeometryLibrary-0fa93765'], (function (Transforms, BoxGeometry, Matrix2, Color, CylinderGeometry, defaultValue, EllipsoidGeometry, IndexDatatype, createTaskProcessorWorker, RuntimeError, ComponentDatatype, WebGLConstants, _commonjsHelpers3aae1032, combine, GeometryOffsetAttribute, GeometryAttribute, GeometryAttributes, VertexFormat, CylinderGeometryLibrary) { 'use strict';
+define(['./Transforms-318b929f', './BoxGeometry-e586a0c5', './Matrix2-cae5ed62', './Color-2ae49520', './CylinderGeometry-67cf2f61', './defaultValue-50f7432c', './EllipsoidGeometry-d10fc493', './IndexDatatype-3480a65d', './createTaskProcessorWorker', './RuntimeError-6b9130a9', './ComponentDatatype-0b8ce457', './WebGLConstants-58abc51a', './combine-8462e002', './GeometryAttribute-a14260ea', './GeometryAttributes-8bab1b25', './GeometryOffsetAttribute-490bc2c9', './VertexFormat-29aad777', './CylinderGeometryLibrary-c59008db'], (function (Transforms, BoxGeometry, Matrix2, Color, CylinderGeometry, defaultValue, EllipsoidGeometry, IndexDatatype, createTaskProcessorWorker, RuntimeError, ComponentDatatype, WebGLConstants, combine, GeometryAttribute, GeometryAttributes, GeometryOffsetAttribute, VertexFormat, CylinderGeometryLibrary) { 'use strict';
 
   /**
    * Describes a renderable batch of geometry.

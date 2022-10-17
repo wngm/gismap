@@ -71,7 +71,7 @@ function layerHide(layer = 'default', mode) {
     viewer.entities.values.forEach(e => {
         if (e.layer === layer) {
             children.push({ id: e.id, entity: e })
-            if (mode) {
+            if (mode && e.point) {
                 //当前仅支持点属性
                 e._old_color = Cesium.Color.clone(e.point.color.getValue())
                 e.point.color = Cesium.Color.TRANSPARENT
@@ -98,8 +98,7 @@ function layerShow(layer = 'default', mode) {
     viewer.entities.values.forEach(e => {
         if (e.layer === layer) {
             children.push({ id: e.id, entity: e })
-            if (mode) {
-
+            if (mode && e.point && e._old_color) {
                 //当前仅支持点属性
                 e.point.color = e._old_color
             } else {
@@ -124,10 +123,13 @@ function layerRemove(layer = 'default') {
     viewer.entities.values.forEach(e => {
         if (e.layer === layer) {
             children.push({ id: e.id })
-            viewer.entities.remove(e)
         }
-
     })
+    children.forEach(i => {
+        viewer.entities.removeById(i.id)
+    })
+
+
     return children
 }
 

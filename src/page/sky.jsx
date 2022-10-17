@@ -12,6 +12,16 @@ import front from "../assets/images/skybox//06h+90.jpg";
 import back from "../assets/images/skybox/06h-90.jpg";
 window["CESIUM_BASE_URL"] = "/static/Cesium";
 const gisMap = new GisMap("cesium");
+
+setTimeout(() => {
+  gisMap.viewer.scene.fog.enable = true;
+  gisMap.viewer.scene.fog.show = true;
+  gisMap.viewer.scene.sun.enable = true;
+  gisMap.viewer.scene.moon.enable = true;
+  gisMap.viewer.scene.skyAtmosphere.show = true;
+  gisMap.viewer.scene.globe.showGroundAtmosphere = true;
+}, 1000);
+
 gisMap.setView({
   latitude: 0,
   longitude: 0,

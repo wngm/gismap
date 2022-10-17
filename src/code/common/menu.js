@@ -36,11 +36,22 @@ class Menu {
     const content = this.createChildrenDom(menuItems);
     this.dom.appendChild(content);
     this.container.appendChild(this.dom);
-    let _positon = this.bindEntity.primitive.position || this.bindEntity.id.position._value
+    let _positon = this.getPosition(this.bindEntity)
     const position = Cesium.SceneTransforms.wgs84ToWindowCoordinates(this.viewer.scene, _positon);
     this.setAt(position);
     this.handle();
     this.onEvent();
+  }
+
+  getPosition(bindEntity) {
+    let position = null
+    if (bindEntity?.id?.position) {
+      position = bindEntity.id.position.getValue(this.viewer.clock.currentTime)
+
+    } else {
+      position = bindEntity.primitive.position
+    }
+    return position
   }
 
   createChildrenDom(menuItems) {
@@ -85,7 +96,7 @@ class Menu {
   handle() {
     this.handleEvent = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
     this.handleEvent.setInputAction(() => {
-      let _positon = this.bindEntity.primitive.position || this.bindEntity.id.position._value
+      let _positon = this.getPosition(this.bindEntity)
       const position = Cesium.SceneTransforms.wgs84ToWindowCoordinates(this.viewer.scene, _positon);
       this.setAt(position);
       this.setAt(position);

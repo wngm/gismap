@@ -37,6 +37,7 @@ function drawPathLine(points, options = {}) {
             horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
             // eyeOffset: new Cesium.Cartesian3(0, 0, 10),
         },
+        width = 1,
         showPoint
     } = options
     let pointsList = points.map((item) => {
@@ -65,6 +66,7 @@ function drawPathLine(points, options = {}) {
     let stopTime = new Cesium.JulianDate.fromDate(new Date())
 
     let entityOptions = {
+        ...options,
         id: key,
         layer: layer,
         sourceData: points,
@@ -84,7 +86,7 @@ function drawPathLine(points, options = {}) {
             // trailTime: 0,
             ...mode2Option[mode],
             resolution: 100,
-            width: 1,
+            width: width,
             // material: Cesium.PolylineDashMaterialProperty({
             //     color: Cesium.Color.fromCssColorString(color),
             //     gapColor: Cesium.Color.TRANSPARENT,

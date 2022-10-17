@@ -1,7 +1,9 @@
 /**
+ * @license
  * Cesium - https://github.com/CesiumGS/cesium
+ * Version 1.98
  *
- * Copyright 2011-2020 Cesium Contributors
+ * Copyright 2011-2022 Cesium Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +23,7 @@
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
 
-define(['./AxisAlignedBoundingBox-52bc7e5b', './Transforms-4ee811db', './Matrix2-c430e55a', './defaultValue-81eec7ed', './TerrainEncoding-7b2c3643', './ComponentDatatype-9e86ac8f', './OrientedBoundingBox-e31a0f8a', './RuntimeError-8952249c', './WebMercatorProjection-04357f64', './createTaskProcessorWorker', './_commonjsHelpers-3aae1032-26891ab7', './combine-3c023bda', './AttributeCompression-046b70bd', './WebGLConstants-508b9636', './EllipsoidTangentPlane-0152c019', './IntersectionTests-4d132f79', './Plane-7e828ad8'], (function (AxisAlignedBoundingBox, Transforms, Matrix2, defaultValue, TerrainEncoding, ComponentDatatype, OrientedBoundingBox, RuntimeError, WebMercatorProjection, createTaskProcessorWorker, _commonjsHelpers3aae1032, combine, AttributeCompression, WebGLConstants, EllipsoidTangentPlane, IntersectionTests, Plane) { 'use strict';
+define(['./AxisAlignedBoundingBox-0b031c9f', './Transforms-318b929f', './Matrix2-cae5ed62', './defaultValue-50f7432c', './TerrainEncoding-777b8539', './ComponentDatatype-0b8ce457', './OrientedBoundingBox-05a06145', './RuntimeError-6b9130a9', './WebMercatorProjection-0197b2e8', './createTaskProcessorWorker', './combine-8462e002', './AttributeCompression-b61f6b08', './WebGLConstants-58abc51a', './EllipsoidTangentPlane-a17a02f5', './IntersectionTests-77ed1e84', './Plane-a03160e2'], (function (AxisAlignedBoundingBox, Transforms, Matrix2, defaultValue, TerrainEncoding, ComponentDatatype, OrientedBoundingBox, RuntimeError, WebMercatorProjection, createTaskProcessorWorker, combine, AttributeCompression, WebGLConstants, EllipsoidTangentPlane, IntersectionTests, Plane) { 'use strict';
 
   const sizeOfUint16 = Uint16Array.BYTES_PER_ELEMENT;
   const sizeOfInt32 = Int32Array.BYTES_PER_ELEMENT;

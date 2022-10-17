@@ -1,7 +1,9 @@
 /**
+ * @license
  * Cesium - https://github.com/CesiumGS/cesium
+ * Version 1.98
  *
- * Copyright 2011-2020 Cesium Contributors
+ * Copyright 2011-2022 Cesium Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +23,7 @@
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
 
-define(['./AttributeCompression-046b70bd', './Transforms-4ee811db', './Matrix2-c430e55a', './defaultValue-81eec7ed', './TerrainEncoding-7b2c3643', './IndexDatatype-bed3935d', './RuntimeError-8952249c', './ComponentDatatype-9e86ac8f', './OrientedBoundingBox-e31a0f8a', './createTaskProcessorWorker', './_commonjsHelpers-3aae1032-26891ab7', './combine-3c023bda', './WebGLConstants-508b9636', './EllipsoidTangentPlane-0152c019', './AxisAlignedBoundingBox-52bc7e5b', './IntersectionTests-4d132f79', './Plane-7e828ad8'], (function (AttributeCompression, Transforms, Matrix2, defaultValue, TerrainEncoding, IndexDatatype, RuntimeError, ComponentDatatype, OrientedBoundingBox, createTaskProcessorWorker, _commonjsHelpers3aae1032, combine, WebGLConstants, EllipsoidTangentPlane, AxisAlignedBoundingBox, IntersectionTests, Plane) { 'use strict';
+define(['./AttributeCompression-b61f6b08', './Transforms-318b929f', './Matrix2-cae5ed62', './defaultValue-50f7432c', './TerrainEncoding-777b8539', './IndexDatatype-3480a65d', './RuntimeError-6b9130a9', './ComponentDatatype-0b8ce457', './OrientedBoundingBox-05a06145', './createTaskProcessorWorker', './combine-8462e002', './WebGLConstants-58abc51a', './EllipsoidTangentPlane-a17a02f5', './AxisAlignedBoundingBox-0b031c9f', './IntersectionTests-77ed1e84', './Plane-a03160e2'], (function (AttributeCompression, Transforms, Matrix2, defaultValue, TerrainEncoding, IndexDatatype, RuntimeError, ComponentDatatype, OrientedBoundingBox, createTaskProcessorWorker, combine, WebGLConstants, EllipsoidTangentPlane, AxisAlignedBoundingBox, IntersectionTests, Plane) { 'use strict';
 
   /**
    * Contains functions for operating on 2D triangles.
@@ -374,6 +376,7 @@ define(['./AttributeCompression-046b70bd', './Transforms-4ee811db', './Matrix2-c
       return result;
     }
   };
+  var Intersections2D$1 = Intersections2D;
 
   const maxShort = 32767;
   const halfMaxShort = (maxShort / 2) | 0;
@@ -555,7 +558,7 @@ define(['./AttributeCompression-046b70bd', './Transforms-4ee811db', './Matrix2-c
       );
 
       // Clip triangle on the east-west boundary.
-      const clipped = Intersections2D.clipTriangleAtAxisAlignedThreshold(
+      const clipped = Intersections2D$1.clipTriangleAtAxisAlignedThreshold(
         halfMaxShort,
         isEastChild,
         u0,
@@ -595,7 +598,7 @@ define(['./AttributeCompression-046b70bd', './Transforms-4ee811db', './Matrix2-c
       );
 
       // Clip the triangle against the North-south boundary.
-      clipped2 = Intersections2D.clipTriangleAtAxisAlignedThreshold(
+      clipped2 = Intersections2D$1.clipTriangleAtAxisAlignedThreshold(
         halfMaxShort,
         isNorthChild,
         clippedTriangleVertices[0].getV(),
@@ -625,7 +628,7 @@ define(['./AttributeCompression-046b70bd', './Transforms-4ee811db', './Matrix2-c
           triangleVertices
         );
 
-        clipped2 = Intersections2D.clipTriangleAtAxisAlignedThreshold(
+        clipped2 = Intersections2D$1.clipTriangleAtAxisAlignedThreshold(
           halfMaxShort,
           isNorthChild,
           clippedTriangleVertices[0].getV(),
