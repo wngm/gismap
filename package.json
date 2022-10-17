@@ -1,6 +1,6 @@
 {
   "name": "@kdhy/gismap",
-  "version": "1.0.42",
+  "version": "1.0.44",
   "description": "",
   "main": "build/gisMap.js",
   "scripts": {
@@ -55,6 +55,6 @@
   "dependencies": {
     "satellite.js": "^4.1.3",
     "qiankun": "^2.5.1",
-    "cesium": "1.96.0"
+    "cesium": "1.98.0"
   }
 }

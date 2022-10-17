@@ -44,7 +44,7 @@ function loadMaterial() {
 // id 累加计数器
 
 export class GisMap {
-  static version = '1.0.1';
+  static version = '1.0.45';
   static Cesium = Cesium;
   Cesium = Cesium;
 
@@ -340,8 +340,6 @@ export class GisMap {
       console.log('已选中该对象');
     } else if (this.selectedMenu && this.selectedMenu !== entity.id) {
       this.unHandleMenu();
-
-      console.log('unHandleMenu')
       this.selectedMenu = entity.id || entity;
       this.contextMenu = this.selectedMenu?.menu ? new Menu(this.viewer, entity) : null;
     } else {

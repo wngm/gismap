@@ -1,7 +1,9 @@
 /**
+ * @license
  * Cesium - https://github.com/CesiumGS/cesium
+ * Version 1.98
  *
- * Copyright 2011-2020 Cesium Contributors
+ * Copyright 2011-2022 Cesium Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +23,7 @@
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
 
-define(['./Transforms-4ee811db', './Matrix2-c430e55a', './RuntimeError-8952249c', './defaultValue-81eec7ed', './ComponentDatatype-9e86ac8f', './ArcType-fc72c06c', './arrayRemoveDuplicates-1a15bd09', './EllipsoidGeodesic-22d2f504', './EllipsoidRhumbLine-c86f0674', './EncodedCartesian3-a57a8b60', './GeometryAttribute-51ed9bde', './IntersectionTests-4d132f79', './Plane-7e828ad8', './WebMercatorProjection-04357f64', './_commonjsHelpers-3aae1032-26891ab7', './combine-3c023bda', './WebGLConstants-508b9636'], (function (Transforms, Matrix2, RuntimeError, defaultValue, ComponentDatatype, ArcType, arrayRemoveDuplicates, EllipsoidGeodesic, EllipsoidRhumbLine, EncodedCartesian3, GeometryAttribute, IntersectionTests, Plane, WebMercatorProjection, _commonjsHelpers3aae1032, combine, WebGLConstants) { 'use strict';
+define(['./Transforms-318b929f', './Matrix2-cae5ed62', './RuntimeError-6b9130a9', './defaultValue-50f7432c', './ComponentDatatype-0b8ce457', './ArcType-24f44850', './arrayRemoveDuplicates-39c0a681', './EllipsoidGeodesic-68722bdc', './EllipsoidRhumbLine-5546dbaf', './EncodedCartesian3-a8cb9052', './GeometryAttribute-a14260ea', './IntersectionTests-77ed1e84', './Plane-a03160e2', './WebMercatorProjection-0197b2e8', './combine-8462e002', './WebGLConstants-58abc51a'], (function (Transforms, Matrix2, RuntimeError, defaultValue, ComponentDatatype, ArcType, arrayRemoveDuplicates, EllipsoidGeodesic, EllipsoidRhumbLine, EncodedCartesian3, GeometryAttribute, IntersectionTests, Plane, WebMercatorProjection, combine, WebGLConstants) { 'use strict';
 
   /**
    * A tiling scheme for geometry referenced to a simple {@link GeographicProjection} where
@@ -289,7 +291,7 @@ define(['./Transforms-4ee811db', './Matrix2-c430e55a', './RuntimeError-8952249c'
 
   /**
    * Initializes the minimum and maximum terrain heights
-   * @return {Promise<void>}
+   * @return {Promise.<void>}
    */
   ApproximateTerrainHeights.initialize = function () {
     let initPromise = ApproximateTerrainHeights._initPromise;
@@ -507,6 +509,7 @@ define(['./Transforms-4ee811db', './Matrix2-c430e55a', './RuntimeError-8952249c'
       },
     },
   });
+  var ApproximateTerrainHeights$1 = ApproximateTerrainHeights;
 
   const PROJECTIONS = [Transforms.GeographicProjection, WebMercatorProjection.WebMercatorProjection];
   const PROJECTION_COUNT = PROJECTIONS.length;
@@ -1954,7 +1957,7 @@ define(['./Transforms-4ee811db', './Matrix2-c430e55a', './RuntimeError-8952249c'
         getHeightCartographics,
         getHeightRectangleScratch
       );
-      const minMaxHeights = ApproximateTerrainHeights.getMinimumMaximumHeights(
+      const minMaxHeights = ApproximateTerrainHeights$1.getMinimumMaximumHeights(
         getHeightsRectangle,
         ellipsoid
       );
@@ -2141,7 +2144,7 @@ define(['./Transforms-4ee811db', './Matrix2-c430e55a', './RuntimeError-8952249c'
   GroundPolylineGeometry._projectNormal = projectNormal;
 
   function createGroundPolylineGeometry(groundPolylineGeometry, offset) {
-    return ApproximateTerrainHeights.initialize().then(function () {
+    return ApproximateTerrainHeights$1.initialize().then(function () {
       if (defaultValue.defined(offset)) {
         groundPolylineGeometry = GroundPolylineGeometry.unpack(
           groundPolylineGeometry,

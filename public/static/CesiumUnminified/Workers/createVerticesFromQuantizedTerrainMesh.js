@@ -1,7 +1,9 @@
 /**
+ * @license
  * Cesium - https://github.com/CesiumGS/cesium
+ * Version 1.98
  *
- * Copyright 2011-2020 Cesium Contributors
+ * Copyright 2011-2022 Cesium Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +23,7 @@
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
 
-define(['./AxisAlignedBoundingBox-52bc7e5b', './Matrix2-c430e55a', './defaultValue-81eec7ed', './TerrainEncoding-7b2c3643', './IndexDatatype-bed3935d', './ComponentDatatype-9e86ac8f', './RuntimeError-8952249c', './Transforms-4ee811db', './WebMercatorProjection-04357f64', './createTaskProcessorWorker', './AttributeCompression-046b70bd', './WebGLConstants-508b9636', './_commonjsHelpers-3aae1032-26891ab7', './combine-3c023bda'], (function (AxisAlignedBoundingBox, Matrix2, defaultValue, TerrainEncoding, IndexDatatype, ComponentDatatype, RuntimeError, Transforms, WebMercatorProjection, createTaskProcessorWorker, AttributeCompression, WebGLConstants, _commonjsHelpers3aae1032, combine) { 'use strict';
+define(['./AxisAlignedBoundingBox-0b031c9f', './Matrix2-cae5ed62', './defaultValue-50f7432c', './TerrainEncoding-777b8539', './IndexDatatype-3480a65d', './ComponentDatatype-0b8ce457', './RuntimeError-6b9130a9', './Transforms-318b929f', './WebMercatorProjection-0197b2e8', './createTaskProcessorWorker', './AttributeCompression-b61f6b08', './WebGLConstants-58abc51a', './combine-8462e002'], (function (AxisAlignedBoundingBox, Matrix2, defaultValue, TerrainEncoding, IndexDatatype, ComponentDatatype, RuntimeError, Transforms, WebMercatorProjection, createTaskProcessorWorker, AttributeCompression, WebGLConstants, combine) { 'use strict';
 
   /**
    * Provides terrain or other geometry for the surface of an ellipsoid.  The surface geometry is
@@ -46,7 +48,7 @@ define(['./AxisAlignedBoundingBox-52bc7e5b', './Matrix2-c430e55a', './defaultVal
      * to the event, you will be notified of the error and can potentially recover from it.  Event listeners
      * are passed an instance of {@link TileProviderError}.
      * @memberof TerrainProvider.prototype
-     * @type {Event}
+     * @type {Event<TerrainProvider.ErrorEvent>}
      * @readonly
      */
     errorEvent: {
@@ -470,6 +472,14 @@ define(['./AxisAlignedBoundingBox-52bc7e5b', './Matrix2-c430e55a', './defaultVal
    */
   TerrainProvider.prototype.loadTileDataAvailability =
     RuntimeError.DeveloperError.throwInstantiationError;
+
+  /**
+   * A function that is called when an error occurs.
+   * @callback TerrainProvider.ErrorEvent
+   *
+   * @this TerrainProvider
+   * @param {TileProviderError} err An object holding details about the error that occurred.
+   */
 
   const maxShort = 32767;
 

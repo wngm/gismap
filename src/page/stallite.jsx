@@ -7,6 +7,62 @@ import "./index.less";
 const gisMap = new GisMap("cesium", { animation: true, timeline: true });
 gisMap.viewer.scene.debugShowFramesPerSecond = true;
 
+gisMap.drawRect({
+  key: "rect",
+  color: "#0dfcff",
+  coordinates: [
+    [-111.83, 36.36],
+    [-80.7, 46],
+  ],
+  tip: {
+    placement: "rightTop",
+    mode: "table",
+    // 自定义css class
+    className: "class-tip",
+    content: {
+      title: "tips",
+      items: [
+        {
+          key: "test1",
+          value: "苏打水",
+        },
+        {
+          key: "test2",
+          value: "苏打水",
+        },
+        {
+          key: "test3",
+          value: "苏打水",
+        },
+        {
+          key: "test4",
+          value: "苏打水",
+        },
+      ],
+    },
+  },
+  menu: {
+    className: "div-menu",
+    menuItems: [
+      { text: "编辑", icon: "fa-edit", type: "edit" },
+      { text: "展示详情", icon: "fa-eye", type: "detail" },
+      { text: "删除", icon: "fa-trash-alt", type: "delete" },
+    ],
+    onSelect: (type, entity) => {
+      console.log(type);
+      console.log(entity);
+    },
+  },
+});
+gisMap.drawRect({
+  key: "rect2",
+  color: "#0dfcff",
+  coordinates: [
+    [-72.16, 2.75],
+    [-62.36, 5.988],
+  ],
+});
+
 const { Cesium } = gisMap;
 // 波形
 // gisMap.cylinderWave({

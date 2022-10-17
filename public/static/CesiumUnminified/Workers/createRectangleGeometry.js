@@ -1,7 +1,9 @@
 /**
+ * @license
  * Cesium - https://github.com/CesiumGS/cesium
+ * Version 1.98
  *
- * Copyright 2011-2020 Cesium Contributors
+ * Copyright 2011-2022 Cesium Contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +23,7 @@
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
 
-define(['./defaultValue-81eec7ed', './Matrix2-c430e55a', './GeometryOffsetAttribute-2bff0974', './Transforms-4ee811db', './RuntimeError-8952249c', './ComponentDatatype-9e86ac8f', './GeometryAttribute-51ed9bde', './GeometryAttributes-32b29525', './GeometryInstance-68d87064', './GeometryPipeline-7b7ac762', './IndexDatatype-bed3935d', './PolygonPipeline-0605b100', './RectangleGeometryLibrary-385a2cdd', './VertexFormat-7df34ea5', './_commonjsHelpers-3aae1032-26891ab7', './combine-3c023bda', './WebGLConstants-508b9636', './AttributeCompression-046b70bd', './EncodedCartesian3-a57a8b60', './IntersectionTests-4d132f79', './Plane-7e828ad8', './EllipsoidRhumbLine-c86f0674'], (function (defaultValue, Matrix2, GeometryOffsetAttribute, Transforms, RuntimeError, ComponentDatatype, GeometryAttribute, GeometryAttributes, GeometryInstance, GeometryPipeline, IndexDatatype, PolygonPipeline, RectangleGeometryLibrary, VertexFormat, _commonjsHelpers3aae1032, combine, WebGLConstants, AttributeCompression, EncodedCartesian3, IntersectionTests, Plane, EllipsoidRhumbLine) { 'use strict';
+define(['./defaultValue-50f7432c', './Matrix2-cae5ed62', './Transforms-318b929f', './RuntimeError-6b9130a9', './ComponentDatatype-0b8ce457', './GeometryAttribute-a14260ea', './GeometryAttributes-8bab1b25', './GeometryInstance-ef91d372', './GeometryOffsetAttribute-490bc2c9', './GeometryPipeline-58a6c637', './IndexDatatype-3480a65d', './PolygonPipeline-c2095797', './RectangleGeometryLibrary-e6bac032', './VertexFormat-29aad777', './combine-8462e002', './WebGLConstants-58abc51a', './AttributeCompression-b61f6b08', './EncodedCartesian3-a8cb9052', './IntersectionTests-77ed1e84', './Plane-a03160e2', './EllipsoidRhumbLine-5546dbaf'], (function (defaultValue, Matrix2, Transforms, RuntimeError, ComponentDatatype, GeometryAttribute, GeometryAttributes, GeometryInstance, GeometryOffsetAttribute, GeometryPipeline, IndexDatatype, PolygonPipeline, RectangleGeometryLibrary, VertexFormat, combine, WebGLConstants, AttributeCompression, EncodedCartesian3, IntersectionTests, Plane, EllipsoidRhumbLine) { 'use strict';
 
   const positionScratch = new Matrix2.Cartesian3();
   const normalScratch = new Matrix2.Cartesian3();
@@ -543,11 +545,11 @@ define(['./defaultValue-81eec7ed', './Matrix2-c430e55a', './GeometryOffsetAttrib
       const size = (length / 3) * 2;
       let offsetAttribute = new Uint8Array(size);
       if (offsetAttributeValue === GeometryOffsetAttribute.GeometryOffsetAttribute.TOP) {
-        offsetAttribute = GeometryOffsetAttribute.arrayFill(offsetAttribute, 1, 0, size / 2);
+        offsetAttribute = offsetAttribute.fill(1, 0, size / 2);
       } else {
         offsetValue =
           offsetAttributeValue === GeometryOffsetAttribute.GeometryOffsetAttribute.NONE ? 0 : 1;
-        offsetAttribute = GeometryOffsetAttribute.arrayFill(offsetAttribute, offsetValue);
+        offsetAttribute = offsetAttribute.fill(offsetValue);
       }
 
       topBottomGeo.attributes.applyOffset = new GeometryAttribute.GeometryAttribute({
@@ -633,7 +635,7 @@ define(['./defaultValue-81eec7ed', './Matrix2-c430e55a', './GeometryOffsetAttrib
       offsetAttributeValue === GeometryOffsetAttribute.GeometryOffsetAttribute.TOP;
     if (hasOffsets && !computeTopOffsets) {
       offsetValue = offsetAttributeValue === GeometryOffsetAttribute.GeometryOffsetAttribute.ALL ? 1 : 0;
-      wallOffsetAttribute = GeometryOffsetAttribute.arrayFill(wallOffsetAttribute, offsetValue);
+      wallOffsetAttribute = wallOffsetAttribute.fill(offsetValue);
     }
 
     let posIndex = 0;
@@ -1310,12 +1312,11 @@ define(['./defaultValue-81eec7ed', './Matrix2-c430e55a', './GeometryOffsetAttrib
 
       if (defaultValue.defined(rectangleGeometry._offsetAttribute)) {
         const length = geometry.attributes.position.values.length;
-        const applyOffset = new Uint8Array(length / 3);
         const offsetValue =
           rectangleGeometry._offsetAttribute === GeometryOffsetAttribute.GeometryOffsetAttribute.NONE
             ? 0
             : 1;
-        GeometryOffsetAttribute.arrayFill(applyOffset, offsetValue);
+        const applyOffset = new Uint8Array(length / 3).fill(offsetValue);
         geometry.attributes.applyOffset = new GeometryAttribute.GeometryAttribute({
           componentDatatype: ComponentDatatype.ComponentDatatype.UNSIGNED_BYTE,
           componentsPerAttribute: 1,

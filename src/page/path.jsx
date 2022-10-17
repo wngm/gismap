@@ -11,18 +11,8 @@ const { Cesium } = GisMap;
 const gisMap = new GisMap("cesium", {
   animation: true,
   timeline: true,
-  // mapMode2D: GisMap.Cesium.MapMode2D.ROTATE,
-  // requestRenderMode: true,
 });
 
-// gisMap.scene.postUpdate.addEventListener(function (e) {
-//   // This code will run at 60 FPS
-//   console.log("postUpdate", e);
-// });
-// gisMap.scene.preRender.addEventListener(function (e) {
-//   // This code will run at 60 FPS
-//   console.log("preRender", e);
-// });
 let data = [
   [120, 40, 0],
   [110, 40, 0],
@@ -141,7 +131,16 @@ function createPath() {
   ], {
     key: "path2",
     showPoint: true,
+    width: 1,
     mode: "show",
+    menu: {
+      menuItems: [
+        { text: "详情XX", icon: "fa-trash-alt", type: "delete" },
+      ],
+      onSelect: (type, entity) => {
+        console.log(11, type, entity);
+      },
+    },
     // 标记样式
     billboard: {
       width: 30,
