@@ -64,95 +64,99 @@ gisMap.setView({
 function createPath() {
   const { viewer, Cesium } = gisMap;
 
-  gisMap.drawPathLine([
+  gisMap.drawPathLine(
+    [
+      {
+        key: "path2_p1",
+        longitude: 120,
+        latitude: 30,
+        height: 100000,
+        time: "2022-7-15 00:00:00",
+        showDefaultMenu: true,
+        imgOptions: {
+          image: img1,
+        },
+        menu: {
+          menuItems: [
+            { text: "删除", icon: "fa-trash-alt", type: "delete" },
+          ],
+          onSelect: (type, entity) => {
+            gisMap.pathLineDeletePoint("path2", entity._id);
+          },
+        },
+      },
+      {
+        key: "path2_p2",
+        longitude: 60,
+        latitude: 20,
+        height: 100000,
+        time: "2022-7-15 10:00:00",
+        imgOptions: {
+          image: img2,
+        },
+        menu: {
+          menuItems: [
+            { text: "删除", icon: "fa-trash-alt", type: "delete" },
+          ],
+          onSelect: (type, entity) => {
+            if (type === "delete") {
+              // gisMap.pathLineDeletePoint(
+              //   "path2",
+              //   "path2_p2",
+              // );
+              // 删除
+              gisMap.pathLineDeletePoint(
+                entity.parent._id,
+                entity._id,
+              );
+            }
+          },
+        },
+      },
+      {
+        key: "path2_p3",
+        longitude: 70,
+        latitude: 60,
+        height: 100000,
+        time: "2022-7-16 00:00:00",
+        showDefaultMenu: true,
+        menu: {
+          menuItems: [
+            { text: "删除", icon: "fa-trash-alt", type: "delete" },
+          ],
+          onSelect: (type, entity) => {
+            gisMap.pathLineDeletePoint("path2", entity._id);
+          },
+        },
+      },
+    ],
     {
-      key: "path2_p1",
-      longitude: 120,
-      latitude: 30,
-      height: 100000,
-      time: "2022-7-15 00:00:00",
-      showDefaultMenu: true,
-      imgOptions: {
+      key: "path2",
+      layer: "pp1",
+      showPoint: true,
+      width: 1,
+      mode: "show",
+      menu: {
+        menuItems: [
+          { text: "详情XX", icon: "fa-trash-alt", type: "delete" },
+        ],
+        onSelect: (type, entity) => {
+          console.log(11, type, entity);
+        },
+      },
+      // 标记样式
+      billboard: {
+        width: 30,
+        height: 40,
+        // image  支持base64 || url
         image: img1,
-      },
-      menu: {
-        menuItems: [
-          { text: "删除", icon: "fa-trash-alt", type: "delete" },
-        ],
-        onSelect: (type, entity) => {
-          gisMap.pathLineDeletePoint("path2", entity._id);
-        },
+        // image: window.CESIUM_BASE_URL + "/images/img-point.png",
+        // 位置调整
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
       },
     },
-    {
-      key: "path2_p2",
-      longitude: 60,
-      latitude: 20,
-      height: 100000,
-      time: "2022-7-15 10:00:00",
-      imgOptions: {
-        image: img2,
-      },
-      menu: {
-        menuItems: [
-          { text: "删除", icon: "fa-trash-alt", type: "delete" },
-        ],
-        onSelect: (type, entity) => {
-          if (type === "delete") {
-            // gisMap.pathLineDeletePoint(
-            //   "path2",
-            //   "path2_p2",
-            // );
-            // 删除
-            gisMap.pathLineDeletePoint(
-              entity.parent._id,
-              entity._id,
-            );
-          }
-        },
-      },
-    },
-    {
-      key: "path2_p3",
-      longitude: 70,
-      latitude: 60,
-      height: 100000,
-      time: "2022-7-16 00:00:00",
-      showDefaultMenu: true,
-      menu: {
-        menuItems: [
-          { text: "删除", icon: "fa-trash-alt", type: "delete" },
-        ],
-        onSelect: (type, entity) => {
-          gisMap.pathLineDeletePoint("path2", entity._id);
-        },
-      },
-    },
-  ], {
-    key: "path2",
-    showPoint: true,
-    width: 1,
-    mode: "show",
-    menu: {
-      menuItems: [
-        { text: "详情XX", icon: "fa-trash-alt", type: "delete" },
-      ],
-      onSelect: (type, entity) => {
-        console.log(11, type, entity);
-      },
-    },
-    // 标记样式
-    billboard: {
-      width: 30,
-      height: 40,
-      // image  支持base64 || url
-      image: img1,
-      // image: window.CESIUM_BASE_URL + "/images/img-point.png",
-      // 位置调整
-      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-      horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-    },
-  });
+  );
   let startTime = Cesium.JulianDate.fromDate(new Date("2022-7-15 00:00:00"));
   let startTime2 = Cesium.JulianDate.fromDate(new Date("2022-7-14 00:00:00"));
   let stopTime = Cesium.JulianDate.fromDate(new Date("2022-7-16 00:00:00"));
@@ -371,6 +375,7 @@ function Content() {
       <div
         className="btn"
         onClick={() => {
+          gisMap.layerShow("pp1", "2d");
         }}
       >
         图层显示
@@ -378,7 +383,6 @@ function Content() {
       <div
         className="btn"
         onClick={() => {
-          gisMap.layerShow("pp1", "2d");
           gisMap.layerHide("pp1", "2d");
         }}
       >
