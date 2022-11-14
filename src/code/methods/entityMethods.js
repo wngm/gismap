@@ -266,7 +266,10 @@ function pathLinePush(id, value) {
         })
         entity.position = property
         entity.orientation = new Cesium.VelocityOrientationProperty(property)
+        if (entity.billboard && entity.billboard.rotation !== undefined) {
+            entity.billboard.alignedAxis = new Cesium.VelocityVectorProperty(property, true)
 
+        }
         const showPoint = entity?.sourceOptions?.showPoint
         if (showPoint) {
             this.renderPathPoint(entity, entity.sourceData)
@@ -306,6 +309,11 @@ function pathLineDeletePoint(pathId, pointId) {
         })
         entity.position = property
         entity.orientation = new Cesium.VelocityOrientationProperty(property)
+        if (entity.billboard && entity.billboard.rotation !== undefined) {
+            entity.billboard.alignedAxis = new Cesium.VelocityVectorProperty(property, true)
+
+        }
+
         // this.renderPathPoint(entity, entity.sourceData)
     }
 }

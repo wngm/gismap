@@ -64,7 +64,11 @@ function drawPathLine(points, options = {}) {
     let startTime = pointsList[0].time
     // let stopTime = pointsList[pointsList.length - 1].time
     let stopTime = new Cesium.JulianDate.fromDate(new Date())
-
+    let _billboard = { ...billboard }
+    // rotation 存在角度则跟随旋转
+    if (billboard.rotation !== undefined) {
+        _billboard.alignedAxis = new Cesium.VelocityVectorProperty(property, true)
+    }
     let entityOptions = {
         ...options,
         id: key,
@@ -94,7 +98,7 @@ function drawPathLine(points, options = {}) {
             // })
             material: Cesium.Color.fromCssColorString(color),
         },
-        billboard,
+        billboard: _billboard,
 
     }
 
