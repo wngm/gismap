@@ -121,10 +121,20 @@ function drawPathLine(points, options = {}) {
                     availability
                 })
             } else {
-                this.drawPoint({
+                // this.drawPoint({
+                //     parent: entity,
+                //     color,
+                //     ...p,
+                //     availability
+                // })
+                this.drawMarkerPoint({
                     parent: entity,
                     color,
                     ...p,
+                    imgOptions: {
+                        color: Cesium.Color.fromCssColorString(color),
+                        image: window.CESIUM_BASE_URL + '/images/circle.svg'
+                    },
                     availability
                 })
             }

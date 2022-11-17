@@ -26,13 +26,14 @@ let data = [
 ];
 
 data.forEach((i) => {
-  gisMap.drawPoint({
+  gisMap.drawCircle({
     longitude: i[0],
     latitude: i[1],
     height: i[2],
     layer: "pp1",
     pixelSize: 48,
     color: "#ff0000",
+    radius: 100000,
   });
 });
 

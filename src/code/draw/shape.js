@@ -29,7 +29,7 @@ function drawCircle(data) {
     height,
     key,
     name,
-    radius,
+    radius = 10,
     color,
     highlight,
     isHighlight = false,

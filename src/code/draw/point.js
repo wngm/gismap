@@ -55,6 +55,7 @@ function drawPoint(data) {
     tip,
     id: key,
     show: true,
+    heightReference: Cesium.HeightReference.RELATIVE_TO_GROUND,
     position: Cartesian3.fromDegrees(longitude, latitude, height),
     point: pointOption,
     label: labelOptions,
@@ -139,8 +140,8 @@ function drawMarkerPoint(data) {
     position: Cartesian3.fromDegrees(longitude, latitude, height),
     heightReference: HeightReference.CLAMP_TO_GROUND,
     billboard: {
-      width: 24,
-      height: 27,
+      width: 16,
+      height: 16,
       image: isHighlight ? normalPointHighlight : normalPoint,
       ...imgOptions,
     },
