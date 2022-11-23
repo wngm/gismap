@@ -7,6 +7,7 @@
  * @FilePath: /gismap/src/code/paint/line.js
  */
 import {
+  ArcType,
   ScreenSpaceEventHandler, ScreenSpaceEventType, Entity, Color, CallbackProperty, Cartesian3, Cartesian2, ColorMaterialProperty,
 } from 'cesium';
 import { defaultMenuItems } from '../common/utils'
@@ -83,6 +84,7 @@ function paintLine(data = {}, callback) {
           id: _id,
           layer: 'default' || data.layer,
           polyline: {
+            arcType: ArcType.NONE,
             material: new ColorMaterialProperty(new CallbackProperty(() => {
               if (_id === this.moveActiveId) {
                 return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
@@ -250,6 +252,7 @@ function paintLineWithPoints(data = {}, callback) {
           id: _id,
           layer: 'default' || data.layer,
           polyline: {
+            arcType: ArcType.NONE,
             material: new ColorMaterialProperty(new CallbackProperty(() => {
               // if (_id === this.moveActiveId) {
               //   return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);

@@ -188,7 +188,6 @@ export class GisMap {
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
 
     handler.setInputAction((movement) => {
-      console.log(movement)
       const pick = this.viewer.scene.pick(movement.position);
       if (pick) {
         this.event.emit('dbClick', { id: pick.id?.id, entity: pick.id })

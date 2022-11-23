@@ -47,6 +47,7 @@ class Menu {
     let position = null
     if (bindEntity?.id?.position) {
       position = bindEntity.id.position.getValue(this.viewer.clock.currentTime)
+      console.log(bindEntity, bindEntity.id.position, 999)
 
     } else {
       position = bindEntity.primitive.position
