@@ -3,8 +3,23 @@ import { createRoot } from "react-dom/client";
 import GisMap from "../code/gisMap";
 import * as Cesium from "cesium";
 import "./index.less";
+import { point } from "@turf/turf";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap("cesium", { animation: true, timeline: true });
+
+let pointPrimitive = gisMap.viewer.scene.primitives.add(
+  new Cesium.PointPrimitiveCollection(),
+);
+
+let points = [];
+
+points.forEach((p) => {
+  pointPrimitive.add({
+    position: new Cesium.Cartesian3.fromDegrees(p.longitude, p.latitude),
+  });
+});
+
+function a() {}
 const viewModel = {
   show: true,
   glowOnly: false,

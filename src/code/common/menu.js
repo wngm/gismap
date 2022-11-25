@@ -47,7 +47,10 @@ class Menu {
     let position = null
     if (bindEntity?.id?.position) {
       position = bindEntity.id.position.getValue(this.viewer.clock.currentTime)
-      console.log(bindEntity, bindEntity.id.position, 999)
+      // 线段落点为终点位置
+      if (bindEntity.id.polyline) {
+        position = bindEntity.primitive.positions[bindEntity.primitive.positions.length - 1]
+      }
 
     } else {
       position = bindEntity.primitive.position
