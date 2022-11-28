@@ -7,6 +7,7 @@
  * @FilePath: /gismap/src/code/paint/line.js
  */
 import {
+  ArcType,
   ScreenSpaceEventHandler, ScreenSpaceEventType, Entity, Color, CallbackProperty, Cartesian3, Cartesian2, ColorMaterialProperty,
 } from 'cesium';
 import { defaultMenuItems } from '../common/utils'
@@ -83,6 +84,7 @@ function paintLine(data = {}, callback) {
           id: _id,
           layer: 'default' || data.layer,
           polyline: {
+            arcType: ArcType.NONE,
             material: new ColorMaterialProperty(new CallbackProperty(() => {
               if (_id === this.moveActiveId) {
                 return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
@@ -170,7 +172,7 @@ function paintLineWithPoints(data = {}, callback) {
     const position = getWGS84FromDKR(cartesian);
     if (positions.length === 0) {
       setTimeout(() => {
-        this.drawPoint({
+        this.drawMarkerPoint({
           lineIndex: positions.length + 1,
           parent: polyline,
           ...position,
@@ -180,11 +182,15 @@ function paintLineWithPoints(data = {}, callback) {
             if (entities.lineIndex) {
               positions.splice(entities.lineIndex - 1, 1)
             }
-          }
+          },
+          imgOptions: {
+            color: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)),
+            image: window.CESIUM_BASE_URL + '/images/circle.svg'
+          },
         })
       }, 100)
     } else {
-      this.drawPoint({
+      this.drawMarkerPoint({
         lineIndex: positions.length + 1,
         parent: polyline,
         ...position,
@@ -194,8 +200,25 @@ function paintLineWithPoints(data = {}, callback) {
           if (entities.lineIndex) {
             positions.splice(entities.lineIndex - 1, 1)
           }
-        }
+        },
+        imgOptions: {
+          color: Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor)),
+          image: window.CESIUM_BASE_URL + '/images/circle.svg'
+        },
+
       })
+      // this.drawPoint({
+      //   lineIndex: positions.length + 1,
+      //   parent: polyline,
+      //   ...position,
+      //   ...data,
+      //   label: null,
+      //   onMenuSelect: (type, entities) => {
+      //     if (entities.lineIndex) {
+      //       positions.splice(entities.lineIndex - 1, 1)
+      //     }
+      //   }
+      // })
     }
 
     positions.push(position);
@@ -229,10 +252,11 @@ function paintLineWithPoints(data = {}, callback) {
           id: _id,
           layer: 'default' || data.layer,
           polyline: {
-          material: new ColorMaterialProperty(new CallbackProperty(() => {
-            // if (_id === this.moveActiveId) {
-            //   return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
-            // }
+            arcType: ArcType.NONE,
+            material: new ColorMaterialProperty(new CallbackProperty(() => {
+              // if (_id === this.moveActiveId) {
+              //   return Color.fromCssColorString(highlightColor || window.Cesium.highlightColor);
+              // }
               return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor));
             }, false)),
             width: data?.width || 1,

@@ -54,11 +54,11 @@ export default () => ({
   //   maximumLevel: 18,
   // }),
   // 高德影像
-  imageryProvider: new Cesium.UrlTemplateImageryProvider({
-    url: "https://webst02.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
-    minimumLevel: 3,
-    maximumLevel: 18,
-  }),
+  // imageryProvider: new Cesium.UrlTemplateImageryProvider({
+  //   url: "https://webst02.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}",
+  //   minimumLevel: 3,
+  //   maximumLevel: 18,
+  // }),
   // 高德标记
   // imageryProvider: new Cesium.UrlTemplateImageryProvider({
   //   url: "http://webst02.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scale=1&style=8",

@@ -44,7 +44,7 @@ function loadMaterial() {
 // id 累加计数器
 
 export class GisMap {
-  static version = '1.0.45';
+  static version = '1.0.46';
   static Cesium = Cesium;
   Cesium = Cesium;
 
@@ -95,6 +95,7 @@ export class GisMap {
     this.scene = this.viewer.scene;
     this.camera = this.viewer.camera;
     this.viewer.scene.globe.depthTestAgainstTerrain = false;
+    this.viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider()
     // 开启抗锯齿
     // this.scene.fxaa = true;
     // this.scene.postProcessStages.fxaa.enabled = true;
@@ -187,7 +188,6 @@ export class GisMap {
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
 
     handler.setInputAction((movement) => {
-      console.log(movement)
       const pick = this.viewer.scene.pick(movement.position);
       if (pick) {
         this.event.emit('dbClick', { id: pick.id?.id, entity: pick.id })

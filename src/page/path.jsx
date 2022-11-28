@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import GisMap from "../code/gisMap";
 import "./index.less";
 
+import air from "../assets/images/air.png";
 import img1 from "../assets/images/img-point.png";
 import img2 from "../assets/images/img-point-highlight.png";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
@@ -25,13 +26,14 @@ let data = [
 ];
 
 data.forEach((i) => {
-  gisMap.drawPoint({
+  gisMap.drawCircle({
     longitude: i[0],
     latitude: i[1],
     height: i[2],
     layer: "pp1",
     pixelSize: 48,
     color: "#ff0000",
+    radius: 100000,
   });
 });
 
@@ -46,7 +48,7 @@ gisMap.drawPoint({
 
 window.gisMap = gisMap;
 gisMap.viewer.scene.debugShowFramesPerSecond = true;
-gisMap.setSceneMode2D3D();
+// gisMap.setSceneMode2D3D();
 // gisMap.viewer.scene.requestRenderMode = true;
 gisMap.setView({
   longitude: 60,
@@ -146,14 +148,16 @@ function createPath() {
       },
       // 标记样式
       billboard: {
-        width: 30,
+        width: 40,
         height: 40,
         // image  支持base64 || url
-        image: img1,
+        image: air,
         // image: window.CESIUM_BASE_URL + "/images/img-point.png",
         // 位置调整
-        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        // verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        // horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+        //旋转角度
+        rotation: Math.PI / 200 * 48,
       },
     },
   );

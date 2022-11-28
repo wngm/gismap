@@ -1,7 +1,11 @@
-var fs = require('fs')
-var path = require('path')
-
-fs.copyFile(path.join(__dirname, '../dist/js/gisMap.**.js'), path.join(__dirname, '../build/gisMap.js'), (err) => {
-    if (err) throw err;
-    console.log('源文件已拷贝到目标文件');
-  });
+const fs = require('fs');
+const files = fs.readdirSync('./dist/js/');
+let regName = /^gisMap\.\w{8}\.js$/
+files.forEach(f => {
+  if (regName.test(f)) {
+    fs.copyFile('./dist/js/' + f, './build/gisMap.js', function (err) {
+      if (err) console.log('err:', err)
+      else console.log('copy file succeed');
+    })
+  }
+})

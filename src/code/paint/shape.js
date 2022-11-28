@@ -381,7 +381,7 @@ function paintPolygon(data = {}, callback) {
       },
       position: Cartesian3.fromDegrees(tempLon, tempLat),
       label: labelOptions,
-      arcType: ArcType.GEODESIC,
+      arcType: ArcType.NONE,
       tip,
       menu: showDefaultMenu ? (menu || {
         className: 'test-menu',

@@ -3,23 +3,9 @@ import { createRoot } from "react-dom/client";
 import GisMap from "../code/gisMap";
 import * as Cesium from "cesium";
 import "./index.less";
-import { point } from "@turf/turf";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap("cesium", { animation: true, timeline: true });
-
-let pointPrimitive = gisMap.viewer.scene.primitives.add(
-  new Cesium.PointPrimitiveCollection(),
-);
-
-let points = [];
-
-points.forEach((p) => {
-  pointPrimitive.add({
-    position: new Cesium.Cartesian3.fromDegrees(p.longitude, p.latitude),
-  });
-});
-
-function a() {}
+gisMap.viewer.scene.globe.depthTestAgainstTerrain = false;
 const viewModel = {
   show: true,
   glowOnly: false,
@@ -29,6 +15,22 @@ const viewModel = {
   sigma: 3.78,
   stepSize: 5.0,
 };
+
+let points = [];
+for (var longitude = -360; longitude < 360; longitude++) {
+  var color = "#ff000";
+  if ((longitude % 2) === 0) {
+    color = "#0099cc";
+  }
+
+  for (var latitude = -180; latitude < 180; latitude++) {
+    points.push({
+      color,
+      latitude,
+      longitude,
+    });
+  }
+}
 window.gisMap = gisMap;
 gisMap.viewer.scene.debugShowFramesPerSecond = true;
 gisMap.setView({
@@ -38,73 +40,114 @@ gisMap.setView({
   pitch: -45,
 });
 
-var modelMatrix3 = Cesium.Transforms.headingPitchRollToFixedFrame(
-  new Cesium.Cartesian3.fromDegrees(120, 42.0, 2000),
-  new Cesium.HeadingPitchRoll(0, 0, 0),
-); //gltf数据加载位置
-console.log(modelMatrix3, 99);
-
-var model = gisMap.viewer.entities.add({
-  position: new Cesium.Cartesian3.fromDegrees(120, 42.0, 0),
-  // orientation:{
-  //      // 初始视角
-  //      heading: Cesium.Math.toRadians(0.0),
-  //      pitch: Cesium.Math.toRadians(-90.0),
-  //      roll: Cesium.Math.toRadians(0.0),
-  // },
-  model: {
-    // uri:'/static/Cesium/model/satellite.gltf',
-    uri: "/static/Cesium/model/027.glb",
-    scale: 10.0, //放大倍数
-    shadows: Cesium.ShadowMode.ENABLED,
-    lightColor: new Cesium.Cartesian3(10.0, 10.0, 10.0),
-  },
-});
-// var model2 =  gisMap.viewer.entities.add({
-//     position:new Cesium.Cartesian3.fromDegrees(119, 42.0, 0),
-//     // orientation:{
-//     //      // 初始视角
-//     //      heading: Cesium.Math.toRadians(0.0),
-//     //      pitch: Cesium.Math.toRadians(-90.0),
-//     //      roll: Cesium.Math.toRadians(0.0),
-//     // },
-//     model:{
-//         uri:'/static/Cesium/model/satellite.gltf',
-//         // uri:'/static/Cesium/model/027.glb',
-//         scale: 1.0, //放大倍数
-//         shadows:Cesium.ShadowMode.ENABLED,
-//         lightColor : new Cesium.Cartesian3(10.0,10.0, 10.0)
-//     }
-// })
-// Cesium.Model.fromGltf({
-//     id: "1",
-//     mytype: "satellite",
-//     url: '/static/Cesium/model/satellite.gltf', //gltf文件的URL
-//     modelMatrix: modelMatrix3,
-//     scale: 1.0, //放大倍数
-//     shadows:Cesium.ShadowMode.ENABLED,
-//     dequantizeInShader:false
-// })
+// gisMap.setSceneMode2D3D(2);
 gisMap.viewer.clock.currentTime = Cesium.JulianDate.addHours(
   Cesium.JulianDate.now(new Date()),
   4,
   new Cesium.JulianDate(),
 );
 
-// gisMap.viewer
-function renderOptimize(viewer) {
-  if (Cesium.FeatureDetection.supportsImageRenderingPixelated()) {
-    viewer.resolutionScale = window.devicePixelRatio;
-  } else {
-    console.warn("不支持图像渲染像素化");
-  }
-  viewer.scene.fxaa = true;
-  viewer.scene.postProcessStages.fxaa.enabled = true;
-}
+function getViewExtend(viewer) {
+  let params = {};
+  let extend = viewer.camera.computeViewRectangle();
+  if (typeof extend === "undefined") {
+    //2D下会可能拾取不到坐标，extend返回undefined,所以做以下转换
+    let canvas = viewer.scene.canvas;
+    let upperLeft = new Cesium.Cartesian2(0, 0); //canvas左上角坐标转2d坐标
+    let lowerRight = new Cesium.Cartesian2(
+      canvas.clientWidth,
+      canvas.clientHeight,
+    ); //canvas右下角坐标转2d坐标
 
+    let ellipsoid = viewer.scene.globe.ellipsoid;
+    let upperLeft3 = viewer.camera.pickEllipsoid(
+      upperLeft,
+      ellipsoid,
+    ); //2D转3D世界坐标
+
+    let lowerRight3 = viewer.camera.pickEllipsoid(
+      lowerRight,
+      ellipsoid,
+    ); //2D转3D世界坐标
+
+    let upperLeftCartographic = viewer.scene.globe.ellipsoid
+      .cartesianToCartographic(
+        upperLeft3,
+      ); //3D世界坐标转弧度
+    let lowerRightCartographic = viewer.scene.globe.ellipsoid
+      .cartesianToCartographic(
+        lowerRight3,
+      ); //3D世界坐标转弧度
+
+    let minx = Cesium.Math.toDegrees(upperLeftCartographic.longitude); //弧度转经纬度
+    let maxx = Cesium.Math.toDegrees(lowerRightCartographic.longitude); //弧度转经纬度
+
+    let miny = Cesium.Math.toDegrees(lowerRightCartographic.latitude); //弧度转经纬度
+    let maxy = Cesium.Math.toDegrees(upperLeftCartographic.latitude); //弧度转经纬度
+
+    // console.log("经度：" + minx + "----" + maxx);
+    // console.log("纬度：" + miny + "----" + maxy);
+
+    params.minx = minx;
+    params.maxx = maxx;
+    params.miny = miny;
+    params.maxy = maxy;
+  } else {
+    //3D获取方式
+    params.maxx = Cesium.Math.toDegrees(extend.east);
+    params.maxy = Cesium.Math.toDegrees(extend.north);
+
+    params.minx = Cesium.Math.toDegrees(extend.west);
+    params.miny = Cesium.Math.toDegrees(extend.south);
+  }
+  return params; //返回屏幕所在经纬度范围
+}
+function cameraChange(e) {
+  let params = getViewExtend(gisMap.viewer);
+
+  let _points = points.filter((p) => {
+    if (
+      params.maxx > p.longitude && params.minx < p.longitude &&
+      params.maxy > p.latitude && params.miny < p.latitude
+    ) {
+      return true;
+    }
+
+    return false;
+  });
+
+  gisMap.removeAll();
+  let maxNumber = 100;
+  console.log(_points);
+  let $points = [];
+  if (_points.length > maxNumber) {
+    let step = Math.ceil(_points.length / maxNumber);
+    _points = _points.slice(0, maxNumber);
+    console.log(step);
+    for (let i = 0; i < maxNumber; i++) {
+      let index = i * step;
+      if (index >= _points.length) {
+        index = index - _points.length;
+      }
+      console.log(index, _points[index]);
+      $points.push({ ..._points[index] });
+    }
+  } else {
+    $points = _points;
+  }
+  console.log($points, 888);
+  $points.forEach((i) => {
+    gisMap.drawPoint({
+      ...i,
+      height: 100,
+    });
+  });
+  console.log(e, params);
+}
+gisMap.addCameraEvent(cameraChange);
 function Content() {
   const { viewer } = gisMap;
-  viewer.scene.globe.depthTestAgainstTerrain = true;
+  //   viewer.scene.globe.depthTestAgainstTerrain = true;
 
   const resolutionScale = viewer.resolutionScale;
   const imageRendering = () => {

@@ -42,7 +42,7 @@ function drawAnimateLine(points, options = {}) {
         Color.fromCssColorString(options.color || '#0dfcff'),
         2000,
       ),
-      arcType: ArcType.GEODESIC,
+      arcType: ArcType.NONE,
 
     },
   });
@@ -108,7 +108,7 @@ function drawLine(points = [], options = {}) {
         return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor));
       }, false)),
       width,
-      arcType: ArcType.GEODESIC,
+      arcType: ArcType.NONE,
       // 是否固定到地面上
       clampToGround: false,
     },
@@ -201,7 +201,7 @@ function drawLineWithPoints(points = [], options = {}) {
       //   return Color.fromCssColorString(color || (isHighlight ? window.Cesium.highlightColor : window.Cesium.themeColor));
       // }, false)),
       width,
-      arcType: ArcType.GEODESIC,
+      arcType: ArcType.NONE,
       // clampToGround: true,
     },
     // label 位置

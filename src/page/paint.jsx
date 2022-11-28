@@ -14,7 +14,7 @@ import GisMap from "../code/gisMap";
 import "./index.less";
 // window['CESIUM_BASE_URL'] = '/static/Cesium'
 const gisMap = new GisMap("cesium");
-
+gisMap.setSceneMode2D3D();
 gisMap.drawPoint({
   key: "p1",
   longitude: 120,
